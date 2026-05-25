@@ -43,11 +43,22 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Setup Environment Variables
+    - name: Setup Environment Variables & Tokens
       run: |
         mkdir -p Credentials
-        # Securely inject the .env file from GitHub Secrets
-        echo "${{ secrets.ENV_FILE_CONTENT }}" > Credentials/.env
+        # Securely inject the .env file from GitHub Secrets (supports both ENV_FILE and ENV_FILE_CONTENT)
+        if [ -n "${{ secrets.ENV_FILE }}" ]; then
+          echo "${{ secrets.ENV_FILE }}" > Credentials/.env
+        else
+          echo "${{ secrets.ENV_FILE_CONTENT }}" > Credentials/.env
+        fi
+        # Inject Google client secret and access tokens if configured in Secrets
+        if [ -n "${{ secrets.CLIENT_SECRET_JSON }}" ]; then
+          echo "${{ secrets.CLIENT_SECRET_JSON }}" > Credentials/client_secret.json
+        fi
+        if [ -n "${{ secrets.TOKEN_JSON }}" ]; then
+          echo "${{ secrets.TOKEN_JSON }}" > Credentials/token.json
+        fi
         # Auto-enable paparazzi mode in CI runs
         echo "PAPARAZZI_MODE=yes" >> Credentials/.env
 
