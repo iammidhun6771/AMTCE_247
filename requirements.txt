@@ -181,6 +181,8 @@ pydantic==2.12.5
 pydantic-settings==2.10.1
 pydantic_core==2.41.5
 
+apify-client
+
 # --- TESTING ---
 pytest==9.0.2
 pytest-xdist==3.8.0
