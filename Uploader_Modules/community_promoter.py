@@ -313,27 +313,101 @@ class CommunityPromoter:
                 f"👉 {tg_display}"
             )
 
-    def get_instagram_fanpage_caption(self, base_caption: str, actress_name: str = "") -> str:
+    def get_instagram_fanpage_caption(
+        self,
+        base_caption: str,
+        actress_name: str = "",
+        affiliate_link: str = None,
+        item_name: str = None,
+    ) -> str:
         """
         Generates a fan-page style caption for Instagram.
-        Tone: fan community, not editorial. Drives Telegram joins via bio link.
+
+        ── WITH affiliate_link (manual Fashion & Style route) ──────────────────
+        Fires a military-grade 3-beat Gemini copywriting call:
+          BEAT 1 — Pattern-Interrupt : Disrupt the scroll with a specific visual detail
+          BEAT 2 — Identity Gap      : Make the viewer feel the desire
+          BEAT 3 — Zero-Friction CTA : Single clear action (Comment LINK → ManyChat DM)
+        The affiliate link is NOT pasted in the caption (Instagram removes it). Instead
+        it is injected downstream by the ManyChat bot reply.
+
+        ── WITHOUT affiliate_link (General_Fallback or no manual input) ────────
+        Falls back to the existing editorial fan-page templates (no Gemini call).
         """
         tg_link = self._get_telegram_link()
         clean_handle = tg_link.replace("https://t.me/", "@") if tg_link else os.getenv("BRAND_NAME", "")
-
         name_part = actress_name.strip() if actress_name else "her"
 
+        # ── MILITARY-GRADE PATH: Affiliate link present ──────────────────────────
+        if affiliate_link:
+            try:
+                from Intelligence_Modules.gemini_governor import gemini_router
+                if gemini_router:
+                    _product_hint = item_name or base_caption[:80] or "this exact look"
+                    _mg_prompt = "\n".join([
+                        "SYSTEM ROLE: You are a military-grade Instagram copywriter.",
+                        "Your ONLY mission: Convert scrolling viewers into affiliate buyers via ManyChat.",
+                        "Architecture = 3 beats. Zero fluff. Zero filler. Zero hashtags in body.",
+                        "",
+                        f"ACTRESS: {name_part}",
+                        f"PRODUCT: {_product_hint}",
+                        "",
+                        "BEAT 1 — PATTERN-INTERRUPT (1 sentence, max 12 words):",
+                        "  Hyper-specific visual detail that stops the scroll cold.",
+                        "  Start with a noun or action. No 'I', no 'we'. No generic openers.",
+                        "  Examples: 'That drape placement is doing heavy work.'",
+                        "           'The cut was engineered for exactly this body type.'",
+                        "",
+                        "BEAT 2 — IDENTITY GAP (1–2 sentences, max 20 words):",
+                        "  Make the viewer feel the desire or gap. Not the actress, the viewer.",
+                        "  Examples: 'You already know this is your style — you\\'ve just been missing the piece.'",
+                        "           'The look isn\\'t the outfit. It\\'s the decision to wear it right.'",
+                        "",
+                        "BEAT 3 — ZERO-FRICTION CLOSE (exactly 1 line):",
+                        "  Drive the ManyChat funnel. The bot DMs the link. DO NOT paste the link.",
+                        "  Format EXACTLY: Comment \"LINK\" below and I\\'ll send the shop link to your DMs 📩",
+                        "  (or variation using 'drop LINK in comments' or 'Reply LINK for the direct link')",
+                        "",
+                        "RULES:",
+                        "1. 3 beats total. No more, no less.",
+                        "2. Max 4 lines of body text (before hashtags).",
+                        "3. NEVER paste the actual URL in the caption.",
+                        "4. End with 5–8 high-reach fashion hashtags on a new line.",
+                        "5. Output ONLY raw caption text. No labels. No markdown. No explanations.",
+                        "",
+                        "OUTPUT FORMAT:",
+                        "[Beat 1 sentence]",
+                        "",
+                        "[Beat 2 sentence(s)]",
+                        "",
+                        "[Beat 3 CTA]",
+                        "",
+                        "#hashtag1 #hashtag2 ...",
+                    ])
+                    _mg_res = gemini_router.generate(
+                        task_type="copywriter",
+                        prompt=_mg_prompt,
+                        module_name="community_promoter",
+                        metadata={"type": "ig_affiliate_caption", "actress": name_part}
+                    )
+                    if _mg_res and len(_mg_res.strip()) > 30:
+                        logger.info("💪 [MG_COPY] Military-grade affiliate caption generated for @%s", name_part)
+                        return _mg_res.strip()
+            except Exception as _mg_e:
+                logger.warning("⚠️ [MG_COPY] Military-grade caption failed (falling back): %s", _mg_e)
+
+        # ── FALLBACK PATH: No affiliate link — editorial fan-page templates ────────
         captions = [
             # Elite Editorial tone
             f"Analyzing {name_part}'s Archive 📂\n\n"
-            f"The silhouette, the architectural weight, and the silent cues \u2014 "
+            f"The silhouette, the architectural weight, and the silent cues — "
             f"this is how high-tier selection looks in motion.\n\n"
             f"Access the Full Dossier \u2192 Telegram (link in bio) {clean_handle}\n"
             f"#elitefashion #fashionintelligence #bollywood #dossier #reels",
 
             # Insider Specialist tone
             f"Selection Status: Verified. 🔐\n\n"
-            f"{name_part} has mastered the pattern \u2014 "
+            f"{name_part} has mastered the pattern — "
             f"cut, proportion, and texture aligned with precision. "
             f"This is the blueprint for 2026.\n\n"
             f"📌 Elite Archive \u2192 Link in bio\n"
@@ -347,7 +421,7 @@ class CommunityPromoter:
 
             # The Secret/Mystery tone
             f"Intelligence Note 📝\n\n"
-            f"The details in {name_part}'s choice here are intentional \u2014 "
+            f"The details in {name_part}'s choice here are intentional — "
             f"there's a reason for every seam. Full 'Secret' breakdown on Telegram.\n\n"
             f"🔗 Access the Vault \u2192 {clean_handle}\n"
             f"#insidernotes #fashionintelligence #bollywood #secretvault #outfitanalysis",

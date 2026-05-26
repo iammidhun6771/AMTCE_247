@@ -2176,12 +2176,57 @@ async def finish_compilation_upload(
             except Exception as e:
                 logger.warning(f"FB Title Mapping Failed: {e}")
 
+            # ── [DYNAMIC FACEBOOK GATE] ──────────────────────────────────────────────
+            # Facebook Reels SUPPRESSES reused content without heavy transformation
+            # or narration. We check the transformation_score from the pipeline.
+            # If the video is raw/minimally-transformed reused content, we skip FB
+            # automatically to protect the FB page's reach score.
+            # Threshold is configurable via FB_MIN_TRANSFORMATION_SCORE (default: 60).
+            _fb_transform_threshold = int(os.getenv("FB_MIN_TRANSFORMATION_SCORE", "60"))
+            _fb_transformation_score = 0
+            try:
+                # Try wm_context from local scope (set earlier in compilation flow)
+                _fb_wm_ctx = locals().get("wm_context") or {}
+                _fb_transformation_score = int(
+                    _fb_wm_ctx.get("transformation_score", 0)
+                    or _fb_wm_ctx.get("pipeline_metrics", {}).get("transformation_score", 0)
+                    or 0
+                )
+                # Try companion sidecar JSON if wm_context was empty
+                if not _fb_transformation_score:
+                    _fb_sidecar = os.path.splitext(str(merged_path))[0] + ".json"
+                    if os.path.exists(_fb_sidecar):
+                        with open(_fb_sidecar, "r", encoding="utf-8") as _fb_sf:
+                            _fb_sc = json.load(_fb_sf)
+                        _fb_transformation_score = int(
+                            _fb_sc.get("pipeline_metrics", {}).get("transformation_score", 0)
+                            or _fb_sc.get("transformation_score", 0)
+                            or 0
+                        )
+            except Exception as _fb_ts_e:
+                logger.debug("[FB_GATE] transformation_score read failed (using 0): %s", _fb_ts_e)
+
+            _skip_facebook_dynamic = _fb_transformation_score < _fb_transform_threshold
+            if _skip_facebook_dynamic:
+                logger.info(
+                    "🚫 [FB_GATE] Skipping Facebook — transformation_score=%d < threshold=%d "
+                    "(reused content without sufficient transformation would be suppressed by FB algo).",
+                    _fb_transformation_score, _fb_transform_threshold
+                )
+            else:
+                logger.info(
+                    "✅ [FB_GATE] Facebook enabled — transformation_score=%d >= threshold=%d.",
+                    _fb_transformation_score, _fb_transform_threshold
+                )
+
             meta_results = await meta_uploader.AsyncMetaUploader.upload_to_meta(
                 merged_path,
                 meta_caption,
                 upload_type=os.getenv("META_UPLOAD_TYPE", "Reels"),
                 facebook_caption=fb_caption,
+                skip_facebook=_skip_facebook_dynamic,
             )
+
         else:
             if os.getenv("ENABLE_META_UPLOAD", "no").lower() in ["yes", "true", "on"]:
                 logger.info(
@@ -5149,6 +5194,45 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
             return
 
+
+        # ── [MILITARY-GRADE OVERRIDE] Affiliate link = Fashion & Style manual route ──
+        # When the user provides an affiliate link at title-selection time, replace the
+        # auto-generated price-tag caption with a precision 3-beat Gemini copy that
+        # drives ManyChat DM conversions. The actual link is NEVER pasted in the caption
+        # — it goes via the ManyChat keyword trigger instead.
+        try:
+            _is_manual_affiliate = bool(
+                user_sessions.get(user_id, {}).get("niche_forced_by_affiliate")
+                or user_sessions.get(user_id, {}).get("user_affiliate_link")
+            )
+            if _is_manual_affiliate:
+                _aff_link_for_mg = user_sessions.get(user_id, {}).get("user_affiliate_link", "")
+                _item_for_mg = (
+                    mon_meta.get("item_name")
+                    or str(_item_label)[:80]
+                    or _display_name_esc
+                )
+                _actress_for_mg = (
+                    str(title).split(":")[0].strip()
+                    if ":" in str(title)
+                    else str(title).split()[0].strip() if title else ""
+                )
+                from Uploader_Modules.community_promoter import promoter as _cp
+                _mg_caption = _cp.get_instagram_fanpage_caption(
+                    base_caption=ig_caption_base[:120],
+                    actress_name=_actress_for_mg,
+                    affiliate_link=_aff_link_for_mg,
+                    item_name=_item_for_mg,
+                )
+                if _mg_caption and len(_mg_caption.strip()) > 30:
+                    ig_caption_base = _mg_caption
+                    logger.info(
+                        "💪 [MG_COPY] Military-grade caption injected for '%s' "
+                        "(item='%s')", _actress_for_mg, _item_for_mg
+                    )
+        except Exception as _mg_ovr_e:
+            logger.warning("⚠️ [MG_COPY] Override failed (non-fatal, using original): %s", _mg_ovr_e)
+
         # Store public_caption in session so _perform_upload can broadcast it to the Telegram group
         # AND store ig_caption_base for Meta Uploader
         with acquire_session_lock(user_id):
@@ -5157,6 +5241,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             ] = public_caption
             user_sessions[user_id]["monetization_report"]["ig_caption_base"] = ig_caption_base
             save_session(user_id)
+
 
         # B. Hashtags (Optional - keeping them for discovery if user wants, but request said ONLY attraction msg.
         # User said "in one line". Let's keep it strictly to the CTA + Link.)
@@ -5482,12 +5567,31 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                             _item_sub = _mon_report.get("fashion_scout", {}).get("attributes", {}).get("classification", {}).get("sub_category", _item_cat)
                             _uid_for_save = user_sessions.get(user_id, {}).get("video_uid", "")
                             fs.save_affiliate_link(_item_cat, _item_sub, user_affiliate_link, video_uid=_uid_for_save)
-                            
+
+                            # [NICHE OVERRIDE] Affiliate link = manual Fashion & Style route.
+                            # Force the niche sidecar so meta_uploader picks the right
+                            # IG account regardless of what Gemini auto-detected.
+                            try:
+                                _final_for_niche = user_sessions[user_id].get("final_path", "")
+                                if _final_for_niche and os.path.exists(_final_for_niche):
+                                    from Visual_Refinement_Modules.hybrid_watermark import save_detected_niche
+                                    save_detected_niche(_final_for_niche, "Fashion & Style")
+                                    user_sessions[user_id]["niche_forced_by_affiliate"] = "Fashion & Style"
+                                    logger.info(
+                                        "🎯 [NICHE OVERRIDE] Affiliate link → forcing niche='Fashion & Style' "
+                                        f"for '{os.path.basename(_final_for_niche)}'"
+                                    )
+                                    _fs_env = os.path.join("Credentials", "social_media", "Fashion & Style", ".env")
+                                    if os.path.exists(_fs_env):
+                                        load_dotenv(_fs_env, override=True)
+                            except Exception as _ne:
+                                logger.warning(f"⚠️ [NICHE OVERRIDE] Sidecar rewrite failed (non-fatal): {_ne}")
+
                         save_session(user_id)
                     confirm = f"✅ Title Updated: {user_sessions[user_id]['title']}"
                     if user_affiliate_link:
                         _ltype_label = " [Exact Product]✔️" if _aff_link_type == 'exact' else " [Alternative Product]🔁" if _aff_link_type == 'alternative' else ""
-                        confirm += f"\n🔗 Affiliate link saved{_ltype_label}"
+                        confirm += f"\n🔗 Affiliate link saved{_ltype_label}\n🎯 Routed → Fashion & Style"
                     await safe_reply(update, confirm)
                     await _perform_upload(update, context)
                 else:
