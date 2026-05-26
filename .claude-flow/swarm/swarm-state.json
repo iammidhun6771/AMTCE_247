@@ -6,7 +6,9 @@
       "maxAgents": 15,
       "status": "terminated",
       "agents": [
-        "agent-1779804999255-wnvgue"
+        "agent-1779804999255-wnvgue",
+        "agent-1779805166658-jjsvt9",
+        "agent-1779806625194-ei8mcj"
       ],
       "tasks": [],
       "config": {
