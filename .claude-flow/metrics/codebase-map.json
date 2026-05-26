@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-05-26T14:16:24.854Z",
+  "projectRoot": "D:\\AMTCE",
+  "structure": {
+    "hasPackageJson": false,
+    "hasTsConfig": false,
+    "hasClaudeConfig": true,
+    "hasClaudeFlow": true
+  },
+  "scannedAt": 1779804984854
+}

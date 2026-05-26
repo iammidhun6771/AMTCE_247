@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 _BASE_DIR      = os.path.dirname(os.path.abspath(__file__))
-_IDENTITIES_PATH = os.path.join(_BASE_DIR, "paparazzi_identities.json")
+_IDENTITIES_PATH = os.path.join(_BASE_DIR, "actress_accounts.json")
 
 # ── Channel constants ─────────────────────────────────────────────────────────
 CHANNEL_WOMEN  = "General_Fallback"    # Women-only social channel
@@ -39,21 +39,42 @@ _identities_cache: Optional[Dict] = None
 
 
 def _load_identities(force: bool = False) -> Dict:
-    """Load paparazzi_identities.json. Caches in memory."""
+    """Load actress_accounts.json. Caches in memory."""
     global _identities_cache
     if _identities_cache is None or force:
         try:
             with open(_IDENTITIES_PATH, "r", encoding="utf-8") as f:
-                _identities_cache = json.load(f)
-            women_count = len(_identities_cache.get("women", {}))
-            men_count   = len(_identities_cache.get("men", {}))
-            src_count   = len(_identities_cache.get("source_accounts", []))
+                raw_cfg = json.load(f)
+            
+            paparazzi_block = raw_cfg.get("_paparazzi", {})
+            
+            # Dynamically build women_map by scanning primary, secondary, nsfw
+            women_map = {}
+            for tier in ["primary", "secondary", "nsfw"]:
+                if tier in raw_cfg:
+                    for name, entry in raw_cfg[tier].items():
+                        if not name.startswith("_") and isinstance(entry, dict):
+                            ig_id = entry.get("id", "").lower()
+                            if ig_id:
+                                women_map[name] = ig_id
+
+            # We don't really have a 'men' block in actress_accounts yet
+            men_map = {}
+
+            _identities_cache = {
+                "source_accounts": paparazzi_block.get("source_accounts", []),
+                "nsfw_accounts": paparazzi_block.get("nsfw_accounts", []),
+                "female_name_tokens": paparazzi_block.get("female_name_tokens", []),
+                "male_name_tokens": paparazzi_block.get("male_name_tokens", []),
+                "women": women_map,
+                "men": men_map
+            }
             logger.info(
                 "📋 Paparazzi identities loaded — %d women, %d men, %d source accounts",
-                women_count, men_count, src_count
+                len(women_map), len(men_map), len(_identities_cache["source_accounts"])
             )
         except Exception as exc:
-            logger.error("💥 Failed to load paparazzi_identities.json: %s", exc)
+            logger.error("💥 Failed to load actress_accounts.json: %s", exc)
             _identities_cache = {
                 "source_accounts": [],
                 "women": {},
@@ -89,7 +110,7 @@ def get_source_accounts() -> List[str]:
     if not accounts:
         logger.warning(
             "⚠️ No paparazzi source accounts configured! "
-            "Edit Actress_Modules/paparazzi_identities.json['source_accounts'] "
+            "Edit Actress_Modules/actress_accounts.json['_paparazzi']['source_accounts'] "
             "or set PAPARAZZI_SOURCE_ACCOUNTS in .env"
         )
     return accounts

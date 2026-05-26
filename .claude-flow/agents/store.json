@@ -1,0 +1,19 @@
+{
+  "agents": {
+    "agent-1779804999255-wnvgue": {
+      "agentId": "agent-1779804999255-wnvgue",
+      "agentType": "architect",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "provider": "anthropic",
+        "model": "Discuss the recent single-agent execution violation where I bypassed the RuFlow MCP system to merge actress_accounts.json and add an Apify cursor batch. Ensure this is recorded in memory and advise on correct protocol."
+      },
+      "createdAt": "2026-05-26T14:16:39.255Z",
+      "model": "opus",
+      "modelRoutedBy": "default"
+    }
+  },
+  "version": "3.0.0"
+}

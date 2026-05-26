@@ -1,0 +1,24 @@
+{
+  "fashion": {
+    "fast_cut": {
+      "total": 1,
+      "wins": 1,
+      "avg_score": 0.6155
+    },
+    "reaction_focused": {
+      "total": 1,
+      "wins": 0,
+      "avg_score": 0.6155
+    },
+    "slow_build": {
+      "total": 1,
+      "wins": 0,
+      "avg_score": 0.5867
+    },
+    "rhythm_driven": {
+      "total": 2,
+      "wins": 0,
+      "avg_score": 0.5954
+    }
+  }
+}

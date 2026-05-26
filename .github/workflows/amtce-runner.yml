@@ -95,6 +95,7 @@ jobs:
         # Stage only the dedup state files (never credentials or videos)
         git add -f Actress_Modules/actress_ledger.json || true
         git add -f Actress_Modules/published_registry.json || true
+        git add -f Actress_Modules/apify_cursor.json || true
         git add -f publish_queue.json || true
         # Only commit if there's something changed
         if git diff --cached --quiet; then

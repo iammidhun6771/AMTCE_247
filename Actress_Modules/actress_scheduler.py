@@ -838,7 +838,7 @@ def _run_classic_cycle() -> None:
 def run_paparazzi_cycle() -> None:
     """
     NEW Paparazzi Channel Harvest Cycle (PAPARAZZI_MODE=yes in .env).
-    Scrapes paparazzi source accounts from paparazzi_identities.json.
+    Scrapes paparazzi source accounts from actress_accounts.json.
     Resolves gender/identity via channel_router:
       - Women identified  -> General_Fallback
       - Men / Unknown     -> Paparazzi_Channel
@@ -871,15 +871,50 @@ def run_paparazzi_cycle() -> None:
 
     source_accounts = get_source_accounts()
     if not source_accounts:
-        logger.error("No source accounts in paparazzi_identities.json. Add IG IDs and restart.")
+        logger.error("No source accounts in actress_accounts.json. Add IG IDs and restart.")
         return
 
     ledger = get_ledger()
-    logger.info("Fetching %d paparazzi source accounts via Apify...", len(source_accounts))
+    
+    # ── Apify Rotating Batch Logic ─────────────────────────────────────────────
+    cursor_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "apify_cursor.json")
+    batch_size = int(os.getenv("APIFY_ACCOUNTS_BATCH_SIZE", "3"))
+    
+    cursor = {"pending": source_accounts.copy(), "done_this_round": []}
+    if os.path.exists(cursor_path):
+        try:
+            with open(cursor_path, "r", encoding="utf-8") as f:
+                saved_cursor = json.load(f)
+            # Ensure pending elements are actually in source_accounts (in case list changed)
+            valid_pending = [a for a in saved_cursor.get("pending", []) if a in source_accounts]
+            if valid_pending:
+                cursor["pending"] = valid_pending
+                cursor["done_this_round"] = saved_cursor.get("done_this_round", [])
+        except Exception as e:
+            logger.warning("Failed to load apify_cursor.json, starting fresh: %s", e)
+
+    # If pending is empty, reset the cycle
+    if not cursor["pending"]:
+        logger.info("🔄 Full round complete — resetting Apify cursor")
+        cursor["pending"] = source_accounts.copy()
+        cursor["done_this_round"] = []
+        
+    current_batch = cursor["pending"][:batch_size]
+    cursor["pending"] = cursor["pending"][batch_size:]
+    cursor["done_this_round"].extend(current_batch)
+    
+    try:
+        with open(cursor_path, "w", encoding="utf-8") as f:
+            import json
+            json.dump(cursor, f, indent=2)
+    except Exception as e:
+        logger.warning("Failed to save apify_cursor.json: %s", e)
+
+    logger.info("Fetching %d paparazzi source accounts via Apify (Batch out of %d total)...", len(current_batch), len(source_accounts))
 
     all_reels = apify_scrape_actress_accounts(
         actress_name      = "paparazzi",
-        source_accounts   = source_accounts,
+        source_accounts   = current_batch,
         limit_per_account = LIMIT_PER_ACCOUNT,
     )
 
