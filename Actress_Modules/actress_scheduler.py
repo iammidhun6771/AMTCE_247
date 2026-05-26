@@ -571,6 +571,14 @@ def _auto_publish_clip(video_path: str, actress_title: str, actress_folder: str)
                                     parse_mode="Markdown",
                                 )
                             logger.info("[OUTFIT_RATING] Rating DM sent to admin %s for: %s", admin_id_raw, title)
+                            
+                            # Clean up the temporary frame
+                            try:
+                                import os
+                                if os.path.exists(_frame_path):
+                                    os.remove(_frame_path)
+                            except Exception:
+                                pass
                 except Exception as _re:
                     logger.debug("[OUTFIT_RATING] Rating DM skipped (non-fatal): %s", _re)
 
@@ -584,6 +592,23 @@ def _auto_publish_clip(video_path: str, actress_title: str, actress_folder: str)
                     loop.run_until_complete(_upload_tg())
             except RuntimeError:
                 asyncio.run(_upload_tg())
+            
+            # ── ULTIMATE SAFETY: IMMEDIATE HARD DELETE AFTER PUBLISH ──
+            try:
+                import os
+                if os.path.exists(video_path):
+                    os.remove(video_path)
+                    logger.info(f"🗑️ [SAFETY] Hard-deleted published clip: {os.path.basename(video_path)}")
+                
+                base_path = os.path.splitext(video_path)[0]
+                for ext in [".niche.json", ".jpg", ".txt"]:
+                    sidecar = base_path + ext
+                    if os.path.exists(sidecar):
+                        os.remove(sidecar)
+                        logger.info(f"🗑️ [SAFETY] Hard-deleted sidecar: {os.path.basename(sidecar)}")
+            except Exception as del_err:
+                logger.error(f"⚠️ [SAFETY] Failed to delete clip after publish: {del_err}")
+
         except Exception as e:
             logger.warning(f"⚠️ [AUTO_PUBLISH] Telegram upload failed: {e}")
 
