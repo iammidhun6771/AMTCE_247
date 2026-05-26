@@ -46,7 +46,10 @@ logs/
 Influencer_Output/
 cache/
 data/
-rag/
+rag/chroma_store/
+rag/logs/
+rag/Credentials/
+rag/creator_fingerprints/
 intelligence_cache/
 analytics_cache.json
 
