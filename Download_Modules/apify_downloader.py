@@ -724,7 +724,34 @@ def apify_scrape_actress_accounts(
                 "_prescreen":     item.get("_prescreen", {}),
             })
 
-        return normalised
+        # ── Stage 3: Deduplication — skip posts already scraped in prior runs ──
+        # Uses disk-persisted ScrapedPostsRegistry in salesman_state.json.
+        # Survives restarts. Prevents Apify from re-downloading and re-uploading
+        # the same posts every harvest cycle.
+        try:
+            from Core_Modules.salesman_state import get_scraped_posts_registry
+            _registry = get_scraped_posts_registry()
+            # filter_new() drops items whose shortcode is already in the registry
+            deduped = _registry.filter_new(normalised)
+            # Mark ALL returned shortcodes as seen NOW — even if the pipeline
+            # later rejects them (quality / watermark / human reject).
+            # This is intentional: we never want to re-download a post we've
+            # already attempted, regardless of outcome.
+            _new_shortcodes = [item["shortcode"] for item in deduped if item.get("shortcode")]
+            if _new_shortcodes:
+                _registry.mark_seen(_new_shortcodes)
+        except Exception as _dedup_err:
+            logger.warning(
+                "⚠️ [DEDUP] Deduplication failed (non-fatal) — returning all posts: %s",
+                _dedup_err
+            )
+            deduped = normalised
+
+        logger.info(
+            "📊 [STAGE3] %d/%d reels survived deduplication",
+            len(deduped), len(normalised),
+        )
+        return deduped
 
     except Exception as exc:
         logger.error("💥 Apify account scrape failed for '%s': %s", actress_name, exc)

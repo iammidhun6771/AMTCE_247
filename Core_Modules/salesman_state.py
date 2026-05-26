@@ -44,7 +44,7 @@ def _load_state() -> Dict:
             data = json.load(f)
         # Ensure all keys exist (forward-compat for new fields)
         default = _default_state()
-        for section in ("harvest", "publisher", "apify"):
+        for section in ("harvest", "publisher", "apify", "scraped_posts"):
             if section not in data:
                 data[section] = default[section]
             else:
@@ -88,6 +88,10 @@ def _default_state() -> Dict:
             "quota_used":               0,
             "quota_limit":              int(os.getenv("APIFY_DAILY_QUOTA", "50")),
             "total_calls_all_time":     0,
+        },
+        "scraped_posts": {
+            "shortcodes":               [],   # all-time list of seen post shortcodes
+            "total_seen":               0,
         },
     }
 
@@ -517,7 +521,108 @@ class ApifyQuotaState:
 _harvest_state:   Optional[HarvestState]   = None
 _publisher_state: Optional[PublisherState] = None
 _apify_quota:     Optional[ApifyQuotaState] = None
+_scraped_posts:   Optional["ScrapedPostsRegistry"] = None
 _singleton_lock   = threading.Lock()
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Public API — Scraped Posts Registry (Deduplication)
+# ─────────────────────────────────────────────────────────────────────────────
+
+class ScrapedPostsRegistry:
+    """
+    Disk-persisted registry of all Instagram post shortcodes that have
+    already been scraped/downloaded. Prevents Apify from re-downloading
+    and re-uploading the exact same posts across harvest cycles.
+
+    Usage in apify_downloader.py:
+        from Core_Modules.salesman_state import get_scraped_posts_registry
+        registry = get_scraped_posts_registry()
+        new_items = registry.filter_new(items)   # removes already-seen posts
+        registry.mark_seen([item["shortcode"] for item in new_items])
+    """
+
+    # Maximum number of shortcodes to retain (rolling window to prevent
+    # unbounded state file growth). Oldest entries are pruned first.
+    MAX_SHORTCODES: int = int(os.getenv("SCRAPED_POSTS_MAX_HISTORY", "5000"))
+
+    def _get_shortcodes_set(self) -> set:
+        with _LOCK:
+            state = _load_state()
+            return set(state.get("scraped_posts", {}).get("shortcodes", []))
+
+    def is_seen(self, shortcode: str) -> bool:
+        """Returns True if this shortcode was already processed."""
+        if not shortcode:
+            return False
+        return shortcode in self._get_shortcodes_set()
+
+    def filter_new(self, items: List[Dict]) -> List[Dict]:
+        """
+        Filters a list of Apify result dicts, returning only posts whose
+        shortcode has NOT been seen before. Logs how many were dropped.
+        """
+        seen = self._get_shortcodes_set()
+        new_items = []
+        skipped = 0
+        for item in items:
+            sc = item.get("shortcode", "")
+            if sc and sc in seen:
+                skipped += 1
+                logger.info(
+                    "⏭️ [DEDUP] Skipping already-scraped post: shortcode=%s @%s",
+                    sc, item.get("ownerUsername", "?")
+                )
+            else:
+                new_items.append(item)
+
+        if skipped:
+            logger.info(
+                "🔁 [DEDUP] %d/%d posts were duplicates — %d new posts passed through",
+                skipped, len(items), len(new_items)
+            )
+        else:
+            logger.info("✅ [DEDUP] All %d posts are new (no duplicates)", len(items))
+        return new_items
+
+    def mark_seen(self, shortcodes: List[str]) -> None:
+        """
+        Persists the given shortcodes to the registry so future
+        harvest cycles will skip them.
+        """
+        if not shortcodes:
+            return
+        valid = [sc for sc in shortcodes if sc]
+        if not valid:
+            return
+        with _LOCK:
+            state = _load_state()
+            sp = state.setdefault("scraped_posts", {"shortcodes": [], "total_seen": 0})
+            existing = sp.get("shortcodes", [])
+            # Merge (preserve order, no duplicates)
+            existing_set = set(existing)
+            added = [sc for sc in valid if sc not in existing_set]
+            combined = existing + added
+            # Rolling-window pruning: drop the oldest entries if over cap
+            if len(combined) > self.MAX_SHORTCODES:
+                combined = combined[-self.MAX_SHORTCODES:]
+            sp["shortcodes"]  = combined
+            sp["total_seen"]  = sp.get("total_seen", 0) + len(added)
+            _save_state(state)
+        logger.info(
+            "💾 [DEDUP] Marked %d new shortcodes as seen (total ever: %d)",
+            len(added), sp["total_seen"]
+        )
+
+    def get_summary(self) -> str:
+        with _LOCK:
+            sp = _load_state().get("scraped_posts", {})
+        return (
+            f"Scraped Posts Registry | "
+            f"In memory: {len(sp.get('shortcodes', []))} | "
+            f"Total ever: {sp.get('total_seen', 0)}"
+        )
+
 
 
 def get_harvest_state() -> HarvestState:
@@ -544,6 +649,14 @@ def get_apify_quota() -> ApifyQuotaState:
     return _apify_quota
 
 
+def get_scraped_posts_registry() -> ScrapedPostsRegistry:
+    global _scraped_posts
+    with _singleton_lock:
+        if _scraped_posts is None:
+            _scraped_posts = ScrapedPostsRegistry()
+    return _scraped_posts
+
+
 def log_full_status() -> None:
     """Dump a full salesman dashboard to the logger."""
     logger.info("=" * 60)
@@ -551,4 +664,5 @@ def log_full_status() -> None:
     logger.info("  %s", get_harvest_state().get_summary())
     logger.info("  %s", get_publisher_state().get_summary())
     logger.info("  %s", get_apify_quota().get_summary())
+    logger.info("  %s", get_scraped_posts_registry().get_summary())
     logger.info("=" * 60)
