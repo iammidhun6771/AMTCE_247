@@ -44,7 +44,7 @@ def _load_state() -> Dict:
             data = json.load(f)
         # Ensure all keys exist (forward-compat for new fields)
         default = _default_state()
-        for section in ("harvest", "publisher", "apify", "scraped_posts"):
+        for section in ("harvest", "publisher", "apify", "scraped_posts", "account_scrape_throttle"):
             if section not in data:
                 data[section] = default[section]
             else:
@@ -72,15 +72,15 @@ def _default_state() -> Dict:
     return {
         "harvest": {
             "last_run_date":            today,
-            "slots_completed_today":    [],   # ["01:45", "03:00"]
+            "slots_completed_today":    [],
             "catchup_fired_today":      False,
             "total_runs_all_time":      0,
         },
         "publisher": {
             "last_check_date":          today,
-            "slots_published_today":    [],   # ["07:30", "19:30"]
-            "slots_missed_today":       [],   # ["04:02"]
-            "catchup_slots_today":      [],   # catch-up times planned
+            "slots_published_today":    [],
+            "slots_missed_today":       [],
+            "catchup_slots_today":      [],
             "deficit_videos":           0,
         },
         "apify": {
@@ -90,8 +90,12 @@ def _default_state() -> Dict:
             "total_calls_all_time":     0,
         },
         "scraped_posts": {
-            "shortcodes":               [],   # all-time list of seen post shortcodes
+            "shortcodes":               [],
             "total_seen":               0,
+        },
+        "account_scrape_throttle": {
+            # Maps username -> ISO timestamp of last scrape (e.g. "nora_fatehi": "2026-05-26T09:00:00")
+            "last_scraped_at":          {},
         },
     }
 
@@ -657,6 +661,123 @@ def get_scraped_posts_registry() -> ScrapedPostsRegistry:
     return _scraped_posts
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# Public API — Per-Account Scrape Cooldown (24h throttle)
+# ─────────────────────────────────────────────────────────────────────────────
+
+class AccountScrapeThrottle:
+    """
+    Disk-persisted per-account 24h scrape cooldown.
+    Prevents scraping the same Instagram account more than once per day.
+
+    Usage in apify_downloader.py:
+        from Core_Modules.salesman_state import get_account_scrape_throttle
+        throttle = get_account_scrape_throttle()
+        ready, blocked = throttle.filter_ready(source_accounts)
+        # ready   = accounts that can be scraped now
+        # blocked = accounts that were scraped in the last 24h
+        throttle.mark_scraped(ready)
+    """
+
+    COOLDOWN_HOURS: int = int(os.getenv("APIFY_ACCOUNT_COOLDOWN_HOURS", "24"))
+
+    def _get_last_scraped(self) -> Dict[str, str]:
+        with _LOCK:
+            state = _load_state()
+            return dict(state.get("account_scrape_throttle", {}).get("last_scraped_at", {}))
+
+    def is_ready(self, username: str) -> bool:
+        """Returns True if the account is eligible for scraping (cooldown expired)."""
+        username = username.lstrip("@")
+        last_scraped = self._get_last_scraped()
+        if username not in last_scraped:
+            return True
+        try:
+            last_ts = datetime.fromisoformat(last_scraped[username])
+            age_hours = (datetime.now() - last_ts).total_seconds() / 3600
+            return age_hours >= self.COOLDOWN_HOURS
+        except Exception:
+            return True  # corrupt timestamp — allow it
+
+    def filter_ready(self, accounts: List[str]) -> tuple:
+        """
+        Splits accounts into (ready, blocked) lists.
+        ready   = accounts whose 24h cooldown has expired — safe to scrape
+        blocked = accounts scraped within the last 24h — skip them
+        """
+        last_scraped = self._get_last_scraped()
+        ready, blocked = [], []
+        for acc in accounts:
+            clean = acc.lstrip("@")
+            if clean not in last_scraped:
+                ready.append(acc)
+                continue
+            try:
+                last_ts = datetime.fromisoformat(last_scraped[clean])
+                age_hours = (datetime.now() - last_ts).total_seconds() / 3600
+                if age_hours >= self.COOLDOWN_HOURS:
+                    ready.append(acc)
+                else:
+                    blocked.append(acc)
+                    logger.info(
+                        "⏳ [ACCOUNT_THROTTLE] @%s blocked — scraped %.1fh ago (cooldown=%dh)",
+                        clean, age_hours, self.COOLDOWN_HOURS
+                    )
+            except Exception:
+                ready.append(acc)  # corrupt timestamp — allow
+
+        if blocked:
+            logger.info(
+                "🚧 [ACCOUNT_THROTTLE] %d/%d accounts on cooldown: %s",
+                len(blocked), len(accounts),
+                [a.lstrip('@') for a in blocked]
+            )
+        logger.info(
+            "✅ [ACCOUNT_THROTTLE] %d/%d accounts ready to scrape",
+            len(ready), len(accounts)
+        )
+        return ready, blocked
+
+    def mark_scraped(self, accounts: List[str]) -> None:
+        """Record the current time as the last-scraped timestamp for each account."""
+        if not accounts:
+            return
+        now_iso = datetime.now().isoformat()
+        with _LOCK:
+            state = _load_state()
+            throttle = state.setdefault(
+                "account_scrape_throttle", {"last_scraped_at": {}}
+            )
+            ts_map = throttle.setdefault("last_scraped_at", {})
+            for acc in accounts:
+                clean = acc.lstrip("@")
+                ts_map[clean] = now_iso
+            _save_state(state)
+        logger.info(
+            "💾 [ACCOUNT_THROTTLE] Marked %d accounts as scraped at %s",
+            len(accounts), now_iso
+        )
+
+    def get_summary(self) -> str:
+        last_scraped = self._get_last_scraped()
+        return (
+            f"Account Throttle | "
+            f"Tracked accounts: {len(last_scraped)} | "
+            f"Cooldown: {self.COOLDOWN_HOURS}h"
+        )
+
+
+_account_throttle: Optional["AccountScrapeThrottle"] = None
+
+
+def get_account_scrape_throttle() -> AccountScrapeThrottle:
+    global _account_throttle
+    with _singleton_lock:
+        if _account_throttle is None:
+            _account_throttle = AccountScrapeThrottle()
+    return _account_throttle
+
+
 def log_full_status() -> None:
     """Dump a full salesman dashboard to the logger."""
     logger.info("=" * 60)
@@ -665,4 +786,5 @@ def log_full_status() -> None:
     logger.info("  %s", get_publisher_state().get_summary())
     logger.info("  %s", get_apify_quota().get_summary())
     logger.info("  %s", get_scraped_posts_registry().get_summary())
+    logger.info("  %s", get_account_scrape_throttle().get_summary())
     logger.info("=" * 60)

@@ -560,6 +560,28 @@ def apify_scrape_actress_accounts(
         logger.warning("⚠️ No source accounts configured for actress: %s", actress_name)
         return []
 
+    # ── Per-Account 24h Cooldown ──────────────────────────────────────────────
+    # Block accounts that were already scraped within the last 24 hours.
+    # Prevents re-scraping the same content feed multiple times per day.
+    try:
+        from Core_Modules.salesman_state import get_account_scrape_throttle
+        _throttle = get_account_scrape_throttle()
+        _ready_accounts, _blocked_accounts = _throttle.filter_ready(source_accounts)
+        if not _ready_accounts:
+            logger.info(
+                "⏸️ [ACCOUNT_THROTTLE] ALL %d accounts are on 24h cooldown — skipping Apify call.",
+                len(source_accounts)
+            )
+            return []
+        if len(_ready_accounts) < len(source_accounts):
+            logger.info(
+                "⏸️ [ACCOUNT_THROTTLE] %d/%d accounts ready (others on cooldown).",
+                len(_ready_accounts), len(source_accounts)
+            )
+        source_accounts = _ready_accounts
+    except Exception as _thr_err:
+        logger.warning("⚠️ [ACCOUNT_THROTTLE] Throttle check failed (non-fatal): %s", _thr_err)
+
     logger.info(
         "🎬 [ACCOUNT MODE] Scraping %d accounts for '%s' (%d reels each)…",
         len(source_accounts), actress_name, limit_per_account
@@ -612,6 +634,15 @@ def apify_scrape_actress_accounts(
         items = list(client.dataset(run["defaultDatasetId"]).iterate_items())
         actual_count = len(items)
         _consume_quota(actual_count)
+
+        # Mark accounts as scraped NOW — cooldown starts from this moment.
+        # Done immediately after Apify returns so even a crash later won't
+        # let the same accounts be re-scraped the same day.
+        try:
+            from Core_Modules.salesman_state import get_account_scrape_throttle
+            get_account_scrape_throttle().mark_scraped(source_accounts)
+        except Exception as _mark_err:
+            logger.warning("⚠️ [ACCOUNT_THROTTLE] mark_scraped failed (non-fatal): %s", _mark_err)
 
         logger.info(
             "📦 Apify returned %d reels for actress '%s'",

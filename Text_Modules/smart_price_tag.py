@@ -402,6 +402,7 @@ class SmartPriceTag:
         face_box: list = None,     # Optional face detection box
         precomputed_price_data: dict = None,  # [PRICE SYNC] Pass from profile_data['price_data']
         frame_bgr=None,            # Frame array for pixel fabric verification
+        watermark_bbox: list = None,  # [WM ANCHOR] [x,y,w,h] of detected watermark corner
         debug: bool = False,
     ) -> str:
         """
@@ -619,6 +620,39 @@ class SmartPriceTag:
 
             # Hard frame boundary clamp
             box_y = max(face_floor, min(height - box_h - SAFE_Y, box_y))
+
+            # ── WATERMARK CORNER ANCHOR ──────────────────────────────────────────────────
+            # When Gemini detected a watermark, its bounding box marks a SCREEN CORNER that
+            # is guaranteed to be away from the actress's face (corners = branding zones).
+            # Snap the price tag to that same corner — no face avoidance code needed.
+            if watermark_bbox and len(watermark_bbox) == 4:
+                _wx, _wy, _ww, _wh = watermark_bbox
+                # Determine which corner the watermark was in
+                _wm_center_x = _wx + _ww / 2
+                _wm_center_y = _wy + _wh / 2
+                _is_left  = _wm_center_x < width  / 2
+                _is_top   = _wm_center_y < height / 2
+                SAFE_X = max(18, int(width * 0.04))
+                SAFE_Y_EDGE = max(20, int(height * 0.03))
+
+                if _is_left:
+                    box_x = SAFE_X
+                else:
+                    box_x = width - box_w - SAFE_X
+
+                if _is_top:
+                    box_y = SAFE_Y_EDGE
+                else:
+                    box_y = height - box_h - SAFE_Y_EDGE
+
+                logger.info(
+                    f"🏷️ [PRICE_TAG_WM_ANCHOR] Snapped to watermark corner: "
+                    f"{'left' if _is_left else 'right'}-{'top' if _is_top else 'bottom'} "
+                    f"box=({box_x},{box_y},{box_w},{box_h})"
+                )
+
+            else:
+                logger.debug("[PRICE_TAG_WM_ANCHOR] No watermark bbox — using face-avoidance placement")
 
             logger.debug(
                 f"[PRICE_TAG_BOX] side={'left' if _box_on_left else 'right'} "

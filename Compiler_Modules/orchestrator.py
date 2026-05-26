@@ -1125,6 +1125,11 @@ def compile_video(
             current_video_source = wm_output_path
             input_paths[0] = current_video_source
             auditor.mark_executed("watermark_inpaint")
+            # [PRICE_TAG_ANCHOR] Save the watermark's bounding box so the price tag
+            # can be anchored to that corner instead of drifting onto the actress's face.
+            if wm_result.get("bbox"):
+                profile_data["watermark_bbox"] = wm_result["bbox"]
+                logger.info(f"📍 [WATERMARK_BBOX] Stored wm bbox for price tag anchor: {wm_result['bbox']}")
             logger.info("✨ [Step 0.35] Clean Source Ready.")
         elif (
             wm_result
@@ -4953,6 +4958,10 @@ def compile_video(
                                  precomputed_price_data=profile_data.get("price_data"),
                                  face_box=_face_box_for_tag,
                                  frame_bgr=_frame_image,
+                                 # [WATERMARK ANCHOR] Use the watermark's screen position as
+                                 # the price tag anchor — it's already a corner of the screen
+                                 # so it's guaranteed NOT to land on the actress's face.
+                                 watermark_bbox=profile_data.get("watermark_bbox"),
                              )
                             if _png_out:
                                 price_tag_images.append(_png_out)
