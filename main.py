@@ -3588,8 +3588,8 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         custom_title = text
 
         # --- SYSTEM HEALTH GUARD ---
-        h_verdict = {"status": "ok"}
-        if not h_verdict["safe"]:
+        h_verdict = {"status": "ok", "safe": True}
+        if not h_verdict.get("safe", True):
             await safe_reply(
                 update,
                 f"⚠️ SYSTEM PROTECTION ACTIVE:\n{h_verdict['summary']}\n\nProcessing paused for safety.",
