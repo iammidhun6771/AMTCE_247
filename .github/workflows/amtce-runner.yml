@@ -67,6 +67,11 @@ jobs:
         if [ -n "${{ secrets.TOKEN_JSON }}" ]; then
           echo "${{ secrets.TOKEN_JSON }}" > Credentials/token.json
         fi
+        # Inject niche-specific tokens (e.g. adult_content)
+        if [ -n "${{ secrets.TOKEN_JSON_ADULT }}" ]; then
+          mkdir -p Credentials/social_media/adult_content
+          echo "${{ secrets.TOKEN_JSON_ADULT }}" > Credentials/social_media/adult_content/token.json
+        fi
         # Inject telegram_config.json if configured
         if [ -n "${{ secrets.TELEGRAM_CONFIG_JSON }}" ]; then
           echo "${{ secrets.TELEGRAM_CONFIG_JSON }}" > Credentials/telegram_config.json
