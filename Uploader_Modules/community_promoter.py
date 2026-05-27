@@ -63,22 +63,14 @@ class CommunityPromoter:
                 return data.get("telegram_link", "")
         except:
             return ""
-
     def _generate_gemini_hook(self, is_short: bool, fashion_data: Optional[Dict], tg_display: str, actress_name: str = "") -> Optional[str]:
-        """Uses Gemini to generate a dual-CTA psychological hook (Partner + Clips)."""
-        # ── Tier 0: Try to read from the pipeline cache first ─────────────────
-        try:
-            from Text_Modules.smart_price_tag import _read_from_pipeline_cache
-            cached = _read_from_pipeline_cache("community_comment_hook")
-            if cached and tg_display:
-                if tg_display not in cached:
-                    cached = cached.rstrip() + f"\n👉 {tg_display}"
-                logger.info("✨ Using cached master community hook — no extra Gemini call.")
-                return cached
-        except Exception as _e:
-            logger.debug(f"[HOOK_CACHE] Failed to read community hook from cache: {_e}")
+        """Uses Gemini to generate a unique multilingual dual-CTA hook (Partner + Clips).
+        Cache is intentionally DISABLED so every post is unique.
+        """
+        # ── Tier 0: Cache intentionally SKIPPED for uniqueness ────────────────
+        # (Pipeline cache previously caused repeated identical posts — removed)
 
-        # ── Tier 1: Fallback Gemini Call ───────────────────────────────────────
+        # ── Tier 1: Gemini Call with uniqueness seed ──────────────────────────
         try:
             from Intelligence_Modules.gemini_governor import gemini_router
             if not gemini_router:
@@ -86,6 +78,7 @@ class CommunityPromoter:
 
             # Read customisable button labels from .env (fallback to defaults)
             from dotenv import load_dotenv
+            import datetime
             load_dotenv("Credentials/.env")
             partner_label = os.getenv("TG_BTN_PARTNER_LABEL", "Find Your Match").replace("🔥 ", "").strip()
             corn_label    = os.getenv("TG_BTN_CORN_LABEL",   "Watch Full Clips").replace("🎬 ", "").strip()
@@ -93,15 +86,38 @@ class CommunityPromoter:
             # Build name anchor — prefer actress name, fallback to neutral
             name_anchor = actress_name.strip() if actress_name else "this creator"
 
+            # ── Uniqueness seed: random style + timestamp so Gemini never repeats ──
+            _styles = [
+                "mysterious and FOMO-driven",
+                "urgent and conspiratorial",
+                "casual and direct like a friend tipping you off",
+                "excited and slightly disbelieving",
+                "dry and factual but intriguing",
+                "teasing and playful",
+                "short sharp punchy — one-word sentences style",
+            ]
+            _style_seed = random.choice(_styles)
+            _ts = datetime.datetime.now().strftime("%H%M%S")  # injects uniqueness into context
+
+            # ── Language strategy ──────────────────────────────────────────────
+            # Write the comment in 3 languages in one go:
+            #   Block 1: English (widest reach)
+            #   Block 2: Hindi (largest Indian audience)
+            #   Block 3: One random South Indian language (Tamil/Telugu/Malayalam/Kannada)
+            _south_langs = ["Tamil", "Telugu", "Malayalam", "Kannada"]
+            _south_lang  = random.choice(_south_langs)
+
             prompt = [
                 "SYSTEM ROLE:",
                 "You are a growth hacker who specializes in building Telegram groups via YouTube comments.",
-                "Your audience is mostly male viewers who are watching actress / celebrity content on YouTube.",
-                "Your goal: write a YouTube comment that makes them WANT to join the Telegram group.",
+                "Your audience is mostly male viewers across India watching actress / celebrity content on YouTube.",
+                "Your goal: write ONE YouTube comment that contains the hook in THREE LANGUAGES so every Indian viewer can read it.",
                 "The comment MUST NOT contain adult links, explicit words, or gender-specific sexual language.",
                 "CRITICAL: Do NOT use words like 'girl', 'she', 'her', 'raw footage', 'censorship', or '🔞'.",
                 f"CRITICAL: Use the NAME '{name_anchor}' instead of any gender pronoun.",
                 "Use curiosity gaps, name-based exclusivity, and 'members-only hidden content' framing. Keep it fully YouTube-safe.",
+                f"WRITING STYLE THIS TIME: {_style_seed}",
+                f"SESSION: {_ts}",   # forces Gemini to generate fresh output
                 "",
                 f"TARGET LINK: {tg_display}",
                 f"ACTRESS / CREATOR NAME: {name_anchor}",
@@ -121,33 +137,52 @@ class CommunityPromoter:
 
             prompt += [
                 "",
-                "STRATEGY: Write a comment with EXACTLY TWO mini-hooks back-to-back:",
-                f"  HOOK 1 — 'Partner Hook' (label: '{partner_label}'):",
-                f"           Use {name_anchor}'s name + curiosity. Tease exclusive behind-the-scenes or",
-                "           extended content that only group members can access.",
-                f"           Example safe phrases: '{name_anchor}'s extended cut is inside', 'the part of {name_anchor}'s clip they cut from here',",
-                "           'Members get the version {name_anchor} actually posted before it was taken down'.",
-                f"           End hook 1 with the arrow line: '→ {partner_label}'",
+                "─────────────────────────────────────────",
+                "OUTPUT STRUCTURE — THREE LANGUAGE BLOCKS:",
+                "─────────────────────────────────────────",
                 "",
-                f"  HOOK 2 — 'Content Hook' (label: '{corn_label}'):",
-                f"           Tease exclusive members-only {name_anchor} content using FOMO and exclusivity.",
-                "           Use safe phrases like: 'the version they removed', 'only members can watch this',",
-                f"           '{name_anchor}'s full cut — not public', 'this got deleted from YouTube'.",
-                f"           End hook 2 with the arrow line: '→ {corn_label}'",
+                f"BLOCK 1 — ENGLISH (Style: {_style_seed}):",
+                f"  Write 2 mini-hooks about {name_anchor}. Each hook = 1 teaser line + its arrow label.",
+                f"  Hook A ends with: → {partner_label}",
+                f"  Hook B ends with: → {corn_label}",
+                "  Blank line between hooks.",
                 "",
+                "BLOCK 2 — HINDI:",
+                f"  Same 2-hook structure in Hindi. Use {name_anchor}'s name. Same arrow labels (keep English labels).",
+                f"  Hook A ends with: → {partner_label}",
+                f"  Hook B ends with: → {corn_label}",
+                "",
+                f"BLOCK 3 — {_south_lang.upper()}:",
+                f"  Same 2-hook structure in {_south_lang}. Use {name_anchor}'s name. Same arrow labels (keep English labels).",
+                f"  Hook A ends with: → {partner_label}",
+                f"  Hook B ends with: → {corn_label}",
+                "",
+                "─────────────────────────────────────────",
                 "RULES:",
-                "1. Keep total comment " + ("short & punchy (4-6 lines)." if is_short else "engaging (5-7 lines)."),
-                "2. Each hook = 1 teaser sentence + its '→ Label' line.",
-                "3. Separate the two hooks with a blank line.",
-                "4. MUST end with a standalone line: 👉 [TARGET LINK]",
-                f"5. Use the name '{name_anchor}' — never use 'she', 'her', 'girl'. Max 1-2 emojis. No hashtags. No explicit words.",
-                "6. Output ONLY the raw comment text. No labels, no markdown.",
+                f"1. Use '{name_anchor}' — never use 'she', 'her', 'girl' in any language.",
+                "2. No explicit words, no 🔞, no censorship references. Keep all three blocks YouTube-safe.",
+                "3. Keep each block punchy: max 4 lines per block.",
+                "4. Separate blocks with a single blank line.",
+                "5. The VERY LAST LINE of the entire comment must be: 👉 [TARGET LINK]",
+                "6. Output ONLY the raw comment text. No block headers, no markdown, no labels.",
                 "",
-                "EXAMPLE OUTPUT (use this tone, but with the real actress name):",
-                f"{name_anchor}'s extended cut didn't survive YouTube's filter — it's inside the group. 👀",
+                "EXAMPLE STRUCTURE (tone and format only — write completely differently):",
+                f"{name_anchor}'s extended cut didn't survive YouTube's filter. 👀",
                 f"→ {partner_label}",
                 "",
-                f"The version of {name_anchor}'s clip they flagged and removed? Still live for members.",
+                f"The version they flagged and removed? Still live for members.",
+                f"→ {corn_label}",
+                "",
+                f"{name_anchor} ka full version yahan se hata diya gaya. Group mein available hai.",
+                f"→ {partner_label}",
+                "",
+                f"Jo clip delete hui, wo members ke liye abhi bhi live hai.",
+                f"→ {corn_label}",
+                "",
+                f"{name_anchor} video YouTube filter la marandhu pochu. Members ku kittum. 👀",
+                f"→ {partner_label}",
+                "",
+                f"Delete aana clip group la iruku. Members matrum.",
                 f"→ {corn_label}",
                 f"👉 {tg_display}",
             ]
@@ -156,11 +191,14 @@ class CommunityPromoter:
                 task_type="copywriter",
                 prompt="\n".join(prompt),
                 module_name="community_promoter",
-                metadata={"type": "actress_funnel_comment", "fashion": bool(fashion_data)}
+                metadata={"type": "actress_funnel_comment_multilang", "fashion": bool(fashion_data), "lang3": _south_lang, "seed": _style_seed}
             )
 
             if res and tg_display in res:
                 return res.strip()
+            elif res:
+                # Gemini returned something but forgot to add the link — append it
+                return res.strip() + f"\n👉 {tg_display}"
 
         except Exception as e:
             logger.warning(f"⚠️ Gemini hook generation failed: {e}")
