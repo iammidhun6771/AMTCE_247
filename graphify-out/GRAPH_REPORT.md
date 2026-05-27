@@ -1,12 +1,12 @@
 # Graph Report - D:\AMTCE  (2026-05-26)
 
 ## Corpus Check
-- 806 files · ~12,663,811 words
+- 806 files · ~12,664,651 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 8200 nodes · 22972 edges · 337 communities detected
-- Extraction: 51% EXTRACTED · 49% INFERRED · 0% AMBIGUOUS · INFERRED: 11150 edges (avg confidence: 0.71)
+- 8208 nodes · 23105 edges · 337 communities detected
+- Extraction: 51% EXTRACTED · 49% INFERRED · 0% AMBIGUOUS · INFERRED: 11283 edges (avg confidence: 0.71)
 - Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
@@ -355,10 +355,10 @@
 4. `get_item()` - 194 edges
 5. `SelfOptimizingEditor` - 158 edges
 6. `RhythmTimelineBuilder` - 151 edges
-7. `ComputeCaps` - 142 edges
-8. `compile_video()` - 138 edges
-9. `VanguardDirector` - 134 edges
-10. `load()` - 133 edges
+7. `AuctionState` - 144 edges
+8. `ComputeCaps` - 142 edges
+9. `compile_video()` - 139 edges
+10. `VanguardDirector` - 134 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `BeatEngine` --uses--> `Constructs a human-like, fast-paced editing timeline using micro-segments.     I`  [INFERRED]
@@ -376,163 +376,163 @@
 
 ### Community 0 - "Community 0"
 Cohesion: 0.0
-Nodes (1047): render(), get_all_active_accounts(), get_primary_accounts(), get_secondary_accounts(), _get_social_folders(), get_target_folder(), _load_config(), actress_config.py — AMTCE Actress Account Router =============================== (+1039 more)
+Nodes (1060): render(), get_all_active_accounts(), get_primary_accounts(), get_secondary_accounts(), _get_social_folders(), get_target_folder(), _load_config(), actress_config.py — AMTCE Actress Account Router =============================== (+1052 more)
 
 ### Community 1 - "Community 1"
-Cohesion: 0.01
-Nodes (737): authenticate(), BashCommandInput, BashCommandOutput, disables_sandbox_when_requested(), execute_bash(), execute_bash_async(), executes_simple_command(), prepare_command() (+729 more)
+Cohesion: 0.0
+Nodes (934): SessionState, authenticate(), BashCommandInput, BashCommandOutput, disables_sandbox_when_requested(), execute_bash(), execute_bash_async(), executes_simple_command() (+926 more)
 
 ### Community 2 - "Community 2"
 Cohesion: 0.01
-Nodes (502): AdaptiveBrain, Called after every upload attempt.         outcome: 'success', 'reject', 'error, Called when engagement metrics come in (or simulated success)., BeatEngine, get_beats(), get_beats_preferring_original_audio(), get_beats_with_drops(), Beat Engine ----------- Zero-dependency Beat Detection for Viral Edits. Uses (+494 more)
+Nodes (482): AdaptiveBrain, calculate_std_dev(), clamp(), PsychometricEngine, Self-Healing Adaptive Intelligence Engine v3 ----------------------------------, The Core Logic for Protection., Returns restrictive parameters based on level., Calculates entropy. If low, suggests a neglected trigger. (+474 more)
 
 ### Community 3 - "Community 3"
 Cohesion: 0.01
-Nodes (617): start_publish_scheduler(), listen(), render(), update_age_modifier_direction(), update_age_modifier_model(), detect_app_context(), apply_args(), collect_step_args() (+609 more)
+Nodes (554): listen(), render(), update_age_modifier_direction(), update_age_modifier_model(), detect_app_context(), apply_args(), convert_hertz_to_mel(), convert_mel_to_hertz() (+546 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.01
-Nodes (213): ConfigEntry, ConfigError, ConfigLoader, ConfigSource, deep_merge_objects(), default_config_home(), expect_object(), expect_string() (+205 more)
+Cohesion: 0.02
+Nodes (284): collect_job_args(), collect_step_args(), reduce_job_args(), reduce_step_args(), apply_compilation_mastering(), build_continuous_segment(), create_continuous_music_mix(), detect_silence() (+276 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.02
-Nodes (279): collect_job_args(), reduce_job_args(), reduce_step_args(), apply_compilation_mastering(), build_continuous_segment(), create_continuous_music_mix(), detect_silence(), _get_loudnorm_filter() (+271 more)
+Cohesion: 0.05
+Nodes (200): FrameProducer, HeavyEditor, Cleanly disable all enhancement features., Detects environment and auto-installs missing acceleration libraries., Check if model exists, if not download it (Sanity Wrapper)., 2. Strict GPU Memory Governor (PURE FUNCTION).         Returns a configuration, Multithreaded Frame Producer to overlap I/O with GPU inference., Atomic Model Loading with Governor Check. (+192 more)
 
 ### Community 6 - "Community 6"
-Cohesion: 0.04
-Nodes (226): Cleanly disable all enhancement features., Detects environment and auto-installs missing acceleration libraries., Check if model exists, if not download it (Sanity Wrapper)., 2. Strict GPU Memory Governor (PURE FUNCTION).         Returns a configuration, Multithreaded Frame Producer to overlap I/O with GPU inference., Atomic Model Loading with Governor Check., AnalyticsEngine, analytics_engine.py Fetches YouTube Analytics data for a published video.  Retri (+218 more)
+Cohesion: 0.02
+Nodes (164): is_account_mode_enabled(), Returns True if Account Mode (auto-scraping) is enabled., ActressLedger, extract_shortcode(), file_md5(), get_ledger(), actress_ledger.py — Military-Grade Deduplication Ledger ========================, Returns True if this Instagram post was already downloaded. (+156 more)
 
 ### Community 7 - "Community 7"
 Cohesion: 0.02
-Nodes (149): ApiErrorBody, ApiErrorEnvelope, auth_source_applies_headers(), auth_source_from_env_combines_api_key_and_bearer_token(), auth_source_from_saved_oauth_when_env_absent(), AuthSource, backoff_doubles_until_maximum(), ClawApiClient (+141 more)
+Nodes (104): BootstrapGraph, build_bootstrap_graph(), build_command_graph(), CommandGraph, build_command_backlog(), built_in_command_names(), CommandExecution, execute_command() (+96 more)
 
 ### Community 8 - "Community 8"
 Cohesion: 0.02
-Nodes (152): _amp_to_db(), _build_mel_basis(), get_hop_size(), _linear_to_mel(), linearspectrogram(), load_wav(), _lws_processor(), melspectrogram() (+144 more)
+Nodes (122): FaceAlignment, LandmarksType, NetworkSize, Enum class defining the type of landmarks to detect.      ``_2D`` - the detect, _amp_to_db(), _build_mel_basis(), get_hop_size(), _linear_to_mel() (+114 more)
 
 ### Community 9 - "Community 9"
-Cohesion: 0.02
-Nodes (89): BootstrapGraph, build_bootstrap_graph(), build_command_graph(), CommandGraph, build_command_backlog(), built_in_command_names(), CommandExecution, execute_command() (+81 more)
+Cohesion: 0.03
+Nodes (103): aggregates_and_executes_plugin_tools(), auto_installs_bundled_plugins_into_the_registry(), build_manifest_commands(), build_manifest_permissions(), build_manifest_tools(), build_plugin_manifest(), builtin_plugins(), BuiltinPlugin (+95 more)
 
 ### Community 10 - "Community 10"
 Cohesion: 0.02
-Nodes (130): is_account_mode_enabled(), Returns True if Account Mode (auto-scraping) is enabled., ActressLedger, extract_shortcode(), file_md5(), get_ledger(), actress_ledger.py — Military-Grade Deduplication Ledger ========================, Returns True if this Instagram post was already downloaded. (+122 more)
+Nodes (105): batch_decode(), bboxlog(), nms(), Decode locations from predictions using priors to undo     the encoding we did, FaceDetector, An abstract class representing a face detector.      Any other face detection, Detects faces in a given image.          This function detects the faces prese, tensor_or_path_to_ndarray() (+97 more)
 
 ### Community 11 - "Community 11"
 Cohesion: 0.02
-Nodes (115): AudioPoolManager, _is_pipeline_artifact(), Helper to get file metadata accounting for schema version., Helper to set file metadata accounting for schema version., [FIX] Move any loose .mp3/.wav files sitting in Original_audio/ root into, Daemon thread: analyze one BGM track with Gemini and write the result         b, Manages the lifecycle of extracted audio clips.     Pools:       - active/: El, Lazy load beat data from cache or disk. (+107 more)
+Nodes (68): CliApp, CommandResult, help_output_lists_commands(), session_state_tracks_config_values(), SessionConfig, SlashCommand, SlashCommandHandler, request_id_uses_primary_or_fallback_header() (+60 more)
 
 ### Community 12 - "Community 12"
-Cohesion: 0.03
-Nodes (112): _detect(), get(), Compute Capability Authority ---------------------------- Standardizes hardwar, _set_cpu_only(), apply_fallback_enhancement(), fast_upscale(), CPU Fast Processing Module FFmpeg-based fast processing for upscaling and enhan, Fast CPU upscaling using Lanczos (FFmpeg). (+104 more)
+Cohesion: 0.02
+Nodes (95): Smart crop: resize maintaining aspect ratio, then center-crop to exact size., _smart_crop(), build_arc_caption_spec(), build_caption_drawtext_filter(), build_drawtext_filters(), escape_drawtext(), font_size_for_line(), get_font_path() (+87 more)
 
 ### Community 13 - "Community 13"
-Cohesion: 0.02
-Nodes (68): FaceAlignment, LandmarksType, NetworkSize, Enum class defining the type of landmarks to detect.      ``_2D`` - the detect, batch_decode(), bboxlog(), nms(), Decode locations from predictions using priors to undo     the encoding we did (+60 more)
+Cohesion: 0.04
+Nodes (103): _detect(), get(), Compute Capability Authority ---------------------------- Standardizes hardwar, _set_cpu_only(), apply_fallback_enhancement(), fast_upscale(), CPU Fast Processing Module FFmpeg-based fast processing for upscaling and enhan, Fast CPU upscaling using Lanczos (FFmpeg). (+95 more)
 
 ### Community 14 - "Community 14"
-Cohesion: 0.03
-Nodes (67): detect(), _creative_pipeline_integrity(), CreativeEditingVerifier, CreativeEditorConfidenceScorer, CreativeIntelligenceVerifier, DataFlowValidator, fail(), _final_verdict() (+59 more)
+Cohesion: 0.04
+Nodes (101): capture_video(), cast_stream(), chain(), concat(), copy_audio_encoder(), copy_video_encoder(), enforce_pixel_format(), force_output() (+93 more)
 
 ### Community 15 - "Community 15"
-Cohesion: 0.04
-Nodes (65): add(), _auto_fill_queue_from_downloads(), _batch_label(), _get_active_publish_slots(), _get_static_peak_times(), load(), pop_one(), _publish_loop() (+57 more)
+Cohesion: 0.03
+Nodes (73): _build_document(), load_dataset(), normalize_text(), Dataset loader for Phase-1 RAG prototype.  Hardcoded small dataset of editing pa, Lowercase and clean whitespace while preserving distinct semantic tokens., Load the hardcoded dataset into the given Chroma collection., calculate_ev(), calculate_score() (+65 more)
 
 ### Community 16 - "Community 16"
-Cohesion: 0.05
-Nodes (89): convert_hertz_to_mel(), convert_mel_to_hertz(), create_mel_filter_bank(), create_spectrogram(), extract_audio_frames(), get_audio_frame(), get_voice_frame(), prepare_audio() (+81 more)
+Cohesion: 0.03
+Nodes (67): AnalyticsEngine, analytics_engine.py Fetches YouTube Analytics data for a published video.  Retri, Fetch views, avg view duration, likes., Fetch views, avg view duration, likes., Fetch audience retention curve.         Returns list of {"t": float, "pct": floa, Fetch audience retention curve.         Returns list of {"t": float, "pct": floa, Fetch a complete analytics snapshot for one video.          Args:             vi, Fetch a complete analytics snapshot for one video.          Args:             vi (+59 more)
 
 ### Community 17 - "Community 17"
-Cohesion: 0.04
-Nodes (70): is_interleave_enabled(), _enabled(), _facefusion_dir(), FaceSwapEngine, _provider(), Reaction_Engine/face_swap_engine.py ------------------------------------ Automat, Wraps FaceFusion CLI to apply a target face onto a reactor clip., Returns True if FaceFusion is fully configured. (+62 more)
+Cohesion: 0.05
+Nodes (89): create_table_parts(), render_table(), cast_bool(), cast_float(), cast_int(), create_float_metavar(), create_float_range(), create_int_metavar() (+81 more)
 
 ### Community 18 - "Community 18"
-Cohesion: 0.03
-Nodes (58): encode(), Encode the variances from the priorbox layers into the ground truth boxes     w, Safe replacement for delete. Marks bad — doesn't delete immediately.         Fix, TieredCAGEngine, Deterministic hash across runs., stable_hash(), GeminiFallbackEmbeddingFunction, ChromaDB client setup for the RAG prototype.  Creates a persistent local store a (+50 more)
+Cohesion: 0.04
+Nodes (79): AudioPoolManager, Helper to get file metadata accounting for schema version., Helper to set file metadata accounting for schema version., [FIX] Move any loose .mp3/.wav files sitting in Original_audio/ root into, Daemon thread: analyze one BGM track with Gemini and write the result         b, Manages the lifecycle of extracted audio clips.     Pools:       - active/: El, Lazy load beat data from cache or disk., Moves newly extracted audio into pool and caches deep beat metadata. (+71 more)
 
 ### Community 19 - "Community 19"
-Cohesion: 0.03
-Nodes (58): build_arc_caption_spec(), build_caption_drawtext_filter(), build_drawtext_filters(), escape_drawtext(), font_size_for_line(), get_font_path(), is_emphasis_line(), _line_char_limits() (+50 more)
+Cohesion: 0.04
+Nodes (66): is_interleave_enabled(), _enabled(), _facefusion_dir(), FaceSwapEngine, _provider(), Reaction_Engine/face_swap_engine.py ------------------------------------ Automat, Wraps FaceFusion CLI to apply a target face onto a reactor clip., Returns True if FaceFusion is fully configured. (+58 more)
 
 ### Community 20 - "Community 20"
-Cohesion: 0.03
-Nodes (59): ContentIntelligenceEngine, get_engine(), interpret_visual_context(), Content_Intelligence/content_intelligence_engine.py ---------------------------, Parses the content_director block from the forensic result     and derives feat, Convenience function for orchestrator.py.     Returns (cd_block, ci_flags). Nev, compute_engagement_score(), get_strategy_signals() (+51 more)
+Cohesion: 0.04
+Nodes (55): encode(), Encode the variances from the priorbox layers into the ground truth boxes     w, Safe replacement for delete. Marks bad — doesn't delete immediately.         Fix, TieredCAGEngine, GeminiFallbackEmbeddingFunction, ChromaDB client setup for the RAG prototype.  Creates a persistent local store a, Fallback embedding function that generates deterministic vectors via hashing., Secondary fallback: uses Google's Gemini API for embeddings. (+47 more)
 
 ### Community 21 - "Community 21"
 Cohesion: 0.05
-Nodes (37): _build_signal_flags(), _compute_semantic_score(), _compute_signal_confidence(), _filter_dead_moments(), Content_Intelligence/signal_repair_layer.py ------------------------------------, Boostrap emotion spikes from motion + expression proxies when real     Emotional, Synthesise retention peaks from scene boundaries (shot cuts) and beat data     w, Synthesise face-present subject tracking entries from expression_moments     whe (+29 more)
+Nodes (70): choose(), compute(), DynamicTrimCalculator, EnergyProgressionGuard, Visual_Refinement_Modules/rhythm_quality_guard.py -----------------------------, Calculates dynamic segment extraction windows per-moment, replacing     the sta, Selects 3 to 9 narrative slots based on the quality of available moments,     e, Guards against "false climaxes" by verifying that the climax segment     is act (+62 more)
 
 ### Community 22 - "Community 22"
-Cohesion: 0.06
-Nodes (26): CliApp, CommandResult, help_output_lists_commands(), session_state_tracks_config_values(), SessionConfig, SessionState, SlashCommand, SlashCommandHandler (+18 more)
+Cohesion: 0.05
+Nodes (37): _build_signal_flags(), _compute_semantic_score(), _compute_signal_confidence(), _filter_dead_moments(), Content_Intelligence/signal_repair_layer.py ------------------------------------, Boostrap emotion spikes from motion + expression proxies when real     Emotional, Synthesise retention peaks from scene boundaries (shot cuts) and beat data     w, Synthesise face-present subject tracking entries from expression_moments     whe (+29 more)
 
 ### Community 23 - "Community 23"
-Cohesion: 0.09
-Nodes (42): choose(), compute(), DynamicTrimCalculator, EnergyProgressionGuard, Visual_Refinement_Modules/rhythm_quality_guard.py -----------------------------, Calculates dynamic segment extraction windows per-moment, replacing     the sta, Selects 3 to 9 narrative slots based on the quality of available moments,     e, Guards against "false climaxes" by verifying that the climax segment     is act (+34 more)
+Cohesion: 0.07
+Nodes (30): _patch_trend_file(), tests/test_trend_intelligence.py ---------------------------------- Unit tests, Gemini's explicit commands must always be honoured., _restore_trend_file(), TestTrendEngine, TestUniversalContentDirector, add_user_trend(), collect_trend_input_interactive() (+22 more)
 
 ### Community 24 - "Community 24"
 Cohesion: 0.07
 Nodes (26): _check_cli_available(), get_engine(), HiggsfieldEngine, _load_persona_config(), _load_state(), Higgsfield Engine — Credit Governor + CLI Wrapper ==============================, Persist credit state to JSON., Load Higgsfield persona config from social_media/<persona_name>/higgsfield.json. (+18 more)
 
 ### Community 25 - "Community 25"
-Cohesion: 0.09
-Nodes (21): _patch_trend_file(), tests/test_trend_intelligence.py ---------------------------------- Unit tests, Gemini's explicit commands must always be honoured., _restore_trend_file(), TestTrendEngine, TestUniversalContentDirector, get_engine(), get_trend_context() (+13 more)
+Cohesion: 0.11
+Nodes (11): test_orchestra(), _get_timeout(), ProviderHealth, Router Orchestra — 4-Provider Lean Architecture ===============================, Dynamic score: higher = prefer this provider.         score = success_rate * 10, Central AI routing brain for AMTCE.     Manages Groq, Mistral, and coordinates, Returns True if budget allows. Gemini vision calls bypass global counter., Call at the start of each video to reset the global call counter. (+3 more)
 
 ### Community 26 - "Community 26"
-Cohesion: 0.06
-Nodes (29): _build_document(), load_dataset(), normalize_text(), Dataset loader for Phase-1 RAG prototype.  Hardcoded small dataset of editing pa, Lowercase and clean whitespace while preserving distinct semantic tokens., Load the hardcoded dataset into the given Chroma collection., calculate_ev(), calculate_score() (+21 more)
-
-### Community 27 - "Community 27"
-Cohesion: 0.07
-Nodes (15): calculate_std_dev(), clamp(), PsychometricEngine, Self-Healing Adaptive Intelligence Engine v3 ----------------------------------, The Core Logic for Protection., Returns restrictive parameters based on level., Calculates entropy. If low, suggests a neglected trigger., Probabilistic selection based on weights. (+7 more)
-
-### Community 28 - "Community 28"
 Cohesion: 0.09
 Nodes (26): _build_fusion_timeline(), _determine_dominant_source(), fuse_signals(), get_engine(), Signal Fusion Engine 2.0 ------------------------ Fuses multiple streams of co, # NOTE: pseudo-random noise (math.sin time-based offset) was removed., Detects the semantic focus type for a moment., Return motion intensity [0.0-1.0] at time t.     Matches the nearest motion ent (+18 more)
 
-### Community 29 - "Community 29"
-Cohesion: 0.11
-Nodes (14): _clamp(), IntentVariantGenerator, NZTMemory, NZTScorer, nzt_simulation_loop.py ─────────────────────────────────────────────────────────, Predictive scorer.  Converts a (variant, context, candidate_moments) tuple     i, Returns a normalized score [0.0, 1.0] for the given variant., Score rises as the hook time gets closer to a high-score moment.         Also gi (+6 more)
-
-### Community 30 - "Community 30"
+### Community 27 - "Community 27"
 Cohesion: 0.12
-Nodes (14): _bucket_hold(), _bucket_motion(), _field_overlap(), _key_fields(), _make_key(), Smart Transition Intelligence Engine (STIE) ====================================, Count how many of the 5 bucket fields match between two keys., Decides transition type + duration per gap, learns from every approve/reject. (+6 more)
+Nodes (13): ContentIntelligenceEngine, get_engine(), interpret_visual_context(), Content_Intelligence/content_intelligence_engine.py ---------------------------, Parses the content_director block from the forensic result     and derives feat, Convenience function for orchestrator.py.     Returns (cd_block, ci_flags). Nev, compute_engagement_score(), Compute a 0.0–1.0 engagement score from raw metrics.      Expected metric keys (+5 more)
 
-### Community 31 - "Community 31"
+### Community 28 - "Community 28"
+Cohesion: 0.11
+Nodes (15): _clamp(), _find_reaction_moment(), IntentVariantGenerator, NZTMemory, NZTScorer, nzt_simulation_loop.py ─────────────────────────────────────────────────────────, Predictive scorer.  Converts a (variant, context, candidate_moments) tuple     i, Returns a normalized score [0.0, 1.0] for the given variant. (+7 more)
+
+### Community 29 - "Community 29"
 Cohesion: 0.14
 Nodes (19): apply_karaoke_subtitles(), _bridge_timestamps(), _build_ass_content(), _clean_word(), _env_bool(), _env_int(), _env_str(), _format_ass_time() (+11 more)
 
-### Community 32 - "Community 32"
-Cohesion: 0.18
-Nodes (11): allows_tools_when_active_mode_meets_requirement(), denies_read_only_escalations_without_prompt(), honors_prompt_rejection_reason(), PermissionMode, PermissionOutcome, PermissionPolicy, PermissionPromptDecision, PermissionPrompter (+3 more)
+### Community 30 - "Community 30"
+Cohesion: 0.11
+Nodes (15): ContentBlockDeltaEvent, ContentBlockStartEvent, ContentBlockStopEvent, InputContentBlock, InputMessage, MessageDeltaEvent, MessageResponse, MessageStartEvent (+7 more)
 
-### Community 33 - "Community 33"
+### Community 31 - "Community 31"
+Cohesion: 0.14
+Nodes (12): _bucket_hold(), _bucket_motion(), _field_overlap(), _key_fields(), _make_key(), Smart Transition Intelligence Engine (STIE) ====================================, Count how many of the 5 bucket fields match between two keys., Decides transition type + duration per gap, learns from every approve/reject. (+4 more)
+
+### Community 32 - "Community 32"
 Cohesion: 0.16
 Nodes (18): _bpm_snap(), _canonicalize_direction(), decide_transition(), _energy_label(), enrich_segment_with_tie(), phase1_human_analysis(), phase2_machine_selection(), phase3_execution_parameters() (+10 more)
 
-### Community 34 - "Community 34"
+### Community 33 - "Community 33"
 Cohesion: 0.12
 Nodes (11): merge_feature_flags(), Merge feature flags from Gemini proposals, safety overrides, and transformation, detect_source(), Detects whether the video source is reused content.     Rules:     - If input co, TestReusedContentPipeline, calculate_transformation_score(), enforce_transformation_rules(), get_transformation_strategy() (+3 more)
 
-### Community 35 - "Community 35"
+### Community 34 - "Community 34"
 Cohesion: 0.13
 Nodes (16): DEBT: One-Time Raw Video Uploader (deliver_raw.py) ----------------------------, upload(), analyze_music(), _clean_json(), _empty_report(), get_directive_at(), get_section_at(), get_tension_at() (+8 more)
 
-### Community 36 - "Community 36"
-Cohesion: 0.13
-Nodes (7): ChunkedProgressFile, DEBT: One-Time Chunked Video Uploader (deliver_video.py) ----------------------, create_tqdm_output(), listen(), read_logs(), render(), tqdm_update()
+### Community 35 - "Community 35"
+Cohesion: 0.21
+Nodes (8): computes_cost_summary_lines(), cost_for_tokens(), marks_unknown_model_pricing_as_fallback(), ModelPricing, pricing_for_model(), supports_model_specific_pricing(), TokenUsage, UsageCostEstimate
 
-### Community 37 - "Community 37"
+### Community 36 - "Community 36"
 Cohesion: 0.18
 Nodes (7): _HookTracker, Money Flow Logic v3 (High-Conversion Engine — India-First Edition) ------------, Lightweight file-backed performance tracker.     Records how many times each ho, Call this from your Telegram callback / Los Pollos postback handler., Earnings Per Click. Higher = hook that drives PURCHASES, not just clicks., EPC-weighted random pick. After 10+ clicks of data exists,         prefer EPC o, Weighted random pick — hooks with higher CTR are selected more often.         F
 
-### Community 38 - "Community 38"
+### Community 37 - "Community 37"
 Cohesion: 0.17
 Nodes (9): HiggsfieldEarn, _load_submissions(), Higgsfield Earn — Campaign Submission Helper ===================================, Return all submissions not yet manually submitted to Higgsfield Earn., Mark a submission as completed and update view count., Generate a summary of all pending manual Earn submissions., Full summary of all Earn submissions and estimated earnings., Tracks Higgsfield Earn submissions and estimates payout tiers.      Usage: (+1 more)
 
-### Community 39 - "Community 39"
+### Community 38 - "Community 38"
 Cohesion: 0.2
 Nodes (7): PolicyMemory, Policy Memory Module (Criterion 5) ---------------------------------- Stores s, Updates policy stats and re-evaluates enabled status., Returns True if policy is allowed to run., Helper to get rate safely., Loads policy data with failure resilience., Normalize policy name.
+
+### Community 39 - "Community 39"
+Cohesion: 0.31
+Nodes (9): ignores_data_less_event_frames(), ignores_ping_and_done(), parse_frame(), parses_chunked_stream(), parses_single_frame(), parses_split_json_across_data_lines(), parses_thinking_content_block_start(), parses_thinking_related_deltas() (+1 more)
 
 ### Community 40 - "Community 40"
 Cohesion: 0.14
@@ -551,16 +551,16 @@ Cohesion: 0.27
 Nodes (4): Remove the proposal JSON., Review Flow: Summary -> Diff? -> Decision., The Human-in-the-Loop Judge CLI.     Ensures that AI optimizations are only prom, VanguardGatekeeper
 
 ### Community 44 - "Community 44"
+Cohesion: 0.24
+Nodes (6): max_tokens_for_model(), metadata_for_model(), Provider, ProviderKind, ProviderMetadata, resolve_model_alias()
+
+### Community 45 - "Community 45"
 Cohesion: 0.33
 Nodes (8): calculate_score(), normalize_signals(), segment_validator.py -------------------- STRICT Video Segment Validation Syst, Normalize all signals across candidates and selected segments to [0, 1]., Find nearest signal value within a time window., Compute score = 0.35*M + 0.30*R + 0.20*V + 0.15*E, resolve_signal(), validate_segments()
 
-### Community 45 - "Community 45"
+### Community 46 - "Community 46"
 Cohesion: 0.22
 Nodes (5): DeepSeekRouter, DeepSeek Reasoning Router -------------------------- Primary engine for all re, Lightweight router for DeepSeek R1 API.     Wraps the OpenAI-compatible endpoin, Check if DeepSeek is configured and reachable., Return True if this task is text-only and DeepSeek can handle it.
-
-### Community 46 - "Community 46"
-Cohesion: 0.42
-Nodes (8): create_inference_providers(), create_value_and_unit(), detect_execution_devices(), detect_static_execution_devices(), resolve_cache_path(), resolve_cudnn_conv_algo_search(), resolve_openvino_device_type(), run_nvidia_smi()
 
 ### Community 47 - "Community 47"
 Cohesion: 0.22
@@ -579,12 +579,12 @@ Cohesion: 0.25
 Nodes (4): DigitalAnchor, Generates the FFmpeg filter for the circular anchor in the corner.         Posi, Returns the path to the current active anchor asset., Manages the 'Virtual Host' (AI Anchor) for the Synthetic Newsroom.     Provides
 
 ### Community 51 - "Community 51"
-Cohesion: 0.32
-Nodes (7): decide_speed_factor(), probe_video(), Speed Engine — Intelligent Speed Factor Decisioning ===========================, Safely parse fractional FPS strings like '60000/1001' without using eval()., Return fps and duration from ffprobe. Lightweight, no OpenCV needed., Analyse the clip and return the best speed_factor.      Decision tree:, _safe_parse_fps()
-
-### Community 52 - "Community 52"
 Cohesion: 0.29
 Nodes (6): CinematicDurationEngine, compute_cinematic_duration(), CinematicDurationEngine — Psychology-driven duration calculator for AMTCE.  RESE, Public API — call this from orchestrator., Computes psychologically-optimal output duration and beat plan     from an arbit, Given a source clip duration (e.g. 600.0 for 10 minutes),         return the ful
+
+### Community 52 - "Community 52"
+Cohesion: 0.32
+Nodes (7): decide_speed_factor(), probe_video(), Speed Engine — Intelligent Speed Factor Decisioning ===========================, Safely parse fractional FPS strings like '60000/1001' without using eval()., Return fps and duration from ffprobe. Lightweight, no OpenCV needed., Analyse the clip and return the best speed_factor.      Decision tree:, _safe_parse_fps()
 
 ### Community 53 - "Community 53"
 Cohesion: 0.39
@@ -643,12 +643,12 @@ Cohesion: 0.67
 Nodes (2): Verify that a file cannot be forged twice in 5 minutes., test_forge_cooldown_enforcement()
 
 ### Community 67 - "Community 67"
-Cohesion: 0.67
-Nodes (1): TestLogoCleanser
-
-### Community 68 - "Community 68"
 Cohesion: 1.0
 Nodes (2): mock_logic(), test_toggles()
+
+### Community 68 - "Community 68"
+Cohesion: 0.67
+Nodes (1): TestSceneSanitization
 
 ### Community 69 - "Community 69"
 Cohesion: 0.67
@@ -660,27 +660,27 @@ Nodes (2): Text Region Detector (Helper for Composite Watermarks) --------------
 
 ### Community 71 - "Community 71"
 Cohesion: 1.0
-Nodes (1): Legacy shim for compiler module.
+Nodes (1): System Prompts for Bot Intelligence ----------------------------------- Centra
 
 ### Community 72 - "Community 72"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): JsonRpcRequest<T>
 
 ### Community 73 - "Community 73"
 Cohesion: 1.0
-Nodes (1): System Prompts for Bot Intelligence ----------------------------------- Centra
+Nodes (1): DialogLauncher
 
 ### Community 74 - "Community 74"
 Cohesion: 1.0
-Nodes (1): JsonRpcRequest<T>
+Nodes (0): 
 
 ### Community 75 - "Community 75"
 Cohesion: 1.0
-Nodes (1): DialogLauncher
+Nodes (0): 
 
 ### Community 76 - "Community 76"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): ProjectOnboardingState
 
 ### Community 77 - "Community 77"
 Cohesion: 1.0
@@ -688,19 +688,19 @@ Nodes (0):
 
 ### Community 78 - "Community 78"
 Cohesion: 1.0
-Nodes (1): ProjectOnboardingState
+Nodes (1): ToolDefinition
 
 ### Community 79 - "Community 79"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): config/runtime_flags.py ────────────────────────────────────────────────────────
 
 ### Community 80 - "Community 80"
 Cohesion: 1.0
-Nodes (1): ToolDefinition
+Nodes (1): Legacy shim for compiler module.
 
 ### Community 81 - "Community 81"
 Cohesion: 1.0
-Nodes (1): config/runtime_flags.py ────────────────────────────────────────────────────────
+Nodes (0): 
 
 ### Community 82 - "Community 82"
 Cohesion: 1.0
@@ -776,7 +776,7 @@ Nodes (0):
 
 ### Community 100 - "Community 100"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): Multi-clip timeline rendering shim.         Restores the 'rhythm-sync' compilat
 
 ### Community 101 - "Community 101"
 Cohesion: 1.0
@@ -784,7 +784,7 @@ Nodes (0):
 
 ### Community 102 - "Community 102"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): Convenience constructor: builds a VideoLog entry from EditorBrainV3 output.
 
 ### Community 103 - "Community 103"
 Cohesion: 1.0
@@ -844,7 +844,7 @@ Nodes (0):
 
 ### Community 117 - "Community 117"
 Cohesion: 1.0
-Nodes (1): Multi-clip timeline rendering shim.         Restores the 'rhythm-sync' compilat
+Nodes (0): 
 
 ### Community 118 - "Community 118"
 Cohesion: 1.0
@@ -852,7 +852,7 @@ Nodes (0):
 
 ### Community 119 - "Community 119"
 Cohesion: 1.0
-Nodes (1): Convenience constructor: builds a VideoLog entry from EditorBrainV3 output.
+Nodes (0): 
 
 ### Community 120 - "Community 120"
 Cohesion: 1.0
@@ -1723,29 +1723,29 @@ Cohesion: 1.0
 Nodes (1): Prints a formatted summary of the system health.
 
 ## Knowledge Gaps
-- **1449 isolated node(s):** `Returns (anchor_x, anchor_y, side, debug_info).     - side: "left" or "right" ch`, `Safe replacement for delete. Marks bad — doesn't delete immediately.         Fix`, `Legacy shim for compiler module.`, `actress_config.py — AMTCE Actress Account Router ===============================`, `Load actress_accounts.json. Caches in memory.` (+1444 more)
+- **1449 isolated node(s):** `actress_config.py — AMTCE Actress Account Router ===============================`, `Load actress_accounts.json. Caches in memory.`, `Persist updated config back to JSON.`, `Lowercase, remove punctuation/numbers, split into words.`, `Word-overlap score between Instagram username and folder name.     Returns 0.0–1` (+1444 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **Thin community `Community 71`** (2 nodes): `Legacy shim for compiler module.`, `compiler.py`
+- **Thin community `Community 71`** (2 nodes): `system_prompts.py`, `System Prompts for Bot Intelligence ----------------------------------- Centra`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 72`** (2 nodes): `test_cag.py`, `mock_generate_metadata()`
+- **Thin community `Community 72`** (2 nodes): `JsonRpcRequest<T>`, `.new()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 73`** (2 nodes): `system_prompts.py`, `System Prompts for Bot Intelligence ----------------------------------- Centra`
+- **Thin community `Community 73`** (2 nodes): `dialogLaunchers.py`, `DialogLauncher`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 74`** (2 nodes): `JsonRpcRequest<T>`, `.new()`
+- **Thin community `Community 74`** (2 nodes): `ink.py`, `render_markdown_panel()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 75`** (2 nodes): `dialogLaunchers.py`, `DialogLauncher`
+- **Thin community `Community 75`** (2 nodes): `interactiveHelpers.py`, `bulletize()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 76`** (2 nodes): `ink.py`, `render_markdown_panel()`
+- **Thin community `Community 76`** (2 nodes): `projectOnboardingState.py`, `ProjectOnboardingState`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 77`** (2 nodes): `interactiveHelpers.py`, `bulletize()`
+- **Thin community `Community 77`** (2 nodes): `replLauncher.py`, `build_repl_banner()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 78`** (2 nodes): `projectOnboardingState.py`, `ProjectOnboardingState`
+- **Thin community `Community 78`** (2 nodes): `Tool.py`, `ToolDefinition`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 79`** (2 nodes): `replLauncher.py`, `build_repl_banner()`
+- **Thin community `Community 79`** (2 nodes): `runtime_flags.py`, `config/runtime_flags.py ────────────────────────────────────────────────────────`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 80`** (2 nodes): `Tool.py`, `ToolDefinition`
+- **Thin community `Community 80`** (2 nodes): `Legacy shim for compiler module.`, `compiler.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 81`** (2 nodes): `runtime_flags.py`, `config/runtime_flags.py ────────────────────────────────────────────────────────`
+- **Thin community `Community 81`** (2 nodes): `test_cag.py`, `mock_generate_metadata()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 82`** (2 nodes): `metadata.py`, `get()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
@@ -1771,59 +1771,59 @@ Nodes (1): Prints a formatted summary of the system health.
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 93`** (2 nodes): `test_creative_director.py`, `generate_mock_profile()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 94`** (1 nodes): `boot_test.py`
+- **Thin community `Community 94`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 95`** (1 nodes): `check_keys.py`
+- **Thin community `Community 95`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 96`** (1 nodes): `check_vp.py`
+- **Thin community `Community 96`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 97`** (1 nodes): `data_resolver.py`
+- **Thin community `Community 97`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 98`** (1 nodes): `diag_full.py`
+- **Thin community `Community 98`** (1 nodes): `lib.rs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 99`** (1 nodes): `discover_classes.py`
+- **Thin community `Community 99`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 100`** (1 nodes): `fix_engine_deps.py`
+- **Thin community `Community 100`** (1 nodes): `Multi-clip timeline rendering shim.         Restores the 'rhythm-sync' compilat`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 101`** (1 nodes): `fix_rhythm_deps.py`
+- **Thin community `Community 101`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 102`** (1 nodes): `fix_rtb.py`
+- **Thin community `Community 102`** (1 nodes): `Convenience constructor: builds a VideoLog entry from EditorBrainV3 output.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 103`** (1 nodes): `inspect_apis.py`
+- **Thin community `Community 103`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 104`** (1 nodes): `inspect_compilers.py`
+- **Thin community `Community 104`** (1 nodes): `boot_test.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 105`** (1 nodes): `sig_check.py`
+- **Thin community `Community 105`** (1 nodes): `check_keys.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 106`** (1 nodes): `strip_editor.py`
+- **Thin community `Community 106`** (1 nodes): `check_vp.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 107`** (1 nodes): `test_deps.py`
+- **Thin community `Community 107`** (1 nodes): `data_resolver.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 108`** (1 nodes): `test_shot_detector.py`
+- **Thin community `Community 108`** (1 nodes): `diag_full.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 109`** (1 nodes): `test_sigs.py`
+- **Thin community `Community 109`** (1 nodes): `discover_classes.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 110`** (1 nodes): `test_tracker.py`
+- **Thin community `Community 110`** (1 nodes): `fix_engine_deps.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 111`** (1 nodes): `__init__.py`
+- **Thin community `Community 111`** (1 nodes): `fix_rhythm_deps.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 112`** (1 nodes): `__init__.py`
+- **Thin community `Community 112`** (1 nodes): `fix_rtb.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 113`** (1 nodes): `__init__.py`
+- **Thin community `Community 113`** (1 nodes): `inspect_apis.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 114`** (1 nodes): `__init__.py`
+- **Thin community `Community 114`** (1 nodes): `inspect_compilers.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 115`** (1 nodes): `lib.rs`
+- **Thin community `Community 115`** (1 nodes): `sig_check.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 116`** (1 nodes): `__init__.py`
+- **Thin community `Community 116`** (1 nodes): `strip_editor.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 117`** (1 nodes): `Multi-clip timeline rendering shim.         Restores the 'rhythm-sync' compilat`
+- **Thin community `Community 117`** (1 nodes): `test_deps.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 118`** (1 nodes): `__init__.py`
+- **Thin community `Community 118`** (1 nodes): `test_shot_detector.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 119`** (1 nodes): `Convenience constructor: builds a VideoLog entry from EditorBrainV3 output.`
+- **Thin community `Community 119`** (1 nodes): `test_sigs.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 120`** (1 nodes): `__init__.py`
+- **Thin community `Community 120`** (1 nodes): `test_tracker.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 121`** (1 nodes): `Quick log for non-API events (like cache hits)`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
@@ -2261,13 +2261,13 @@ Nodes (1): Prints a formatted summary of the system health.
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `get()` connect `Community 0` to `Community 1`, `Community 2`, `Community 3`, `Community 4`, `Community 5`, `Community 6`, `Community 7`, `Community 8`, `Community 9`, `Community 10`, `Community 11`, `Community 12`, `Community 13`, `Community 14`, `Community 15`, `Community 16`, `Community 17`, `Community 18`, `Community 19`, `Community 20`, `Community 21`, `Community 22`, `Community 23`, `Community 24`, `Community 25`, `Community 26`, `Community 28`, `Community 29`, `Community 30`, `Community 31`, `Community 32`, `Community 33`, `Community 34`, `Community 35`, `Community 36`, `Community 37`, `Community 38`, `Community 39`, `Community 41`, `Community 42`, `Community 43`, `Community 44`, `Community 46`, `Community 49`, `Community 51`, `Community 60`?**
-  _High betweenness centrality (0.434) - this node is a cross-community bridge._
-- **Why does `info()` connect `Community 0` to `Community 1`, `Community 2`, `Community 3`, `Community 4`, `Community 5`, `Community 6`, `Community 8`, `Community 9`, `Community 10`, `Community 11`, `Community 12`, `Community 13`, `Community 14`, `Community 15`, `Community 17`, `Community 18`, `Community 19`, `Community 20`, `Community 21`, `Community 23`, `Community 24`, `Community 25`, `Community 26`, `Community 27`, `Community 28`, `Community 30`, `Community 31`, `Community 33`, `Community 34`, `Community 35`, `Community 37`, `Community 38`, `Community 39`, `Community 42`, `Community 51`, `Community 52`?**
-  _High betweenness centrality (0.147) - this node is a cross-community bridge._
-- **Why does `error()` connect `Community 0` to `Community 1`, `Community 2`, `Community 3`, `Community 4`, `Community 5`, `Community 6`, `Community 9`, `Community 10`, `Community 11`, `Community 12`, `Community 13`, `Community 15`, `Community 16`, `Community 17`, `Community 18`, `Community 19`, `Community 23`, `Community 24`, `Community 31`, `Community 35`, `Community 39`, `Community 58`?**
-  _High betweenness centrality (0.053) - this node is a cross-community bridge._
-- **Are the 993 inferred relationships involving `get()` (e.g. with `compute_anchor()` and `_get_session_niche()`) actually correct?**
+- **Why does `get()` connect `Community 0` to `Community 1`, `Community 2`, `Community 3`, `Community 4`, `Community 5`, `Community 6`, `Community 7`, `Community 8`, `Community 10`, `Community 11`, `Community 12`, `Community 13`, `Community 14`, `Community 15`, `Community 16`, `Community 17`, `Community 18`, `Community 19`, `Community 20`, `Community 21`, `Community 22`, `Community 23`, `Community 24`, `Community 25`, `Community 26`, `Community 27`, `Community 28`, `Community 29`, `Community 31`, `Community 32`, `Community 33`, `Community 34`, `Community 36`, `Community 37`, `Community 38`, `Community 41`, `Community 42`, `Community 43`, `Community 45`, `Community 49`, `Community 52`, `Community 60`?**
+  _High betweenness centrality (0.446) - this node is a cross-community bridge._
+- **Why does `info()` connect `Community 0` to `Community 1`, `Community 2`, `Community 3`, `Community 4`, `Community 5`, `Community 6`, `Community 7`, `Community 8`, `Community 10`, `Community 11`, `Community 12`, `Community 13`, `Community 14`, `Community 15`, `Community 16`, `Community 17`, `Community 18`, `Community 19`, `Community 20`, `Community 21`, `Community 22`, `Community 23`, `Community 24`, `Community 25`, `Community 26`, `Community 29`, `Community 31`, `Community 32`, `Community 33`, `Community 34`, `Community 36`, `Community 37`, `Community 38`, `Community 42`, `Community 51`, `Community 52`?**
+  _High betweenness centrality (0.111) - this node is a cross-community bridge._
+- **Why does `compile_video()` connect `Community 2` to `Community 0`, `Community 1`, `Community 4`, `Community 6`, `Community 7`, `Community 8`, `Community 10`, `Community 12`, `Community 15`, `Community 16`, `Community 18`, `Community 19`, `Community 20`, `Community 22`, `Community 25`, `Community 29`, `Community 33`, `Community 45`, `Community 51`, `Community 54`?**
+  _High betweenness centrality (0.042) - this node is a cross-community bridge._
+- **Are the 993 inferred relationships involving `get()` (e.g. with `_get_session_niche()` and `detect_hardware_capabilities()`) actually correct?**
   _`get()` has 993 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 545 inferred relationships involving `info()` (e.g. with `load_sessions()` and `_get_session_niche()`) actually correct?**
   _`info()` has 545 INFERRED edges - model-reasoned connections that need verification._

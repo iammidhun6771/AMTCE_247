@@ -1,12 +1,9 @@
 {
   "mcpServers": {
     "ruflo": {
-      "command": "cmd",
+      "command": "node",
       "args": [
-        "/c",
-        "npx",
-        "-y",
-        "ruflo@latest",
+        "C:\\Users\\midhunkrishnapv\\AppData\\Roaming\\npm\\node_modules\\claude-flow\\bin\\cli.js",
         "mcp",
         "start"
       ],

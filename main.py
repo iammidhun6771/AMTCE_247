@@ -6155,6 +6155,9 @@ async def _perform_upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
                         )
             except Exception as _ao_err:
                 logger.debug(f"[ANALYTICS_OPTIMIZER] skipped: {_ao_err}")
+            # ── Pre-initialize mon_data so it's always defined even on failure ──
+            mon_data = session.get("monetization_report", {})
+
             try:
                 # ── NICHE ROUTER: resolve target channel from sidecar ──────────
                 _upload_niche = _get_session_niche(final_path)

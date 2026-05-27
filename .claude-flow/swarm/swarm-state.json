@@ -23,6 +23,46 @@
       "updatedAt": "2026-05-26T14:16:39.257Z",
       "pid": 16768,
       "terminationReason": "host process 16768 exited"
+    },
+    "swarm-1779817248375-j4j2es": {
+      "swarmId": "swarm-1779817248375-j4j2es",
+      "topology": "mesh",
+      "maxAgents": 15,
+      "status": "terminated",
+      "agents": [],
+      "tasks": [],
+      "config": {
+        "topology": "mesh",
+        "maxAgents": 15,
+        "strategy": "specialized",
+        "communicationProtocol": "message-bus",
+        "autoScaling": true,
+        "consensusMechanism": "majority"
+      },
+      "createdAt": "2026-05-26T17:40:48.375Z",
+      "updatedAt": "2026-05-26T17:40:51.587Z",
+      "pid": 18016,
+      "terminationReason": "host process 18016 exited"
+    },
+    "swarm-1779817256201-vw3z8x": {
+      "swarmId": "swarm-1779817256201-vw3z8x",
+      "topology": "hierarchical-mesh",
+      "maxAgents": 15,
+      "status": "terminated",
+      "agents": [],
+      "tasks": [],
+      "config": {
+        "topology": "hierarchical-mesh",
+        "maxAgents": 15,
+        "strategy": "specialized",
+        "communicationProtocol": "message-bus",
+        "autoScaling": true,
+        "consensusMechanism": "majority"
+      },
+      "createdAt": "2026-05-26T17:40:56.201Z",
+      "updatedAt": "2026-05-26T17:41:00.181Z",
+      "pid": 17652,
+      "terminationReason": "host process 17652 exited"
     }
   },
   "version": "3.0.0"
