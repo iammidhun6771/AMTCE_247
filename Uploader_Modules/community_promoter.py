@@ -64,7 +64,7 @@ class CommunityPromoter:
         except:
             return ""
 
-    def _generate_gemini_hook(self, is_short: bool, fashion_data: Optional[Dict], tg_display: str) -> Optional[str]:
+    def _generate_gemini_hook(self, is_short: bool, fashion_data: Optional[Dict], tg_display: str, actress_name: str = "") -> Optional[str]:
         """Uses Gemini to generate a dual-CTA psychological hook (Partner + Clips)."""
         # ── Tier 0: Try to read from the pipeline cache first ─────────────────
         try:
@@ -90,15 +90,21 @@ class CommunityPromoter:
             partner_label = os.getenv("TG_BTN_PARTNER_LABEL", "Find Your Match").replace("🔥 ", "").strip()
             corn_label    = os.getenv("TG_BTN_CORN_LABEL",   "Watch Full Clips").replace("🎬 ", "").strip()
 
+            # Build name anchor — prefer actress name, fallback to neutral
+            name_anchor = actress_name.strip() if actress_name else "this creator"
+
             prompt = [
                 "SYSTEM ROLE:",
                 "You are a growth hacker who specializes in building Telegram groups via YouTube comments.",
                 "Your audience is mostly male viewers who are watching actress / celebrity content on YouTube.",
                 "Your goal: write a YouTube comment that makes them WANT to join the Telegram group.",
-                "The comment MUST NOT contain adult links directly. It ONLY points to the Telegram link provided.",
-                "Use curiosity gaps, exclusivity, and 'members-only hidden content' framing. Keep it YouTube-safe.",
+                "The comment MUST NOT contain adult links, explicit words, or gender-specific sexual language.",
+                "CRITICAL: Do NOT use words like 'girl', 'she', 'her', 'raw footage', 'censorship', or '🔞'.",
+                f"CRITICAL: Use the NAME '{name_anchor}' instead of any gender pronoun.",
+                "Use curiosity gaps, name-based exclusivity, and 'members-only hidden content' framing. Keep it fully YouTube-safe.",
                 "",
                 f"TARGET LINK: {tg_display}",
+                f"ACTRESS / CREATOR NAME: {name_anchor}",
                 "",
                 "CONTEXT:",
             ]
@@ -111,21 +117,22 @@ class CommunityPromoter:
                 if "educational_fact" in fashion_data:
                     prompt.append(f"- Secret Detail: {fashion_data['educational_fact']}")
             else:
-                prompt.append("- Focus: Exclusive hidden actress content and rare unfiltered clips only inside the group.")
+                prompt.append(f"- Focus: Exclusive members-only extended cuts of {name_anchor}'s content that aren't publicly available.")
 
             prompt += [
                 "",
                 "STRATEGY: Write a comment with EXACTLY TWO mini-hooks back-to-back:",
                 f"  HOOK 1 — 'Partner Hook' (label: '{partner_label}'):",
-                "           Tease finding someone exactly like this actress / meeting someone this attractive.",
-                "           Use phrases like: 'meet someone exactly like her', 'your type is waiting',",
-                "           'she has a twin in the group', 'the kind of girl you've been looking for'.",
+                f"           Use {name_anchor}'s name + curiosity. Tease exclusive behind-the-scenes or",
+                "           extended content that only group members can access.",
+                f"           Example safe phrases: '{name_anchor}'s extended cut is inside', 'the part of {name_anchor}'s clip they cut from here',",
+                "           'Members get the version {name_anchor} actually posted before it was taken down'.",
                 f"           End hook 1 with the arrow line: '→ {partner_label}'",
                 "",
                 f"  HOOK 2 — 'Content Hook' (label: '{corn_label}'):",
-                "           Tease exclusive uncut actress clips — stuff YouTube removes / won't show.",
-                "           Use phrases like: 'the full version they deleted', 'what YouTube hides from you',",
-                "           'raw footage only group members can see', 'the clip they reported and removed'.",
+                f"           Tease exclusive members-only {name_anchor} content using FOMO and exclusivity.",
+                "           Use safe phrases like: 'the version they removed', 'only members can watch this',",
+                f"           '{name_anchor}'s full cut — not public', 'this got deleted from YouTube'.",
                 f"           End hook 2 with the arrow line: '→ {corn_label}'",
                 "",
                 "RULES:",
@@ -133,14 +140,14 @@ class CommunityPromoter:
                 "2. Each hook = 1 teaser sentence + its '→ Label' line.",
                 "3. Separate the two hooks with a blank line.",
                 "4. MUST end with a standalone line: 👉 [TARGET LINK]",
-                "5. Use max 1-2 emojis total. No hashtags. No explicit words.",
+                f"5. Use the name '{name_anchor}' — never use 'she', 'her', 'girl'. Max 1-2 emojis. No hashtags. No explicit words.",
                 "6. Output ONLY the raw comment text. No labels, no markdown.",
                 "",
-                "EXAMPLE OUTPUT:",
-                "She has a twin in the group who's looking for exactly your type. 👀",
+                "EXAMPLE OUTPUT (use this tone, but with the real actress name):",
+                f"{name_anchor}'s extended cut didn't survive YouTube's filter — it's inside the group. 👀",
                 f"→ {partner_label}",
                 "",
-                "The full version they took down is still live inside. YouTube can't touch it.",
+                f"The version of {name_anchor}'s clip they flagged and removed? Still live for members.",
                 f"→ {corn_label}",
                 f"👉 {tg_display}",
             ]
@@ -226,7 +233,7 @@ class CommunityPromoter:
 
         return None
 
-    def _get_template(self, clip_count: int, promo_url: str, is_short: bool = True, custom_text: Optional[str] = None, fashion_data: Optional[Dict] = None) -> str:
+    def _get_template(self, clip_count: int, promo_url: str, is_short: bool = True, custom_text: Optional[str] = None, fashion_data: Optional[Dict] = None, actress_name: str = "") -> str:
         """
         YouTube Comment Strategy: ONLY drive Telegram GROUP JOINS.
         - No CPA links in YouTube comments (protects channel).
@@ -238,10 +245,22 @@ class CommunityPromoter:
         clean_handle = tg_link.replace("https://t.me/", "@") if tg_link else os.getenv("BRAND_NAME", "")
         tg_display = tg_link if tg_link else clean_handle
 
+        # Extract actress name from custom_text (the monetization_cta field = video title)
+        # custom_text is typically the video title like "Yesha Sagar: Hot Outfit"
+        # We extract the first part before ":" or "-" as the actress name
+        _actress = actress_name.strip()
+        if not _actress and custom_text:
+            _raw = str(custom_text).split(":")[0].split("-")[0].strip()
+            # Only use it if it looks like a name (not a long sentence)
+            if _raw and len(_raw.split()) <= 4:
+                _actress = _raw
+        if not _actress:
+            _actress = "this creator"
+
         # 1. Try Gemini Primary Hook
-        gemini_hook = self._generate_gemini_hook(is_short, fashion_data, tg_display)
+        gemini_hook = self._generate_gemini_hook(is_short, fashion_data, tg_display, actress_name=_actress)
         if gemini_hook:
-            logger.info("✨ Using Gemini-generated actress funnel hook.")
+            logger.info(f"✨ Using Gemini-generated hook for '{_actress}'.")
             return gemini_hook
 
         # 2. Secondary Fallback Hooks — Actress-Funnel Oriented (YouTube-Safe)
@@ -251,65 +270,65 @@ class CommunityPromoter:
         corn_label    = os.getenv("TG_BTN_CORN_LABEL",   "🎬 Watch Full Clips").strip()
 
         if is_short:
-            # Dual-hook fallback pool — actress fan funnel + exclusive content hooks
+            # Dual-hook fallback pool — name-based, YouTube-safe curiosity hooks
             teasers = [
-                # Set 1 — Twin / look-alike + deleted clip
-                f"She has a twin in the group who's looking for exactly your type. 👀\n"
-                f"→ {partner_label}\n"
-                f"\n"
-                f"The full version they reported and deleted is still up inside.\n"
+                # Set 1 — Extended cut + members-only
+                f"{_actress}'s extended cut didn't make it past YouTube's filter. 👀\n"
                 f"→ {corn_label}\n"
+                f"\n"
+                f"Members get behind-the-scenes content {_actress} posted before it got taken down.\n"
+                f"→ {partner_label}\n"
                 f"👉 {tg_display}",
 
-                # Set 2 — Find her type + what YouTube hides
-                f"If she's your type, someone exactly like her is already in the group.\n"
-                f"→ {partner_label}\n"
-                f"\n"
-                f"YouTube took down the original. The uncut version is inside. Members only.\n"
+                # Set 2 — Deleted version
+                f"YouTube flagged and removed {_actress}'s original upload. The full version is inside.\n"
                 f"→ {corn_label}\n"
+                f"\n"
+                f"Members-only access. Not public anywhere else.\n"
+                f"→ {partner_label}\n"
                 f"👉 {tg_display}",
 
-                # Set 3 — Real connection + raw footage
-                f"The kind of girl you've been scrolling for — she's already waiting inside.\n"
-                f"→ {partner_label}\n"
-                f"\n"
-                f"Raw footage they can't post here. No censorship inside the group 🔞\n"
+                # Set 3 — FOMO / secret cut
+                f"This is the edited version. {_actress}'s full cut is inside the group. 🔑\n"
                 f"→ {corn_label}\n"
+                f"\n"
+                f"Group members get exclusive content that doesn't go public.\n"
+                f"→ {partner_label}\n"
                 f"👉 {tg_display}",
 
-                # Set 4 — Hinglish variant (India audience)
-                f"Iska jaisi hi ladki group mein hai — seriously, apna wala type dhundh.\n"
-                f"→ {partner_label}\n"
-                f"\n"
-                f"Jo yahan nahi dikhate, wo sab andar hai. Members only 🔞\n"
+                # Set 4 — Hinglish variant (India audience) — name-based
+                f"{_actress} ka full version yahan nahi daal sakte. Group mein available hai. 👀\n"
                 f"→ {corn_label}\n"
+                f"\n"
+                f"Members ko exclusive content milta hai jo publicly nahi hai.\n"
+                f"→ {partner_label}\n"
                 f"👉 {tg_display}",
 
-                # Set 5 — Exclusive members club framing
-                f"The group has girls exactly like her looking for someone. I'm not kidding.\n"
-                f"→ {partner_label}\n"
-                f"\n"
-                f"Full uncut clips. The ones the platform keeps removing. All inside.\n"
+                # Set 5 — Platform removed it
+                f"The platform keeps removing {_actress}'s best clips. We archive them inside.\n"
                 f"→ {corn_label}\n"
+                f"\n"
+                f"Join to get notified every time new content drops. Members only.\n"
+                f"→ {partner_label}\n"
                 f"👉 {tg_display}",
 
-                # Set 6 — Secret content + type match
-                f"They keep deleting her best clips here. We saved them. Join to see.\n"
+                # Set 6 — Behind the scenes
+                f"{_actress}'s behind-the-scenes clips never go on the main channel. 🔑\n"
                 f"→ {corn_label}\n"
                 f"\n"
-                f"Also — someone exactly your type is already in the group. Not clickbait.\n"
+                f"Every upload — exclusive to group members before it's anywhere else.\n"
                 f"→ {partner_label}\n"
                 f"👉 {tg_display}",
             ]
             return random.choice(teasers)
         else:
-            # Long-form / compilation — actress fan dual hook
+            # Long-form / compilation — name-based, YouTube-safe
             return (
-                f"If she's exactly your type, someone like her is already inside this group.\n"
-                f"→ {partner_label}\n"
-                f"\n"
-                f"And the uncut compilations they keep removing from YouTube? All inside. No censorship.\n"
+                f"{_actress}'s extended compilation — the version YouTube keeps flagging is inside the group.\n"
                 f"→ {corn_label}\n"
+                f"\n"
+                f"Members get early access to every upload before it goes public. No waiting.\n"
+                f"→ {partner_label}\n"
                 f"👉 {tg_display}"
             )
 
@@ -552,7 +571,13 @@ class CommunityPromoter:
                 return
 
             # 2. Generate Content
-            text = self._get_template(clip_count, promo_link, is_short=is_short, custom_text=custom_text, fashion_data=fashion_data)
+            # Extract actress name from custom_text (typically the video title e.g. "Yesha Sagar")
+            _actress_name = ""
+            if custom_text:
+                _raw_name = str(custom_text).split(":")[0].split("-")[0].strip()
+                if _raw_name and len(_raw_name.split()) <= 4:
+                    _actress_name = _raw_name
+            text = self._get_template(clip_count, promo_link, is_short=is_short, custom_text=custom_text, fashion_data=fashion_data, actress_name=_actress_name)
             
             # UNIQUE HASH: Include video_id so we can post the same text on DIFFERENT videos
             content_hash = hashlib.md5(f"{video_id}:{text}".encode()).hexdigest()
