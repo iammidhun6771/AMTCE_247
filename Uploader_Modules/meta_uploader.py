@@ -228,65 +228,80 @@ class AsyncMetaUploader:
         url = f"{GRAPH_API_URL}/{ig_id}/media"
         
         caption = AsyncMetaUploader._clean_caption(caption)
-        
+
         try:
             # Step 1: Init (Resumable)
-            init_params = {
+            # NOTE: Use data= (form body) not params= (URL query) to prevent
+            # caption with emojis/special chars from being malformed in the URL.
+            init_data = {
                 "upload_type": "resumable",
                 "media_type": "REELS" if upload_type_env == "REELS" else "VIDEO",
                 "caption": caption,
                 "access_token": ig_token
             }
-            
-            req_init = await AsyncMetaUploader._retry_request("POST", url, params=init_params)
-            if "uri" not in req_init:
-                logger.error(f"IG Init Failed: {req_init}")
-                return {"status": "failed_init", "error": str(req_init)}
-                
-            upload_url = req_init["uri"]
-            
-            # Step 2: Upload Binary
-            with open(video_path, "rb") as f:
-                data = f.read()
 
-            headers = {
+            req_init = await AsyncMetaUploader._retry_request("POST", url, data=init_data)
+            if "uri" not in req_init:
+                logger.error(f"IG Init Failed (400/error response): {req_init}")
+                return {"status": "failed_init", "error": str(req_init)}
+
+            upload_url = req_init["uri"]
+            container_id_from_init = req_init.get("id")
+            logger.info(f"📤 [IG_UPLOAD] Got rupload URI. Container (init)={container_id_from_init}")
+
+            # Step 2: Upload Binary
+            # IMPORTANT: Do NOT set Content-Length manually — httpx sets it
+            # automatically when content=bytes. A duplicate Content-Length
+            # header causes rupload to return 400.
+            file_size = os.path.getsize(video_path)
+            with open(video_path, "rb") as f:
+                video_bytes = f.read()
+
+            upload_headers = {
                 "Authorization": f"OAuth {ig_token}",
                 "offset": "0",
-                "Content-Length": str(len(data)),
-                "X-Entity-Length": str(len(data)),
-                "Content-Type": "video/mp4"
+                "file_offset": "0",           # required by some rupload versions
+                "X-Entity-Length": str(file_size),
+                "X-Entity-Type": "video/mp4",
+                "Content-Type": "video/mp4",
             }
-            req_upload = await AsyncMetaUploader._retry_request("POST", upload_url, content=data, headers=headers)
-            
+            logger.info(f"📤 [IG_UPLOAD] Uploading {file_size} bytes to rupload...")
+            req_upload = await AsyncMetaUploader._retry_request(
+                "POST", upload_url, content=video_bytes, headers=upload_headers
+            )
+            logger.info(f"📤 [IG_UPLOAD] rupload response: {req_upload}")
+
             # Extract Container ID
             container_id = None
-            if "id" in req_upload:
+            if isinstance(req_upload, dict) and "id" in req_upload:
                 container_id = req_upload["id"]
-            elif "id" in req_init:
-                container_id = req_init["id"]
-                
+            elif container_id_from_init:
+                container_id = container_id_from_init
+
             if not container_id:
-                logger.error("IG Upload: No Container ID found.")
-                return {"status": "failed_upload", "error": "No Container ID"}
-                
+                logger.error(f"IG Upload: No Container ID found. Upload response: {req_upload}")
+                return {"status": "failed_upload", "error": f"No Container ID. rupload said: {req_upload}"}
+
+            logger.info(f"📤 [IG_UPLOAD] Container ID={container_id}. Waiting for IG processing...")
+
             # Wait for processing
             is_ready = await AsyncMetaUploader._wait_for_media_status(container_id, ig_token)
             if not is_ready:
                 logger.error("IG Container processing failed or timed out.")
                 return {"status": "failed_processing", "error": "Container status ERROR or timed out"}
-            
+
             # Step 4: Publish
             pub_url = f"{GRAPH_API_URL}/{ig_id}/media_publish"
             pub_params = {
                 "creation_id": container_id,
                 "access_token": ig_token
             }
-            
+
             pub_res = await AsyncMetaUploader._retry_request("POST", pub_url, params=pub_params)
             if "id" in pub_res:
                 media_id = pub_res["id"]
                 logger.info(f"✅ Instagram Upload Success: {media_id}")
-                
+
                 # Fetch Permalink
                 link = ""
                 try:
@@ -304,6 +319,7 @@ class AsyncMetaUploader:
         except Exception as e:
             logger.error(f"IG Upload Exception: {e}")
             return {"status": "failed", "error": str(e)}
+
 
     @staticmethod
     async def _host_temp_image(file_path: str) -> str:
