@@ -832,21 +832,32 @@ class AsyncMetaUploader:
         raise last_error
 
     @staticmethod
-    async def _wait_for_media_status(container_id, token, timeout=60):
+    async def _wait_for_media_status(container_id, token, timeout=300):
+        """
+        Polls Instagram container status until FINISHED or ERROR.
+        Timeout default is 300s (5 min) — Reels processing can take 2-5 min.
+        Images usually resolve in <10s.
+        """
         start = time.time()
         url = f"{GRAPH_API_URL}/{container_id}"
-        
-        async with httpx.AsyncClient(timeout=10.0) as client:
+        poll_interval = 8  # seconds between polls
+
+        async with httpx.AsyncClient(timeout=15.0) as client:
             while time.time() - start < timeout:
                 try:
-                    resp = await client.get(url, params={"access_token": token, "fields": "status_code"})
+                    resp = await client.get(url, params={"access_token": token, "fields": "status_code,status"})
                     res = resp.json()
                     status = res.get("status_code")
+                    elapsed = int(time.time() - start)
+                    logger.info(f"⏳ [IG_STATUS] container={container_id} status={status} elapsed={elapsed}s")
                     if status == "FINISHED":
                         return True
                     if status == "ERROR":
+                        logger.error(f"❌ [IG_STATUS] Container processing ERROR: {res.get('status', res)}")
                         return False
-                    await asyncio.sleep(3)
-                except:
-                    await asyncio.sleep(3)
+                    await asyncio.sleep(poll_interval)
+                except Exception as _poll_e:
+                    logger.warning(f"⚠️ [IG_STATUS] Poll exception: {_poll_e}")
+                    await asyncio.sleep(poll_interval)
+        logger.error(f"❌ [IG_STATUS] Timed out after {timeout}s waiting for container {container_id}")
         return False
