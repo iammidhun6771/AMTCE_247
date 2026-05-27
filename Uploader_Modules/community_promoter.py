@@ -109,9 +109,16 @@ class CommunityPromoter:
         English is ALWAYS first (widest reach regardless of %).
         The list is deduplicated (e.g. UAE + Saudi + Oman all map to Arabic once).
 
-        Update geo_analytics.json from YouTube Analytics → Geography tab to
-        keep the language selection current.
+        Auto-refreshes geo_analytics.json from YouTube Analytics API if it is
+        older than 24h — no manual update required.
         """
+        # ── Auto-refresh from YouTube Analytics API if stale ──────────────────
+        try:
+            from Analytics_Modules.analytics_engine import refresh_geo_analytics
+            refresh_geo_analytics()   # no-op if file is fresh (<24h)
+        except Exception as _re:
+            logger.debug("[GEO] refresh_geo_analytics skipped: %s", _re)
+
         try:
             with open(GEO_ANALYTICS_FILE, "r", encoding="utf-8") as fh:
                 geo = json.load(fh)

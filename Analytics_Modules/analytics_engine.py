@@ -42,6 +42,128 @@ _MIN_VIEWS_FOR_RETENTION = int(os.getenv("YT_MIN_VIEWS_FOR_RETENTION", "30"))
 # YouTube Analytics quota cost per retention report request: ~10 units
 _RETRY_BACKOFF_S = [2, 5, 15]
 
+GEO_ANALYTICS_FILE = "The_json/geo_analytics.json"
+_GEO_REFRESH_INTERVAL_H = 24   # refresh at most once per day
+
+
+def refresh_geo_analytics(niche: str = None) -> bool:
+    """
+    Fetches channel-level geographic viewer data from the YouTube Analytics API
+    and writes/updates The_json/geo_analytics.json.
+
+    Called automatically by community_promoter._get_top_languages() when the
+    cached file is stale (>24h old). Returns True on success, False on failure
+    (caller falls back to the existing cached file silently).
+    """
+    # ── Staleness check — skip if file was updated < 24h ago ──────────────────
+    if os.path.exists(GEO_ANALYTICS_FILE):
+        try:
+            with open(GEO_ANALYTICS_FILE, "r", encoding="utf-8") as fh:
+                existing = json.load(fh)
+            last_updated = existing.get("last_updated", "")
+            if last_updated:
+                last_dt = datetime.strptime(last_updated, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+                age_h = (datetime.now(timezone.utc) - last_dt).total_seconds() / 3600
+                if age_h < _GEO_REFRESH_INTERVAL_H:
+                    logger.info(
+                        "🌐 [GEO] geo_analytics.json is %.1fh old — skipping refresh (threshold=%dh).",
+                        age_h, _GEO_REFRESH_INTERVAL_H,
+                    )
+                    return True
+        except Exception as _e:
+            logger.debug("[GEO] Could not check staleness: %s", _e)
+
+    # ── Build YouTube Analytics service using existing credentials ─────────────
+    try:
+        from Uploader_Modules.uploader import get_valid_credentials
+        from googleapiclient.discovery import build
+        creds      = get_valid_credentials(niche=niche)
+        yt_analytics = build("youtubeAnalytics", "v2", credentials=creds)
+    except Exception as e:
+        logger.warning("🌐 [GEO] Could not build Analytics service: %s", e)
+        return False
+
+    # ── Query: views by country (all-time) ────────────────────────────────────
+    try:
+        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        resp = (
+            yt_analytics.reports()
+            .query(
+                ids="channel==mine",
+                startDate="2020-01-01",
+                endDate=today,
+                metrics="views",
+                dimensions="country",
+                sort="-views",
+                maxResults=50,
+            )
+            .execute()
+        )
+    except Exception as e:
+        logger.warning("🌐 [GEO] Analytics API call failed: %s", e)
+        return False
+
+    rows = resp.get("rows", [])
+    if not rows:
+        logger.warning("🌐 [GEO] No geography rows returned from Analytics API.")
+        return False
+
+    # ── Map ISO-3166 alpha-2 codes → full names ────────────────────────────────
+    _CODE_TO_NAME: Dict[str, str] = {
+        "IN": "India",                 "US": "United States",
+        "PK": "Pakistan",              "BD": "Bangladesh",
+        "GB": "United Kingdom",        "DE": "Germany",
+        "AE": "United Arab Emirates",  "MX": "Mexico",
+        "MY": "Malaysia",              "CA": "Canada",
+        "SA": "Saudi Arabia",          "FR": "France",
+        "AU": "Australia",             "LK": "Sri Lanka",
+        "TR": "Türkiye",               "OM": "Oman",
+        "ES": "Spain",                 "NP": "Nepal",
+        "ID": "Indonesia",             "BR": "Brazil",
+        "IT": "Italy",                 "JP": "Japan",
+        "KR": "South Korea",           "RU": "Russia",
+        "NL": "Netherlands",           "SE": "Sweden",
+        "QA": "Qatar",                 "KW": "Kuwait",
+        "BH": "Bahrain",               "EG": "Egypt",
+        "NG": "Nigeria",               "ZA": "South Africa",
+        "PH": "Philippines",           "TH": "Thailand",
+        "VN": "Vietnam",               "IR": "Iran",
+    }
+
+    total_views = sum(int(r[1]) for r in rows)
+    if total_views == 0:
+        logger.warning("🌐 [GEO] Total views = 0 — cannot compute percentages.")
+        return False
+
+    countries = []
+    for row in rows:
+        code  = row[0]
+        views = int(row[1])
+        pct   = round(views / total_views * 100, 1)
+        name  = _CODE_TO_NAME.get(code, code)
+        countries.append({"country": name, "views": views, "pct": pct})
+
+    geo_data = {
+        "_note": "Auto-updated from YouTube Analytics API. Refreshes every 24h.",
+        "last_updated": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+        "total_views_sampled": total_views,
+        "countries": countries,
+    }
+
+    try:
+        os.makedirs(os.path.dirname(GEO_ANALYTICS_FILE) or ".", exist_ok=True)
+        with open(GEO_ANALYTICS_FILE, "w", encoding="utf-8") as fh:
+            json.dump(geo_data, fh, indent=2, ensure_ascii=False)
+        logger.info(
+            "✅ [GEO] geo_analytics.json updated: %d countries, %d total views.",
+            len(countries), total_views,
+        )
+        return True
+    except Exception as e:
+        logger.warning("🌐 [GEO] Failed to write geo_analytics.json: %s", e)
+        return False
+
+
 
 class AnalyticsEngine:
     """
