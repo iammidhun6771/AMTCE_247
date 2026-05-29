@@ -112,5 +112,6 @@ with gr.Blocks(title="AMTCE Face Swapper") as app:
         outputs=[output_media, status_text]
     )
 
-if __name__ == "__main__":
-    app.launch(inbrowser=True, server_port=7865)
+if __name__ == "__main__":    # Detect Colab
+    is_colab = "google.colab" in sys.modules
+    app.launch(inbrowser=not is_colab, server_port=7865, share=is_colab)
