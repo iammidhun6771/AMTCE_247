@@ -97,12 +97,35 @@ class PublishQueue:
                 logger.info(f"📥 Added to Publish Queue: {os.path.basename(video_path)} (Total: {len(queue)})")
 
     @classmethod
-    def pop_one(cls):
+    def pop_one(cls, last_folder=None, last_gender=None):
         with cls._lock:
             queue = cls.load()
             if not queue:
                 return None
-            item = queue.pop(0)
+
+            def get_gender(folder):
+                f = folder.lower()
+                if f.startswith("paparazzi"): return "men"
+                if f.startswith("fashion"): return "women_fashion"
+                return "women_general"
+
+            # Try to find a clip that differs in both account and gender
+            best_idx = 0
+            for i, item in enumerate(queue):
+                f = item["actress_folder"]
+                g = get_gender(f)
+                if last_folder and f == last_folder:
+                    continue
+                if last_gender and g == last_gender:
+                    # Still consider it if we only have same gender but different account
+                    best_idx = i
+                    continue
+                
+                # Different account AND different gender (or no previous) -> optimal choice
+                best_idx = i
+                break
+
+            item = queue.pop(best_idx)
             cls.save(queue)
             
             # Add to published registry

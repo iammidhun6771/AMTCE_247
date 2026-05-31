@@ -8039,7 +8039,32 @@ async def cmd_auction_stop(update: Update, context: ContextTypes.DEFAULT_TYPE):
     SchedulerDaemon.job_close_auction()
     await safe_reply(update, "✅ Auction manually STOPPED! Winner calculation complete.")
 
+async def cmd_tg_status(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Admin command: show current Telegram group routing configuration."""
+    if update.effective_user.id not in ADMIN_IDS:
+        return
+    try:
+        from Uploader_Modules.telegram_router import get_router_status
+        status = get_router_status()
+        lines = ["📡 <b>Telegram Group Router Status</b>", ""]
+        for cat, info in status.items():
+            icon = {"fashion": "👗", "nsfw": "🔞", "general": "📰"}.get(cat, "📡")
+            lines.append(f"{icon} <b>{cat.upper()}</b>")
+            lines.append(f"   Env prefix: <code>{info['prefix']}</code>")
+            if info["groups"]:
+                for i, g in enumerate(info["groups"]):
+                    marker = "▶" if i == info["next_index"] else " "
+                    lines.append(f"   {marker} [{i}] {g}")
+            else:
+                lines.append("   ⚠️ <i>No groups configured — will fall back to general</i>")
+            lines.append("")
+        lines.append("💡 Add secrets: <code>TELEGRAM_CONFIG_FASHION</code> / <code>TELEGRAM_CONFIG_ADULT</code>")
+        await safe_reply(update, "\n".join(lines))
+    except Exception as e:
+        await safe_reply(update, f"❌ tg_status error: {e}")
+
 # --- END AUCTION ENGINE HANDLERS ---
+
 
 def main():
     # Register Signal Handler for Ctrl+C
@@ -8106,6 +8131,7 @@ def main():
     app.add_handler(CommandHandler("confirm", cmd_confirm))
     app.add_handler(CommandHandler("auction_start", cmd_auction_start))
     app.add_handler(CommandHandler("auction_stop", cmd_auction_stop))
+    app.add_handler(CommandHandler("tg_status", cmd_tg_status))     # Telegram routing status
     # Face-swap photo handler must come FIRST so it intercepts WAITING_FOR_FACE_IMAGE
     # state before the auction screenshot handler can claim the photo.
     app.add_handler(MessageHandler(filters.PHOTO, handle_face_swap_photo))
@@ -8487,6 +8513,148 @@ def process_clip(video_path: str, actress_title: str) -> str | None:
 
 
 
+def run_ci_mode():
+    logger.info("🤖 [CI] Running AMTCE in One-Shot CI Mode...")
+    
+    # 1. Check and update env / heal json files
+    check_and_update_env()
+    
+    # 2. Run post timing analysis to optimize schedule dynamically
+    try:
+        from Actress_Modules.posting_time_analyzer import get_recommendations, patch_env
+        recs = get_recommendations()
+        patch_env(recs)
+        logger.info("✅ [CI] Successfully optimized posting times based on ledger.")
+    except Exception as e:
+        logger.warning(f"⚠️ [CI] Failed to run posting time analyzer: {e}")
+        
+    # 3. Run harvest cycle once
+    try:
+        from Actress_Modules.actress_scheduler import run_daily_cycle
+        logger.info("🚜 [CI] Starting daily harvest cycle...")
+        run_daily_cycle()
+        logger.info("✅ [CI] Harvest cycle complete.")
+    except Exception as e:
+        logger.error(f"❌ [CI] Harvest cycle failed: {e}")
+        
+    # 4. Immediately process and publish outstanding queue items in CI (Human-like round-robin)
+    try:
+        from Actress_Modules.actress_publisher import PublishQueue, _process_queue_item, _auto_fill_queue_from_downloads
+        import time, random
+        
+        # Pull any un-queued clips from downloads/ into the queue first
+        _auto_fill_queue_from_downloads()
+        
+        queue = PublishQueue.load()
+        if queue:
+            logger.info(f"📤 [CI] Found {len(queue)} queued clip(s). Starting human-like round-robin publishing...")
+            
+            start_time = time.time()
+            max_runtime = 5.5 * 3600  # 5.5 hours limit
+            last_folder = None
+            last_gender = None
+            
+            while PublishQueue.load():
+                if time.time() - start_time > max_runtime:
+                    logger.warning("⏳ [CI] Approaching 6-hour GitHub Actions limit. Stopping publishing early to allow safe shutdown.")
+                    break
+                    
+                # We need to manually pop round robin because _process_queue_item pops internally.
+                # So we update _process_queue_item to accept parameters!
+                # Wait, we already updated pop_one to accept parameters. 
+                # Let's peek at the next item by doing it manually or rewriting _process_queue_item call.
+                # To keep it simple, we pop it here and pass it to _process_queue_item, or just let _process_queue_item do it?
+                # Actually, if we just modify `actress_publisher.py` to make `_process_queue_item` accept (last_folder, last_gender) we can do:
+                # But to avoid touching too many things, we just pop the item here, and process it inline if needed.
+                # Let's just use pop_one with round_robin args!
+                item = PublishQueue.pop_one(last_folder, last_gender)
+                if not item:
+                    break
+                    
+                video_path     = item['video_path']
+                actress_title  = item['actress_title']
+                actress_folder = item['actress_folder']
+                
+                # Update trackers
+                last_folder = actress_folder
+                f_lower = actress_folder.lower()
+                if f_lower.startswith("paparazzi"): last_gender = "men"
+                elif f_lower.startswith("fashion"): last_gender = "women_fashion"
+                else: last_gender = "women_general"
+                
+                logger.info(f"🎬 Popped video for processing: {os.path.basename(video_path)} (Gender: {last_gender})")
+                
+                # Inline the processing so we don't need to rewrite _process_queue_item entirely
+                final_video_path = video_path
+                try:
+                    result_path = process_clip(video_path, actress_title)
+                    if result_path:
+                        final_video_path = result_path
+                        logger.info(f"✅ AMTCE PROCESS SUCCESS: output → {final_video_path}")
+                except Exception as e:
+                    logger.error(f"⚠️ Failed to run AMTCE PROCESS: {e}")
+
+                import re, os
+                if os.path.exists(final_video_path) and final_video_path != video_path:
+                    base_dir   = os.path.dirname(final_video_path)
+                    raw_stem   = os.path.splitext(os.path.basename(video_path))[0]
+                    ext        = os.path.splitext(video_path)[1]
+                    nums       = re.findall(r"\d+", raw_stem)
+                    idx        = int(nums[0]) if nums else 1
+                    safe_title = actress_title.replace("/", "-").replace("\\", "-")
+                    clean_name = f"{safe_title}_{idx:02d}{ext}"
+                    titled_path = os.path.join(base_dir, clean_name)
+                    try:
+                        os.replace(final_video_path, titled_path)
+                        final_video_path = titled_path
+                    except Exception:
+                        pass
+
+                from Actress_Modules.actress_scheduler import _auto_publish_clip
+                _auto_publish_clip(final_video_path, actress_title, actress_folder)
+                
+                # Cleanup .mp4
+                if os.path.exists(final_video_path):
+                    try: os.remove(final_video_path)
+                    except Exception: pass
+                if os.path.exists(video_path) and final_video_path != video_path:
+                    try: os.remove(video_path)
+                    except Exception: pass
+
+                # Human-like delay (if queue still has items)
+                if PublishQueue.load():
+                    sleep_secs = random.randint(300, 900)  # 5 to 15 mins
+                    logger.info(f"💤 Sleeping for {sleep_secs//60}m {sleep_secs%60}s to mimic human behavior before next upload...")
+                    time.sleep(sleep_secs)
+
+            logger.info("✅ [CI] Queue processing phase complete.")
+        else:
+            logger.info("📭 [CI] Publish queue is empty.")
+    except Exception as e:
+        logger.error(f"❌ [CI] Queue processing failed: {e}")
+
+    # 5. Trigger auction opening if we are inside the auction window (7–9 PM IST = 13:30–15:30 UTC)
+    #    This ensures the auction ALWAYS fires on time even if no persistent bot is running.
+    try:
+        import datetime as _dt
+        now_utc = _dt.datetime.utcnow()
+        auction_open_utc  = now_utc.replace(hour=13, minute=30, second=0, microsecond=0)
+        auction_close_utc = now_utc.replace(hour=15, minute=30, second=0, microsecond=0)
+        in_auction_window = auction_open_utc <= now_utc <= auction_close_utc
+
+        if in_auction_window:
+            from Uploader_Modules.telegram_auction_engine import SchedulerDaemon
+            logger.info("🎬 [CI] Inside auction window — triggering auction open with featured reel...")
+            SchedulerDaemon.job_open_auction()
+            logger.info("✅ [CI] Auction open triggered.")
+        else:
+            logger.info(f"⏰ [CI] Not in auction window (now UTC={now_utc.strftime('%H:%M')}). Skipping auction trigger.")
+    except Exception as e:
+        logger.error(f"❌ [CI] Auction trigger failed: {e}")
+
+    logger.info("👋 [CI] One-Shot CI Execution Finished successfully. Exiting.")
+
+
 if __name__ == "__main__":
     lazy_load_genai_trace()
     import argparse
@@ -8503,6 +8671,8 @@ if __name__ == "__main__":
 
     if args.input:
         run_cli_mode(args)
+    elif os.getenv("GITHUB_ACTIONS") == "true":
+        run_ci_mode()
     else:
         # Run Bot
         main()
