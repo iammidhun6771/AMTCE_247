@@ -1026,7 +1026,6 @@ def run_paparazzi_cycle() -> None:
     
     try:
         with open(cursor_path, "w", encoding="utf-8") as f:
-            import json
             json.dump(cursor, f, indent=2)
     except Exception as e:
         logger.warning("Failed to save apify_cursor.json: %s", e)
