@@ -4076,11 +4076,11 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # If still just the title, add a viral psychological hook (gender-neutral)
         if display_caption == title:
             fallback_hooks = [
-                f"✨ The secret everyone's asking about... {title} 👇\n\nLink in bio / Telegram for exactly where to get this before it sells out 🛍️",
-                f"🤫 Stop scrolling! {title} is finally back in stock.\n\nPeople are gatekeeping this, but the direct affiliate link is in our Telegram ✨",
-                f"POV: You found the exact {title} everyone is obsessed with 🎀\n\nGrab it through the link in bio/Telegram before it vanishes again! 🛒💨",
-                f"Literally the best {title} we've seen all month ✨\n\nClick the link in bio/Telegram to shop this exact look and treat yourself! 🛍️💖",
-                f"If you've been looking for {title}, we found the exact match! 🔍✨\n\nLink in our Telegram to shop the affiliate link directly. Don't miss out! 🏃💨"
+                f"✨ Stay stunning like {title}, this outfit is so beautiful it gives you a totally unique look ✨\n\nLink in bio / Telegram to grab it 🛍️",
+                f"🤫 Look flawless like {title}! This dress is an absolute head-turner and gives you that perfect unique vibe.\n\nDirect affiliate link in our Telegram ✨",
+                f"🎀 You'll look absolutely stunning in this, just like {title}! The fit is so unique and gorgeous.\n\nGrab it through the link in bio/Telegram! 🛒💨",
+                f"💖 Get that unique, beautiful glow just like {title} ✨\n\nClick the link in bio/Telegram to shop this exact look and treat yourself! 🛍️💖",
+                f"🔍✨ A dress so beautiful it instantly upgrades your vibe, just like {title}!\n\nLink in our Telegram to shop directly. Don't miss out! 🏃💨"
             ]
             display_caption = random.choice(fallback_hooks)
         # [FIX] Prefer detected/config brand over 'swargawasal'
