@@ -8549,6 +8549,8 @@ def run_ci_mode():
         if queue:
             logger.info(f"📤 [CI] Found {len(queue)} queued clip(s). Starting human-like round-robin publishing...")
             
+            import os, re, time, random
+            
             start_time = time.time()
             max_runtime = 5.5 * 3600  # 5.5 hours limit
             last_folder = None
@@ -8559,14 +8561,6 @@ def run_ci_mode():
                     logger.warning("⏳ [CI] Approaching 6-hour GitHub Actions limit. Stopping publishing early to allow safe shutdown.")
                     break
                     
-                # We need to manually pop round robin because _process_queue_item pops internally.
-                # So we update _process_queue_item to accept parameters!
-                # Wait, we already updated pop_one to accept parameters. 
-                # Let's peek at the next item by doing it manually or rewriting _process_queue_item call.
-                # To keep it simple, we pop it here and pass it to _process_queue_item, or just let _process_queue_item do it?
-                # Actually, if we just modify `actress_publisher.py` to make `_process_queue_item` accept (last_folder, last_gender) we can do:
-                # But to avoid touching too many things, we just pop the item here, and process it inline if needed.
-                # Let's just use pop_one with round_robin args!
                 item = PublishQueue.pop_one(last_folder, last_gender)
                 if not item:
                     break
@@ -8594,7 +8588,6 @@ def run_ci_mode():
                 except Exception as e:
                     logger.error(f"⚠️ Failed to run AMTCE PROCESS: {e}")
 
-                import re, os
                 if os.path.exists(final_video_path) and final_video_path != video_path:
                     base_dir   = os.path.dirname(final_video_path)
                     raw_stem   = os.path.splitext(os.path.basename(video_path))[0]
