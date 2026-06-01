@@ -3561,6 +3561,14 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         return
 
+    # Guard: already processing — ignore stray messages
+    if state == "PROCESSING":
+        await safe_reply(
+            update,
+            "⏳ Already processing your previous request. Please wait until it finishes."
+        )
+        return
+
     # Case 2: Waiting for Title (Prioritize over local file check)
     if state == "WAITING_FOR_TITLE":
         pending_url = session.get("pending_url")
@@ -3641,6 +3649,14 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 f"⚠️ SYSTEM PROTECTION ACTIVE:\n{h_verdict['summary']}\n\nProcessing paused for safety.",
             )
             return
+
+        # CRITICAL: Lock session to PROCESSING immediately so any subsequent
+        # messages (from concurrent_updates=True) don't also become titles.
+        with acquire_session_lock(user_id):
+            if user_id in user_sessions:
+                user_sessions[user_id]["state"] = "PROCESSING"
+                user_sessions[user_id]["title"] = custom_title
+                save_session(user_id)
 
         await safe_reply(update, f"✅ Title set: '{custom_title}'")
 
