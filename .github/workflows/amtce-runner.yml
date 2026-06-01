@@ -311,7 +311,8 @@ jobs:
         git add -f Actress_Modules/account_daily_limits.json || true
         git add -f publish_queue.json || true
         git add -f The_json/telegram_router_state.json || true
-        # NOTE: downloads/ is intentionally NOT committed — clips are ephemeral.
+        git add -f The_json/music_usage.json || true
+        git add -f Original_audio/pool_metadata.json || true
         
         if git diff --cached --quiet; then
           echo "No dedup state changes to commit."

@@ -492,6 +492,14 @@ def _get_session_niche(video_path: str) -> str:
                 _d = json.load(_f)
             _n = _d.get("detected_niche", "")
             if _n:
+                # Sanitize the raw niche name so it matches the GitHub workflow credentials folders
+                if "fashion" in _n.lower() or "style" in _n.lower():
+                    _n = "Fashion"
+                elif "nsfw" in _n.lower() or "adult" in _n.lower():
+                    _n = "NSFW"
+                elif "paparazzi" in _n.lower():
+                    _n = "Paparazzi"
+                
                 logger.info(f"📂 [NICHE ROUTER] Sidecar niche read: '{_n}' ← {path.name}")
                 return _n
         except Exception:
