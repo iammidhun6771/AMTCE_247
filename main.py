@@ -8608,112 +8608,170 @@ def run_ci_mode():
     # 1. Check and update env / heal json files
     check_and_update_env()
     
-    # 2. Run post timing analysis to optimize schedule dynamically
-    try:
-        from Actress_Modules.posting_time_analyzer import get_recommendations, patch_env
-        recs = get_recommendations()
-        patch_env(recs)
-        logger.info("✅ [CI] Successfully optimized posting times based on ledger.")
-    except Exception as e:
-        logger.warning(f"⚠️ [CI] Failed to run posting time analyzer: {e}")
-        
-    # 3. Run harvest cycle ONLY if triggered by a GitHub Actions schedule (cron)
     github_event = os.getenv("GITHUB_EVENT_NAME", "").lower()
-    if github_event == "schedule":
+    github_cron  = os.getenv("GITHUB_CRON", "")
+
+    logger.info(f"📊 [CI Trigger Info] Event: '{github_event}' | Cron: '{github_cron}'")
+
+    is_scheduled = (github_event == "schedule")
+
+    # Define Harvester vs Publisher crons precisely
+    harvester_crons = {
+        '30 4 * * *',
+        '30 5 * * *',
+        '30 8 * * *',
+        '30 9 * * *',
+        '30 15 * * *',
+        '0 16 * * *',
+        '30 13 * * 1-6'
+    }
+
+    publisher_crons = {
+        '45 3 * * *',
+        '45 4 * * *',
+        '45 7 * * *',
+        '45 8 * * *',
+        '45 14 * * *',
+        '32 22 * * *',
+        '0 2 * * *'
+    }
+
+    should_harvest = False
+    should_publish = False
+
+    if is_scheduled:
+        # Standardize cron string (strip extra whitespace)
+        cron_key = " ".join(github_cron.split())
+        if cron_key in harvester_crons:
+            should_harvest = True
+            logger.info(f"🚜 [CI] Scheduled Harvester Slot Fired ('{cron_key}')")
+        elif cron_key in publisher_crons:
+            should_publish = True
+            logger.info(f"📤 [CI] Scheduled Publisher Slot Fired ('{cron_key}')")
+        else:
+            # Fallback if a cron is not in the set, run harvest/publish based on minute heuristic
+            try:
+                minute = int(cron_key.split()[0])
+                if minute in (30, 0):
+                    should_harvest = True
+                    logger.info(f"🚜 [CI] Scheduled Harvester (Fallback by minute: {minute})")
+                else:
+                    should_publish = True
+                    logger.info(f"📤 [CI] Scheduled Publisher (Fallback by minute: {minute})")
+            except Exception:
+                should_harvest = True
+                logger.info("🚜 [CI] Scheduled Trigger (Defaulting to Harvester)")
+    else:
+        # Manual run / push / workflow_dispatch
+        # Check overrides in .env
+        from dotenv import load_dotenv
+        for p in ["Credentials/.env", ".env"]:
+            if os.path.exists(p):
+                load_dotenv(p, override=True)
+                break
+
+        force_harvest = os.getenv("FORCE_HARVEST", "no").lower() in ("yes", "true", "1")
+        force_publish = os.getenv("FORCE_NEXT_BATCH", "no").lower() in ("yes", "true", "1")
+
+        if force_harvest:
+            should_harvest = True
+            logger.info("🔥 [CI] Manual Override: FORCE_HARVEST=yes detected.")
+        if force_publish:
+            should_publish = True
+            logger.info("🔥 [CI] Manual Override: FORCE_NEXT_BATCH=yes detected.")
+
+        if not should_harvest and not should_publish:
+            logger.info("⏭️ [CI] Skipping all automations. Manual trigger runs in dry/setup-only mode.")
+
+    # --- 1. HARVEST PHASE ---
+    if should_harvest:
+        # Run post timing analysis to optimize schedule dynamically
+        try:
+            from Actress_Modules.posting_time_analyzer import get_recommendations, patch_env
+            recs = get_recommendations()
+            patch_env(recs)
+            logger.info("✅ [CI] Successfully optimized posting times based on ledger.")
+        except Exception as e:
+            logger.warning(f"⚠️ [CI] Failed to run posting time analyzer: {e}")
+
         try:
             from Actress_Modules.actress_scheduler import run_daily_cycle
-            logger.info("🚜 [CI] Scheduled trigger detected. Starting daily harvest cycle...")
+            logger.info("🚜 [CI] Starting daily harvest cycle...")
             run_daily_cycle()
             logger.info("✅ [CI] Harvest cycle complete.")
         except Exception as e:
             logger.error(f"❌ [CI] Harvest cycle failed: {e}")
-    else:
-        logger.info(f"⏭️ [CI] Skipping daily harvest cycle (Trigger event: '{github_event}' is not 'schedule').")
-        
-    # 4. Immediately process and publish outstanding queue items in CI (Human-like round-robin)
-    try:
-        from Actress_Modules.actress_publisher import PublishQueue, _process_queue_item, _auto_fill_queue_from_downloads
-        import time, random
-        
-        # Pull any un-queued clips from downloads/ into the queue first
-        _auto_fill_queue_from_downloads()
-        
-        queue = PublishQueue.load()
-        if queue:
-            logger.info(f"📤 [CI] Found {len(queue)} queued clip(s). Starting human-like round-robin publishing...")
-            
-            
-            start_time = time.time()
-            max_runtime = 5.5 * 3600  # 5.5 hours limit
-            last_folder = None
-            last_gender = None
-            
-            while PublishQueue.load():
-                if time.time() - start_time > max_runtime:
-                    logger.warning("⏳ [CI] Approaching 6-hour GitHub Actions limit. Stopping publishing early to allow safe shutdown.")
-                    break
-                    
+
+    # --- 2. PUBLISH PHASE ---
+    if should_publish:
+        try:
+            from Actress_Modules.actress_publisher import PublishQueue, _process_queue_item, _auto_fill_queue_from_downloads
+            import time, random
+
+            # Pull any un-queued clips from downloads/ into the queue first
+            _auto_fill_queue_from_downloads()
+
+            queue = PublishQueue.load()
+            if queue:
+                logger.info(f"📤 [CI] Found {len(queue)} queued clip(s). Processing EXACTLY ONE queued item to avoid posting like a maniac...")
+                
+                # Setup trackers for pop_one if necessary
+                last_folder = None
+                last_gender = None
+                
                 item = PublishQueue.pop_one(last_folder, last_gender)
-                if not item:
-                    break
+                if item:
+                    video_path     = item['video_path']
+                    actress_title  = item['actress_title']
+                    actress_folder = item['actress_folder']
                     
-                video_path     = item['video_path']
-                actress_title  = item['actress_title']
-                actress_folder = item['actress_folder']
-                
-                # Update trackers
-                last_folder = actress_folder
-                f_lower = actress_folder.lower()
-                if f_lower.startswith("paparazzi"): last_gender = "men"
-                elif f_lower.startswith("fashion"): last_gender = "women_fashion"
-                else: last_gender = "women_general"
-                
-                logger.info(f"🎬 Popped video for processing: {os.path.basename(video_path)} (Gender: {last_gender})")
-                
-                # Inline the processing so we don't need to rewrite _process_queue_item entirely
-                final_video_path = video_path
-                try:
-                    result_path = process_clip(video_path, actress_title)
-                    if result_path:
-                        final_video_path = result_path
-                        logger.info(f"✅ AMTCE PROCESS SUCCESS: output → {final_video_path}")
-                except Exception as e:
-                    logger.error(f"⚠️ Failed to run AMTCE PROCESS: {e}")
-
-                if os.path.exists(final_video_path) and final_video_path != video_path:
-                    base_dir   = os.path.dirname(final_video_path)
-                    raw_stem   = os.path.splitext(os.path.basename(video_path))[0]
-                    ext        = os.path.splitext(video_path)[1]
-                    nums       = re.findall(r"\d+", raw_stem)
-                    idx        = int(nums[0]) if nums else 1
-                    safe_title = actress_title.replace("/", "-").replace("\\", "-")
-                    clean_name = f"{safe_title}_{idx:02d}{ext}"
-                    titled_path = os.path.join(base_dir, clean_name)
+                    f_lower = actress_folder.lower()
+                    if f_lower.startswith("paparazzi"): last_gender = "men"
+                    elif f_lower.startswith("fashion"): last_gender = "women_fashion"
+                    else: last_gender = "women_general"
+                    
+                    logger.info(f"🎬 Popped video for processing: {os.path.basename(video_path)} (Gender: {last_gender})")
+                    
+                    final_video_path = video_path
                     try:
-                        os.replace(final_video_path, titled_path)
-                        final_video_path = titled_path
-                    except Exception:
-                        pass
+                        result_path = process_clip(video_path, actress_title)
+                        if result_path:
+                            final_video_path = result_path
+                            logger.info(f"✅ AMTCE PROCESS SUCCESS: output → {final_video_path}")
+                    except Exception as e:
+                        logger.error(f"⚠️ Failed to run AMTCE PROCESS: {e}")
 
-                from Actress_Modules.actress_scheduler import _auto_publish_clip
-                _auto_publish_clip(final_video_path, actress_title, actress_folder)
-                
-                # Cleanup .mp4
-                if os.path.exists(final_video_path):
-                    try: os.remove(final_video_path)
-                    except Exception: pass
-                if os.path.exists(video_path) and final_video_path != video_path:
-                    try: os.remove(video_path)
-                    except Exception: pass
+                    if os.path.exists(final_video_path) and final_video_path != video_path:
+                        base_dir   = os.path.dirname(final_video_path)
+                        raw_stem   = os.path.splitext(os.path.basename(video_path))[0]
+                        ext        = os.path.splitext(video_path)[1]
+                        nums       = re.findall(r"\d+", raw_stem)
+                        idx        = int(nums[0]) if nums else 1
+                        safe_title = actress_title.replace("/", "-").replace("\\", "-")
+                        clean_name = f"{safe_title}_{idx:02d}{ext}"
+                        titled_path = os.path.join(base_dir, clean_name)
+                        try:
+                            os.replace(final_video_path, titled_path)
+                            final_video_path = titled_path
+                        except Exception:
+                            pass
 
-                # Removed math sleep loop as per user request to schedule natively
-                # using peak human retention timing inside _auto_publish_clip.
-
-            logger.info("✅ [CI] Queue processing phase complete.")
-        else:
-            logger.info("📭 [CI] Publish queue is empty.")
-    except Exception as e:
-        logger.error(f"❌ [CI] Queue processing failed: {e}")
+                    from Actress_Modules.actress_scheduler import _auto_publish_clip
+                    _auto_publish_clip(final_video_path, actress_title, actress_folder)
+                    
+                    # Cleanup .mp4
+                    if os.path.exists(final_video_path):
+                        try: os.remove(final_video_path)
+                        except Exception: pass
+                    if os.path.exists(video_path) and final_video_path != video_path:
+                        try: os.remove(video_path)
+                        except Exception: pass
+                        
+                logger.info("✅ [CI] Queue item processing phase complete.")
+            else:
+                logger.info("📭 [CI] Publish queue is empty.")
+        except Exception as e:
+            logger.error(f"❌ [CI] Queue processing failed: {e}")
 
     # 5. Trigger auction opening if we are inside the auction window (7–9 PM IST = 13:30–15:30 UTC)
     #    This ensures the auction ALWAYS fires on time even if no persistent bot is running.
