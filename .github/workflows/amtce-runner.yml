@@ -288,10 +288,6 @@ jobs:
 
     - name: Run AMTCE Engine
       run: |
-        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-          export FORCE_HARVEST="yes"
-          export FORCE_NEXT_BATCH="yes"
-        fi
         python main.py
 
     - name: Commit Dedup State to Git
