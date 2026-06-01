@@ -407,6 +407,9 @@ user_sessions = {}
 user_result_locks = {}
 g_session_lock = threading.Lock()
 
+WATCHDOG_TIMEOUT = int(os.getenv("JOB_WATCHDOG_SECS", "1200"))  # 20 min stuck-job kill
+_job_start_time: float = 0.0  # epoch timestamp when current job started
+
 
 def get_session_lock(user_id):
     with g_session_lock:
@@ -3293,6 +3296,30 @@ async def cmd_versus(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await safe_reply(update, f"❌ Error: {e}")
 
 
+
+
+async def cmd_status(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """/status — Show current queue and job state."""
+    is_busy   = PROCESSING_LOCK.locked()
+    q_size    = QUEUE_SIZE
+    now       = time.time()
+    job_secs  = int(now - _job_start_time) if (is_busy and _job_start_time) else 0
+
+    if is_busy:
+        m, s   = divmod(job_secs, 60)
+        stuck  = " ⚠️ POSSIBLY STUCK" if job_secs > WATCHDOG_TIMEOUT * 0.8 else ""
+        status = (
+            f"⚙️ <b>Bot Status</b>\n\n"
+            f"🔄 Job running: {m}m {s}s{stuck}\n"
+            f"📋 Queued behind it: {q_size} job(s)\n\n"
+            f"⏱️ Watchdog limit: {WATCHDOG_TIMEOUT//60} min"
+        )
+    else:
+        status = "✅ <b>Bot Status</b>\n\n💤 Idle — no job running.\n📋 Queue: empty"
+
+    await update.message.reply_text(status, parse_mode="HTML")
+
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await safe_reply(
         update, "❓ Please send an Instagram reel or YouTube link to begin."
@@ -3732,92 +3759,84 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
 
         async with PROCESSING_LOCK:
+            global _job_start_time
+            _job_start_time = time.time()
+
             if is_queued:
                 with QS_LOCK:
                     QUEUE_SIZE = max(0, QUEUE_SIZE - 1)
 
             await safe_reply(update, "✨ Starting process...")
-            # Original Logic...
 
-        video_path = None
-        unique_filename = None
-        url_hash = "local_upload"
+            video_path = None
+            unique_filename = None
+            url_hash = "local_upload"
 
-        import hashlib
+            import hashlib
 
-        # --- PATH A: PRE-DOWNLOADED FILE (Direct Upload) ---
-        source_type = "raw_upload"  # Default
-        if pending_local_path:
-            if os.path.exists(pending_local_path):
-                video_path = pending_local_path
-                # Generate pseudo-hash for consistency
-                url_hash = hashlib.md5(
-                    f"{pending_local_path}_{time.time()}".encode()
-                ).hexdigest()[:8]
-                # Rename to include Title for clarity? (Optional, but good for debugging)
-                # We'll stick to the existing path to avoid file errors.
-            else:
-                await safe_reply(
-                    update,
-                    "❌ Error: Uploaded file verification failed. Please try again.",
+            # --- PATH A: PRE-DOWNLOADED FILE (Direct Upload) ---
+            source_type = "raw_upload"
+            if pending_local_path:
+                if os.path.exists(pending_local_path):
+                    video_path = pending_local_path
+                    url_hash = hashlib.md5(
+                        f"{pending_local_path}_{time.time()}".encode()
+                    ).hexdigest()[:8]
+                else:
+                    await safe_reply(
+                        update,
+                        "❌ Error: Uploaded file verification failed. Please try again.",
+                    )
+                    _job_start_time = 0.0
+                    return
+
+            # --- PATH B: URL DOWNLOAD ---
+            elif pending_url:
+                source_type = "link"
+                await safe_reply(update, "📥 Downloading content...")
+
+                url_hash = hashlib.md5(pending_url.encode()).hexdigest()[:8]
+
+                clean_title = "".join(
+                    [c for c in custom_title if c.isalnum() or c in (" ", "-", "_")]
+                ).strip()[:30]
+
+                GlobalState.set_busy(True)
+
+                download_result = await asyncio.to_thread(
+                    downloader.download_video, pending_url, custom_title=custom_title
                 )
+
+                if isinstance(download_result, tuple):
+                    video_path, was_skipped = download_result
+                else:
+                    video_path, was_skipped = download_result, False
+
+                if was_skipped:
+                    logger.info("⏳ Processing continues, but Raw Telegram Upload will be skipped.")
+                    await safe_reply(
+                        update,
+                        f"♻️ **Smart Reuse**\nFile exists. Skipping download & group upload, but continuing AI processing...",
+                        force=True,
+                    )
+
+                with acquire_session_lock(user_id):
+                    if user_id not in user_sessions:
+                        user_sessions[user_id] = {}
+                    user_sessions[user_id]["is_reused"] = was_skipped
+
+            if not video_path:
+                GlobalState.set_busy(False)
+                _job_start_time = 0.0
+                await safe_reply(update, "❌ Download failed (Strict Abort).")
+                with acquire_session_lock(user_id):
+                    user_sessions.pop(user_id, None)
+                    try:
+                        os.remove(os.path.join(JOB_DIR, f"session_{user_id}.json"))
+                    except:
+                        pass
                 return
 
-        # --- PATH B: URL DOWNLOAD ---
-        elif pending_url:
-            source_type = "link"
-            await safe_reply(update, "📥 Downloading content...")
-
-            # Generate Unique ID from URL
-            url_hash = hashlib.md5(pending_url.encode()).hexdigest()[:8]
-
-            # Sanitize title for filename
-            clean_title = "".join(
-                [c for c in custom_title if c.isalnum() or c in (" ", "-", "_")]
-            ).strip()[:30]
-            # unique_filename = f"{clean_title}_{url_hash}.mp4" # REMOVED: Hash Naming
-
-            GlobalState.set_busy(True)
-
-            # HARDENING: Strict Abort - No Retry
-            download_result = await asyncio.to_thread(
-                downloader.download_video, pending_url, custom_title=custom_title
-            )
-
-            # Unpack path and skip flag
-            if isinstance(download_result, tuple):
-                video_path, was_skipped = download_result
-            else:
-                video_path, was_skipped = download_result, False
-
-            # [USER REQUEST] SMART REUSE LOGIC:
-            # If reuse detected, we DO NOT abort processing.
-            # But we MUST skip the "Raw Sync Upload" to Telegram group later.
-            if was_skipped:
-                logger.info(
-                    f"⏳ Processing continues, but Raw Telegram Upload will be skipped."
-                )
-                await safe_reply(
-                    update,
-                    f"♻️ **Smart Reuse**\nFile exists. Skipping download & group upload, but continuing AI processing...",
-                    force=True,
-                )
-
-            # Store Reuse Flag in Session
-            with acquire_session_lock(user_id):
-                if user_id not in user_sessions:
-                    user_sessions[user_id] = {}
-                user_sessions[user_id]["is_reused"] = was_skipped
-        if not video_path:
-            GlobalState.set_busy(False)
-            await safe_reply(update, "❌ Download failed (Strict Abort).")
-            with acquire_session_lock(user_id):
-                user_sessions.pop(user_id, None)
-                try:
-                    os.remove(os.path.join(JOB_DIR, f"session_{user_id}.json"))
-                except:
-                    pass
-            return
 
         # --- COMMON PROCESSING ---
         if not video_path:
@@ -8176,6 +8195,7 @@ def main():
     app.add_handler(TypeHandler(Update, global_debug_logger), group=-1)
 
     app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("status", cmd_status))      # Queue & job status
     app.add_handler(CommandHandler("getid", cmd_getid))  # Helper: get chat ID of any group
     app.add_handler(CommandHandler("ytcode", cmd_ytcode))  # YouTube Headless Auth code receiver
     app.add_handler(CommandHandler("getbatch", getbatch))
