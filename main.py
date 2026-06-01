@@ -8617,14 +8617,18 @@ def run_ci_mode():
     except Exception as e:
         logger.warning(f"⚠️ [CI] Failed to run posting time analyzer: {e}")
         
-    # 3. Run harvest cycle once
-    try:
-        from Actress_Modules.actress_scheduler import run_daily_cycle
-        logger.info("🚜 [CI] Starting daily harvest cycle...")
-        run_daily_cycle()
-        logger.info("✅ [CI] Harvest cycle complete.")
-    except Exception as e:
-        logger.error(f"❌ [CI] Harvest cycle failed: {e}")
+    # 3. Run harvest cycle ONLY if triggered by a GitHub Actions schedule (cron)
+    github_event = os.getenv("GITHUB_EVENT_NAME", "").lower()
+    if github_event == "schedule":
+        try:
+            from Actress_Modules.actress_scheduler import run_daily_cycle
+            logger.info("🚜 [CI] Scheduled trigger detected. Starting daily harvest cycle...")
+            run_daily_cycle()
+            logger.info("✅ [CI] Harvest cycle complete.")
+        except Exception as e:
+            logger.error(f"❌ [CI] Harvest cycle failed: {e}")
+    else:
+        logger.info(f"⏭️ [CI] Skipping daily harvest cycle (Trigger event: '{github_event}' is not 'schedule').")
         
     # 4. Immediately process and publish outstanding queue items in CI (Human-like round-robin)
     try:
