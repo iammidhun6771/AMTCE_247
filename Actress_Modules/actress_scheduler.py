@@ -1220,10 +1220,10 @@ def start_scheduler() -> None:
         _salesman_log()
         if _harvest_state.should_catchup(_configured_slot_strs):
             logger.warning(
-                "🔄 [HARVEST SALESMAN] Missed harvest detected on startup — "
-                "firing catch-up cycle NOW before entering normal schedule loop"
+                "🔄 [HARVEST SALESMAN] Missed harvest detected on startup. "
+                "Catch-up disabled to save Apify quota. Will wait for next scheduled slot."
             )
-            _startup_catchup_needed = True
+            # _startup_catchup_needed = True
 
     # Compute countdown for startup log
     _init_wait, _init_label = _seconds_until_next_run()
