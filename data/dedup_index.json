@@ -8615,5 +8615,12 @@
     "phash": "8c433489f0e40b5e",
     "source": "user_submission",
     "created_at": "2026-05-25T16:47:30.541850"
+  },
+  "54695d8d_2653a6bb": {
+    "video_id": "54695d8d",
+    "sha256": "2653a6bb6a8d1cd516b30b7c89a6657b7912648ea8afd66f0388f8fac9c46e45",
+    "phash": "e59a782480021442",
+    "source": "user_submission",
+    "created_at": "2026-06-01T07:36:22.857658"
   }
 }

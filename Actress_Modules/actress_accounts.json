@@ -3,14 +3,18 @@
   "_version": "2.0",
   "account_mode_enabled": false,
   "primary": {
-    "_comment": "Actress folders exist in social_media/. route auto-set by credential validator.",
+    "_comment": "Actress folders exist in social_media/. route auto-set by credential validator."
+  },
+  "secondary": {
+    "_comment": "No actress folder yet. route=General_Fallback until folder+creds are created.",
     "Sakshi Malik": {
       "id": "sakshimalik",
       "route": "General_Fallback"
+    },
+    "Fashion_Style": {
+      "id": "fashion_style",
+      "route": "General_Fallback"
     }
-  },
-  "secondary": {
-    "_comment": "No actress folder yet. route=General_Fallback until folder+creds are created."
   },
   "nsfw": {
     "_comment": "NSFW accounts. Real name as key. route auto-managed like primary/secondary.",
@@ -72,7 +76,9 @@
   },
   "_pending_next_session": {
     "_comment": "Auto-populated by credential_validator when all primary folders are fully credentialed.",
-    "folders_to_create": []
+    "folders_to_create": [
+      "Sakshi Malik"
+    ]
   },
   "_paparazzi": {
     "source_accounts": [
