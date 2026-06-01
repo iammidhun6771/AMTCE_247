@@ -190,6 +190,13 @@ class AnalyticsEngine:
         self._quota_limit = int(os.getenv("YT_QUOTA_LIMIT", "9500"))
 
         if not _mock_mode:
+            if credentials is None:
+                try:
+                    from Uploader_Modules.uploader import get_valid_credentials
+                    credentials = get_valid_credentials()
+                except Exception as e:
+                    logger.warning("AnalyticsEngine: could not auto-load credentials from uploader: %s", e)
+
             try:
                 from googleapiclient.discovery import build
                 self._yt_analytics = build(
