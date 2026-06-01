@@ -8656,6 +8656,8 @@ def run_ci_mode():
             should_harvest = True
             should_publish = True
             logger.info(f"🏷️ [CI] Scheduled Auction Pre-Post Fired ('{cron_key}'): Harvest + Publish enabled!")
+        elif cron_key == '30 15 * * 1-6':
+            logger.info(f"🎬 [CI] Scheduled Auction Close Slot Fired ('{cron_key}').")
         else:
             # Fallback if a cron is not in the set, run harvest/publish based on minute heuristic
             try:
@@ -8787,24 +8789,54 @@ def run_ci_mode():
         except Exception as e:
             logger.error(f"❌ [CI] Queue processing failed: {e}")
 
-    # 5. Trigger auction opening if we are inside the auction window (7–9 PM IST = 13:30–15:30 UTC)
-    #    This ensures the auction ALWAYS fires on time even if no persistent bot is running.
+    # 5. Precise Auction triggers based on cron schedule / time of day
     try:
+        from Uploader_Modules.telegram_auction_engine import SchedulerDaemon
         import datetime as _dt
-        now_utc = _dt.datetime.utcnow()
-        auction_open_utc  = now_utc.replace(hour=13, minute=30, second=0, microsecond=0)
-        auction_close_utc = now_utc.replace(hour=15, minute=30, second=0, microsecond=0)
-        in_auction_window = auction_open_utc <= now_utc <= auction_close_utc
-
-        if in_auction_window:
-            from Uploader_Modules.telegram_auction_engine import SchedulerDaemon
-            logger.info("🎬 [CI] Inside auction window — triggering auction open with featured reel...")
-            SchedulerDaemon.job_open_auction()
-            logger.info("✅ [CI] Auction open triggered.")
+        
+        now_local = _dt.datetime.now() # TZ is Asia/Kolkata, so this is IST
+        weekday = now_local.isoweekday() # 1-7 (Mon-Sun)
+        cron_key = " ".join(github_cron.split())
+        
+        # Determine auction action
+        auction_action = None
+        
+        if is_scheduled:
+            if cron_key == '0 12 * * 1-6':
+                auction_action = "announce"
+            elif cron_key == '30 13 * * *':
+                auction_action = "open"
+            elif cron_key == '30 15 * * 1-6':
+                auction_action = "close"
         else:
-            logger.info(f"⏰ [CI] Not in auction window (now UTC={now_utc.strftime('%H:%M')}). Skipping auction trigger.")
+            # Manual / test trigger fallback: check current IST time (Asia/Kolkata)
+            # Announce: 17:00 - 18:29 IST (Mon-Sat)
+            if weekday <= 6 and (now_local.hour == 17 or (now_local.hour == 18 and now_local.minute < 30)):
+                auction_action = "announce"
+            # Open: 19:00 - 19:59 IST (everyday)
+            elif now_local.hour == 19:
+                auction_action = "open"
+            # Close: 21:00 - 21:59 IST (Mon-Sat)
+            elif weekday <= 6 and now_local.hour == 21:
+                auction_action = "close"
+
+        if auction_action == "announce":
+            logger.info("🎬 [CI Auction] Firing deal announcement...")
+            SchedulerDaemon.job_announce_deal()
+            logger.info("✅ [CI Auction] Deal announcement complete.")
+        elif auction_action == "open":
+            logger.info("🎬 [CI Auction] Firing auction open...")
+            SchedulerDaemon.job_open_auction()
+            logger.info("✅ [CI Auction] Auction open complete.")
+        elif auction_action == "close":
+            logger.info("🎬 [CI Auction] Firing auction close...")
+            SchedulerDaemon.job_close_auction()
+            logger.info("✅ [CI Auction] Auction close complete.")
+        else:
+            logger.info(f"⏰ [CI Auction] No auction action triggered for current schedule/time (IST: {now_local.strftime('%H:%M')}).")
+            
     except Exception as e:
-        logger.error(f"❌ [CI] Auction trigger failed: {e}")
+        logger.error(f"❌ [CI Auction] Trigger failed: {e}")
 
     logger.info("👋 [CI] One-Shot CI Execution Finished successfully. Exiting.")
 

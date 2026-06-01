@@ -83,8 +83,18 @@ class PublishQueue:
                     pass
             
             if video_path in published:
-                logger.info(f"⏭️ Skipping already published clip: {os.path.basename(video_path)}")
-                return
+                if os.path.exists(video_path):
+                    # Physical file exists, meaning it was never actually published (or needs republishing)
+                    logger.info(f"🔄 Clip physically exists on disk but is marked as published. Bypassing skip and cleaning registry: {os.path.basename(video_path)}")
+                    try:
+                        published.remove(video_path)
+                        with open(_PUBLISHED_REGISTRY, "w", encoding="utf-8") as f:
+                            json.dump(sorted(published), f, indent=2)
+                    except Exception as e:
+                        logger.warning(f"⚠️ Could not clean published registry for {video_path}: {e}")
+                else:
+                    logger.info(f"⏭️ Skipping already published clip: {os.path.basename(video_path)}")
+                    return
                 
             if not any(q["video_path"] == video_path for q in queue):
                 queue.append({

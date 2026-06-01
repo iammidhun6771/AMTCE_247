@@ -27,6 +27,9 @@ on:
     # Auction pre-post (Mon–Sat only): publish the featured reel + schedule auction
     - cron: '0 12 * * 1-6'  # 17:30 IST → publish 30min before auction teaser at 18:00
 
+    # Auction close (Mon–Sat only): trigger close and settlement
+    - cron: '30 15 * * 1-6' # 21:00 IST → close the auction
+
 
 jobs:
   run-amtce:
