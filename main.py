@@ -8670,23 +8670,15 @@ def run_ci_mode():
                 load_dotenv(p, override=True)
                 break
 
-        # If manually triggered via UI (workflow_dispatch), default to YES so it actually runs.
-        # Otherwise, for generic events (push, etc.), default to NO.
-        default_force = "yes" if github_event == "workflow_dispatch" else "no"
-        
-        # Check environment first (which might be set by the workflow YAML inputs)
-        env_harvest = os.getenv("FORCE_HARVEST", "")
-        env_publish = os.getenv("FORCE_NEXT_BATCH", "")
-        
-        force_harvest = (env_harvest if env_harvest else default_force).lower() in ("yes", "true", "1")
-        force_publish = (env_publish if env_publish else default_force).lower() in ("yes", "true", "1")
+        force_harvest = os.getenv("FORCE_HARVEST", "no").lower() in ("yes", "true", "1")
+        force_publish = os.getenv("FORCE_NEXT_BATCH", "no").lower() in ("yes", "true", "1")
 
         if force_harvest:
             should_harvest = True
-            logger.info("🔥 [CI] Manual Trigger: FORCE_HARVEST=yes detected or defaulted.")
+            logger.info("🔥 [CI] Manual Override: FORCE_HARVEST=yes detected.")
         if force_publish:
             should_publish = True
-            logger.info("🔥 [CI] Manual Trigger: FORCE_NEXT_BATCH=yes detected or defaulted.")
+            logger.info("🔥 [CI] Manual Override: FORCE_NEXT_BATCH=yes detected.")
 
         if not should_harvest and not should_publish:
             logger.info("⏭️ [CI] Skipping all automations. Manual trigger runs in dry/setup-only mode.")
@@ -8819,8 +8811,9 @@ if __name__ == "__main__":
 
     if args.input:
         run_cli_mode(args)
-    elif os.getenv("GITHUB_ACTIONS") == "true":
+    elif os.getenv("GITHUB_ACTIONS") == "true" and os.getenv("GITHUB_EVENT_NAME", "") != "workflow_dispatch":
         run_ci_mode()
     else:
-        # Run Bot
+        # Run Persistent Bot & Schedulers
+        logger.info("🤖 Starting AMTCE in Persistent Server Mode (Schedulers Active)")
         main()
