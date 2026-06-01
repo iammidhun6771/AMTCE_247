@@ -193,12 +193,9 @@ def get_valid_credentials(niche: str = None):
             print("If you are in Colab/Headless, look for the '🔗' link below.")
             print("!"*60 + "\n")
             try:
-                # [SAFETY] Explicitly check if the secret file exists before calling the script
-                if not client_secret_file or not os.path.exists(client_secret_file):
-                    logger.error(f"❌ CRITICAL: client_secret.json not found at {client_secret_file or 'DEFAULT'}. "
-                                 "Auto-auth cannot proceed. Please ensure Credentials/client_secret.json is present.")
-                    raise Exception(f"Missing client_secret.json at {client_secret_file}")
-
+                # Let auth_youtube.py handle the missing client_secret file
+                # so it can send the nice Telegram notification to the user.
+                
                 # Auto-run the auth script with the specific niche paths if resolved
                 auth_cmd = [sys.executable, "scripts/auth_youtube.py"]
                 if token_file:

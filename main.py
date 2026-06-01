@@ -3299,6 +3299,62 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
+async def cmd_ytcode(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """
+    /ytcode          -> Triggers YouTube auth refresh (sends Google sign-in link to this chat)
+    /ytcode <code>   -> Submits the auth code/URL back to complete the flow
+    """
+    user_id = update.effective_user.id
+    if user_id not in ADMIN_IDS:
+        await update.message.reply_text("⛔ Unauthorized.")
+        return
+
+    if not context.args:
+        # ── TRIGGER: run auth script in background, it sends the link via Telegram ──
+        await update.message.reply_text(
+            "🔄 <b>Triggering YouTube auth refresh...</b>\n\n"
+            "The Google sign-in link will appear here in a moment.\n"
+            "Tap it → sign in → copy the code shown → send:\n"
+            "<code>/ytcode YOUR_CODE</code>",
+            parse_mode="HTML"
+        )
+        import threading
+        def _run_auth():
+            try:
+                subprocess.run(
+                    [sys.executable, "scripts/auth_youtube.py"],
+                    cwd=os.path.abspath("."),
+                    timeout=660
+                )
+            except Exception as e:
+                logger.error(f"auth_youtube background run failed: {e}")
+        threading.Thread(target=_run_auth, daemon=True).start()
+        return
+
+    # ── SUBMIT: paste the code or full URL back ───────────────────────────────
+    raw = " ".join(context.args).strip()
+
+    if raw.startswith("http"):
+        from urllib.parse import urlparse, parse_qs
+        parsed = urlparse(raw)
+        qs = parse_qs(parsed.query)
+        extracted = qs.get("code", [None])[0]
+        if extracted:
+            raw = extracted
+            await update.message.reply_text("✅ Extracted code from URL. Exchanging for token...")
+        else:
+            await update.message.reply_text("❌ No 'code=' found in that URL. Paste just the code.")
+            return
+    else:
+        await update.message.reply_text("✅ Code received. Exchanging for token...")
+
+    try:
+        os.makedirs("Credentials", exist_ok=True)
+        with open("Credentials/yt_auth_code.txt", "w", encoding="utf-8") as f:
+            f.write(raw)
+    except Exception as e:
+        await update.message.reply_text(f"❌ Failed to save code: {e}")
+
 async def cmd_getid(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
     /getid — Returns the chat_id of the current chat.
@@ -8120,9 +8176,8 @@ def main():
     app.add_handler(TypeHandler(Update, global_debug_logger), group=-1)
 
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(
-        CommandHandler("getid", cmd_getid)
-    )  # Helper: get chat ID of any group
+    app.add_handler(CommandHandler("getid", cmd_getid))  # Helper: get chat ID of any group
+    app.add_handler(CommandHandler("ytcode", cmd_ytcode))  # YouTube Headless Auth code receiver
     app.add_handler(CommandHandler("getbatch", getbatch))
     app.add_handler(CommandHandler("setbatch", setbatch))
     app.add_handler(CommandHandler("compile_last", compile_last))
