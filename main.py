@@ -3944,20 +3944,22 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # [CLAW] Universal Vanguard: every short goes through 4-turn Plan→Execute→Verify→Repair
         from claw_vanguard.vanguard_director import VanguardDirector as _VD
         _director = _VD()
-        _claw_result = await asyncio.to_thread(
-            _director.execute_mission,
-            niche=os.getenv("DEFAULT_NICHE", "viral"),
-            title=title,
-            video_request=(
-                f"Niche: {os.getenv('DEFAULT_NICHE', 'viral').upper()} | "
-                f"Title: {title} | "
-                f"Mode: {'Batch' if len(target_paths) > 1 else 'Single'} | "
-                f"Strategy: Viral hooks & cinematic transitions | "
-                f"Source: {source_type}"
-            ),
-            input_paths=[str(p) for p in target_paths],
-            output_path=str(final_target),
-        )
+        # Acquire lock again to strictly serialize the heavy AI rendering (preventing parallel collapse)
+        async with PROCESSING_LOCK:
+            _claw_result = await asyncio.to_thread(
+                _director.execute_mission,
+                niche=os.getenv("DEFAULT_NICHE", "viral"),
+                title=title,
+                video_request=(
+                    f"Niche: {os.getenv('DEFAULT_NICHE', 'viral').upper()} | "
+                    f"Title: {title} | "
+                    f"Mode: {'Batch' if len(target_paths) > 1 else 'Single'} | "
+                    f"Strategy: Viral hooks & cinematic transitions | "
+                    f"Source: {source_type}"
+                ),
+                input_paths=[str(p) for p in target_paths],
+                output_path=str(final_target),
+            )
         final_path = _claw_result.output if _claw_result.success else None
         # Clear real_mrp env var — must not bleed into the next job
         os.environ.pop("PIPELINE_REAL_MRP", None)
@@ -8700,28 +8702,8 @@ def run_ci_mode():
                     try: os.remove(video_path)
                     except Exception: pass
 
-                # Mathematical delay (spread remaining clips evenly across remaining time)
-                queue_left = len(PublishQueue.load())
-                if queue_left > 0:
-                    elapsed = time.time() - start_time
-                    time_left = max_runtime - elapsed
-                    
-                    if time_left > 0:
-                        # Base mathematical delay: evenly divide remaining time by remaining clips
-                        base_delay = time_left / queue_left
-                        
-                        # Cap the max delay at 45 minutes to prevent infinite hangs if queue is tiny
-                        # Cap the min delay at 3 minutes to avoid bot-like spam
-                        base_delay = max(180.0, min(2700.0, base_delay))
-                        
-                        # Add a tiny +/- 10% jitter to the math so it feels organic/human
-                        sleep_secs = int(base_delay * random.uniform(0.9, 1.1))
-                        
-                        logger.info(f"🧮 Mathematical Delay: {queue_left} clips left. {int(time_left//60)} mins remaining.")
-                        logger.info(f"💤 Sleeping for {sleep_secs//60}m {sleep_secs%60}s before next upload...")
-                        time.sleep(sleep_secs)
-                    else:
-                        logger.warning("⏳ [CI] Time is fully exhausted, cannot sleep.")
+                # Removed math sleep loop as per user request to schedule natively
+                # using peak human retention timing inside _auto_publish_clip.
 
             logger.info("✅ [CI] Queue processing phase complete.")
         else:
