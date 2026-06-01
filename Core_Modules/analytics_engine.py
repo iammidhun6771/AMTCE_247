@@ -70,7 +70,24 @@ class AnalyticsEngine:
             if credentials is None:
                 try:
                     from Uploader_Modules.uploader import get_valid_credentials
-                    credentials = get_valid_credentials()
+                    import os as _os
+                    # Try niches in priority order: whichever has a real token.json wins
+                    _niche_priority = [
+                        _os.getenv("DEFAULT_UPLOAD_NICHE", "Fashion"),
+                        "General_Fallback",
+                        None,  # root fallback last
+                    ]
+                    for _niche in _niche_priority:
+                        try:
+                            credentials = get_valid_credentials(niche=_niche)
+                            if credentials and credentials.valid:
+                                logger.info("AnalyticsEngine: loaded credentials for niche=%s", _niche or "root")
+                                break
+                            credentials = None  # not valid, try next
+                        except Exception:
+                            credentials = None
+                    if credentials is None:
+                        logger.warning("AnalyticsEngine: no valid credentials found across all niches — analytics disabled")
                 except Exception as e:
                     logger.warning("AnalyticsEngine: could not auto-load credentials from uploader: %s", e)
 
