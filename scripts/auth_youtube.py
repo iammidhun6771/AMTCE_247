@@ -44,6 +44,11 @@ def _send_telegram(message: str, token: str, admin_id: str, button_url: str = No
 
 
 def _get_telegram_creds():
+    """
+    Returns (bot_token, admin_private_chat_id).
+    ALWAYS sends to the ADMIN's private chat — NEVER to a group.
+    Priority: TELEGRAM_ADMIN_ID > TELEGRAM_OWNER_CHAT_ID > first entry of ADMIN_IDS
+    """
     try:
         from dotenv import load_dotenv
         for p in ["Credentials/.env", ".env"]:
@@ -52,12 +57,25 @@ def _get_telegram_creds():
                 break
     except ImportError:
         pass
-    token    = os.getenv("TELEGRAM_BOT_TOKEN")
+
+    token = os.getenv("TELEGRAM_BOT_TOKEN")
+
+    # Strictly private-chat admin ID — group IDs are negative, we want a positive user ID
     admin_id = (
-        os.getenv("TELEGRAM_ADMIN_ID")
-        or os.getenv("TELEGRAM_OWNER_CHAT_ID")
-        or (os.getenv("ADMIN_IDS", "").split(",")[0].strip() if os.getenv("ADMIN_IDS") else None)
+        os.getenv("TELEGRAM_ADMIN_ID")            # preferred: explicit admin chat ID
+        or os.getenv("TELEGRAM_OWNER_CHAT_ID")    # fallback 1
+        or (
+            os.getenv("ADMIN_IDS", "").split(",")[0].strip()  # fallback 2: first admin
+            if os.getenv("ADMIN_IDS") else None
+        )
     )
+
+    if admin_id and str(admin_id).lstrip("-").isdigit() and int(admin_id) < 0:
+        print(f"⚠️ WARNING: admin_id={admin_id} looks like a GROUP chat (negative). "
+              "Auth messages will NOT be sent to groups. Set TELEGRAM_ADMIN_ID to your personal chat ID.")
+        admin_id = None  # refuse to send to group
+
+    print(f"📡 Auth will notify: chat_id={admin_id}")
     return token, admin_id
 
 
@@ -262,14 +280,10 @@ def _fallback_url_flow(secret_path, token_path, tg_token, tg_admin):
 
 # ── Main entry point ──────────────────────────────────────────────────────────
 
-def authenticate(client_secret_file=None, token_file=None, chat_id=None):
+def authenticate(client_secret_file=None, token_file=None):
     secret_path = client_secret_file or DEFAULT_CLIENT_SECRET_FILE
     token_path  = token_file or DEFAULT_TOKEN_FILE
     tg_token, tg_admin = _get_telegram_creds()
-    
-    # Override admin chat ID if one was explicitly provided
-    if chat_id:
-        tg_admin = chat_id
 
     print("🚀 Starting YouTube Authentication...")
 
@@ -309,8 +323,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="AMTCE YouTube Authentication")
     parser.add_argument("--secret", help="Path to client_secret.json")
     parser.add_argument("--token",  help="Path to save token.json")
-    parser.add_argument("--chat_id", help="Telegram Chat ID to send the auth link to")
     args = parser.parse_args()
 
-    authenticate(client_secret_file=args.secret, token_file=args.token, chat_id=args.chat_id)
-
+    authenticate(client_secret_file=args.secret, token_file=args.token)
