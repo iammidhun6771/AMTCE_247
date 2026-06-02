@@ -634,6 +634,13 @@ def _auto_publish_clip(video_path: str, actress_title: str, actress_folder: str)
                 partner_label = os.getenv("TG_BTN_PARTNER_LABEL", "🔥 Find Your Match").strip()
                 corn_label    = os.getenv("TG_BTN_CORN_LABEL",   "🎬 Watch Full Clips").strip()
 
+                import re as _re
+                _clean_title = _re.sub(r'(?i)general[-_]?fallback_?', '', actress_title).strip()
+                _title_words = [w for w in _clean_title.split() if w.isalpha() and len(w) > 1]
+                if len(_title_words) >= 2 and "Match" in partner_label:
+                    _nickname = _title_words[0].capitalize()
+                    partner_label = partner_label.replace("Match", _nickname)
+
                 # ── Build dual-hook caption ─────────────────────────────────
                 # Use the title as anchor then inject both hooks below it
                 gemini_tg_hook = _cp_tmp._generate_telegram_group_hook(partner_label, corn_label)

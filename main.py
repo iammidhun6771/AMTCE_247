@@ -6711,6 +6711,15 @@ async def _perform_upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 # ── Dual CTA Buttons ────────────────────────────────────────────
                 _tg_partner_label = os.getenv("TG_BTN_PARTNER_LABEL", "🔥 Find Your Match")
                 _tg_corn_label    = os.getenv("TG_BTN_CORN_LABEL", "🎬 Watch Full Clips")
+                
+                # Dynamically replace "Match" with actress nickname if available
+                import re as _re
+                _actress_full = str(title).split(":")[0].strip() if ":" in str(title) else str(title)
+                _clean_title = _re.sub(r'(?i)general[-_]?fallback_?', '', _actress_full).strip()
+                _title_words = [w for w in _clean_title.split() if w.isalpha() and len(w) > 1]
+                if len(_title_words) >= 2 and "Match" in _tg_partner_label:
+                    _nickname = _title_words[0].capitalize()
+                    _tg_partner_label = _tg_partner_label.replace("Match", _nickname)
                 # ── Los Pollos link: rotate from los_pollos_links.json (NOT hardcoded env var) ──
                 _los_pollos_link = ""
                 _lp_tele_enabled = os.getenv("LOS_POLLOS_TELEGRAM", "yes").lower() in ["yes", "true", "on"]
