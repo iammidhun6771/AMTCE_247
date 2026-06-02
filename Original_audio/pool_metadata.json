@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "files": {
+    "Oi.mp3": {
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 75.7,
+      "energy": 0.6061724137931035,
+      "created_at": 1780299381.6607492,
+      "beat_data_path": "beats\\Oi.npz",
+      "drop_times": [
+        4.25,
+        8.05
+      ],
+      "sample_rate": 44100,
+      "audio_hash": "571910_1780299381",
+      "version": 2
+    }
+  }
+}
