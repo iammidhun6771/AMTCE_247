@@ -23,10 +23,10 @@
     "deficit_videos": 1
   },
   "apify": {
-    "quota_date": "2026-06-02",
-    "quota_used": 7,
+    "quota_date": "2026-06-03",
+    "quota_used": 3,
     "quota_limit": 50,
-    "total_calls_all_time": 212
+    "total_calls_all_time": 215
   },
   "scraped_posts": {
     "shortcodes": [
@@ -92,7 +92,10 @@
       "mahesh_videojournalist": "2026-06-02T21:52:41.591623",
       "bolbollywood.in": "2026-06-02T23:21:01.195828",
       "paparazzzee": "2026-06-02T23:21:01.195828",
-      "voompla": "2026-06-02T23:21:01.195828"
+      "voompla": "2026-06-02T23:21:01.195828",
+      "bollywood.portal": "2026-06-03T00:13:01.568542",
+      "avneetphile": "2026-06-03T00:13:01.568542",
+      "bollywoodstandard": "2026-06-03T00:13:01.568542"
     }
   }
 }
