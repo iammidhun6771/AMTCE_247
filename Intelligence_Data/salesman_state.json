@@ -24,9 +24,9 @@
   },
   "apify": {
     "quota_date": "2026-06-02",
-    "quota_used": 4,
+    "quota_used": 7,
     "quota_limit": 50,
-    "total_calls_all_time": 209
+    "total_calls_all_time": 212
   },
   "scraped_posts": {
     "shortcodes": [
@@ -89,7 +89,10 @@
       "pratika_sood": "2026-05-30T03:02:27.979216",
       "pappsnap": "2026-06-02T21:52:41.591623",
       "bollywoodchronicle": "2026-06-02T21:52:41.591623",
-      "mahesh_videojournalist": "2026-06-02T21:52:41.591623"
+      "mahesh_videojournalist": "2026-06-02T21:52:41.591623",
+      "bolbollywood.in": "2026-06-02T23:21:01.195828",
+      "paparazzzee": "2026-06-02T23:21:01.195828",
+      "voompla": "2026-06-02T23:21:01.195828"
     }
   }
 }
