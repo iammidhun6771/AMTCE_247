@@ -51,6 +51,8 @@ class AudioPoolManager:
         # Sync any loose files that landed in root (e.g. from extract_audio_from_video)
         # into active/ so select_best_audio() can find them immediately.
         self._sync_root_to_active()
+        # Ensure all files in active/ are registered in metadata so they are not skipped.
+        self._sync_active_to_metadata()
 
     def _load_metadata(self) -> Dict:
         """Loads metadata safely."""
@@ -194,6 +196,41 @@ class AudioPoolManager:
                     logger.debug(f"[POOL_SYNC] Could not move {filename}: {e}")
         except Exception as e:
             logger.debug(f"[POOL_SYNC] Root sync failed (non-fatal): {e}")
+
+    def _sync_active_to_metadata(self):
+        """
+        Scan active/ folder and ensure all files are registered in pool_metadata.json.
+        """
+        try:
+            changed = False
+            for filename in os.listdir(self.active_dir):
+                if not filename.lower().endswith((".mp3", ".wav")):
+                    continue
+                path = os.path.join(self.active_dir, filename)
+                if not os.path.isfile(path):
+                    continue
+                
+                meta = self._get_file_metadata(filename)
+                if not meta:
+                    logger.info(f"[POOL_SYNC] Registering unstubbed active audio in metadata: {filename}")
+                    self._set_file_metadata(filename, {
+                        "usage_count": 0,
+                        "last_used":   0,
+                        "bpm":         0.0,
+                        "energy":      0.5,
+                        "created_at":  time.time(),
+                        "beat_data_path": None,
+                        "drop_times":  [],
+                        "sample_rate": 44100,
+                        "audio_hash":  self._calculate_hash(path),
+                        "version":     self.CURRENT_VERSION,
+                    })
+                    changed = True
+            if changed:
+                self._save_metadata()
+                logger.info(f"[POOL_SYNC] Active audio pool metadata successfully synced.")
+        except Exception as e:
+            logger.debug(f"[POOL_SYNC] Active-to-metadata sync failed: {e}")
 
     # ──────────────────────────────────────────────────────────────────────────
     # GEMINI POOL ENRICHMENT (background, non-blocking, cached)
