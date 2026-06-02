@@ -6700,10 +6700,6 @@ async def _perform_upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     public_cap_tg += f"\n\n{_tg_shop_label}: {user_affiliate_link}"
                     logger.info(f"[MONETIZE] User affiliate link injected into Telegram group post [{_tg_shop_label}]")
                 
-                # Append Los Pollos link at the very bottom
-                _saved_lp_link = mon_report_tg.get("lp_link")
-                if _saved_lp_link:
-                    public_cap_tg += f"\n\n💋🔞 The Secret → {_saved_lp_link}"
                 # Resolve chat_id: numeric string → int, @username → keep as string
                 # [ROBUST] If string and missing '@' or '-', prepend '@' (assumed username)
                 _tg_chat = tg_group_id
