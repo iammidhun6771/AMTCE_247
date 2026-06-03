@@ -75,13 +75,30 @@ class PublishQueue:
             json.dump(queue, f, indent=2)
 
     @classmethod
-    def add(cls, video_path: str, actress_title: str, actress_folder: str):
+    def add(cls, video_path: str, actress_title: str, actress_folder: str, shortcode: str = None):
         with cls._lock:
             queue = cls.load()
             
             # Normalize target path to relative path with forward slashes
             rel_video_path = os.path.relpath(video_path, _REPO_ROOT).replace("\\", "/")
             
+            # ── Avoid List Check (ledger) ───────────────────────────────────────
+            try:
+                from Actress_Modules.actress_ledger import get_ledger
+                _ledger = get_ledger()
+                if _ledger.is_in_avoid_list(shortcode, video_path):
+                    logger.warning(f"🚫 [QUEUE-DEDUP] Avoid list match for {os.path.basename(video_path)} (sc={shortcode}) — skipping queue add.")
+                    abs_path = os.path.join(_REPO_ROOT, rel_video_path)
+                    if os.path.exists(abs_path):
+                        try:
+                            os.remove(abs_path)
+                            logger.info(f"🗑️ [QUEUE-DEDUP] Deleted duplicate video: {os.path.basename(abs_path)}")
+                        except Exception as _de:
+                            logger.warning(f"⚠️ [QUEUE-DEDUP] Could not delete duplicate video file: {_de}")
+                    return
+            except Exception as _le:
+                logger.warning(f"⚠️ [QUEUE-DEDUP] Avoid list check failed: {_le}")
+
             # Check published registry to prevent re-queuing
             published = set()
             if os.path.exists(_PUBLISHED_REGISTRY):
@@ -117,7 +134,8 @@ class PublishQueue:
                     "video_path": rel_video_path,
                     "actress_title": actress_title,
                     "actress_folder": actress_folder,
-                    "added_at": time.time()
+                    "added_at": time.time(),
+                    "shortcode": shortcode
                 })
                 cls.save(queue)
                 logger.info(f"📥 Added to Publish Queue: {os.path.basename(video_path)} (Total: {len(queue)})")
@@ -190,6 +208,20 @@ def _auto_fill_queue_from_downloads():
             full_path = os.path.join(entry.path, mp4)
             rel_path = os.path.relpath(full_path, base).replace("\\", "/")
             if rel_path not in existing:
+                # Deduplication check: compute file hash and check avoid list
+                try:
+                    from Actress_Modules.actress_ledger import get_ledger
+                    _ledger = get_ledger()
+                    if _ledger.is_in_avoid_list(None, full_path):
+                        logger.warning(f"🚫 [AUTO_FILL-DEDUP] Avoid list match for {mp4} — deleting instantly.")
+                        try:
+                            os.remove(full_path)
+                        except Exception:
+                            pass
+                        continue
+                except Exception as _le:
+                    logger.warning(f"⚠️ [AUTO_FILL-DEDUP] Avoid list check failed: {_le}")
+
                 PublishQueue.add(full_path, actress_title, actress_folder)
                 existing.add(rel_path)
                 added += 1

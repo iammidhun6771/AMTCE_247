@@ -8853,6 +8853,28 @@ def run_ci_mode():
                     video_path     = item['video_path']
                     actress_title  = item['actress_title']
                     actress_folder = item['actress_folder']
+                    shortcode      = item.get('shortcode')
+
+                    # ── Avoid List Check (ledger) ───────────────────────────────────
+                    try:
+                        from Actress_Modules.actress_ledger import get_ledger
+                        _ledger = get_ledger()
+                        _is_dup = False
+                        if _ledger.is_in_avoid_list(shortcode, video_path):
+                            logger.warning(f"🚫 [CI-DEDUP] Avoid list match for {os.path.basename(video_path)} (sc={shortcode}) — skipping processing.")
+                            _is_dup = True
+
+                        if _is_dup:
+                            for _cp in {video_path}:
+                                if _cp and os.path.exists(_cp):
+                                    try:
+                                        os.remove(_cp)
+                                        logger.info(f"🗑️ [CI-DEDUP] Cleaned up duplicate video: {os.path.basename(_cp)}")
+                                    except Exception as _de:
+                                        logger.warning(f"⚠️ [CI-DEDUP] Could not delete duplicate: {_de}")
+                            continue
+                    except Exception as _le:
+                        logger.warning(f"⚠️ [CI-DEDUP] Avoid list check failed: {_le}")
 
                     f_lower = actress_folder.lower()
                     if f_lower.startswith("paparazzi"):    last_gender = "men"
@@ -8890,7 +8912,7 @@ def run_ci_mode():
                             pass
 
                     from Actress_Modules.actress_scheduler import _auto_publish_clip
-                    _auto_publish_clip(final_video_path, actress_title, actress_folder)
+                    _auto_publish_clip(final_video_path, actress_title, actress_folder, shortcode=shortcode)
 
                     # Belt-and-suspenders cleanup for both paths
                     for _cp in {final_video_path, video_path}:

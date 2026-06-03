@@ -320,7 +320,7 @@ def _actress_name_tags(actress_title: str) -> str:
     return " ".join(f"#{w}" for w in words)
 
 
-def _auto_publish_clip(video_path: str, actress_title: str, actress_folder: str) -> None:
+def _auto_publish_clip(video_path: str, actress_title: str, actress_folder: str, shortcode: str = None) -> None:
     # Clean prefix: "General_Fallback_bollywooddazzle" -> "bollywooddazzle"
     if actress_title.startswith("General_Fallback_"):
         actress_title = actress_title.replace("General_Fallback_", "", 1).strip()
@@ -583,6 +583,14 @@ def _auto_publish_clip(video_path: str, actress_title: str, actress_folder: str)
             with open(_PUBLISHED_REGISTRY, "w", encoding="utf-8") as f:
                 json.dump(sorted(list(published)), f, indent=2)
             logger.info("✅ [REGISTRY] Marked as published: %s", os.path.basename(video_path))
+            
+            # Commit successfully published shortcode and file hash to the ledger (avoid list)
+            try:
+                from Actress_Modules.actress_ledger import get_ledger
+                ledger = get_ledger()
+                ledger.commit_with_channel(shortcode, video_path, actress_folder)
+            except Exception as _le:
+                logger.warning("⚠️ Failed to write to actress_ledger avoid list: %s", _le)
         else:
             # Failed — write to failed registry so it can be retried
             _FAILED_REGISTRY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "failed_uploads.json")
@@ -960,7 +968,7 @@ def _process_account_batch(username: str, actress_folder: str, actress_title: st
         downloaded += 1
 
         # Add to Publish Queue instead of publishing immediately
-        PublishQueue.add(video_path, actress_title, actress_folder)
+        PublishQueue.add(video_path, actress_title, actress_folder, shortcode=shortcode)
 
     return downloaded
 
@@ -1112,7 +1120,7 @@ def _run_classic_cycle() -> None:
             ledger.commit(shortcode, video_path)
             downloaded += 1
             total_dl   += 1
-            PublishQueue.add(video_path, actress_title, actress_folder)
+            PublishQueue.add(video_path, actress_title, actress_folder, shortcode=shortcode)
 
         total_skipped += (LIMIT_PER_ACCOUNT - downloaded)
 
@@ -1281,7 +1289,7 @@ def run_paparazzi_cycle() -> None:
 
         channel_counts[actress_folder] = ch_count + 1
         total_dl += 1
-        PublishQueue.add(video_path, actress_title, actress_folder)
+        PublishQueue.add(video_path, actress_title, actress_folder, shortcode=shortcode)
 
     logger.info("=" * 60)
     logger.info("Paparazzi cycle complete: %d downloaded | %d skipped", total_dl, total_skipped)

@@ -200,6 +200,21 @@ class ActressLedger:
                 len(self._hashes),
             )
 
+    def is_in_avoid_list(self, shortcode: Optional[str], video_path: Optional[str] = None) -> bool:
+        """
+        Returns True if this post shortcode or video file hash has been published or seen.
+        """
+        if shortcode and shortcode in self._shortcodes:
+            return True
+        if video_path and os.path.exists(video_path):
+            try:
+                h = file_md5(video_path)
+                if h in self._hashes:
+                    return True
+            except Exception:
+                pass
+        return False
+
     # ── Layer 3: Cross-channel dedup ──────────────────────────────────────────
 
     def channel_for_shortcode(self, shortcode: str) -> Optional[str]:

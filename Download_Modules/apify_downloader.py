@@ -762,6 +762,15 @@ def apify_scrape_actress_accounts(
         try:
             from Core_Modules.salesman_state import get_scraped_posts_registry
             _registry = get_scraped_posts_registry()
+
+            # Layer avoid list check: also filter out using military-grade actress_ledger.json
+            try:
+                from Actress_Modules.actress_ledger import get_ledger
+                _ledger = get_ledger()
+                normalised = [item for item in normalised if not _ledger.is_in_avoid_list(item.get("shortcode"))]
+            except Exception as _le:
+                logger.warning("⚠️ [DEDUP] Failed to query actress_ledger: %s", _le)
+
             # filter_new() drops items whose shortcode is already in the registry
             deduped = _registry.filter_new(normalised)
             # Mark ALL returned shortcodes as seen NOW — even if the pipeline
