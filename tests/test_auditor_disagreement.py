@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import patch, MagicMock
-from Intelligence_Modules.vanguard_forge import VanguardForge
+from claw_vanguard.vanguard_forge import VanguardForge
 
 def test_auditor_disagreement_blocking():
     """Verify that a 'REJECT' from the Auditor blocks promotion even if Pytest passes."""

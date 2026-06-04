@@ -1,6 +1,6 @@
 import pytest
 import time
-from Intelligence_Modules.vanguard_forge import vanguard_forge
+from claw_vanguard.vanguard_forge import vanguard_forge
 
 def test_forge_cooldown_enforcement():
     """Verify that a file cannot be forged twice in 5 minutes."""

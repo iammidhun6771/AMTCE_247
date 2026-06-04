@@ -1,7 +1,7 @@
 import pytest
 import os
 import time
-from Intelligence_Modules.vanguard_forge import vanguard_forge
+from claw_vanguard.vanguard_forge import vanguard_forge
 
 def test_protected_files_rejection():
     """Verify that core brain files are strictly off-limits."""

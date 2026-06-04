@@ -2,7 +2,7 @@ import pytest
 import os
 import json
 from unittest.mock import MagicMock, patch
-from claw_vanguard.gemini_governor import GeminiGovernor
+from Intelligence_Modules.gemini_governor import GeminiGovernor
 from claw_vanguard.vanguard_director import VanguardDirector
 from claw_vanguard.tool_system import ErrorClassifier
 
