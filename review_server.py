@@ -315,16 +315,16 @@ def options_handler(path):
 # ── Entry point ───────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     print(f"""
-╔══════════════════════════════════════════════════════════╗
-║        🎬  AMTCE CONTENT STUDIO PANEL SERVER            ║
-╠══════════════════════════════════════════════════════════╣
-║  Studio UI  → http://localhost:{STUDIO_PORT}                   ║
-║  Review API → http://localhost:{STUDIO_PORT}/api/review-queue  ║
-║  Log Stream → http://localhost:{STUDIO_PORT}/api/logs          ║
-╠══════════════════════════════════════════════════════════╣
-║  Set EDITORIAL_REVIEW_MODE=on in Credentials/.env       ║
-║  to pause clips for review before auto-publish fires.   ║
-╚══════════════════════════════════════════════════════════╝
++----------------------------------------------------------+
+|          AMTCE CONTENT STUDIO PANEL SERVER               |
++----------------------------------------------------------+
+|  Studio UI  -> http://localhost:{STUDIO_PORT}                   |
+|  Review API -> http://localhost:{STUDIO_PORT}/api/review-queue  |
+|  Log Stream -> http://localhost:{STUDIO_PORT}/api/logs          |
++----------------------------------------------------------+
+|  Set EDITORIAL_REVIEW_MODE=on in Credentials/.env       |
+|  to pause clips for review before auto-publish fires.   |
++----------------------------------------------------------+
 """)
     app.run(
         host="0.0.0.0",
