@@ -19,6 +19,118 @@ _PUBLISHED_REGISTRY   = os.path.join(_REPO_ROOT, "Actress_Modules", "published_r
 PROCESS_LEAD_TIME_MINUTES = int(os.getenv("PROCESS_LEAD_TIME_MINUTES", "6"))
 
 
+def _sync_to_gh_pages(video_to_add: str = None, video_to_delete: str = None, queue_to_write: list = None) -> bool:
+    import subprocess
+    import tempfile
+    import shutil
+    
+    token = os.getenv("GITHUB_TOKEN")
+    repo = os.getenv("GITHUB_REPOSITORY")
+    
+    if not token or not repo:
+        logger.info("ℹ️ [STUDIO] GITHUB_TOKEN or GITHUB_REPOSITORY not set. Skipping remote gh-pages sync (running locally).")
+        return False
+        
+    remote_url = f"https://x-access-token:{token}@github.com/{repo}.git"
+    
+    with tempfile.TemporaryDirectory() as tmpdir:
+        try:
+            logger.info("🎬 [STUDIO] Cloning gh-pages branch...")
+            subprocess.run(
+                ["git", "clone", "-b", "gh-pages", "--single-branch", remote_url, "repo_clone"],
+                check=True, cwd=tmpdir, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            )
+            clone_path = os.path.join(tmpdir, "repo_clone")
+            
+            subprocess.run(["git", "config", "user.name", "AMTCE Bot"], check=True, cwd=clone_path)
+            subprocess.run(["git", "config", "user.email", "amtce-bot@users.noreply.github.com"], check=True, cwd=clone_path)
+            
+            changed = False
+            
+            if queue_to_write is not None:
+                # Prune completed reviews to keep file size small (keep all PENDING, and last 10 completed)
+                pending = [item for item in queue_to_write if item.get("status") == "PENDING_REVIEW"]
+                completed = [item for item in queue_to_write if item.get("status") != "PENDING_REVIEW"]
+                completed.sort(key=lambda x: x.get("queued_at", 0), reverse=True)
+                pruned_queue = pending + completed[:10]
+                
+                queue_file_path = os.path.join(clone_path, "review_queue.json")
+                with open(queue_file_path, "w", encoding="utf-8") as wf:
+                    json.dump(pruned_queue, wf, indent=2)
+                changed = True
+                
+            if video_to_add and os.path.exists(video_to_add):
+                previews_dir = os.path.join(clone_path, "previews")
+                os.makedirs(previews_dir, exist_ok=True)
+                dest_video = os.path.join(previews_dir, os.path.basename(video_to_add))
+                shutil.copy2(video_to_add, dest_video)
+                changed = True
+                
+            if video_to_delete:
+                previews_dir = os.path.join(clone_path, "previews")
+                target_video = os.path.join(previews_dir, os.path.basename(video_to_delete))
+                if os.path.exists(target_video):
+                    os.remove(target_video)
+                    changed = True
+                    
+            if changed:
+                subprocess.run(["git", "add", "-A"], check=True, cwd=clone_path)
+                diff_check = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=clone_path)
+                if diff_check.returncode != 0:
+                    subprocess.run(["git", "commit", "-m", "ci: update review queue and previews [skip ci]"], check=True, cwd=clone_path)
+                    logger.info("🎬 [STUDIO] Pushing updates to gh-pages...")
+                    subprocess.run(["git", "push", "origin", "gh-pages"], check=True, cwd=clone_path)
+                    logger.info("🎬 [STUDIO] Successfully updated gh-pages.")
+                    return True
+                else:
+                    logger.info("🎬 [STUDIO] No changes to push to gh-pages.")
+            
+        except Exception as e:
+            logger.warning("⚠️ [STUDIO] Failed to sync to gh-pages: %s", e)
+            
+    return False
+
+
+def _get_remote_queue() -> list:
+    import subprocess
+    
+    token = os.getenv("GITHUB_TOKEN")
+    repo = os.getenv("GITHUB_REPOSITORY")
+    
+    if not token or not repo:
+        _REVIEW_QUEUE_FILE = os.path.join(_REPO_ROOT, "review_queue.json")
+        if os.path.exists(_REVIEW_QUEUE_FILE):
+            try:
+                with open(_REVIEW_QUEUE_FILE, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception:
+                pass
+        return []
+        
+    try:
+        subprocess.run(
+            ["git", "fetch", "origin", "gh-pages"],
+            check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        )
+        res = subprocess.run(
+            ["git", "show", "origin/gh-pages:review_queue.json"],
+            check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding="utf-8"
+        )
+        return json.loads(res.stdout)
+    except Exception as e:
+        logger.warning("⚠️ [STUDIO] Failed to fetch remote queue via Git: %s. Trying fallback raw HTTP...", e)
+        try:
+            import urllib.request
+            raw_url = f"https://raw.githubusercontent.com/{repo}/gh-pages/review_queue.json?t={int(time.time())}"
+            req = urllib.request.Request(raw_url, headers={'User-Agent': 'Mozilla/5.0'})
+            with urllib.request.urlopen(req, timeout=10) as response:
+                return json.loads(response.read().decode('utf-8'))
+        except Exception as he:
+            logger.warning("⚠️ [STUDIO] HTTP queue fetch fallback failed: %s", he)
+            
+    return []
+
+
 # ── Salesman State (publisher deficit + catch-up tracking) ────────────────
 try:
     from Core_Modules.salesman_state import get_publisher_state
@@ -336,17 +448,19 @@ def _process_queue_item():
             with open(_REVIEW_QUEUE_FILE, "w", encoding="utf-8") as _rf:
                 _json_mod.dump(_review_q_existing, _rf, indent=2)
             logger.info(
-                "🎬 [STUDIO] Clip queued for editorial review: %s (ID=%s)",
+                "🎬 [STUDIO] Clip queued for review: %s (ID=%s)",
                 os.path.basename(final_video_path), _review_id,
             )
-            logger.info("   → Open http://localhost:7862 to review and approve.")
+            # Sync to remote gh-pages branch (if in CI/Actions)
+            _sync_to_gh_pages(video_to_add=final_video_path, queue_to_write=_review_q_existing)
+            logger.info("   → Open https://swargawasal.github.io/AMTCE-Autonomous-Multimedia-Transformation-Compilation-Engine/studio.html to review and approve.")
         except Exception as _we:
             logger.warning("⚠️ [STUDIO] Could not write to review_queue.json: %s — skipping review gate", _we)
             _editorial_mode = False   # Fall through to immediate publish
 
         if _editorial_mode:
-            # Poll review_queue.json until status changes from PENDING_REVIEW
-            _poll_interval = 5
+            # Poll remote/local review queue until status changes from PENDING_REVIEW
+            _poll_interval = 10
             _max_wait_s    = int(os.getenv("STUDIO_REVIEW_TIMEOUT_MINUTES", "60")) * 60
             _elapsed       = 0
             _final_status  = "PENDING_REVIEW"
@@ -358,8 +472,8 @@ def _process_queue_item():
                 _time_mod.sleep(_poll_interval)
                 _elapsed += _poll_interval
                 try:
-                    with open(_REVIEW_QUEUE_FILE, "r", encoding="utf-8") as _rf:
-                        _rq = _json_mod.load(_rf)
+                    # Get remote queue (or local if offline)
+                    _rq = _get_remote_queue()
                     for _ritem in _rq:
                         if _ritem["id"] == _review_id:
                             _final_status = _ritem.get("status", "PENDING_REVIEW")
@@ -383,15 +497,48 @@ def _process_queue_item():
                 os.environ["_STUDIO_SKIP_YT"]  = "0" if _custom_platforms.get("youtube", True)   else "1"
                 os.environ["_STUDIO_SKIP_IG"]  = "0" if _custom_platforms.get("instagram", True) else "1"
                 os.environ["_STUDIO_SKIP_TT"]  = "0" if _custom_platforms.get("tiktok", False)   else "1"
+                
+                # Remote clean up (delete temporary video file from gh-pages)
+                try:
+                    _clean_q = _get_remote_queue()
+                    for _ritem in _clean_q:
+                        if _ritem["id"] == _review_id:
+                            _ritem["status"] = "APPROVED"
+                    _sync_to_gh_pages(video_to_delete=final_video_path, queue_to_write=_clean_q)
+                except Exception as _ce:
+                    logger.warning("⚠️ [STUDIO] Failed to clean up remote previews: %s", _ce)
+                
                 _auto_publish_clip(final_video_path, actress_title, actress_folder)
             elif _final_status == "REJECTED":
-                logger.info("🗑️ [STUDIO] Clip REJECTED — skipping publish. File should already be deleted.")
+                logger.info("🗑️ [STUDIO] Clip REJECTED — skipping publish.")
+                
+                # Remote clean up (delete temporary video file from gh-pages and update status)
+                try:
+                    _clean_q = _get_remote_queue()
+                    for _ritem in _clean_q:
+                        if _ritem["id"] == _review_id:
+                            _ritem["status"] = "REJECTED"
+                    _sync_to_gh_pages(video_to_delete=final_video_path, queue_to_write=_clean_q)
+                except Exception as _ce:
+                    logger.warning("⚠️ [STUDIO] Failed to clean up remote previews: %s", _ce)
+                
                 return
             else:
                 logger.warning(
                     "⏰ [STUDIO] Review timeout after %d min — auto-publishing without edits.",
                     _max_wait_s // 60,
                 )
+                
+                # Remote clean up on timeout
+                try:
+                    _clean_q = _get_remote_queue()
+                    for _ritem in _clean_q:
+                        if _ritem["id"] == _review_id:
+                            _ritem["status"] = "TIMED_OUT"
+                    _sync_to_gh_pages(video_to_delete=final_video_path, queue_to_write=_clean_q)
+                except Exception as _ce:
+                    logger.warning("⚠️ [STUDIO] Failed to clean up remote previews: %s", _ce)
+                
                 _auto_publish_clip(final_video_path, actress_title, actress_folder)
             return
     # ── /EDITORIAL REVIEW GATE ────────────────────────────────────────────────
