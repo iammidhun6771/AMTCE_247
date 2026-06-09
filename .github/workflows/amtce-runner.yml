@@ -62,8 +62,10 @@ on:
 # The main bot run holds the 'amtce-bot' concurrency lock for the full 5.25h
 # session. The chain-restart job has NO concurrency key so it can always fire
 # after the main job exits — even if another run is starting at the same time.
+# Dispatch runs use a unique group name (run_id) so they can run concurrently
+# with the main persistent bot and execute immediately.
 concurrency:
-  group: amtce-bot
+  group: ${{ github.event_name == 'workflow_dispatch' && format('amtce-dispatch-{0}', github.run_id) || 'amtce-bot' }}
   cancel-in-progress: false
 
 jobs:

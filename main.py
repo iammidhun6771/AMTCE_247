@@ -9065,12 +9065,54 @@ def run_one_shot_dispatch():
     voiceover = os.getenv("DISPATCH_VOICEOVER", "").strip()
     review_mode = os.getenv("DISPATCH_REVIEW_MODE", "auto").strip()
 
-    if not target_url:
-        logger.error("❌ [DISPATCH] No target_url provided for manual dispatch. Exiting.")
-        return
-
     from Core_Modules.studio_status_tracker import get_tracker
     tracker = get_tracker()
+
+    if not target_url:
+        logger.info(f"🔍 [DISPATCH] No target_url provided. Searching pool for actress: {actress_name}")
+        
+        # 1. Search PublishQueue
+        from Actress_Modules.actress_publisher import PublishQueue
+        queue = PublishQueue.load()
+        matched_item = None
+        if queue:
+            for item in queue:
+                item_actress = item.get("actress_title", "")
+                if item_actress and (actress_name.lower() in item_actress.lower() or item_actress.lower() in actress_name.lower()):
+                    matched_item = item
+                    break
+        
+        if matched_item:
+            logger.info(f"✅ [DISPATCH] Found matching video in PublishQueue: {matched_item['video_path']}")
+            try:
+                queue.remove(matched_item)
+                PublishQueue.save(queue)
+            except Exception as _qe:
+                logger.warning(f"⚠️ Failed to remove item from PublishQueue: {_qe}")
+            target_url = matched_item["video_path"]
+        else:
+            # 2. Search downloads folder
+            downloads_dir = os.getenv("DOWNLOADS_DIR", "downloads")
+            matching_files = []
+            if os.path.exists(downloads_dir):
+                for root, dirs, files in os.walk(downloads_dir):
+                    for file in files:
+                        if file.endswith(".mp4") and actress_name.lower() in file.lower():
+                            matching_files.append(os.path.join(root, file))
+            if matching_files:
+                target_url = matching_files[0]
+                logger.info(f"✅ [DISPATCH] Found matching video in downloads folder: {target_url}")
+            else:
+                logger.error(f"❌ [DISPATCH] No videos found in pool or downloads for actress: {actress_name}")
+                tracker.start(
+                    job_id=os.getenv("GITHUB_RUN_ID"),
+                    actress=actress_name,
+                    niche=niche,
+                    source_url=""
+                )
+                tracker.failed(f"No videos found in pool/downloads for actress: {actress_name}")
+                return
+
     tracker.start(
         job_id=os.getenv("GITHUB_RUN_ID"),
         actress=actress_name,
@@ -9172,8 +9214,7 @@ if __name__ == "__main__":
         run_cli_mode(args)
     elif os.getenv("GITHUB_ACTIONS") == "true":
         # Check if it is a manual one-shot video run
-        target_url = os.getenv("DISPATCH_TARGET_URL", "").strip()
-        if os.getenv("GITHUB_EVENT_NAME") == "workflow_dispatch" and target_url:
+        if os.getenv("GITHUB_EVENT_NAME") == "workflow_dispatch":
             run_one_shot_dispatch()
             sys.exit(0)
 
