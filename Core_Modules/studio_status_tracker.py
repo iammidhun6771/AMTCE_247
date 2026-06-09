@@ -157,6 +157,7 @@ class StudioStatusTracker:
                 "Authorization": f"token {self._token}",
                 "Content-Type":  "application/json",
                 "Accept":        "application/vnd.github.v3+json",
+                "User-Agent":    "AMTCE-Studio-Tracker",
             }
 
             # Try to GET current SHA (needed for update)

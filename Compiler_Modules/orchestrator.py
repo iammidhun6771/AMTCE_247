@@ -1016,6 +1016,11 @@ def compile_video(
         return False, {"error": "No input paths"}
 
     logger.info(f"🚀 [INIT] Starting 10-Step Audit Pipeline for {uuid_str}")
+    from Core_Modules.studio_status_tracker import get_tracker
+    tracker = get_tracker()
+    tracker.step("STEP_FACE_SWAP", 100)
+    tracker.step("STEP_LIP_SYNC", 100)
+
     job_dir = os.path.join("temp", uuid_str)
     os.makedirs(job_dir, exist_ok=True)
 
@@ -1186,6 +1191,7 @@ def compile_video(
             profile_data["scene_boundaries"] = []
 
     # ---- AUDIO EXTRACTION + BEST-AUDIO SELECTION (Step 0.45) -------------------
+    tracker.step("STEP_AUDIO_MIX", 20)
     # Extract audio from ALL clips and pick the most energetically rich one.
     _niche_category = os.getenv("CONTENT_NICHE", "").strip().lower()
     _all_clip_audios: dict = {}  # clip_idx -> mp3_path
@@ -1457,6 +1463,7 @@ def compile_video(
         logger.info(f"🎵 [AUDIO_EXTRACT] Fallback to clip 0 audio: {os.path.basename(_fb_audio)}")
 
     # ── MUSICAL INTELLIGENCE REPORT (Step 0.46) ────────────────────────────────
+    tracker.step("STEP_AUDIO_MIX", 60)
     # One Gemini call on the selected BGM track. Extracts lyric timestamps,
     # musical section map, tension arc, shot directives, and vibe tags.
     # All downstream rhythm/editing modules read from profile_data["music_intelligence"].
@@ -1547,6 +1554,7 @@ def compile_video(
         # (Frame Extraction moved to Step 1j to utilize MomentMiner data)
             
         # ---- [FIX] Master Clip Audio Beat Detection (Step 1b) ----
+        tracker.step("STEP_AUDIO_MIX", 90)
         # If Step 0.45 already picked the best audio and populated beat_data, skip
         # re-running on just clip 0. Otherwise fall back to the original clip 0 path.
         if BEAT_ENGINE_AVAILABLE and _beat_engine:
@@ -2195,6 +2203,8 @@ def compile_video(
             profile_data["candidate_moments"] = _filtered_candidates
 
         # ---- MASTER INTELLIGENCE (Step 2) ------------------------------------------
+        tracker.step("STEP_AUDIO_MIX", 100)
+        tracker.step("STEP_SUBTITLES", 10)
         logger.info("🧠 [Step 2] Master Intelligence Request...")
         master_analysis = None
         profile_data["fallback_mode"] = False
@@ -3687,6 +3697,7 @@ def compile_video(
             _StepTracer.fail("creative_editor_bridge", str(_ceb_err))
 
         # ---- CREATIVE DIRECTOR (Step 2c) --------------------------------------------
+        tracker.step("STEP_SUBTITLES", 40)
         logger.info("🎭 [Step 2c] Creative Director...")
         try:
             from Content_Intelligence.creative_director import CreativeDirector
@@ -4420,6 +4431,8 @@ def compile_video(
                 logger.warning(f"⚠️ Rhythm Timeline Builder failed: {e}")
 
         # ---- RENDER ENGINE (Step 8) -------------------------------------------------
+        tracker.step("STEP_SUBTITLES", 100)
+        tracker.step("STEP_RENDER", 10)
         logger.info("🚀 [Step 8] Render Engine Start...")
         temp_visual_render = os.path.join(job_dir, "visual_render_temp.mp4")
 
@@ -5641,6 +5654,7 @@ def compile_video(
             # ─────────────────────────────────────────────────────────────────────────────
 
         # ── [KARAOKE SUBTITLE ENGINE] Optional post-render (Step 9.7) ────────────────
+        tracker.step("STEP_SUBTITLES", 80)
         # Activated via KARAOKE_ENABLED=true in Credentials/.env
         # Applies Cinema-Grade V7 .ASS karaoke subtitles to the final video.
         # This is a REPLACE-IN-PLACE step: if successful, output_path is updated
@@ -5881,6 +5895,7 @@ def compile_video(
         # shutil.rmtree(job_dir, ignore_errors=True) 
 
         profile_data["job_dir"] = job_dir
+        tracker.step("STEP_RENDER", 100)
         return True, profile_data
 
     except Exception as e:

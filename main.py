@@ -9069,17 +9069,34 @@ def run_one_shot_dispatch():
         logger.error("❌ [DISPATCH] No target_url provided for manual dispatch. Exiting.")
         return
 
+    from Core_Modules.studio_status_tracker import get_tracker
+    tracker = get_tracker()
+    tracker.start(
+        job_id=os.getenv("GITHUB_RUN_ID"),
+        actress=actress_name,
+        niche=niche,
+        source_url=target_url
+    )
+
     # 1. Resolve local path vs download
     video_path = target_url
     if target_url.startswith("http"):
         logger.info(f"📥 [DISPATCH] Downloading target_url: {target_url}")
+        tracker.step("STEP_DOWNLOAD", 10)
         from Download_Modules import downloader
-        dl_res = downloader.download_video(target_url)
+        try:
+            dl_res = downloader.download_video(target_url)
+        except Exception as dl_err:
+            logger.error(f"❌ [DISPATCH] Download exception: {dl_err}")
+            tracker.failed(f"Download exception: {dl_err}")
+            return
         if dl_res and dl_res[0]:
             video_path, _ = dl_res
             logger.info(f"✅ [DISPATCH] Downloaded: {video_path}")
+            tracker.step("STEP_DOWNLOAD", 100)
         else:
             logger.error("❌ [DISPATCH] Download failed!")
+            tracker.failed("Download failed")
             return
     else:
         # Check relative path or absolute path
@@ -9087,45 +9104,54 @@ def run_one_shot_dispatch():
             video_path = os.path.abspath(video_path)
         if not os.path.exists(video_path):
             logger.error(f"❌ [DISPATCH] Local file not found: {video_path}")
+            tracker.failed(f"Local file not found: {video_path}")
             return
         logger.info(f"📂 [DISPATCH] Found local file at: {video_path}")
+        tracker.step("STEP_DOWNLOAD", 100)
 
-    # Set environment variables overrides from inputs
-    if voiceover:
-        os.environ["DISPATCH_VOICEOVER_TEXT"] = voiceover
+    try:
+        # Set environment variables overrides from inputs
+        if voiceover:
+            os.environ["DISPATCH_VOICEOVER_TEXT"] = voiceover
 
-    # Resolve niche name to meta_config.json folders
-    actress_folder = niche
-    if niche.lower() in ("general", "general_fallback"):
-        actress_folder = "General_Fallback"
-    elif niche.lower() in ("fashion", "fashion_style"):
-        actress_folder = "Fashion"
-    elif niche.lower() in ("nsfw", "adult"):
-        actress_folder = "NSFW"
-    elif niche.lower() in ("paparazzi"):
-        actress_folder = "Paparazzi"
+        # Resolve niche name to meta_config.json folders
+        actress_folder = niche
+        if niche.lower() in ("general", "general_fallback"):
+            actress_folder = "General_Fallback"
+        elif niche.lower() in ("fashion", "fashion_style"):
+            actress_folder = "Fashion"
+        elif niche.lower() in ("nsfw", "adult"):
+            actress_folder = "NSFW"
+        elif niche.lower() in ("paparazzi"):
+            actress_folder = "Paparazzi"
 
-    # 2. Process/compile the video
-    logger.info(f"🎬 [DISPATCH] Processing clip: {video_path} for actress: {actress_name}")
-    processed_path = process_clip(video_path, actress_name)
-    if not processed_path or not os.path.exists(processed_path):
-        logger.error("❌ [DISPATCH] Compilation/Processing failed!")
-        return
+        # 2. Process/compile the video
+        logger.info(f"🎬 [DISPATCH] Processing clip: {video_path} for actress: {actress_name}")
+        processed_path = process_clip(video_path, actress_name)
+        if not processed_path or not os.path.exists(processed_path):
+            logger.error("❌ [DISPATCH] Compilation/Processing failed!")
+            tracker.failed("Compilation/Processing failed")
+            return
 
-    logger.info(f"✅ [DISPATCH] Processed successfully: {processed_path}")
+        logger.info(f"✅ [DISPATCH] Processed successfully: {processed_path}")
 
-    # 3. Publish the video
-    logger.info(f"📤 [DISPATCH] Publishing processed clip...")
-    from Actress_Modules.actress_scheduler import _auto_publish_clip
-    
-    # Run publishing synchronously
-    _auto_publish_clip(
-        video_path=processed_path,
-        actress_title=actress_name,
-        actress_folder=actress_folder,
-        shortcode=f"manual_{int(time.time())}"
-    )
-    logger.info("🎉 [DISPATCH] One-shot manual dispatch run finished successfully!")
+        # 3. Publish the video
+        logger.info(f"📤 [DISPATCH] Publishing processed clip...")
+        from Actress_Modules.actress_scheduler import _auto_publish_clip
+        
+        # Run publishing synchronously
+        _auto_publish_clip(
+            video_path=processed_path,
+            actress_title=actress_name,
+            actress_folder=actress_folder,
+            shortcode=f"manual_{int(time.time())}"
+        )
+        logger.info("🎉 [DISPATCH] One-shot manual dispatch run finished successfully!")
+        tracker.done()
+    except Exception as exc:
+        logger.error(f"❌ [DISPATCH] Execution failed: {exc}")
+        tracker.failed(f"Execution failed: {exc}")
+        raise exc
 
 
 if __name__ == "__main__":
