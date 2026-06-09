@@ -2731,9 +2731,47 @@ def compile_video(
                                     )
                                     continue
 
-                                profile_data["editing_source"] = "none"
-                                profile_data["editor_authority"] = True 
-                                logger.info("⚪ [EDITOR_SOURCE]=none | [ELITE_REFUSAL] Content not worth editing.")
+                                profile_data["editing_source"] = "moment_fallback"
+                                profile_data["editor_authority"] = False
+                                profile_data["fallback_mode"] = True
+                                logger.warning(
+                                    "⚪ [EDITOR_SOURCE]=none | [ELITE_REFUSAL] Gemini returned no segments "
+                                    "after 3 retries. Building moment-driven fallback timeline."
+                                )
+                                # -- [MOMENT FALLBACK] Build timeline from candidate_moments --
+                                # Prevents: 0 segments -> cannot reconstruct -> Compilation Failed
+                                _fallback_candidates = sorted(
+                                    [m for m in profile_data.get("candidate_moments", []) if isinstance(m, dict)],
+                                    key=lambda m: float(m.get("composite_score", m.get("score", m.get("rank_base", 0.0)))),
+                                    reverse=True
+                                )
+                                _fallback_segs = []
+                                _seg_dur = 4.0
+                                _roles = ["hook", "buildup", "climax"]
+                                for _fi, _fm in enumerate(_fallback_candidates[:3]):
+                                    _ft = float(_fm.get("time", _fm.get("timestamp", 0.0)))
+                                    _fs = max(0.0, _ft - 0.5)
+                                    _fe = min(duration, _ft + _seg_dur)
+                                    if _fe > _fs + 0.5:
+                                        _fallback_segs.append({
+                                            "clip_id": 0,
+                                            "start": round(_fs, 3),
+                                            "end": round(_fe, 3),
+                                            "role": _roles[_fi] if _fi < len(_roles) else "buildup",
+                                            "transition": "hard_cut",
+                                            "reason": "moment_fallback",
+                                            "impact": 0.5,
+                                            "clarity": 0.5,
+                                        })
+                                if len(_fallback_segs) >= 2:
+                                    profile_data["editing_timeline"] = _fallback_segs
+                                    logger.info(
+                                        f"✅ [MOMENT_FALLBACK] Built {len(_fallback_segs)} segments from top candidate moments."
+                                    )
+                                else:
+                                    logger.warning(
+                                        "⚠️ [MOMENT_FALLBACK] Insufficient candidate moments -- render will likely fail."
+                                    )
                             else:
                                 profile_data["editing_source"] = "fallback"
                                 profile_data["fallback_mode"] = True
@@ -5436,6 +5474,40 @@ def compile_video(
                 f"🎵 [FIRST_SHOT_AUDIO] BGM offset by {_music_offset}s "
                 "to preserve AI influencer intro voice."
             )
+
+        # [RANDOMIZE_BGM_OFFSET] Start BGM at a random position in the track so every
+        # compile sounds fresh and social platforms can't fingerprint repetitive audio
+        # from always starting at 0:00.
+        # - Only applies to music/ library tracks (NOT Original_audio — those are beat-synced).
+        # - Random start is capped at 60% of track duration so enough music remains.
+        # - Applied ADDITIVE to any existing _music_offset (e.g. first-shot delay).
+        _randomize_bgm = os.getenv("RANDOMIZE_BGM_OFFSET", "yes").strip().lower() == "yes"
+        if _randomize_bgm and music_path and "Original_audio" not in music_path.replace("\\", "/"):
+            try:
+                import subprocess as _sp
+                _ffprobe_bin = os.getenv("FFPROBE_BIN", "ffprobe")
+                _probe_out = _sp.check_output(
+                    [
+                        _ffprobe_bin, "-v", "error",
+                        "-show_entries", "format=duration",
+                        "-of", "default=noprint_wrappers=1:nokey=1",
+                        music_path,
+                    ],
+                    stderr=_sp.DEVNULL,
+                    timeout=10,
+                ).decode().strip()
+                _track_dur = float(_probe_out)
+                # Pick random start within first 60% of the track
+                _max_start = _track_dur * 0.60
+                _rand_start = round(random.uniform(0, max(0, _max_start - 30)), 2)  # keep ≥30s of music
+                if _rand_start > 0:
+                    _music_offset += _rand_start
+                    logger.info(
+                        f"🎲 [RANDOMIZE_BGM] Random BGM start: {_rand_start}s "
+                        f"(track={_track_dur:.1f}s, total_offset={_music_offset:.2f}s)"
+                    )
+            except Exception as _rng_err:
+                logger.debug(f"[RANDOMIZE_BGM] Could not randomize offset (non-fatal): {_rng_err}")
 
         if _separate_shorts:
             logger.info("⏭️ [SEPARATE_SHORTS] Main pipeline will now mix audio and concatenate intro for the BEST generated clip.")

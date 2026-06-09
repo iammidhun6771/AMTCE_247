@@ -46,7 +46,9 @@ def _get_static_peak_times():
         load_dotenv("Credentials/.env", override=True)
     except ImportError:
         pass
-    env_times = os.getenv("ACTRESS_STATIC_PUBLISH_TIMES", "07:30,12:30,19:30")
+    env_times = os.getenv("ACTRESS_STATIC_PUBLISH_TIMES", "").strip()
+    if not env_times:
+        env_times = os.getenv("ACTRESS_SCHEDULE_TIMES", "07:30,12:30,19:30")
     return [t.strip() for t in env_times.split(",") if t.strip()]
 
 
@@ -229,7 +231,7 @@ def _auto_fill_queue_from_downloads():
     if added:
         logger.info(f"📥 [AUTO_FILL] Added {added} clip(s) from downloads/ to queue.")
     else:
-        logger.info("[AUTO_FILL] No new clips found in downloads/ to queue.")
+        logger.debug("[AUTO_FILL] No new clips found in downloads/ to queue.")
     return added
 
 
@@ -295,6 +297,105 @@ def _process_queue_item():
         final_video_path = video_path
 
     from Actress_Modules.actress_scheduler import _auto_publish_clip
+
+    # ── EDITORIAL REVIEW GATE ─────────────────────────────────────────────────
+    # If EDITORIAL_REVIEW_MODE=on, write processed clip to review_queue.json
+    # and WAIT for a human to Approve or Reject via the Studio Panel UI.
+    # The clip will NOT publish until approved.
+    _editorial_mode = os.getenv("EDITORIAL_REVIEW_MODE", "off").strip().lower() in ("on", "yes", "true", "1")
+    if _editorial_mode:
+        import uuid as _uuid_mod
+        import time as _time_mod
+        import json as _json_mod
+
+        _REVIEW_QUEUE_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "review_queue.json")
+
+        # Build review queue entry
+        _review_id = str(_uuid_mod.uuid4())
+        _review_entry = {
+            "id":            _review_id,
+            "video_path":    final_video_path,
+            "actress_title": actress_title,
+            "actress_folder": actress_folder,
+            "title":         f"{actress_title} | Viral Reel 🔥",
+            "caption":       f"Watch {actress_title}'s latest reel! Subscribe for more.",
+            "hashtags":      "#viral #reels #trending #shorts #bollywood",
+            "status":        "PENDING_REVIEW",
+            "platforms":     {"youtube": True, "instagram": True, "tiktok": False},
+            "queued_at":     int(_time_mod.time()),
+        }
+
+        # Attempt to prefill with Gemini-generated title/hashtags from the log state
+        # (if actress_scheduler already generated them, we use those)
+        try:
+            _review_q_existing = []
+            if os.path.exists(_REVIEW_QUEUE_FILE):
+                with open(_REVIEW_QUEUE_FILE, "r", encoding="utf-8") as _rf:
+                    _review_q_existing = _json_mod.load(_rf)
+            _review_q_existing.append(_review_entry)
+            with open(_REVIEW_QUEUE_FILE, "w", encoding="utf-8") as _rf:
+                _json_mod.dump(_review_q_existing, _rf, indent=2)
+            logger.info(
+                "🎬 [STUDIO] Clip queued for editorial review: %s (ID=%s)",
+                os.path.basename(final_video_path), _review_id,
+            )
+            logger.info("   → Open http://localhost:7862 to review and approve.")
+        except Exception as _we:
+            logger.warning("⚠️ [STUDIO] Could not write to review_queue.json: %s — skipping review gate", _we)
+            _editorial_mode = False   # Fall through to immediate publish
+
+        if _editorial_mode:
+            # Poll review_queue.json until status changes from PENDING_REVIEW
+            _poll_interval = 5
+            _max_wait_s    = int(os.getenv("STUDIO_REVIEW_TIMEOUT_MINUTES", "60")) * 60
+            _elapsed       = 0
+            _final_status  = "PENDING_REVIEW"
+            _approved_entry = None
+
+            logger.info("⏳ [STUDIO] Waiting for editorial decision (max %d min)…", _max_wait_s // 60)
+
+            while _elapsed < _max_wait_s:
+                _time_mod.sleep(_poll_interval)
+                _elapsed += _poll_interval
+                try:
+                    with open(_REVIEW_QUEUE_FILE, "r", encoding="utf-8") as _rf:
+                        _rq = _json_mod.load(_rf)
+                    for _ritem in _rq:
+                        if _ritem["id"] == _review_id:
+                            _final_status = _ritem.get("status", "PENDING_REVIEW")
+                            if _final_status != "PENDING_REVIEW":
+                                _approved_entry = _ritem
+                                break
+                    if _final_status != "PENDING_REVIEW":
+                        break
+                except Exception:
+                    pass
+
+            if _final_status == "APPROVED" and _approved_entry:
+                logger.info("✅ [STUDIO] Clip APPROVED — publishing with edits.")
+                # Override publish params with user edits from Studio Panel
+                _custom_title    = _approved_entry.get("title", actress_title)
+                _custom_hashtags = _approved_entry.get("hashtags", "")
+                _custom_platforms = _approved_entry.get("platforms", {})
+                # Pass overrides through env so _auto_publish_clip picks them up
+                os.environ["_STUDIO_TITLE"]    = _custom_title
+                os.environ["_STUDIO_HASHTAGS"] = _custom_hashtags
+                os.environ["_STUDIO_SKIP_YT"]  = "0" if _custom_platforms.get("youtube", True)   else "1"
+                os.environ["_STUDIO_SKIP_IG"]  = "0" if _custom_platforms.get("instagram", True) else "1"
+                os.environ["_STUDIO_SKIP_TT"]  = "0" if _custom_platforms.get("tiktok", False)   else "1"
+                _auto_publish_clip(final_video_path, actress_title, actress_folder)
+            elif _final_status == "REJECTED":
+                logger.info("🗑️ [STUDIO] Clip REJECTED — skipping publish. File should already be deleted.")
+                return
+            else:
+                logger.warning(
+                    "⏰ [STUDIO] Review timeout after %d min — auto-publishing without edits.",
+                    _max_wait_s // 60,
+                )
+                _auto_publish_clip(final_video_path, actress_title, actress_folder)
+            return
+    # ── /EDITORIAL REVIEW GATE ────────────────────────────────────────────────
+
     _auto_publish_clip(final_video_path, actress_title, actress_folder)
 
     # Belt-and-suspenders: ensure both paths are gone even if _auto_publish_clip's
@@ -357,6 +458,11 @@ def _publish_loop():
         try:
             now        = datetime.now()
             slots      = _get_active_publish_slots()
+
+            # Auto-fill queue from downloads if SCHEDULE_MANUAL_INPUTS is enabled
+            if os.getenv("SCHEDULE_MANUAL_INPUTS", "no").strip().lower() in ("yes", "1", "true"):
+                _auto_fill_queue_from_downloads()
+
             queue_size = len(PublishQueue.load())
             _auto_interval = int(os.getenv("ACTRESS_AUTO_PROCESS_INTERVAL_MINUTES", "90"))
 

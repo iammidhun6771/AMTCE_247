@@ -103,8 +103,8 @@
       "version": 2
     },
     "Akanksha_puri_2.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1780578841.4520783,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9433477,
@@ -257,8 +257,8 @@
       "version": 2
     },
     "Gayu.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1780676600.520191,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9449425,
@@ -281,8 +281,8 @@
       "version": 2
     },
     "Giorgia_1.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1780579097.298077,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.945487,
@@ -293,8 +293,8 @@
       "version": 2
     },
     "Giorgia_2.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1780579021.8496056,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.945487,
@@ -329,8 +329,8 @@
       "version": 2
     },
     "Jennie.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1780580781.0383945,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9460042,
@@ -548,8 +548,8 @@
       "version": 2
     },
     "Rakul_preet_singh_1.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1780579073.805025,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9480724,
@@ -680,8 +680,8 @@
       "version": 2
     },
     "Sakshi_malik_2.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1780675401.3920622,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9496174,
@@ -704,8 +704,8 @@
       "version": 2
     },
     "Sara_Tendulkar.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1780578683.004878,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9501328,
@@ -752,8 +752,8 @@
       "version": 2
     },
     "Shefali_1.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1780578656.0315487,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9506483,
@@ -1111,6 +1111,58 @@
         "fitness"
       ],
       "gemini_analyzed": true
+    },
+    "2235768379600": {
+      "is_speech_only": true,
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 0.0,
+      "energy": 0.0,
+      "created_at": 1780578656.0159965,
+      "beat_data_path": null,
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "",
+      "version": 2
+    },
+    "2236050017920": {
+      "is_speech_only": true,
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 0.0,
+      "energy": 0.0,
+      "created_at": 1780579021.8463645,
+      "beat_data_path": null,
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "",
+      "version": 2
+    },
+    "2235772293504": {
+      "is_speech_only": true,
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 0.0,
+      "energy": 0.0,
+      "created_at": 1780579073.802201,
+      "beat_data_path": null,
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "",
+      "version": 2
+    },
+    "2235795622976": {
+      "is_speech_only": true,
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 0.0,
+      "energy": 0.0,
+      "created_at": 1780579097.2854998,
+      "beat_data_path": null,
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "",
+      "version": 2
     }
   }
 }

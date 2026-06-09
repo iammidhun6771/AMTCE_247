@@ -86,6 +86,12 @@ except ImportError as e:
 
 # 1. Immediate Logging Setup (captured before heavy modules)
 os.makedirs("logs", exist_ok=True)
+# Force UTF-8 on stdout to prevent UnicodeEncodeError on Windows (cp1252 can't handle emoji)
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.INFO,

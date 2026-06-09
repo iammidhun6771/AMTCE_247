@@ -1,0 +1,101 @@
+{
+  "pipeline": "audit_passed",
+  "verdict": {
+    "classification": "safe",
+    "monetization_safe": true
+  },
+  "editorial_title": null,
+  "caption_data": {
+    "caption": "This edit crafts an unforgettable narrative around a stunning gown. We open with a show-stopping moment (Hook) – perhaps a fluid twirl or a dramatic curtain reveal, immediately showcasing the garment's breathtaking appeal. Then, we transition to the initial journey (Buildup 1), setting the stage. Intriguing close-ups of intricate embroidery or fabric texture (Buildup 2) draw the viewer deeper, building anticipation. Further elegant movements (Buildup 3) ensure continuous engagement, leading to the grand unveiling (Climax) where the gown's full magnificence is displayed in all its glory. Finally, a unique design element is highlighted (Reveal), providing a deeper appreciation for the artistry, concluding an emotional arc from awe to full admiration.",
+    "editorial_script": "This edit crafts an unforgettable narrative around a stunning gown. We open with a show-stopping moment (Hook) – perhaps a fluid twirl or a dramatic curtain reveal, immediately showcasing the garment's breathtaking appeal. Then, we transition to the initial journey (Buildup 1), setting the stage. Intriguing close-ups of intricate embroidery or fabric texture (Buildup 2) draw the viewer deeper, building anticipation. Further elegant movements (Buildup 3) ensure continuous engagement, leading to the grand unveiling (Climax) where the gown's full magnificence is displayed in all its glory. Finally, a unique design element is highlighted (Reveal), providing a deeper appreciation for the artistry, concluding an emotional arc from awe to full admiration."
+  },
+  "metadata": {
+    "hook_score": 0.0,
+    "quality_score": 0.5,
+    "transformation_score": 95.0,
+    "item_name": "Style",
+    "price_tag": "",
+    "gemini_total_calls": 6,
+    "gemini_call_log": [
+      "MASTER_INTELLIGENCE",
+      "MASTER_INTELLIGENCE",
+      "MASTER_INTELLIGENCE",
+      "MASTER_INTELLIGENCE",
+      "MASTER_INTELLIGENCE",
+      "MASTER_INTELLIGENCE"
+    ],
+    "editing_diagnostics": {},
+    "feature_flags": {
+      "scene_detection": true,
+      "smart_crop": true,
+      "caption_generation": true,
+      "music_engine": true,
+      "voiceover_generation": true,
+      "beat_detection": false,
+      "price_tag_engine": true,
+      "subject_tracking": false,
+      "scene_reconstruction": true,
+      "watermark_detection": true,
+      "watermark_inpaint": true
+    }
+  },
+  "pipeline_metrics": {
+    "monetization": {
+      "editorial_script": "This edit crafts an unforgettable narrative around a stunning gown. We open with a show-stopping moment (Hook) – perhaps a fluid twirl or a dramatic curtain reveal, immediately showcasing the garment's breathtaking appeal. Then, we transition to the initial journey (Buildup 1), setting the stage. Intriguing close-ups of intricate embroidery or fabric texture (Buildup 2) draw the viewer deeper, building anticipation. Further elegant movements (Buildup 3) ensure continuous engagement, leading to the grand unveiling (Climax) where the gown's full magnificence is displayed in all its glory. Finally, a unique design element is highlighted (Reveal), providing a deeper appreciation for the artistry, concluding an emotional arc from awe to full admiration.",
+      "final_caption": "This edit crafts an unforgettable narrative around a stunning gown. We open with a show-stopping moment (Hook) – perhaps a fluid twirl or a dramatic curtain reveal, immediately showcasing the garment's breathtaking appeal. Then, we transition to the initial journey (Buildup 1), setting the stage. Intriguing close-ups of intricate embroidery or fabric texture (Buildup 2) draw the viewer deeper, building anticipation. Further elegant movements (Buildup 3) ensure continuous engagement, leading to the grand unveiling (Climax) where the gown's full magnificence is displayed in all its glory. Finally, a unique design element is highlighted (Reveal), providing a deeper appreciation for the artistry, concluding an emotional arc from awe to full admiration.",
+      "caption": "This edit crafts an unforgettable narrative around a stunning gown. We open with a show-stopping moment (Hook) – perhaps a fluid twirl or a dramatic curtain reveal, immediately showcasing the garment's breathtaking appeal. Then, we transition to the initial journey (Buildup 1), setting the stage. Intriguing close-ups of intricate embroidery or fabric texture (Buildup 2) draw the viewer deeper, building anticipation. Further elegant movements (Buildup 3) ensure continuous engagement, leading to the grand unveiling (Climax) where the gown's full magnificence is displayed in all its glory. Finally, a unique design element is highlighted (Reveal), providing a deeper appreciation for the artistry, concluding an emotional arc from awe to full admiration.",
+      "cta": null,
+      "monetization_cta": null,
+      "ypp_safe": true,
+      "risk_level": "UNKNOWN",
+      "risk_reason": "Analysis pending or not performed.",
+      "reason": "Analysis pending or not performed.",
+      "transformation_score": 95.0,
+      "policy_citation": "Significant Original Commentary",
+      "fashion_scout": {
+        "wearer_name": "Elite Fashion Model",
+        "designer_or_brand": "Prestigious Atelier",
+        "outfit_type": "Western formal gown",
+        "educational_fact": "Evening gowns, particularly in rich colors like crimson, are often intricately embroidered to catch light and enhance movement, making them a centerpiece for galas and red-carpet events."
+      },
+      "item_name": "Style",
+      "improvement_tips": [],
+      "overlay_data": {},
+      "price_data": null,
+      "telegram_hook": null,
+      "instagram_hook": null,
+      "youtube_hook": null,
+      "hashtags": null
+    }
+  },
+  "editing_timeline": [],
+  "monetization": {
+    "editorial_script": "This edit crafts an unforgettable narrative around a stunning gown. We open with a show-stopping moment (Hook) – perhaps a fluid twirl or a dramatic curtain reveal, immediately showcasing the garment's breathtaking appeal. Then, we transition to the initial journey (Buildup 1), setting the stage. Intriguing close-ups of intricate embroidery or fabric texture (Buildup 2) draw the viewer deeper, building anticipation. Further elegant movements (Buildup 3) ensure continuous engagement, leading to the grand unveiling (Climax) where the gown's full magnificence is displayed in all its glory. Finally, a unique design element is highlighted (Reveal), providing a deeper appreciation for the artistry, concluding an emotional arc from awe to full admiration.",
+    "final_caption": "This edit crafts an unforgettable narrative around a stunning gown. We open with a show-stopping moment (Hook) – perhaps a fluid twirl or a dramatic curtain reveal, immediately showcasing the garment's breathtaking appeal. Then, we transition to the initial journey (Buildup 1), setting the stage. Intriguing close-ups of intricate embroidery or fabric texture (Buildup 2) draw the viewer deeper, building anticipation. Further elegant movements (Buildup 3) ensure continuous engagement, leading to the grand unveiling (Climax) where the gown's full magnificence is displayed in all its glory. Finally, a unique design element is highlighted (Reveal), providing a deeper appreciation for the artistry, concluding an emotional arc from awe to full admiration.",
+    "caption": "This edit crafts an unforgettable narrative around a stunning gown. We open with a show-stopping moment (Hook) – perhaps a fluid twirl or a dramatic curtain reveal, immediately showcasing the garment's breathtaking appeal. Then, we transition to the initial journey (Buildup 1), setting the stage. Intriguing close-ups of intricate embroidery or fabric texture (Buildup 2) draw the viewer deeper, building anticipation. Further elegant movements (Buildup 3) ensure continuous engagement, leading to the grand unveiling (Climax) where the gown's full magnificence is displayed in all its glory. Finally, a unique design element is highlighted (Reveal), providing a deeper appreciation for the artistry, concluding an emotional arc from awe to full admiration.",
+    "cta": null,
+    "monetization_cta": null,
+    "ypp_safe": true,
+    "risk_level": "UNKNOWN",
+    "risk_reason": "Analysis pending or not performed.",
+    "reason": "Analysis pending or not performed.",
+    "transformation_score": 95.0,
+    "policy_citation": "Significant Original Commentary",
+    "fashion_scout": {
+      "wearer_name": "Elite Fashion Model",
+      "designer_or_brand": "Prestigious Atelier",
+      "outfit_type": "Western formal gown",
+      "educational_fact": "Evening gowns, particularly in rich colors like crimson, are often intricately embroidered to catch light and enhance movement, making them a centerpiece for galas and red-carpet events."
+    },
+    "item_name": "Style",
+    "improvement_tips": [],
+    "overlay_data": {},
+    "price_data": null,
+    "telegram_hook": null,
+    "instagram_hook": null,
+    "youtube_hook": null,
+    "hashtags": null
+  },
+  "processed_only_path": "",
+  "bgm_audio_path": "D:\\AMTCE\\Original_audio\\cooldown\\Giorgia_1.mp3",
+  "extracted_audio_path": 

@@ -1,0 +1,577 @@
+{
+  "export_timestamp": "2026-06-04T18:42:26.794138",
+  "duration_analysed": 10.0,
+  "formula": "R(t) = 0.35 * M + 0.25 * F + 0.20 * B + 0.20 * D",
+  "weights": {
+    "motion": 0.35,
+    "face": 0.25,
+    "beat": 0.2,
+    "dialogue": 0.2
+  },
+  "smoothing": {
+    "method": "centred_moving_average",
+    "window": 5
+  },
+  "peak_detection": {
+    "method": "mean + 1.2 * std (population)",
+    "threshold": 0.0435,
+    "min_gap_s": 1.0
+  },
+  "summary": {
+    "peak_count": 3,
+    "strongest_peak": 0.048,
+    "peak_times": [
+      3.008,
+      4.98,
+      7.025
+    ]
+  },
+  "peaks": [
+    {
+      "time": 3.008,
+      "score": 0.048
+    },
+    {
+      "time": 4.98,
+      "score": 0.0478
+    },
+    {
+      "time": 7.025,
+      "score": 0.0478
+    }
+  ],
+  "retention_curve": [
+    {
+      "time": 0.021,
+      "score": 0.0
+    },
+    {
+      "time": 0.505,
+      "score": 0.0
+    },
+    {
+      "time": 1.014,
+      "score": 0.0112
+    },
+    {
+      "time": 1.52,
+      "score": 0.0232
+    },
+    {
+      "time": 1.976,
+      "score": 0.0232
+    },
+    {
+      "time": 2.0,
+      "score": 0.0232
+    },
+    {
+      "time": 2.518,
+      "score": 0.0232
+    },
+    {
+      "time": 3.008,
+      "score": 0.048
+    },
+    {
+      "time": 3.509,
+      "score": 0.036
+    },
+    {
+      "time": 4.0,
+      "score": 0.036
+    },
+    {
+      "time": 4.52,
+      "score": 0.036
+    },
+    {
+      "time": 4.98,
+      "score": 0.0478
+    },
+    {
+      "time": 5.514,
+      "score": 0.0118
+    },
+    {
+      "time": 5.994,
+      "score": 0.0118
+    },
+    {
+      "time": 6.48,
+      "score": 0.0118
+    },
+    {
+      "time": 7.025,
+      "score": 0.0478
+    },
+    {
+      "time": 7.493,
+      "score": 0.036
+    },
+    {
+      "time": 8.0,
+      "score": 0.036
+    },
+    {
+      "time": 8.478,
+      "score": 0.036
+    },
+    {
+      "time": 8.999,
+      "score": 0.036
+    },
+    {
+      "time": 9.5,
+      "score": 0.0
+    },
+    {
+      "time": 9.979,
+      "score": 0.0
+    }
+  ],
+  "retention_curve_raw": [
+    {
+      "time": 0.021,
+      "score": 0.0,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 0.505,
+      "score": 0.0,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 1.014,
+      "score": 0.0,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 1.52,
+      "score": 0.0,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 1.976,
+      "score": 0.0559,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.2794,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 2.0,
+      "score": 0.06,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.3,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 2.518,
+      "score": 0.0,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 3.008,
+      "score": 0.0,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 3.509,
+      "score": 0.0,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 4.0,
+      "score": 0.18,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.9,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 4.52,
+      "score": 0.0,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 4.98,
+      "score": 0.0,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 5.514,
+      "score": 0.0,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 5.994,
+      "score": 0.059,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.2949,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 6.48,
+      "score": 0.0,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 7.025,
+      "score": 0.0,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 7.493,
+      "score": 0.0,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 8.0,
+      "score": 0.18,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.9,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 8.478,
+      "score": 0.0,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 8.999,
+      "score": 0.0,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 9.5,
+      "score": 0.0,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 9.979,
+      "score": 0.0,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    }
+  ],
+  "retention_curve_debug": [
+    {
+      "time": 0.021,
+      "score": 0.0,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 0.505,
+      "score": 0.0,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 1.014,
+      "score": 0.0112,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 1.52,
+      "score": 0.0232,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 1.976,
+      "score": 0.0232,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.2794,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 2.0,
+      "score": 0.0232,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.3,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 2.518,
+      "score": 0.0232,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 3.008,
+      "score": 0.048,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 3.509,
+      "score": 0.036,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 4.0,
+      "score": 0.036,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.9,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 4.52,
+      "score": 0.036,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 4.98,
+      "score": 0.0478,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 5.514,
+      "score": 0.0118,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 5.994,
+      "score": 0.0118,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.2949,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 6.48,
+      "score": 0.0118,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 7.025,
+      "score": 0.0478,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 7.493,
+      "score": 0.036,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 8.0,
+      "score": 0.036,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.9,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 8.478,
+      "score": 0.036,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 8.999,
+      "score": 0.036,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 9.5,
+      "score": 0.0,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    },
+    {
+      "time": 9.979,
+      "score": 0.0,
+      "components": {
+        "motion": 0.0,
+        "face": 0.0,
+        "beat": 0.0,
+        "dialogue": 0.0
+      }
+    }
+  ]
+}
