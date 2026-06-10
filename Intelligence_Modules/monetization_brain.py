@@ -201,13 +201,7 @@ class MonetizationStrategist:
                 # ── COMMUNITY COMMENT HOOK ────────────────────────────────────────
                 f'  "community_comment_hook": "<YOUTUBE COMMUNITY COMMENT. '
                 f'Strategy: {hook_strategy.get("community_purpose", "Drive viewers to join Telegram.")}. '
-                f'RULES: 3-4 lines max. End with exactly: Join Telegram for raw unfiltered output & outfit requests 👇\\n{_tg_display}>",\n'
-
-                # ── NARRATION SCRIPT ─────────────────────────────────────────────
-                f'  "narration_script": "<VOICEOVER SCRIPT. '
-                f'Strategy: {hook_strategy.get("narration_purpose", "Hyper-retention direct-response copy.")}. '
-                f'WORD TARGET: {_word_target_str} words exactly. Constraints: {hook_strategy.get("domain_constraints", "None")}. '
-                f'RULES: Plain text only, no stage directions, present tense, second person.>"'
+                f'RULES: 3-4 lines max. End with exactly: Join Telegram for raw unfiltered output & outfit requests 👇\\n{_tg_display}>"'
                 f'\n}}'
             ) if hashtag_gen else (
                 f'{{\n'
@@ -633,21 +627,10 @@ class MonetizationStrategist:
             youtube_hook = data.get("youtube_hook")
             community_comment_hook = data.get("community_comment_hook")
 
-            # ── Narration script override ─────────────────────────────────────────
-            # Use Gemini's narration_script if quality is sufficient.
-            # Fallback: script already built from detail_1/detail_2 above is kept.
-            _narration_raw = data.get("narration_script", "")
-            # Extract recommended variation if multi-variation format is present
-            if _narration_raw and "RECOMMENDED:" in _narration_raw:
-                _rec = re.search(r"RECOMMENDED:\s*([ABC])", _narration_raw)
-                _key = _rec.group(1) if _rec else "A"
-                _match = re.search(rf"{_key}:\s*(.+?)(?=\n[ABC]:|RECOMMENDED:|$)", _narration_raw, re.DOTALL)
-                if _match:
-                    _narration_raw = _match.group(1).strip()
-
-            if _narration_raw and len(_narration_raw.split()) >= 8:
-                script = _narration_raw
-                logger.info("[NARRATION] Using Gemini narration_script from master hook call.")
+            # narration_script override removed — the single late-stage script engine
+            # in orchestrator.py is now the sole authoritative script generator.
+            # 'script' (built from detail_1/detail_2 above) is kept as a lightweight
+            # fallback editorial_script for non-late-stage runs, no extra API cost.
 
             # ── Populate shared hook cache so downstream modules skip their calls ─
             try:
@@ -662,12 +645,6 @@ class MonetizationStrategist:
             except Exception as _cache_err:
                 logger.debug(f"[MASTER_HOOKS] Cache population skipped (non-fatal): {_cache_err}")
 
-            # ── 6. Finalization & MoneyFlow Optimization ───────────────────
-            # Prepend the title to the script if missing (Voiceover requirement)
-            clean_title_str = original_title.split(":", 1)[-1].replace("_", " ").strip()
-            title_words = set(re.findall(r"\w+", clean_title_str.lower()))
-            if clean_title_str and not all(w in script.lower() for w in title_words if len(w) > 3):
-                script = f"{clean_title_str}. {script}"
 
             result = {
                 "approved": True,

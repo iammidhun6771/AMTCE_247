@@ -25,7 +25,7 @@ from typing import Dict, List, Sequence
 
 FONT_DIR = os.path.join("assets", "fonts")
 PLAYFAIR_FONT_PATH = os.path.join(FONT_DIR, "PlayfairDisplay-Bold.ttf")
-FALLBACK_FONT_PATH = PLAYFAIR_FONT_PATH
+FALLBACK_FONT_PATH = os.path.join(FONT_DIR, "Inter-Bold.ttf")
 
 CAPTION_COLOR = "#FFD400"
 CAPTION_FONT_SIZE_PCT = 0.045  # 4.5% of video height (1080p → ~48px)

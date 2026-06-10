@@ -11,14 +11,14 @@ from reused_content_analyzer.analyzer import analyze_reused_video
 logging.basicConfig(level=logging.INFO)
 
 def main():
-    video_path = os.path.join("Compilations", "Akanksha_puri_01.mp4")
+    video_path = os.path.join("downloads", "Amy.mp4")
     if not os.path.exists(video_path):
         print(f"Error: Sample video {video_path} not found.")
         sys.exit(1)
         
     print(f"Starting analysis on {video_path}...")
     try:
-        results = analyze_reused_video(video_path)
+        results = analyze_reused_video(video_path, model_name="gemini-2.5-flash")
         print("\n--- RESULTS ---")
         pprint(results)
     except Exception as e:

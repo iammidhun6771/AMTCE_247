@@ -299,9 +299,8 @@ MASTER_SCHEMA = {
         },
 
         # ─────────────────────────────────────────
-        # 🗣️ OUTPUTS
+        # 🖼️ OUTPUTS  (voiceover script handled by late-stage engine only)
         # ─────────────────────────────────────────
-        "editorial_script": {"type": "string"},
 
         "overlay_data": {
             "type": ["object", "null"],
@@ -645,7 +644,9 @@ class UnifiedIntelligence:
                 mission_result = director.execute_mission(
                     niche="fashion",
                     video_request=mission_request,
+                    # pyrefly: ignore [unexpected-keyword]
                     input_paths=_v_input_paths,
+                    # pyrefly: ignore [unexpected-keyword]
                     output_path=_v_output_path,
                 )
                 # ToolResult has .success; stub _MissionResult also has .success
@@ -1137,10 +1138,10 @@ class UnifiedIntelligence:
                     )
                 except Exception:
                     cache.extensions.monetization["caption_text"] = content_director["caption_text"]
-            if master_data.get("editorial_script"):
-                cache.extensions.monetization["editorial_script"] = master_data[
-                    "editorial_script"
-                ]
+            # editorial_script intentionally NOT parsed here.
+            # The single late-stage script engine in orchestrator.py is the
+            # authoritative source. Removing this path eliminates the duplicate
+            # early-generation load from the master schema call.
             if master_data.get("overlay_data"):
                 overlay = master_data["overlay_data"]
                 try:

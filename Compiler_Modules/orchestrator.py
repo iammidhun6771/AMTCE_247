@@ -3570,7 +3570,16 @@ def compile_video(
                 logger.warning(f"[COMMENTARY_ENGINE] refinement_failed: {e}")
 
         # ---- TTS AUDIO — gated separately from script generation ----------------
-        if context.feature_flags.get("voiceover_generation"):
+        # [LATE_SCRIPT_GENERATION] When LATE_SCRIPT_GENERATION=yes, TTS is deferred to
+        # after the visual render is complete so the script is duration-aware.
+        # The early TTS block is fully skipped in that mode; a dedicated block after
+        # the SRV verifier (just before FINAL AUDIO MIX) handles it instead.
+        _late_script_mode = os.getenv("LATE_SCRIPT_GENERATION", "yes").strip().lower() == "yes"
+        if _late_script_mode:
+            logger.info(
+                "🎙️ [VOICEOVER] LATE_SCRIPT_GENERATION=yes — TTS deferred to post-visual-render stage."
+            )
+        elif context.feature_flags.get("voiceover_generation"):
             if VOICEOVER_AVAILABLE and full_script and len(full_script.strip()) > 10:
                 if _vo_env == "no":
                     logger.info("🎙️ [VOICEOVER] SCRIPT GENERATED, BUT AUDIO BLOCKED (ENABLE_MICRO_VOICEOVER=no).")
@@ -5477,6 +5486,173 @@ def compile_video(
 """)
         except Exception as _srve:
             logger.warning(f"⚠️ SRV Failure: {_srve}")
+
+        # ── [LATE SCRIPT GENERATION] Post-Visual-Render Script + TTS (AMTCE only) ─────
+        # Activated via LATE_SCRIPT_GENERATION=yes in Credentials/.env
+        #
+        # This block runs AFTER the visual render is finalised and its exact duration
+        # is known (_final_vid_dur). It uploads the rendered video to the Gemini File
+        # API, requests a duration-aware narration script that fits the video precisely,
+        # generates TTS audio for it, and updates all downstream script keys so the
+        # karaoke engine and audio mix use the new script.
+        #
+        # ⚠️  AMTCE-ONLY: Do NOT touch this block when modifying CEIE.
+        _late_script_mode = os.getenv("LATE_SCRIPT_GENERATION", "yes").strip().lower() == "yes"
+        if _late_script_mode and os.path.exists(temp_visual_render):
+            logger.info("🧠 [LATE_SCRIPT] Starting post-render duration-aware script generation...")
+            _late_script_generated = False
+            try:
+                from google import genai as _late_genai
+                from google.genai import types as _late_types
+                import time as _late_time
+
+                _api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
+                if not _api_key:
+                    raise RuntimeError("[LATE_SCRIPT] Missing GEMINI_API_KEY — skipping late script.")
+
+                _late_client = _late_genai.Client(api_key=_api_key)
+
+                # ── 1. Upload the visual render to Gemini File API ──────────────────
+                _render_size_mb = os.path.getsize(temp_visual_render) / (1024 * 1024)
+                logger.info(
+                    f"📤 [LATE_SCRIPT] Uploading visual render ({_render_size_mb:.1f} MB) to Gemini File API..."
+                )
+                _uploaded_file = _late_client.files.upload(file=temp_visual_render)
+                logger.info(
+                    f"📤 [LATE_SCRIPT] Upload complete: name={_uploaded_file.name} | "
+                    f"state={getattr(_uploaded_file, 'state', 'unknown')}"
+                )
+
+                # ── 2. Wait for the file to be ACTIVE (Gemini processes the video) ─
+                _wait_start = _late_time.time()
+                _wait_timeout = 120  # seconds
+                while True:
+                    _file_state = getattr(_uploaded_file, "state", None)
+                    _state_name = (
+                        _file_state.name
+                        if hasattr(_file_state, "name")
+                        else str(_file_state)
+                    )
+                    if _state_name == "ACTIVE":
+                        logger.info("✅ [LATE_SCRIPT] Gemini file is ACTIVE — ready for analysis.")
+                        break
+                    if _state_name == "FAILED":
+                        raise RuntimeError("[LATE_SCRIPT] Gemini file processing FAILED.")
+                    if _late_time.time() - _wait_start > _wait_timeout:
+                        logger.warning(
+                            f"⚠️ [LATE_SCRIPT] File not ACTIVE after {_wait_timeout}s — proceeding anyway."
+                        )
+                        break
+                    _late_time.sleep(3)
+                    _uploaded_file = _late_client.files.get(name=_uploaded_file.name)
+
+                # ── 3. Build a duration-aware prompt ───────────────────────────────
+                _render_dur = _final_vid_dur or 30.0
+                # Word target: ~2.3 words/sec, capped between 15 and 75 words
+                _word_target = max(15, min(int(_render_dur * 2.3), 75))
+                _niche = (
+                    profile_data.get("niche")
+                    or profile_data.get("content_type")
+                    or "fashion/celebrity"
+                )
+                _tone = (
+                    profile_data.get("tone")
+                    or profile_data.get("editorial_tone")
+                    or "engaging and enthusiastic"
+                )
+                _item = profile_data.get("item_name") or ""
+                _item_hint = f"The featured item is: {_item}." if _item else ""
+
+                _late_prompt = (
+                    f"You are an expert social-media video narrator specialising in {_niche} content.\n"
+                    f"Watch the provided video clip (duration: {_render_dur:.1f}s) carefully.\n"
+                    f"{_item_hint}\n"
+                    f"Write a single, natural narration script — NO headings, NO bullet points, NO labels — "
+                    f"of EXACTLY {_word_target} words (±3 words).\n"
+                    f"Tone: {_tone}. The script must match the visual pacing perfectly and feel human-spoken.\n"
+                    f"Output the narration text ONLY."
+                )
+
+                # ── 4. Call Gemini with the uploaded video ─────────────────────────
+                _late_model = os.getenv("LATE_SCRIPT_MODEL", "gemini-2.0-flash")
+                logger.info(
+                    f"🧠 [LATE_SCRIPT] Requesting {_word_target}-word script from {_late_model} "
+                    f"(video={_render_dur:.1f}s)..."
+                )
+                _late_response = _late_client.models.generate_content(
+                    model=_late_model,
+                    contents=[
+                        _late_types.Part.from_uri(
+                            file_uri=_uploaded_file.uri,
+                            mime_type="video/mp4",
+                        ),
+                        _late_prompt,
+                    ],
+                    config=_late_types.GenerateContentConfig(
+                        temperature=0.7,
+                        max_output_tokens=256,
+                    ),
+                )
+
+                _late_script_raw = _late_response.text.strip() if _late_response.text else ""
+
+                # ── 5. Validate and propagate the new script ───────────────────────
+                if _late_script_raw and len(_late_script_raw) > 10:
+                    logger.info(
+                        f"✅ [LATE_SCRIPT] Script generated ({len(_late_script_raw.split())} words): "
+                        f"{_late_script_raw[:120]}..."
+                    )
+                    # Update all script keys consumed by karaoke + sidecar
+                    full_script = _late_script_raw
+                    profile_data["editorial_script"] = _late_script_raw
+                    profile_data["karaoke_script"] = _late_script_raw
+                    if isinstance(mon_data, dict):
+                        mon_data["editorial_script"] = _late_script_raw
+                        profile_data["monetization_data"] = mon_data
+                    _late_script_generated = True
+                else:
+                    logger.warning("⚠️ [LATE_SCRIPT] Empty or too-short response — keeping early script.")
+
+                # ── 6. Generate TTS voiceover from the new late script ─────────────
+                if _late_script_generated and VOICEOVER_AVAILABLE:
+                    _vo_env_late = os.getenv("ENABLE_MICRO_VOICEOVER", "yes").lower()
+                    if _vo_env_late == "no":
+                        logger.info(
+                            "🎙️ [LATE_SCRIPT] Script ready but ENABLE_MICRO_VOICEOVER=no — TTS skipped."
+                        )
+                    else:
+                        _late_vo_file = os.path.join(job_dir, "voiceover.mp3")
+                        logger.info(
+                            f"🎙️ [LATE_SCRIPT] Generating TTS for {len(full_script)} chars..."
+                        )
+                        _late_vo_ok = run_with_timeout(
+                            func=voiceover.generate_voiceover,
+                            timeout_sec=120,
+                            feature_name="voiceover_generation",
+                            auditor=auditor,
+                            script_text=full_script[:500],
+                            output_file=_late_vo_file,
+                        )
+                        if _late_vo_ok:
+                            voiceover_path = _late_vo_file
+                            logger.info(
+                                f"🎙️ [LATE_SCRIPT] TTS voiceover ready: {_late_vo_file}"
+                            )
+                        else:
+                            logger.warning("⚠️ [LATE_SCRIPT] TTS generation failed — no voiceover will be mixed.")
+
+                # ── 7. Clean up: delete the uploaded file from Gemini File API ──────
+                try:
+                    _late_client.files.delete(name=_uploaded_file.name)
+                    logger.info(f"🗑️ [LATE_SCRIPT] Deleted Gemini file: {_uploaded_file.name}")
+                except Exception as _del_err:
+                    logger.debug(f"[LATE_SCRIPT] Could not delete Gemini file (non-fatal): {_del_err}")
+
+            except Exception as _late_err:
+                logger.warning(
+                    f"⚠️ [LATE_SCRIPT] Late script generation failed (non-fatal — using early script): {_late_err}"
+                )
+        # ─────────────────────────────────────────────────────────────────────────────
 
         # ---- FINAL AUDIO MIX --------------------------------------------------------
         logger.info("🎛️ Mixing Final Audio (VO + BGM)...")
