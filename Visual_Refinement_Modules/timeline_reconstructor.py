@@ -80,8 +80,8 @@ logger = logging.getLogger("timeline_reconstructor")
 # ══════════════════════════════════════════════════════════════════════════════
 
 # Segment extraction window around each moment anchor (per spec)
-SEGMENT_PRE  = 0.8  # seconds BEFORE moment anchor (was 2.0 — too blobby)
-SEGMENT_POST = 1.5  # seconds AFTER  moment anchor (was 3.0 — too blobby)
+SEGMENT_PRE  = 2.0  # seconds BEFORE moment anchor — wider window for slow fashion/pose content
+SEGMENT_POST = 4.0  # seconds AFTER  moment anchor — must capture full turn/reveal sequence
 
 # How many moments to carry into the narrative role-assignment pass
 MIN_MOMENTS = 8
@@ -89,7 +89,8 @@ MAX_MOMENTS = 12
 
 # Minimum source-time separation between two selected moments.
 # Prevents nearly-identical segments from occupying two different slots.
-MIN_DEDUP_GAP = 1.5  # seconds
+# Increased: fashion poses unfold over 4-8s, so 1.5s gap collapsed multi-phase action into one slot.
+MIN_DEDUP_GAP = 3.0  # seconds
 
 # How close a retention peak must be to a candidate moment to be matched
 RETENTION_MATCH_WINDOW = 1.0  # seconds
