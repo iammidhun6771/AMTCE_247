@@ -8772,7 +8772,7 @@ def run_ci_mode():
     # the lock is still valid skips all work and exits immediately to prevent
     # two runners sharing the same Telegram bot token.
     _BOT_LOCK_FILE = "The_json/bot_lock.json"
-    if is_scheduled:
+    if is_scheduled and os.getenv("GITHUB_ACTIONS") != "true":
         try:
             if os.path.exists(_BOT_LOCK_FILE):
                 import json as _jl
@@ -9215,15 +9215,20 @@ if __name__ == "__main__":
     elif os.getenv("GITHUB_ACTIONS") == "true":
         # Check if it is a manual one-shot video run
         if os.getenv("GITHUB_EVENT_NAME") == "workflow_dispatch":
-            run_one_shot_dispatch()
-            sys.exit(0)
+            target_url = os.getenv("DISPATCH_TARGET_URL", "").strip()
+            actress_name = os.getenv("DISPATCH_ACTRESS_NAME", "").strip()
+            if target_url or actress_name:
+                run_one_shot_dispatch()
+                sys.exit(0)
+            else:
+                logger.info("ℹ️ [CI] Workflow dispatch received without target_url or actress_name. Falling through to persistent bot mode.")
 
         _BOT_LOCK_FILE = "The_json/bot_lock.json"
         _BOT_TIMEOUT_HOURS = 5.25  # Run for 5.25 hours, then rotate
         _bot_expires = time.time() + (_BOT_TIMEOUT_HOURS * 3600)
         
         has_active_lock = False
-        if os.path.exists(_BOT_LOCK_FILE):
+        if os.path.exists(_BOT_LOCK_FILE) and os.getenv("GITHUB_ACTIONS") != "true":
             try:
                 import json as _jl
                 with open(_BOT_LOCK_FILE, "r") as _f:
