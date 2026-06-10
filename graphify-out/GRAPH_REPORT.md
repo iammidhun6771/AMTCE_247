@@ -1,12 +1,12 @@
 # Graph Report - D:\AMTCE  (2026-06-10)
 
 ## Corpus Check
-- 324 files · ~911,653 words
+- 327 files · ~914,937 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 4846 nodes · 13169 edges · 749 communities detected
-- Extraction: 39% EXTRACTED · 61% INFERRED · 0% AMBIGUOUS · INFERRED: 8095 edges (avg confidence: 0.57)
+- 4855 nodes · 13181 edges · 749 communities detected
+- Extraction: 39% EXTRACTED · 61% INFERRED · 0% AMBIGUOUS · INFERRED: 8098 edges (avg confidence: 0.57)
 - Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
@@ -761,7 +761,7 @@
 - [[_COMMUNITY_Community 748|Community 748]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `get()` - 648 edges
+1. `get()` - 649 edges
 2. `SelfOptimizingEditor` - 352 edges
 3. `RhythmTimelineBuilder` - 345 edges
 4. `PublishQueue` - 329 edges
@@ -788,11 +788,11 @@
 
 ### Community 0 - "Community 0"
 Cohesion: 0.01
-Nodes (328): AnalyticsEngine, analytics_engine.py Fetches YouTube Analytics data for a published video.  Retri, Return a synthetic snapshot for testing without API access., Fetch views, avg view duration, likes., Fetch audience retention curve.         Returns list of {"t": float, "pct": flo, Fetches per-video analytics from YouTube Analytics API.      Args:         crede, Return a synthetic snapshot for testing without API access., Fetch views, avg view duration, likes. (+320 more)
+Nodes (325): can_post(), _get_account_entry(), get_daily_summary(), _load_state(), pick_available_account(), account_limiter.py — Per-Account Daily Post Limiter ============================, Increment the post counter for a niche + platform.     Call this AFTER a success, Returns a summary of today's post counts for all accounts. (+317 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.01
-Nodes (268): DigitalAnchor, Generates the FFmpeg filter for the circular anchor in the corner.         Posi, Returns the path to the current active anchor asset., Manages the 'Virtual Host' (AI Anchor) for the Synthetic Newsroom.     Provides, detect_beats(), Extracts audio from video and detects beats using Librosa., build_interleaved_audio_filter(), build_interleaved_schedule() (+260 more)
+Nodes (262): DigitalAnchor, Generates the FFmpeg filter for the circular anchor in the corner.         Posi, Returns the path to the current active anchor asset., Manages the 'Virtual Host' (AI Anchor) for the Synthetic Newsroom.     Provides, detect_beats(), Extracts audio from video and detects beats using Librosa., build_interleaved_audio_filter(), build_interleaved_schedule() (+254 more)
 
 ### Community 2 - "Community 2"
 Cohesion: 0.07
@@ -800,7 +800,7 @@ Nodes (312): PublishQueue, NarratedCompilationBuilder, ComputeCaps, DedupEngine,
 
 ### Community 3 - "Community 3"
 Cohesion: 0.03
-Nodes (209): AdaptiveBrain, BeatEngine, get_beats(), get_beats_preferring_original_audio(), get_beats_with_drops(), Beat Engine ----------- Zero-dependency Beat Detection for Viral Edits. Uses, Detect beat DROPS: moments where energy surges suddenly after relative quiet., Full psycho-acoustic analysis: beats, drops, BPM, avg_energy, vibe.          R (+201 more)
+Nodes (205): AdaptiveBrain, BeatEngine, get_beats(), get_beats_preferring_original_audio(), get_beats_with_drops(), Beat Engine ----------- Zero-dependency Beat Detection for Viral Edits. Uses, Detect beat DROPS: moments where energy surges suddenly after relative quiet., Full psycho-acoustic analysis: beats, drops, BPM, avg_energy, vibe.          R (+197 more)
 
 ### Community 4 - "Community 4"
 Cohesion: 0.01
@@ -808,115 +808,115 @@ Nodes (200): AIBlender, AIBlender, Handles AI-driven thumbnail composition and t
 
 ### Community 5 - "Community 5"
 Cohesion: 0.02
-Nodes (193): actress_scheduler.py — AMTCE Daily Auto-Discovery Engine ======================, Returns (seconds_to_wait, label) for the next scheduled slot., Dispatcher for harvest cycles.     PAPARAZZI_MODE=yes in Credentials/.env -> ru, Classic actress-account mode (legacy). Reads from actress_accounts.json., Returns (next_run_datetime, is_missed).     is_missed=True means a slot passed, Returns the next scheduled slot that is STRICTLY in the future (>= 1 min)., Classic actress-account mode (legacy). Reads from actress_accounts.json., Launches the actress scheduler as a background daemon thread.     Safe to call (+185 more)
+Nodes (180): Called by main.py to throttle or limit features., main(), check_accuracy(), Check Watermark Model Accuracy ------------------------------ Calculates accur, Adds compilation URL to the rotating pool (Max 10)., create_layout_viz(), UTILITY: Video Overlay Layout Visualizer (debug_overlay_layout.py) ------------, check_collision() (+172 more)
 
 ### Community 6 - "Community 6"
 Cohesion: 0.02
-Nodes (170): get_all_active_accounts(), get_primary_accounts(), get_secondary_accounts(), _get_social_folders(), get_target_folder(), is_account_mode_enabled(), _load_config(), actress_config.py — AMTCE Actress Account Router =============================== (+162 more)
+Nodes (176): Returns a randomised posting style profile to vary caption structure     between, select_posting_style(), get_all_active_accounts(), get_primary_accounts(), get_secondary_accounts(), _get_social_folders(), get_target_folder(), is_account_mode_enabled() (+168 more)
 
 ### Community 7 - "Community 7"
 Cohesion: 0.02
-Nodes (173): Called by main.py to throttle or limit features., main(), check_accuracy(), Check Watermark Model Accuracy ------------------------------ Calculates accur, Adds compilation URL to the rotating pool (Max 10)., check_collision(), compute_phash(), compute_sha256() (+165 more)
+Nodes (167): actress_scheduler.py — AMTCE Daily Auto-Discovery Engine ======================, Returns (seconds_to_wait, label) for the next scheduled slot., Dispatcher for harvest cycles.     PAPARAZZI_MODE=yes in Credentials/.env -> ru, Classic actress-account mode (legacy). Reads from actress_accounts.json., Returns (next_run_datetime, is_missed).     is_missed=True means a slot passed, Returns the next scheduled slot that is STRICTLY in the future (>= 1 min)., Classic actress-account mode (legacy). Reads from actress_accounts.json., Launches the actress scheduler as a background daemon thread.     Safe to call (+159 more)
 
 ### Community 8 - "Community 8"
 Cohesion: 0.02
-Nodes (124): check_gpu_ready(), get_model_tier(), Compute Gate — Influencer Modules ================================== Reuses th, Query AMTCE's ComputeCaps and decide if the influencer engine can run.      Re, Return model-size tier based on available VRAM.      low    -> T4  16 GB  (Col, create_layout_viz(), UTILITY: Video Overlay Layout Visualizer (debug_overlay_layout.py) ------------, ChunkedProgressFile (+116 more)
+Nodes (107): Starts a background daemon thread that calls run_monthly_rescan()     every 30 d, start_background_rescan_timer(), start_publish_scheduler(), _batch_label(), start_scheduler(), get_file_hash(), Scans the directory for duplicate audio files based on content hash.     Keeps, Calculates MD5 hash of a file's content. (+99 more)
 
 ### Community 9 - "Community 9"
-Cohesion: 0.02
-Nodes (105): Starts a background daemon thread that calls run_monthly_rescan()     every 30 d, start_background_rescan_timer(), start_publish_scheduler(), _batch_label(), start_scheduler(), get_file_hash(), Scans the directory for duplicate audio files based on content hash.     Keeps, Calculates MD5 hash of a file's content. (+97 more)
-
-### Community 10 - "Community 10"
 Cohesion: 0.03
 Nodes (104): EffectAssigner, Effect assignment module (extracted from SmartSceneEditor)., Adds effect hints to each segment WITHOUT overwriting values already         se, Assigns transitions, zooms, and visual cues to timeline segments., MomentSelector, Moment selector module (extracted from SmartSceneEditor)., Sort candidates by importance/score descending., Ranks candidate moments for downstream timeline building. (+96 more)
 
+### Community 10 - "Community 10"
+Cohesion: 0.03
+Nodes (73): AnalyticsEngine, analytics_engine.py Fetches YouTube Analytics data for a published video.  Retri, Return a synthetic snapshot for testing without API access., Fetch views, avg view duration, likes., Fetch audience retention curve.         Returns list of {"t": float, "pct": flo, Fetches per-video analytics from YouTube Analytics API.      Args:         crede, Return a synthetic snapshot for testing without API access., Fetch views, avg view duration, likes. (+65 more)
+
 ### Community 11 - "Community 11"
 Cohesion: 0.03
-Nodes (86): cosine(), Deterministic hash across runs., stable_hash(), _atomic_rename(), _build_strategy_opts(), _calculate_content_fingerprint(), _calculate_file_hash(), _detect_platform() (+78 more)
+Nodes (88): _enabled(), _facefusion_dir(), FaceSwapEngine, _provider(), Reaction_Engine/face_swap_engine.py ------------------------------------ Automat, Wraps FaceFusion CLI to apply a target face onto a reactor clip., Returns True if FaceFusion is fully configured., Returns the stem of the source image to use as a cache key. (+80 more)
 
 ### Community 12 - "Community 12"
 Cohesion: 0.03
-Nodes (55): test_orchestra(), GeminiGovernor, is_gemini_globally_down(), Check if the global circuit breaker is active., Record a 5xx failure. Trip breaker if conditions met., Public wrapper for prompt simplification used by the VANGUARD retry loop., [VANGUARD] Local Fallback to Ollama (Phi-3)., VANGUARD BULLETPROOF GENERATOR: Loop-based Retry + Global Deadline + Jitter. (+47 more)
+Nodes (81): _atomic_rename(), _build_strategy_opts(), _calculate_content_fingerprint(), _calculate_file_hash(), _ColourFormatter, _detect_platform(), _download_cdn_direct(), download_video() (+73 more)
 
 ### Community 13 - "Community 13"
 Cohesion: 0.03
-Nodes (55): FashionScout, _fuzzy_match_product(), _get_affiliate_link(), get_fallback_payload(), fashion_scout.py ================ Hierarchical Fashion Intelligence Pipeline, Hard schema-validation gate. Rejects any result that would produce a bad     Am, Independent query quality scorer. Returns 0.0–1.0.      Scoring breakdown (eac, Evaluates product title (wear_name) for retail-grade (industry-standard) naming. (+47 more)
+Nodes (83): compute_anchor(), _is_skin_or_hair(), Returns (anchor_x, anchor_y, side, debug_info).     - side: "left" or "right" ch, Uses Gemini to generate a dual-CTA psychological hook specifically for the Teleg, _call_gemini_with_retry(), generate(), get_fallback_payload(), analyze_video() (+75 more)
 
 ### Community 14 - "Community 14"
-Cohesion: 0.04
-Nodes (57): build_arc_caption_spec(), build_caption_drawtext_filter(), build_drawtext_filters(), escape_drawtext(), font_size_for_line(), get_font_path(), is_emphasis_line(), _line_char_limits() (+49 more)
+Cohesion: 0.03
+Nodes (64): calculate_ev(), DecisionEngine, _format_patterns(), _format_profile(), generate_with_rag(), generate_without_rag(), Decision Engine Module (Criterion 1 & 6) --------------------------------------, RAG DECODER: Zero Gemini calls allowed.     Strictly follows retrieved patterns (+56 more)
 
 ### Community 15 - "Community 15"
 Cohesion: 0.03
-Nodes (60): FrameProducer, HeavyEditor, Cleanly disable all enhancement features., Detects environment and auto-installs missing acceleration libraries., Check if model exists, if not download it (Sanity Wrapper)., 2. Strict GPU Memory Governor (PURE FUNCTION).         Returns a configuration, Multithreaded Frame Producer to overlap I/O with GPU inference., Atomic Model Loading with Governor Check. (+52 more)
+Nodes (68): FrameProducer, HeavyEditor, Cleanly disable all enhancement features., Detects environment and auto-installs missing acceleration libraries., Check if model exists, if not download it (Sanity Wrapper)., 2. Strict GPU Memory Governor (PURE FUNCTION).         Returns a configuration, Multithreaded Frame Producer to overlap I/O with GPU inference., Atomic Model Loading with Governor Check. (+60 more)
 
 ### Community 16 - "Community 16"
 Cohesion: 0.04
-Nodes (57): Fetches channel-level geographic viewer data from the YouTube Analytics API, refresh_geo_analytics(), AnalyticsOptimizer, Asks Gemini to pick the best day and suggest an hour based on niche heuristics., Main method to get the optimization result.         Checks cache first. If expir, Calculates the next ISO 8601 UTC timestamp for the given day and hour.         A, Builds the YouTube Analytics API service., Fetches channel view statistics organized by day of week and hour.         Retur (+49 more)
+Nodes (57): build_arc_caption_spec(), build_caption_drawtext_filter(), build_drawtext_filters(), escape_drawtext(), font_size_for_line(), get_font_path(), is_emphasis_line(), _line_char_limits() (+49 more)
 
 ### Community 17 - "Community 17"
-Cohesion: 0.05
-Nodes (45): calculate_ev(), DecisionEngine, _format_patterns(), _format_profile(), generate_with_rag(), generate_without_rag(), Decision Engine Module (Criterion 1 & 6) --------------------------------------, RAG DECODER: Zero Gemini calls allowed.     Strictly follows retrieved patterns (+37 more)
+Cohesion: 0.04
+Nodes (55): Fetches channel-level geographic viewer data from the YouTube Analytics API, refresh_geo_analytics(), AnalyticsOptimizer, Asks Gemini to pick the best day and suggest an hour based on niche heuristics., Main method to get the optimization result.         Checks cache first. If expir, Calculates the next ISO 8601 UTC timestamp for the given day and hour.         A, Builds the YouTube Analytics API service., Fetches channel view statistics organized by day of week and hour.         Retur (+47 more)
 
 ### Community 18 - "Community 18"
-Cohesion: 0.06
-Nodes (29): _parse_json(), creative_brain.py ──────────────────────────────────────────────────────────────, Pass 1: Derive narrative intent from signal data.          Priority chain (each, Extract JPEG frames at the timestamps of the highest-scored moments.         Ret, Build a multimodal prompt list: [image_part, image_part, ..., text_part]., Vision-augmented Pass 1: send actual frames + signal table to Gemini.         Gi, Format candidate moments as a compact table for the prompt., Call Gemini (text-only) for Pass 1 editorial intent. (+21 more)
+Cohesion: 0.04
+Nodes (37): FashionScout, _fuzzy_match_product(), _get_affiliate_link(), get_fallback_payload(), fashion_scout.py ================ Hierarchical Fashion Intelligence Pipeline, Hard schema-validation gate. Rejects any result that would produce a bad     Am, Independent query quality scorer. Returns 0.0–1.0.      Scoring breakdown (eac, Evaluates product title (wear_name) for retail-grade (industry-standard) naming. (+29 more)
 
 ### Community 19 - "Community 19"
 Cohesion: 0.05
-Nodes (49): compute_engagement_score(), get_strategy_signals(), _load_dataset(), Analytics_Modules/engagement_intelligence.py ----------------------------------, Record a video's strategy metadata alongside its engagement metrics.      Args, Analyse the engagement dataset and return signals to bias the Content Director., Load the engagement dataset from disk. Returns [] on any error., Atomically save the dataset. Silently skips on error. (+41 more)
+Nodes (31): _parse_json(), creative_brain.py ──────────────────────────────────────────────────────────────, Pass 1: Derive narrative intent from signal data.          Priority chain (each, Extract JPEG frames at the timestamps of the highest-scored moments.         Ret, Build a multimodal prompt list: [image_part, image_part, ..., text_part]., Vision-augmented Pass 1: send actual frames + signal table to Gemini.         Gi, Format candidate moments as a compact table for the prompt., Call Gemini (text-only) for Pass 1 editorial intent. (+23 more)
 
 ### Community 20 - "Community 20"
+Cohesion: 0.05
+Nodes (49): compute_engagement_score(), get_strategy_signals(), _load_dataset(), Analytics_Modules/engagement_intelligence.py ----------------------------------, Record a video's strategy metadata alongside its engagement metrics.      Args, Analyse the engagement dataset and return signals to bias the Content Director., Load the engagement dataset from disk. Returns [] on any error., Atomically save the dataset. Silently skips on error. (+41 more)
+
+### Community 21 - "Community 21"
 Cohesion: 0.11
 Nodes (42): choose(), compute(), DynamicTrimCalculator, EnergyProgressionGuard, Visual_Refinement_Modules/rhythm_quality_guard.py -----------------------------, Calculates dynamic segment extraction windows per-moment, replacing     the sta, Selects 3 to 9 narrative slots based on the quality of available moments,     e, Guards against "false climaxes" by verifying that the climax segment     is act (+34 more)
 
-### Community 21 - "Community 21"
+### Community 22 - "Community 22"
 Cohesion: 0.07
 Nodes (33): analyse_retention(), _build_timeline_timestamps(), _compute_retention_curve(), _detect_peaks(), _estimate_duration(), get_engine(), Content_Intelligence/retention_curve_engine.py --------------------------------, Return face reaction score [0.0-1.0] at time t.      Scores based on face-area (+25 more)
 
-### Community 22 - "Community 22"
+### Community 23 - "Community 23"
 Cohesion: 0.07
 Nodes (16): calculate_std_dev(), clamp(), PsychometricEngine, Self-Healing Adaptive Intelligence Engine v3 ----------------------------------, The Core Logic for Protection., Returns restrictive parameters based on level., Calculates entropy. If low, suggests a neglected trigger., Probabilistic selection based on weights. (+8 more)
 
-### Community 23 - "Community 23"
+### Community 24 - "Community 24"
 Cohesion: 0.07
 Nodes (33): tests/test_trend_intelligence.py ---------------------------------- Unit tests, Gemini's explicit commands must always be honoured., add_user_trend(), collect_trend_input_interactive(), _extract_keywords(), _fetch_google_trends(), _fetch_youtube_trending(), get_engine() (+25 more)
 
-### Community 24 - "Community 24"
+### Community 25 - "Community 25"
 Cohesion: 0.09
 Nodes (22): FirstShotLibrary, FirstShotSelector, get_clip_duration(), normalize_intro(), First_Shot_Engine/first_shot_engine.py ─────────────────────────────────────────, Dynamically adds a new placeholder to library_index.json and logs a loud warning, Returns an absolute path to a real (non-placeholder) clip for the topic., Returns all topic entries from the index. (+14 more)
 
-### Community 25 - "Community 25"
+### Community 26 - "Community 26"
+Cohesion: 0.11
+Nodes (11): test_orchestra(), _get_timeout(), ProviderHealth, Router Orchestra — 4-Provider Lean Architecture ===============================, Dynamic score: higher = prefer this provider.         score = success_rate * 10, Central AI routing brain for AMTCE.     Manages Groq, Mistral, and coordinates, Returns True if budget allows. Gemini vision calls bypass global counter., Call at the start of each video to reset the global call counter. (+3 more)
+
+### Community 27 - "Community 27"
 Cohesion: 0.1
 Nodes (25): analyse_emotional_spikes(), _build_emotion_timeline(), _classify_spike_type(), _compute_audio_spike_score(), _compute_face_expression_score(), _compute_motion_change_score(), _detect_emotional_spikes(), _detect_emotional_spikes_with_gemini() (+17 more)
 
-### Community 26 - "Community 26"
-Cohesion: 0.1
-Nodes (27): analyze_scene(), _best_face_crop(), build_clip_plan(), _call_gemini(), _cluster_faces(), _detect_faces(), filter_scenes_by_cluster(), _get_dnn_net() (+19 more)
-
-### Community 27 - "Community 27"
+### Community 28 - "Community 28"
 Cohesion: 0.11
 Nodes (15): _bucket_hold(), _bucket_motion(), _field_overlap(), _key_fields(), _make_key(), Smart Transition Intelligence Engine (STIE) ====================================, Count how many of the 5 bucket fields match between two keys., Decides transition type + duration per gap, learns from every approve/reject. (+7 more)
 
-### Community 28 - "Community 28"
-Cohesion: 0.12
-Nodes (21): apply_karaoke_subtitles(), _bridge_timestamps(), _build_ass_content(), _clean_word(), _env_bool(), _env_int(), _env_str(), _format_ass_time() (+13 more)
-
 ### Community 29 - "Community 29"
-Cohesion: 0.14
-Nodes (20): can_post(), _get_account_entry(), get_daily_summary(), _load_state(), pick_available_account(), account_limiter.py — Per-Account Daily Post Limiter ============================, Increment the post counter for a niche + platform.     Call this AFTER a success, Returns a summary of today's post counts for all accounts. (+12 more)
-
-### Community 30 - "Community 30"
 Cohesion: 0.15
 Nodes (10): HiggsfieldEarn, _load_submissions(), Higgsfield Earn — Campaign Submission Helper ===================================, Return all submissions not yet manually submitted to Higgsfield Earn., Mark a submission as completed and update view count., Generate a summary of all pending manual Earn submissions., Full summary of all Earn submissions and estimated earnings., Tracks Higgsfield Earn submissions and estimates payout tiers.      Usage: (+2 more)
 
-### Community 31 - "Community 31"
-Cohesion: 0.16
-Nodes (11): analyze_video(), ForensicVideoAnalyzer, get_analyzer(), Intelligence_Modules/forensic_analyzer.py --------------------------------------, Extracts frames from a video and sends them to Gemini Vision for forensic analys, Perform forensic analysis on a video (or pre-extracted frames).          Args:, Extract FRAME_COUNT frames evenly spread across the video using FFmpeg., Send frames + prompt to Gemini Vision, parse and validate JSON response. (+3 more)
+### Community 30 - "Community 30"
+Cohesion: 0.14
+Nodes (15): check_gpu_ready(), get_model_tier(), Compute Gate — Influencer Modules ================================== Reuses th, Query AMTCE's ComputeCaps and decide if the influencer engine can run.      Re, Return model-size tier based on available VRAM.      low    -> T4  16 GB  (Col, Influencer Pipeline — Orchestrator ===================================== End-t, Run the full AI Influencer pipeline.      Parameters     ----------     refe, run() (+7 more)
 
-### Community 32 - "Community 32"
+### Community 31 - "Community 31"
 Cohesion: 0.21
 Nodes (13): _apply_default_scores(), _measure_ffmpeg_astats(), _measure_librosa(), _measure_rms_per_segment(), _normalise_and_annotate(), Energy Scorer — AMTCE Per-Segment Audio Energy Analysis =======================, FFmpeg fallback: uses `astats` filter with `atrim` to measure RMS per segment., Min-max normalises raw RMS values to [0.0, 1.0] and writes them to each     seg (+5 more)
+
+### Community 32 - "Community 32"
+Cohesion: 0.2
+Nodes (13): classify_content(), _classify_with_gemini(), _discover_pool(), _extract_frame(), get_route_pool(), get_route_targets(), content_router.py — Gemini Vision Content Router ===============================, Extract the middle frame from a video as a temp JPEG. Returns path or None. (+5 more)
 
 ### Community 33 - "Community 33"
 Cohesion: 0.18
@@ -924,11 +924,11 @@ Nodes (7): DeepSeekRouter, DeepSeek Reasoning Router -------------------------- 
 
 ### Community 34 - "Community 34"
 Cohesion: 0.23
-Nodes (9): _call_gemini_with_retry(), generate(), get_fallback_payload(), Segment safety gate: clamps and sanitizes reconstructed segments before editing., Return a sanitized segment list within duration bounds.      KEY BEHAVIOR:, validate(), analyze(), _call_gemini_with_retry() (+1 more)
+Nodes (4): CacheDomain, Safe replacement for delete. Marks bad — doesn't delete immediately.         Fix, TieredCAGEngine, Enum
 
 ### Community 35 - "Community 35"
-Cohesion: 0.23
-Nodes (4): CacheDomain, Safe replacement for delete. Marks bad — doesn't delete immediately.         Fix, TieredCAGEngine, Enum
+Cohesion: 0.25
+Nodes (10): _build_benefits(), build_organic_caption(), build_youtube_description(), _extract_vibe_key(), _next_template(), organic_sales_copy.py ---------------------- 2026 High-Conversion Instagram Capt, Returns templates in round-robin order for auditable rotation., Extracts 3 scannable benefit bullet points from fashion_scout data.     Falls ba (+2 more)
 
 ### Community 36 - "Community 36"
 Cohesion: 0.22
@@ -3783,7 +3783,7 @@ Cohesion: 1.0
 Nodes (1): Prints a formatted summary of the system health.
 
 ## Knowledge Gaps
-- **1796 isolated node(s):** `review_server.py — AMTCE Live Editorial Interruption Server ====================`, `Background thread: tail the AMTCE log file and push lines to SSE queue.`, `Serve the Studio UI HTML.`, `Return the full review queue with clip metadata.`, `Return AMTCE system health and queue stats.` (+1791 more)
+- **1799 isolated node(s):** `review_server.py — AMTCE Live Editorial Interruption Server ====================`, `Background thread: tail the AMTCE log file and push lines to SSE queue.`, `Serve the Studio UI HTML.`, `Return the full review queue with clip metadata.`, `Return AMTCE system health and queue stats.` (+1794 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **Thin community `Community 45`** (2 nodes): `system_prompts.py`, `System Prompts for Bot Intelligence ----------------------------------- Centra`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
@@ -5197,14 +5197,14 @@ Nodes (1): Prints a formatted summary of the system health.
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `get()` connect `Community 0` to `Community 1`, `Community 3`, `Community 4`, `Community 5`, `Community 6`, `Community 7`, `Community 8`, `Community 9`, `Community 10`, `Community 11`, `Community 12`, `Community 13`, `Community 14`, `Community 15`, `Community 16`, `Community 17`, `Community 18`, `Community 19`, `Community 20`, `Community 21`, `Community 22`, `Community 23`, `Community 24`, `Community 25`, `Community 26`, `Community 27`, `Community 28`, `Community 29`, `Community 30`, `Community 31`, `Community 32`, `Community 34`, `Community 36`, `Community 37`?**
-  _High betweenness centrality (0.493) - this node is a cross-community bridge._
-- **Why does `compile_video()` connect `Community 3` to `Community 0`, `Community 1`, `Community 4`, `Community 5`, `Community 6`, `Community 7`, `Community 8`, `Community 9`, `Community 10`, `Community 11`, `Community 12`, `Community 13`, `Community 14`, `Community 16`, `Community 17`, `Community 18`, `Community 22`, `Community 24`, `Community 26`, `Community 28`, `Community 32`, `Community 34`, `Community 36`, `Community 39`?**
-  _High betweenness centrality (0.068) - this node is a cross-community bridge._
-- **Why does `SmartSceneEditor` connect `Community 10` to `Community 3`?**
-  _High betweenness centrality (0.036) - this node is a cross-community bridge._
-- **Are the 647 inferred relationships involving `get()` (e.g. with `_get_session_niche()` and `detect_hardware_capabilities()`) actually correct?**
-  _`get()` has 647 INFERRED edges - model-reasoned connections that need verification._
+- **Why does `get()` connect `Community 0` to `Community 1`, `Community 3`, `Community 4`, `Community 5`, `Community 6`, `Community 7`, `Community 8`, `Community 9`, `Community 10`, `Community 11`, `Community 12`, `Community 13`, `Community 14`, `Community 15`, `Community 16`, `Community 17`, `Community 18`, `Community 19`, `Community 20`, `Community 21`, `Community 22`, `Community 23`, `Community 24`, `Community 25`, `Community 26`, `Community 27`, `Community 28`, `Community 29`, `Community 30`, `Community 31`, `Community 32`, `Community 35`, `Community 36`, `Community 37`?**
+  _High betweenness centrality (0.460) - this node is a cross-community bridge._
+- **Why does `compile_video()` connect `Community 3` to `Community 0`, `Community 1`, `Community 4`, `Community 5`, `Community 6`, `Community 7`, `Community 8`, `Community 9`, `Community 10`, `Community 11`, `Community 12`, `Community 13`, `Community 14`, `Community 16`, `Community 17`, `Community 18`, `Community 19`, `Community 23`, `Community 25`, `Community 26`, `Community 31`, `Community 36`, `Community 39`?**
+  _High betweenness centrality (0.063) - this node is a cross-community bridge._
+- **Why does `GeminiCaptionGenerator` connect `Community 7` to `Community 9`, `Community 3`, `Community 13`, `Community 6`?**
+  _High betweenness centrality (0.045) - this node is a cross-community bridge._
+- **Are the 648 inferred relationships involving `get()` (e.g. with `_get_session_niche()` and `detect_hardware_capabilities()`) actually correct?**
+  _`get()` has 648 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 341 inferred relationships involving `SelfOptimizingEditor` (e.g. with `PollingFilter` and `GlobalState`) actually correct?**
   _`SelfOptimizingEditor` has 341 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 334 inferred relationships involving `RhythmTimelineBuilder` (e.g. with `PollingFilter` and `GlobalState`) actually correct?**
