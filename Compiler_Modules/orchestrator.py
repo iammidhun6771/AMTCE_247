@@ -2963,7 +2963,8 @@ def compile_video(
                     # ─────────────────────────────────────────────────────────────────────────
 
                     _caption_text_for_overlay = None
-                    if context.feature_flags.get("caption_generation"):
+                    _enable_fs = os.getenv("ENABLE_FASHION_SCOUT", "yes").lower() in ("yes", "true", "on")
+                    if context.feature_flags.get("caption_generation") and _enable_fs:
                         try:
                             _pm = profile_data.get("pipeline_metrics", {})
                             mon_data = profile_data.get("monetization", {}) or profile_data.get("monetization_data", {}) or _pm.get("monetization", {})
@@ -4040,6 +4041,9 @@ def compile_video(
             is_price_tag_enabled = False
         else:
             is_price_tag_enabled = context.feature_flags.get("price_tag_engine")
+        _enable_fs = os.getenv("ENABLE_FASHION_SCOUT", "yes").lower() in ("yes", "true", "on")
+        if not _enable_fs:
+            is_price_tag_enabled = False
         has_price_data = bool(profile_data.get("price_tag"))
         forced_price_tag = os.getenv("ENABLE_PRICE_TAG", "auto").lower() == "yes"
 
@@ -4472,7 +4476,8 @@ def compile_video(
         #  4. The PNG composites at output second 0.75 — while the stable shot
         #     is still on screen — tag points directly at the visible garment.
         _forced_price_tag = os.getenv("ENABLE_PRICE_TAG", "auto").lower() == "yes"
-        _pt_enabled = context.feature_flags.get("price_tag_engine") or _forced_price_tag
+        _enable_fs = os.getenv("ENABLE_FASHION_SCOUT", "yes").lower() in ("yes", "true", "on")
+        _pt_enabled = (context.feature_flags.get("price_tag_engine") or _forced_price_tag) and _enable_fs
 
         if _pt_enabled and _scenes:
             _MIN_STABLE = 2.5  # Lowered from 5.0 to handle faster Shorts-style edits
@@ -5057,7 +5062,7 @@ def compile_video(
                 timeline_instructions["scenes"] = _scenes
 
                 # [FOCUS_ON_WEAR INJECTION]
-                _focus_on_wear = os.getenv("FOCUS_ON_WEAR", "True").lower() in ("true", "1", "yes")
+                _focus_on_wear = (os.getenv("FOCUS_ON_WEAR", "True").lower() in ("true", "1", "yes")) and _enable_fs
                 if _focus_on_wear:
                     _pm_scout = profile_data.get("pipeline_metrics", {})
                     _mon_data = profile_data.get("monetization", {}) or profile_data.get("monetization_data", {}) or _pm_scout.get("monetization", {})
