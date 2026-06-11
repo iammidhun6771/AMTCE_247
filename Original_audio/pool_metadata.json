@@ -245,8 +245,8 @@
       "version": 2
     },
     "Fit_girl_2.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1781177724.4715595,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9449425,
@@ -885,17 +885,36 @@
       "version": 2
     },
     "Kangna_sharma.mp3": {
-      "is_speech_only": true,
       "usage_count": 0,
       "last_used": 0,
-      "bpm": 0.0,
-      "energy": 0.809,
+      "bpm": 111.5,
+      "energy": 0.8788018018018013,
       "created_at": 1780399991.6271508,
-      "beat_data_path": null,
-      "drop_times": [],
+      "beat_data_path": "beats/Kangna_sharma.npz",
+      "drop_times": [
+        0.45,
+        2.0
+      ],
       "sample_rate": 44100,
-      "audio_hash": "",
-      "version": 2
+      "audio_hash": "1441475_1781176946",
+      "version": 2,
+      "gemini_genre": "hiphop",
+      "gemini_mood_tags": [
+        "chill",
+        "groovy"
+      ],
+      "gemini_energy_level": "medium",
+      "gemini_has_vocals": true,
+      "gemini_content_match": [
+        "fashion",
+        "dance",
+        "aesthetic"
+      ],
+      "gemini_avoid_match": [
+        "motivational",
+        "gaming"
+      ],
+      "gemini_analyzed": true
     },
     "Shruthi_hassan.mp3": {
       "usage_count": 0,
@@ -1056,8 +1075,8 @@
       "version": 2
     },
     "Sakshi_malik.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1781176961.8303277,
       "bpm": 89.9,
       "energy": 0.6605925925925926,
       "created_at": 1780497636.594601,
