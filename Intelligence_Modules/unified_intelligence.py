@@ -299,8 +299,9 @@ MASTER_SCHEMA = {
         },
 
         # ─────────────────────────────────────────
-        # 🖼️ OUTPUTS  (voiceover script handled by late-stage engine only)
+        # 🗣️ OUTPUTS
         # ─────────────────────────────────────────
+        "editorial_script": {"type": "string"},
 
         "overlay_data": {
             "type": ["object", "null"],
@@ -504,68 +505,16 @@ class UnifiedIntelligence:
             # the Schema Gate discarded all segments, causing Elite Refusal every run.
             _segs_candidates = (
                 data.get("edited_segments")
-                or data.get("segments")
-                or data.get("timeline")
-                or data.get("narrative_timeline")
                 or editing_plan.get("segments")
-                or editing_plan.get("edited_segments")
-                or editing_plan.get("timeline")
-                or editing_plan.get("narrative_timeline")
                 or data.get("transformed_timeline")
                 or []
             )
             if not isinstance(_segs_candidates, list):
                 _segs_candidates = []
-            
-            _cleaned_segs = []
-            for _seg in _segs_candidates:
-                if not isinstance(_seg, dict):
-                    continue
-                _new_seg = _seg.copy()
-                
-                # Normalise start keys
-                for k in ["start_time", "segment_start", "start_t", "t_start"]:
-                    if k in _new_seg and "start" not in _new_seg:
-                        _new_seg["start"] = _new_seg.pop(k)
-                if "start" in _new_seg:
-                    try:
-                        _new_seg["start"] = float(_new_seg["start"])
-                    except (ValueError, TypeError):
-                        pass
-                        
-                # Normalise end keys
-                for k in ["end_time", "segment_end", "end_t", "t_end"]:
-                    if k in _new_seg and "end" not in _new_seg:
-                        _new_seg["end"] = _new_seg.pop(k)
-                if "end" in _new_seg:
-                    try:
-                        _new_seg["end"] = float(_new_seg["end"])
-                    except (ValueError, TypeError):
-                        pass
-                        
-                # Normalise role keys
-                for k in ["segment_role", "role_type"]:
-                    if k in _new_seg and "role" not in _new_seg:
-                        _new_seg["role"] = _new_seg.pop(k)
-                        
-                _cleaned_segs.append(_new_seg)
-            
-            _segs_candidates = _cleaned_segs
+            _segs_candidates = [s for s in _segs_candidates if isinstance(s, dict)]
 
             if _segs_candidates and not data.get("edited_segments"):
-                # Find source key for logging
-                _src = "unknown"
-                for k in ["segments", "timeline", "narrative_timeline"]:
-                    if data.get(k):
-                        _src = f"data.{k}"
-                        break
-                if _src == "unknown" and editing_plan:
-                    for k in ["segments", "edited_segments", "timeline", "narrative_timeline"]:
-                        if editing_plan.get(k):
-                            _src = f"editing_plan.{k}"
-                            break
-                if _src == "unknown" and data.get("transformed_timeline"):
-                    _src = "transformed_timeline"
+                _src = "editing_plan.segments" if editing_plan.get("segments") else "transformed_timeline"
                 logger.info(f"[SEGMENT_RECOVERY] Promoted {len(_segs_candidates)} segments from '{_src}' -> edited_segments")
 
             # 8. Caption Candidates Fallback
@@ -696,9 +645,7 @@ class UnifiedIntelligence:
                 mission_result = director.execute_mission(
                     niche="fashion",
                     video_request=mission_request,
-                    # pyrefly: ignore [unexpected-keyword]
                     input_paths=_v_input_paths,
-                    # pyrefly: ignore [unexpected-keyword]
                     output_path=_v_output_path,
                 )
                 # ToolResult has .success; stub _MissionResult also has .success
@@ -1190,10 +1137,10 @@ class UnifiedIntelligence:
                     )
                 except Exception:
                     cache.extensions.monetization["caption_text"] = content_director["caption_text"]
-            # editorial_script intentionally NOT parsed here.
-            # The single late-stage script engine in orchestrator.py is the
-            # authoritative source. Removing this path eliminates the duplicate
-            # early-generation load from the master schema call.
+            if master_data.get("editorial_script"):
+                cache.extensions.monetization["editorial_script"] = master_data[
+                    "editorial_script"
+                ]
             if master_data.get("overlay_data"):
                 overlay = master_data["overlay_data"]
                 try:

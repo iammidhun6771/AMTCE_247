@@ -20,10 +20,6 @@ def get_fallback():
     Selects a fallback caption from captions_cache.json using round-robin.
     Maintains state in caption_state.json.
     """
-    _enable_fs = os.getenv("ENABLE_FASHION_SCOUT", "yes").lower() in ("yes", "true", "on")
-    if not _enable_fs:
-        return ""
-
     selected = "Style Analysis" # Ultimate fallback
     try:
         if os.path.exists(CACHE_PATH):

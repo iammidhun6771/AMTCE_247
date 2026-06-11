@@ -118,24 +118,13 @@ class MonetizationStrategist:
         Analyzes content using Gemini as the sole authority with Professional Reviewer persona.
         Implements a retry layer for maximum reliability.
         """
-        # 1. Input Sanitization
-        clean_title = re.sub(r"[\x00-\x1F\x7F]", "", title).strip()
-        # Strip any leading niche prefixes like "VIRAL:", "FASHION:", etc.
-        clean_title = re.sub(r"(?i)^(?:viral|fashion|entertainment|nsfw|adult|paparazzi|general):\s*", "", clean_title)
-        # Strip common system/CLI prefixes
-        clean_title = re.sub(r"(?i)^(?:cli:\s*)?process\s+(?:short\s+)?titled\s+", "", clean_title)
-        clean_title = re.sub(r"(?i)^cli:\s*process\s+", "", clean_title)
-        clean_title = re.sub(r"(?i)^retry\s+#\d+:\s*reprocess\s+", "", clean_title)
-        clean_title = re.sub(r"(?i)^retry\s+#\d+:\s*", "", clean_title)
-        clean_title = re.sub(r"(?i)^reprocess\s+", "", clean_title)
-        clean_title = re.sub(r"(?i)^cli\s+mission", "", clean_title)
-        clean_title = clean_title.strip(" '\".,-_")
-        clean_title = clean_title[:200]
-
         if not self.router:
-            return self._fallback_response(clean_title, visual_context=visual_context)
+            return self._fallback_response(title, visual_context=visual_context)
 
         try:
+            # 1. Input Sanitization
+            clean_title = re.sub(r"[\x00-\x1F\x7F]", "", title).strip()
+            clean_title = clean_title[:200]
 
             # Calculate target word count based on 140 WPM
             word_target = max(20, min(int((duration / 60) * 140), 55))
@@ -212,7 +201,13 @@ class MonetizationStrategist:
                 # ── COMMUNITY COMMENT HOOK ────────────────────────────────────────
                 f'  "community_comment_hook": "<YOUTUBE COMMUNITY COMMENT. '
                 f'Strategy: {hook_strategy.get("community_purpose", "Drive viewers to join Telegram.")}. '
-                f'RULES: 3-4 lines max. End with exactly: Join Telegram for raw unfiltered output & outfit requests 👇\\n{_tg_display}>"'
+                f'RULES: 3-4 lines max. End with exactly: Join Telegram for raw unfiltered output & outfit requests 👇\\n{_tg_display}>",\n'
+
+                # ── NARRATION SCRIPT ─────────────────────────────────────────────
+                f'  "narration_script": "<VOICEOVER SCRIPT. '
+                f'Strategy: {hook_strategy.get("narration_purpose", "Hyper-retention direct-response copy.")}. '
+                f'WORD TARGET: {_word_target_str} words exactly. Constraints: {hook_strategy.get("domain_constraints", "None")}. '
+                f'RULES: Plain text only, no stage directions, present tense, second person.>"'
                 f'\n}}'
             ) if hashtag_gen else (
                 f'{{\n'
@@ -400,16 +395,16 @@ class MonetizationStrategist:
                 except Exception as e:
                     logger.error(f"❌ Gemini Attempt {attempt+1} Error: {e}")
 
-            return self._fallback_response(clean_title, error="Max retry attempts reached or validation failed", transformations=transformations)
+            return self._fallback_response(title, error="Max retry attempts reached or validation failed", transformations=transformations)
 
         except Exception as e:
             logger.error(f"🧠 Brain Analysis Critical Error: {e}")
-            return self._fallback_response(clean_title, error=e, transformations=transformations)
+            return self._fallback_response(title, error=e, transformations=transformations)
 
         except Exception as e:
             logger.error(f"🧠 Brain Analysis Error: {e}")
             return self._fallback_response(
-                clean_title, error=e, transformations=transformations
+                title, error=e, transformations=transformations
             )
 
     def _adaptive_truncate(
@@ -638,10 +633,21 @@ class MonetizationStrategist:
             youtube_hook = data.get("youtube_hook")
             community_comment_hook = data.get("community_comment_hook")
 
-            # narration_script override removed — the single late-stage script engine
-            # in orchestrator.py is now the sole authoritative script generator.
-            # 'script' (built from detail_1/detail_2 above) is kept as a lightweight
-            # fallback editorial_script for non-late-stage runs, no extra API cost.
+            # ── Narration script override ─────────────────────────────────────────
+            # Use Gemini's narration_script if quality is sufficient.
+            # Fallback: script already built from detail_1/detail_2 above is kept.
+            _narration_raw = data.get("narration_script", "")
+            # Extract recommended variation if multi-variation format is present
+            if _narration_raw and "RECOMMENDED:" in _narration_raw:
+                _rec = re.search(r"RECOMMENDED:\s*([ABC])", _narration_raw)
+                _key = _rec.group(1) if _rec else "A"
+                _match = re.search(rf"{_key}:\s*(.+?)(?=\n[ABC]:|RECOMMENDED:|$)", _narration_raw, re.DOTALL)
+                if _match:
+                    _narration_raw = _match.group(1).strip()
+
+            if _narration_raw and len(_narration_raw.split()) >= 8:
+                script = _narration_raw
+                logger.info("[NARRATION] Using Gemini narration_script from master hook call.")
 
             # ── Populate shared hook cache so downstream modules skip their calls ─
             try:
@@ -656,6 +662,12 @@ class MonetizationStrategist:
             except Exception as _cache_err:
                 logger.debug(f"[MASTER_HOOKS] Cache population skipped (non-fatal): {_cache_err}")
 
+            # ── 6. Finalization & MoneyFlow Optimization ───────────────────
+            # Prepend the title to the script if missing (Voiceover requirement)
+            clean_title_str = original_title.split(":", 1)[-1].replace("_", " ").strip()
+            title_words = set(re.findall(r"\w+", clean_title_str.lower()))
+            if clean_title_str and not all(w in script.lower() for w in title_words if len(w) > 3):
+                script = f"{clean_title_str}. {script}"
 
             result = {
                 "approved": True,
@@ -840,18 +852,7 @@ class MonetizationStrategist:
         if error:
             reason = f"Brain Error: {str(error)}"
 
-        # Strip any system prefixes from fallback caption
-        clean_caption = str(caption)
-        clean_caption = re.sub(r"(?i)^(?:viral|fashion|entertainment|nsfw|adult|paparazzi|general):\s*", "", clean_caption)
-        clean_caption = re.sub(r"(?i)^(?:cli:\s*)?process\s+(?:short\s+)?titled\s+", "", clean_caption)
-        clean_caption = re.sub(r"(?i)^cli:\s*process\s+", "", clean_caption)
-        clean_caption = re.sub(r"(?i)^retry\s+#\d+:\s*reprocess\s+", "", clean_caption)
-        clean_caption = re.sub(r"(?i)^retry\s+#\d+:\s*", "", clean_caption)
-        clean_caption = re.sub(r"(?i)^reprocess\s+", "", clean_caption)
-        clean_caption = re.sub(r"(?i)^cli\s+mission", "", clean_caption)
-        clean_caption = clean_caption.strip(" '\".,-_")
-
-        script = sanitize_caption_text(clean_caption, target_max=4, hard_max=6)
+        script = sanitize_caption_text(caption, target_max=4, hard_max=6)
         if failed_script and len(failed_script) > 10:
             script = sanitize_caption_text(failed_script, target_max=4, hard_max=6)
             reason += " (Using Recovered AI Script)"
@@ -882,7 +883,7 @@ class MonetizationStrategist:
         # [mkpv-fix] Remove forced "Link in description" (User considers this low-quality/forced)
         # We use the script as-is for the editorial script (voiceover).
         editorial_script = script
-        clean_cap = clean_caption.lower().strip()
+        clean_cap = caption.lower().strip()
         script_lower = script.lower()
         cap_words = set(re.findall(r'\w+', clean_cap))
         # If the caption is essentially the same as the sanitized script or vice versa, don't repeat it
@@ -890,7 +891,7 @@ class MonetizationStrategist:
         
         if clean_cap not in script_lower and not significant_overlap:
             # If caption is not in script and not significantly overlapping, use it as a lead-in
-            editorial_script = f"{clean_caption}. {script}"
+            editorial_script = f"{caption}. {script}"
 
         # Apply commentary refinement in fallback path
         if voiceover and editorial_script:
@@ -930,7 +931,7 @@ class MonetizationStrategist:
             "policy_citation": "System Recovery",
             "source": "fallback_recovery",
             "monetization_cta": "Find this look linked in the description",
-            "editorial_title": f"Style Edit: {clean_caption[:30]}...",
+            "editorial_title": f"Style Edit: {caption[:30]}...",
             "overlay_data": [
                 {
                     "brand_text": sanitize_caption_text(

@@ -65,8 +65,8 @@
       "version": 2
     },
     "Aishwarya_Laxmi.mp3": {
-      "usage_count": 1,
-      "last_used": 1781088426.9875305,
+      "usage_count": 0,
+      "last_used": 0,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9428434,
@@ -79,15 +79,15 @@
     "Akanksha_puri.mp3": {
       "usage_count": 1,
       "last_used": 1780498846.951133,
-      "bpm": 65.3,
-      "energy": 0.5834347826086957,
+      "bpm": 118.7,
+      "energy": 0.7697435897435897,
       "created_at": 1780391156.9433477,
       "beat_data_path": "beats/Akanksha_puri.npz",
       "drop_times": [
-        20.7
+        18.05
       ],
       "sample_rate": 44100,
-      "audio_hash": "503574_1781151663",
+      "audio_hash": "477247_1780497950",
       "version": 2
     },
     "Akanksha_puri_1.mp3": {
@@ -129,8 +129,8 @@
       "version": 2
     },
     "Anshivi.mp3": {
-      "usage_count": 1,
-      "last_used": 1781151733.7954123,
+      "usage_count": 0,
+      "last_used": 0,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9438772,
@@ -245,8 +245,8 @@
       "version": 2
     },
     "Fit_girl_2.mp3": {
-      "usage_count": 1,
-      "last_used": 1781177724.4715595,
+      "usage_count": 0,
+      "last_used": 0,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9449425,
@@ -365,16 +365,15 @@
       "version": 2
     },
     "Kaydu_lohar.mp3": {
-      "is_speech_only": true,
       "usage_count": 0,
       "last_used": 0,
       "bpm": 0.0,
-      "energy": 0.889,
-      "created_at": 1781098301.3022904,
+      "energy": 0.5,
+      "created_at": 1780391156.9460042,
       "beat_data_path": null,
       "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "",
+      "audio_hash": "358128_1778536091",
       "version": 2
     },
     "Mahi_kapoor.mp3": {
@@ -885,36 +884,17 @@
       "version": 2
     },
     "Kangna_sharma.mp3": {
+      "is_speech_only": true,
       "usage_count": 0,
       "last_used": 0,
-      "bpm": 111.5,
-      "energy": 0.8788018018018013,
+      "bpm": 0.0,
+      "energy": 0.809,
       "created_at": 1780399991.6271508,
-      "beat_data_path": "beats/Kangna_sharma.npz",
-      "drop_times": [
-        0.45,
-        2.0
-      ],
+      "beat_data_path": null,
+      "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "1441475_1781176946",
-      "version": 2,
-      "gemini_genre": "hiphop",
-      "gemini_mood_tags": [
-        "chill",
-        "groovy"
-      ],
-      "gemini_energy_level": "medium",
-      "gemini_has_vocals": true,
-      "gemini_content_match": [
-        "fashion",
-        "dance",
-        "aesthetic"
-      ],
-      "gemini_avoid_match": [
-        "motivational",
-        "gaming"
-      ],
-      "gemini_analyzed": true
+      "audio_hash": "",
+      "version": 2
     },
     "Shruthi_hassan.mp3": {
       "usage_count": 0,
@@ -957,8 +937,8 @@
       "version": 2
     },
     "Zareena_khan.mp3": {
-      "usage_count": 1,
-      "last_used": 1781098301.3044622,
+      "usage_count": 0,
+      "last_used": 0,
       "bpm": 37.9,
       "energy": 0.7444,
       "created_at": 1780483720.8511014,
@@ -1075,8 +1055,8 @@
       "version": 2
     },
     "Sakshi_malik.mp3": {
-      "usage_count": 1,
-      "last_used": 1781176961.8303277,
+      "usage_count": 0,
+      "last_used": 0,
       "bpm": 89.9,
       "energy": 0.6605925925925926,
       "created_at": 1780497636.594601,
@@ -1182,18 +1162,6 @@
       "drop_times": [],
       "sample_rate": 44100,
       "audio_hash": "",
-      "version": 2
-    },
-    "Aditi_mistry.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
-      "bpm": 105.3,
-      "energy": 0.907,
-      "created_at": 1781088140.2822826,
-      "beat_data_path": "beats/Aditi_mistry.npz",
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "225214_1781088426",
       "version": 2
     }
   }

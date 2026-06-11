@@ -135,20 +135,20 @@ class DynamicTrimCalculator:
         is_high_motion = float(moment.get("motion_intensity", moment.get("motion_energy", 0.0))) > 0.6
         has_strong_score = float(moment.get("composite_score", 0.0)) > 0.8
         
-        pre, post = 2.0, 4.0  # default base — wider for fashion/lifestyle slow reveals
+        pre, post = 1.0, 2.0  # default base
         tightness = "medium"
         
         # 1. Base sizing by role
         if role == "hook":
-            pre, post = 1.5, 4.0   # hook: catch the lead-up + full first impression
+            pre, post = 0.3, 1.2
         elif role == "climax":
-            pre, post = 2.0, 5.0   # climax: capture full peak action (turn/pose sequences)
+            pre, post = 0.5, 1.8
         elif role == "reaction":
-            pre, post = 1.5, 3.5   # reaction: before trigger + full response
+            pre, post = 0.8, 1.5
         elif role == "resolution":
-            pre, post = 2.5, 5.0   # resolution: wind-down with breathing room
+            pre, post = 1.8, 3.0
         elif role == "build":
-            pre, post = 2.0, 4.0   # build: enough to feel the build-up momentum
+            pre, post = 1.5, 2.5
             
         # 2. Dynamic adjustments
         # Beat hits should be cut tight on entry

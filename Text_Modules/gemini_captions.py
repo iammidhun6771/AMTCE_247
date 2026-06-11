@@ -318,10 +318,6 @@ class GeminiCaptionGenerator:
         Pulls a fallback caption from real previously-generated captions in captions_cache.json.
         sorted by least-recently-used to ensure rotation/diversity.
         """
-        _enable_fs = os.getenv("ENABLE_FASHION_SCOUT", "yes").lower() in ("yes", "true", "on")
-        if not _enable_fs:
-            return ""
-
         # Reload cache from disk to get latest
         fresh_pool = _load_cache_fallbacks()
         

@@ -80,7 +80,7 @@ def _default_state() -> Dict:
             "last_check_date":          today,
             "slots_published_today":    [],
             "slots_missed_today":       [],
-            "catchup_slots_today":      None,
+            "catchup_slots_today":      [],
             "deficit_videos":           0,
         },
         "apify": {
@@ -256,7 +256,7 @@ class PublisherState:
             p["last_check_date"]       = today
             p["slots_published_today"] = []
             p["slots_missed_today"]    = []
-            p["catchup_slots_today"]   = None
+            p["catchup_slots_today"]   = []
             p["deficit_videos"]        = yesterday_deficit
             if yesterday_deficit:
                 logger.warning(
@@ -342,7 +342,7 @@ class PublisherState:
         p = state["publisher"]
 
         # Don't re-plan if already planned today
-        if p.get("catchup_slots_today") is not None:
+        if p.get("catchup_slots_today"):
             return list(p["catchup_slots_today"])
 
         missed = self.get_missed_slots(configured_slots)
@@ -402,12 +402,6 @@ class PublisherState:
                     )
                 anchor = gap_mid + timedelta(minutes=30)  # min spacing
             else:
-                if gap_mid > active_end_dt:
-                    logger.info(
-                        "⏭️ [PUBLISHER SALESMAN] Catch-up slot %s outside active hours — stopping planning",
-                        gap_mid.strftime("%H:%M")
-                    )
-                    break
                 logger.info(
                     "⏭️ [PUBLISHER SALESMAN] Catch-up slot %s outside active hours — skipped",
                     gap_mid.strftime("%H:%M")

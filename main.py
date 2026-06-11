@@ -128,7 +128,6 @@ NET_BACKOFF_BASE = float(os.getenv("NET_BACKOFF_BASE", "2.0"))
 LOCK_WAIT_SECS = int(os.getenv("LOCK_WAIT_SECS", "5"))
 TELEGRAM_MAX_UPLOAD_MB = int(os.getenv("TELEGRAM_MAX_UPLOAD_MB", "50"))
 SESSION_TTL_SECS = int(os.getenv("SESSION_TTL_SECS", "86400"))
-APPROVAL_TIMEOUT_SECS = int(os.getenv("APPROVAL_TIMEOUT_SECS", 60))
 # --- REAL-TIME CASH-MAXIMIZER OVERRIDE ---
 # [TUNED] CASH_MAX_MODE is permanently ON. Sequential processing prevents RAM
 # crashes, ensuring maximum render throughput and zero failed uploads.
@@ -4141,16 +4140,6 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         except:
             pass
 
-        # Sanitize title to strip any system/CLI/niche prefixes
-        title = re.sub(r"(?i)^(?:viral|fashion|entertainment|nsfw|adult|paparazzi|general):\s*", "", title)
-        title = re.sub(r"(?i)^(?:cli:\s*)?process\s+(?:short\s+)?titled\s+", "", title)
-        title = re.sub(r"(?i)^cli:\s*process\s+", "", title)
-        title = re.sub(r"(?i)^retry\s+#\d+:\s*reprocess\s+", "", title)
-        title = re.sub(r"(?i)^retry\s+#\d+:\s*", "", title)
-        title = re.sub(r"(?i)^reprocess\s+", "", title)
-        title = re.sub(r"(?i)^cli\s+mission", "", title)
-        title = title.strip(" '\".,-_")
-
         # Default Safety Values
         ypp_risk = mon_meta.get("risk_level", "UNKNOWN")
         is_approved = ypp_risk in ["LOW", "MEDIUM"]
@@ -5531,14 +5520,6 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 large_msg = f"⚠️ Video too large for Telegram preview.\n{admin_report}\n\n**Public Caption Preview:**\n{public_caption}"
                 await safe_reply(update, large_msg)
 
-            if APPROVAL_TIMEOUT_SECS > 0:
-                approval_timestamp = time.time()
-                with acquire_session_lock(user_id):
-                    if user_id in user_sessions:
-                        user_sessions[user_id]["approval_timestamp"] = approval_timestamp
-                        save_session(user_id)
-                asyncio.create_task(auto_approve_timer(user_id, update, context, approval_timestamp))
-
         except Exception as e:
             logger.error(f"Error: {e}")
             await safe_reply(update, "❌ Error occurred during preview send.")
@@ -5983,40 +5964,6 @@ async def _handle_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         await update.callback_query.edit_message_text(msg, reply_markup=reply_markup)
     else:
         await safe_reply(update, msg, reply_markup=reply_markup)
-
-
-async def auto_approve_timer(user_id: int, update: Update, context: ContextTypes.DEFAULT_TYPE, approval_timestamp: float):
-    """
-    Waits for APPROVAL_TIMEOUT_SECS and automatically approves the video
-    if the user remains idle in the WAITING_FOR_APPROVAL state.
-    """
-    logger.info(f"⏰ [AUTO-APPROVE] Idle timer started for User {user_id} ({APPROVAL_TIMEOUT_SECS}s)")
-    await asyncio.sleep(APPROVAL_TIMEOUT_SECS)
-    
-    with get_session_lock(user_id):
-        session = user_sessions.get(user_id)
-        if not session:
-            logger.info(f"⏰ [AUTO-APPROVE] Session expired or deleted for User {user_id}. Exiting.")
-            return
-        
-        state = session.get("state")
-        timestamp = session.get("approval_timestamp")
-        
-        if state != "WAITING_FOR_APPROVAL":
-            logger.info(f"⏰ [AUTO-APPROVE] State changed to '{state}'. Cancelling auto-approval.")
-            return
-            
-        if timestamp != approval_timestamp:
-            logger.info(f"⏰ [AUTO-APPROVE] Session timestamp mismatch. Cancelling auto-approval.")
-            return
-            
-        logger.info(f"⏰ [AUTO-APPROVE] Timeout expired! Proceeding with automatic approval for User {user_id}...")
-    
-    try:
-        await safe_reply(update, "⏳ **Timeout Expired (1 min):** Admin is inactive. Automatically approving and uploading to YouTube/Instagram...", force=True)
-        await _perform_upload(update, context)
-    except Exception as e:
-        logger.error(f"❌ [AUTO-APPROVE] Failed auto-approval upload: {e}", exc_info=True)
 
 
 async def approve_upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -8754,8 +8701,8 @@ def run_cli_mode(args):
         _cli_result = _cli_director.execute_mission(
             niche=os.getenv("DEFAULT_NICHE", "viral"),
             video_request=(
-                title_val
-                + (". Enhanced quality output." if enhance_mode else ".")
+                f"CLI: Process '{title_val}'"
+                + (" with enhanced quality." if enhance_mode else ".")
             ),
             input_paths=[video_path],
         )
@@ -8793,7 +8740,7 @@ def process_clip(video_path: str, actress_title: str) -> str | None:
 
         result = director.execute_mission(
             niche=os.getenv("DEFAULT_NICHE", "viral"),
-            video_request=title_val,
+            video_request=video_request,
             input_paths=[video_path],
         )
 
@@ -8825,7 +8772,7 @@ def run_ci_mode():
     # the lock is still valid skips all work and exits immediately to prevent
     # two runners sharing the same Telegram bot token.
     _BOT_LOCK_FILE = "The_json/bot_lock.json"
-    if is_scheduled and os.getenv("GITHUB_ACTIONS") != "true":
+    if is_scheduled:
         try:
             if os.path.exists(_BOT_LOCK_FILE):
                 import json as _jl
@@ -9109,146 +9056,6 @@ def run_ci_mode():
     logger.info("👋 [CI] One-Shot CI Execution Finished successfully. Exiting.")
 
 
-def run_one_shot_dispatch():
-    logger.info("⚡ [DISPATCH] Running one-shot manual dispatch...")
-
-    target_url = os.getenv("DISPATCH_TARGET_URL", "").strip()
-    actress_name = os.getenv("DISPATCH_ACTRESS_NAME", "").strip()
-    niche = os.getenv("DISPATCH_NICHE", "General").strip()
-    voiceover = os.getenv("DISPATCH_VOICEOVER", "").strip()
-    review_mode = os.getenv("DISPATCH_REVIEW_MODE", "auto").strip()
-
-    from Core_Modules.studio_status_tracker import get_tracker
-    tracker = get_tracker()
-
-    if not target_url:
-        logger.info(f"🔍 [DISPATCH] No target_url provided. Searching pool for actress: {actress_name}")
-        
-        # 1. Search PublishQueue
-        from Actress_Modules.actress_publisher import PublishQueue
-        queue = PublishQueue.load()
-        matched_item = None
-        if queue:
-            for item in queue:
-                item_actress = item.get("actress_title", "")
-                if item_actress and (actress_name.lower() in item_actress.lower() or item_actress.lower() in actress_name.lower()):
-                    matched_item = item
-                    break
-        
-        if matched_item:
-            logger.info(f"✅ [DISPATCH] Found matching video in PublishQueue: {matched_item['video_path']}")
-            try:
-                queue.remove(matched_item)
-                PublishQueue.save(queue)
-            except Exception as _qe:
-                logger.warning(f"⚠️ Failed to remove item from PublishQueue: {_qe}")
-            target_url = matched_item["video_path"]
-        else:
-            # 2. Search downloads folder
-            downloads_dir = os.getenv("DOWNLOADS_DIR", "downloads")
-            matching_files = []
-            if os.path.exists(downloads_dir):
-                for root, dirs, files in os.walk(downloads_dir):
-                    for file in files:
-                        if file.endswith(".mp4") and actress_name.lower() in file.lower():
-                            matching_files.append(os.path.join(root, file))
-            if matching_files:
-                target_url = matching_files[0]
-                logger.info(f"✅ [DISPATCH] Found matching video in downloads folder: {target_url}")
-            else:
-                logger.error(f"❌ [DISPATCH] No videos found in pool or downloads for actress: {actress_name}")
-                tracker.start(
-                    job_id=os.getenv("GITHUB_RUN_ID"),
-                    actress=actress_name,
-                    niche=niche,
-                    source_url=""
-                )
-                tracker.failed(f"No videos found in pool/downloads for actress: {actress_name}")
-                return
-
-    tracker.start(
-        job_id=os.getenv("GITHUB_RUN_ID"),
-        actress=actress_name,
-        niche=niche,
-        source_url=target_url
-    )
-
-    # 1. Resolve local path vs download
-    video_path = target_url
-    if target_url.startswith("http"):
-        logger.info(f"📥 [DISPATCH] Downloading target_url: {target_url}")
-        tracker.step("STEP_DOWNLOAD", 10)
-        from Download_Modules import downloader
-        try:
-            dl_res = downloader.download_video(target_url)
-        except Exception as dl_err:
-            logger.error(f"❌ [DISPATCH] Download exception: {dl_err}")
-            tracker.failed(f"Download exception: {dl_err}")
-            return
-        if dl_res and dl_res[0]:
-            video_path, _ = dl_res
-            logger.info(f"✅ [DISPATCH] Downloaded: {video_path}")
-            tracker.step("STEP_DOWNLOAD", 100)
-        else:
-            logger.error("❌ [DISPATCH] Download failed!")
-            tracker.failed("Download failed")
-            return
-    else:
-        # Check relative path or absolute path
-        if not os.path.isabs(video_path):
-            video_path = os.path.abspath(video_path)
-        if not os.path.exists(video_path):
-            logger.error(f"❌ [DISPATCH] Local file not found: {video_path}")
-            tracker.failed(f"Local file not found: {video_path}")
-            return
-        logger.info(f"📂 [DISPATCH] Found local file at: {video_path}")
-        tracker.step("STEP_DOWNLOAD", 100)
-
-    try:
-        # Set environment variables overrides from inputs
-        if voiceover:
-            os.environ["DISPATCH_VOICEOVER_TEXT"] = voiceover
-
-        # Resolve niche name to meta_config.json folders
-        actress_folder = niche
-        if niche.lower() in ("general", "general_fallback"):
-            actress_folder = "General_Fallback"
-        elif niche.lower() in ("fashion", "fashion_style"):
-            actress_folder = "Fashion"
-        elif niche.lower() in ("nsfw", "adult"):
-            actress_folder = "NSFW"
-        elif niche.lower() in ("paparazzi"):
-            actress_folder = "Paparazzi"
-
-        # 2. Process/compile the video
-        logger.info(f"🎬 [DISPATCH] Processing clip: {video_path} for actress: {actress_name}")
-        processed_path = process_clip(video_path, actress_name)
-        if not processed_path or not os.path.exists(processed_path):
-            logger.error("❌ [DISPATCH] Compilation/Processing failed!")
-            tracker.failed("Compilation/Processing failed")
-            return
-
-        logger.info(f"✅ [DISPATCH] Processed successfully: {processed_path}")
-
-        # 3. Publish the video
-        logger.info(f"📤 [DISPATCH] Publishing processed clip...")
-        from Actress_Modules.actress_scheduler import _auto_publish_clip
-        
-        # Run publishing synchronously
-        _auto_publish_clip(
-            video_path=processed_path,
-            actress_title=actress_name,
-            actress_folder=actress_folder,
-            shortcode=f"manual_{int(time.time())}"
-        )
-        logger.info("🎉 [DISPATCH] One-shot manual dispatch run finished successfully!")
-        tracker.done()
-    except Exception as exc:
-        logger.error(f"❌ [DISPATCH] Execution failed: {exc}")
-        tracker.failed(f"Execution failed: {exc}")
-        raise exc
-
-
 if __name__ == "__main__":
     lazy_load_genai_trace()
     import argparse
@@ -9266,22 +9073,12 @@ if __name__ == "__main__":
     if args.input:
         run_cli_mode(args)
     elif os.getenv("GITHUB_ACTIONS") == "true":
-        # Check if it is a manual one-shot video run
-        if os.getenv("GITHUB_EVENT_NAME") == "workflow_dispatch":
-            target_url = os.getenv("DISPATCH_TARGET_URL", "").strip()
-            actress_name = os.getenv("DISPATCH_ACTRESS_NAME", "").strip()
-            if target_url or actress_name:
-                run_one_shot_dispatch()
-                sys.exit(0)
-            else:
-                logger.info("ℹ️ [CI] Workflow dispatch received without target_url or actress_name. Falling through to persistent bot mode.")
-
         _BOT_LOCK_FILE = "The_json/bot_lock.json"
         _BOT_TIMEOUT_HOURS = 5.25  # Run for 5.25 hours, then rotate
         _bot_expires = time.time() + (_BOT_TIMEOUT_HOURS * 3600)
         
         has_active_lock = False
-        if os.path.exists(_BOT_LOCK_FILE) and os.getenv("GITHUB_ACTIONS") != "true":
+        if os.path.exists(_BOT_LOCK_FILE):
             try:
                 import json as _jl
                 with open(_BOT_LOCK_FILE, "r") as _f:

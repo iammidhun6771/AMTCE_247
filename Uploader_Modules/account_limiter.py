@@ -5,10 +5,9 @@ Tracks how many times each niche account has posted per platform per day.
 Enforces daily caps to prevent bot-like posting patterns.
 
 Limits (configurable via .env):
-  IG_DAILY_LIMIT      = 3   (Instagram posts/day per account)
-  YT_DAILY_LIMIT      = 2   (YouTube uploads/day per account)
-  TG_DAILY_LIMIT      = 5   (Telegram posts/day per account)
-  TIKTOK_DAILY_LIMIT  = 4   (TikTok posts/day per account)
+  IG_DAILY_LIMIT   = 3   (Instagram posts/day per account)
+  YT_DAILY_LIMIT   = 2   (YouTube uploads/day per account)
+  TG_DAILY_LIMIT   = 5   (Telegram posts/day per account)
 
 State is persisted in Actress_Modules/account_daily_limits.json
 and auto-resets when the date changes.
@@ -27,10 +26,9 @@ logger = logging.getLogger(__name__)
 LIMITS_FILE = os.path.join("Actress_Modules", "account_daily_limits.json")
 
 DAILY_CAPS = {
-    "ig":       int(os.getenv("IG_DAILY_LIMIT",      "3")),
-    "yt":       int(os.getenv("YT_DAILY_LIMIT",      "2")),
-    "telegram": int(os.getenv("TG_DAILY_LIMIT",      "5")),
-    "tiktok":   int(os.getenv("TIKTOK_DAILY_LIMIT",  "4")),
+    "ig":       int(os.getenv("IG_DAILY_LIMIT",  "3")),
+    "yt":       int(os.getenv("YT_DAILY_LIMIT",  "2")),
+    "telegram": int(os.getenv("TG_DAILY_LIMIT",  "5")),
 }
 
 # Min/max random delay (seconds) between consecutive uploads to different accounts
@@ -80,7 +78,6 @@ def _get_account_entry(state: dict, niche: str) -> dict:
             "ig":       0,
             "yt":       0,
             "telegram": 0,
-            "tiktok":   0,
         }
 
     return entry
@@ -145,7 +142,6 @@ def get_daily_summary() -> dict:
                 "ig":       f"{entry.get('ig', 0)}/{DAILY_CAPS['ig']}",
                 "yt":       f"{entry.get('yt', 0)}/{DAILY_CAPS['yt']}",
                 "telegram": f"{entry.get('telegram', 0)}/{DAILY_CAPS['telegram']}",
-                "tiktok":   f"{entry.get('tiktok', 0)}/{DAILY_CAPS['tiktok']}",
             }
     return summary
 

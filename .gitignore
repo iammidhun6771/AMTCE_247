@@ -119,9 +119,3 @@ Original_audio/**
 !Original_audio/beats/
 !Original_audio/beats/*.npz
 !Original_audio/pool_metadata.json
-
-# ============================================================
-# EXCLUDED MODULES
-# ============================================================
-Telegram_Video_Uploader/
-

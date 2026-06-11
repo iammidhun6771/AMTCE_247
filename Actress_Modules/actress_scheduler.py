@@ -525,7 +525,6 @@ def _auto_publish_clip(video_path: str, actress_title: str, actress_folder: str,
 
             # 2. Meta (Instagram + Facebook) — guarded by daily limit
             logger.info("📤 Uploading to Meta (Insta/FB)...")
-            meta_result = {"instagram": {"status": "skipped_limit"}, "facebook": {"status": "skipped_limit"}}
             if can_post(upload_niche, "ig"):
                 meta_result = await AsyncMetaUploader.upload_to_meta(
                     video_path=video_path,
@@ -537,34 +536,10 @@ def _auto_publish_clip(video_path: str, actress_title: str, actress_folder: str,
                 ig_ok = meta_result.get("instagram", {}).get("status", "") == "success"
                 if ig_ok:
                     record_post(upload_niche, "ig")
+                return meta_result
             else:
                 logger.info("🚫 [LIMITER] Instagram daily limit hit for %s — skipping IG upload", upload_niche)
-
-            # 3. TikTok — guarded by SEND_TO_TIKTOK flag and daily limit
-            if os.getenv("SEND_TO_TIKTOK", "off").strip().lower() in ("on", "yes", "true", "1"):
-                logger.info("📤 Uploading to TikTok (Direct Post)...")
-                if can_post(upload_niche, "tiktok"):
-                    try:
-                        from TikTok_Modules.tiktok_uploader import upload_to_tiktok
-                        tiktok_result = await upload_to_tiktok(
-                            file_path=video_path,
-                            title=title,
-                            hashtags=hashtags,
-                            niche=upload_niche,
-                        )
-                        if tiktok_result and tiktok_result.get("status") == "success":
-                            record_post(upload_niche, "tiktok")
-                            logger.info("🎵 [AUTO_PUBLISH] TikTok success: %s", tiktok_result.get("id"))
-                        else:
-                            logger.warning("⚠️ [AUTO_PUBLISH] TikTok upload failed: %s", tiktok_result.get("error"))
-                    except Exception as _te:
-                        logger.error("❌ TikTok upload error: %s", _te)
-                else:
-                    logger.info("🚫 [LIMITER] TikTok daily limit hit for %s — skipping TikTok upload", upload_niche)
-            else:
-                logger.debug("📴 [TIKTOK] SEND_TO_TIKTOK is off — skipping TikTok upload.")
-
-            return meta_result
+                return {"instagram": {"status": "skipped_limit"}, "facebook": {"status": "skipped_limit"}}
 
         try:
             loop = asyncio.get_event_loop()
