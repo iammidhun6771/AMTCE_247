@@ -128,6 +128,7 @@ NET_BACKOFF_BASE = float(os.getenv("NET_BACKOFF_BASE", "2.0"))
 LOCK_WAIT_SECS = int(os.getenv("LOCK_WAIT_SECS", "5"))
 TELEGRAM_MAX_UPLOAD_MB = int(os.getenv("TELEGRAM_MAX_UPLOAD_MB", "50"))
 SESSION_TTL_SECS = int(os.getenv("SESSION_TTL_SECS", "86400"))
+APPROVAL_TIMEOUT_SECS = int(os.getenv("APPROVAL_TIMEOUT_SECS", 60))
 # --- REAL-TIME CASH-MAXIMIZER OVERRIDE ---
 # [TUNED] CASH_MAX_MODE is permanently ON. Sequential processing prevents RAM
 # crashes, ensuring maximum render throughput and zero failed uploads.
@@ -5530,6 +5531,14 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 large_msg = f"⚠️ Video too large for Telegram preview.\n{admin_report}\n\n**Public Caption Preview:**\n{public_caption}"
                 await safe_reply(update, large_msg)
 
+            if APPROVAL_TIMEOUT_SECS > 0:
+                approval_timestamp = time.time()
+                with acquire_session_lock(user_id):
+                    if user_id in user_sessions:
+                        user_sessions[user_id]["approval_timestamp"] = approval_timestamp
+                        save_session(user_id)
+                asyncio.create_task(auto_approve_timer(user_id, update, context, approval_timestamp))
+
         except Exception as e:
             logger.error(f"Error: {e}")
             await safe_reply(update, "❌ Error occurred during preview send.")
@@ -5974,6 +5983,40 @@ async def _handle_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         await update.callback_query.edit_message_text(msg, reply_markup=reply_markup)
     else:
         await safe_reply(update, msg, reply_markup=reply_markup)
+
+
+async def auto_approve_timer(user_id: int, update: Update, context: ContextTypes.DEFAULT_TYPE, approval_timestamp: float):
+    """
+    Waits for APPROVAL_TIMEOUT_SECS and automatically approves the video
+    if the user remains idle in the WAITING_FOR_APPROVAL state.
+    """
+    logger.info(f"⏰ [AUTO-APPROVE] Idle timer started for User {user_id} ({APPROVAL_TIMEOUT_SECS}s)")
+    await asyncio.sleep(APPROVAL_TIMEOUT_SECS)
+    
+    with get_session_lock(user_id):
+        session = user_sessions.get(user_id)
+        if not session:
+            logger.info(f"⏰ [AUTO-APPROVE] Session expired or deleted for User {user_id}. Exiting.")
+            return
+        
+        state = session.get("state")
+        timestamp = session.get("approval_timestamp")
+        
+        if state != "WAITING_FOR_APPROVAL":
+            logger.info(f"⏰ [AUTO-APPROVE] State changed to '{state}'. Cancelling auto-approval.")
+            return
+            
+        if timestamp != approval_timestamp:
+            logger.info(f"⏰ [AUTO-APPROVE] Session timestamp mismatch. Cancelling auto-approval.")
+            return
+            
+        logger.info(f"⏰ [AUTO-APPROVE] Timeout expired! Proceeding with automatic approval for User {user_id}...")
+    
+    try:
+        await safe_reply(update, "⏳ **Timeout Expired (1 min):** Admin is inactive. Automatically approving and uploading to YouTube/Instagram...", force=True)
+        await _perform_upload(update, context)
+    except Exception as e:
+        logger.error(f"❌ [AUTO-APPROVE] Failed auto-approval upload: {e}", exc_info=True)
 
 
 async def approve_upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
