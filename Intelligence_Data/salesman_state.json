@@ -2,10 +2,11 @@
   "harvest": {
     "last_run_date": "2026-06-11",
     "slots_completed_today": [
-      "13:45"
+      "13:45",
+      "21:18"
     ],
     "catchup_fired_today": false,
-    "total_runs_all_time": 28
+    "total_runs_all_time": 29
   },
   "publisher": {
     "last_check_date": "2026-06-11",
