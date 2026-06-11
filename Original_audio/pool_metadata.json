@@ -79,15 +79,15 @@
     "Akanksha_puri.mp3": {
       "usage_count": 1,
       "last_used": 1780498846.951133,
-      "bpm": 118.7,
-      "energy": 0.7697435897435897,
+      "bpm": 65.3,
+      "energy": 0.5834347826086957,
       "created_at": 1780391156.9433477,
       "beat_data_path": "beats/Akanksha_puri.npz",
       "drop_times": [
-        18.05
+        20.7
       ],
       "sample_rate": 44100,
-      "audio_hash": "477247_1780497950",
+      "audio_hash": "503574_1781151663",
       "version": 2
     },
     "Akanksha_puri_1.mp3": {
@@ -129,8 +129,8 @@
       "version": 2
     },
     "Anshivi.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1781151733.7954123,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9438772,
