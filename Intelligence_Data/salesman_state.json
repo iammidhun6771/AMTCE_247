@@ -1,9 +1,11 @@
 {
   "harvest": {
     "last_run_date": "2026-06-12",
-    "slots_completed_today": [],
+    "slots_completed_today": [
+      "21:18"
+    ],
     "catchup_fired_today": false,
-    "total_runs_all_time": 26
+    "total_runs_all_time": 27
   },
   "publisher": {
     "last_check_date": "2026-06-12",
@@ -14,18 +16,19 @@
     ],
     "slots_missed_today": [
       "13:00",
-      "14:00"
+      "14:00",
+      "20:00"
     ],
     "catchup_slots_today": [
       "09:00"
     ],
-    "deficit_videos": 2
+    "deficit_videos": 3
   },
   "apify": {
     "quota_date": "2026-06-12",
-    "quota_used": 0,
+    "quota_used": 3,
     "quota_limit": 50,
-    "total_calls_all_time": 249
+    "total_calls_all_time": 252
   },
   "scraped_posts": {
     "shortcodes": [
@@ -88,9 +91,9 @@
       "official_jackielove": "2026-05-30T03:02:27.979216",
       "analuu555_": "2026-05-30T03:02:27.979216",
       "pratika_sood": "2026-05-30T03:02:27.979216",
-      "pappsnap": "2026-06-02T21:52:41.591623",
-      "bollywoodchronicle": "2026-06-02T21:52:41.591623",
-      "mahesh_videojournalist": "2026-06-02T21:52:41.591623",
+      "pappsnap": "2026-06-12T21:18:33.823487",
+      "bollywoodchronicle": "2026-06-12T21:18:33.823487",
+      "mahesh_videojournalist": "2026-06-12T21:18:33.823487",
       "bolbollywood.in": "2026-06-02T23:21:01.195828",
       "paparazzzee": "2026-06-02T23:21:01.195828",
       "voompla": "2026-06-02T23:21:01.195828",
