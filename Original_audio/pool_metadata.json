@@ -29,8 +29,8 @@
       "version": 2
     },
     "Aditi_bhatia.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1781260829.1278865,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9428434,
@@ -1158,6 +1158,19 @@
       "bpm": 0.0,
       "energy": 0.0,
       "created_at": 1780579097.2854998,
+      "beat_data_path": null,
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "",
+      "version": 2
+    },
+    "Naelapaul.mp3": {
+      "is_speech_only": true,
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 0.0,
+      "energy": 0.849,
+      "created_at": 1781260816.7906146,
       "beat_data_path": null,
       "drop_times": [],
       "sample_rate": 44100,
