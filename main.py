@@ -7049,20 +7049,20 @@ async def verify_watermark(update: Update, context: ContextTypes.DEFAULT_TYPE, i
             msg = f"✅ Watermark Verification Successful! Proceeding to next step..."
             await smart_edit(msg)
 
-            # PROCEED TO APPROVAL FLOW
-            try:
-                # ensuring state is correct for approve_upload check
-                session["state"] = "WAITING_FOR_APPROVAL"
-                save_session(user_id)
+            # [FIX] Do NOT auto-trigger approve_upload — require explicit /approve from user
+            # Previously this called approve_upload() automatically which bypassed manual review.
+            session["state"] = "WAITING_FOR_APPROVAL"
+            save_session(user_id)
 
-                await approve_upload(update, context)
-            except Exception as e:
-                logger.error(f"❌ Error in Approval Flow trigger: {e}", exc_info=True)
-                await safe_reply(
-                    update,
-                    "❌ Error proceeding to upload. Please try /approve manually.",
-                    force=True,
-                )
+            _video_basename = os.path.basename(video_path) if video_path else "the video"
+            await safe_reply(
+                update,
+                f"✅ *Watermark clean!*\n\n"
+                f"📽️ `{_video_basename}` is ready for upload.\n\n"
+                f"Send /approve to publish or /reject to discard.",
+                parse_mode="Markdown",
+                force=True,
+            )
             return
 
         else:

@@ -106,12 +106,21 @@ def tool_compile_video(**kwargs):
     # [FIX] Use explicit title if provided, otherwise extract from request or fallback
     raw_title = kwargs.get("title")
     if not raw_title:
-        # Fallback extraction from legacy 'titled '...' ' pattern
-        match = re.search(r"titled '(.*?)'", request)
-        raw_title = match.group(1) if match else request[:30]
-    
-    # Sanitize: ensure no conversational prefixes survive
-    clean_title = str(raw_title).replace("Process short titled", "").replace("Process batch of", "").strip(" '\"")
+        # Priority 1: extract quoted string (e.g. CLI: Process 'Disha Patani')
+        _quoted = re.search(r"['\"]([^'\"]+)['\"]", str(request))
+        if _quoted:
+            raw_title = _quoted.group(1).strip()
+        else:
+            # Priority 2: legacy 'titled ...' pattern
+            _titled = re.search(r"titled '(.*?)'", str(request))
+            raw_title = _titled.group(1) if _titled else request[:30]
+
+    # Sanitize: strip CLI/niche prefixes and surrounding quotes
+    clean_title = str(raw_title)
+    clean_title = re.sub(r'^[A-Z_]+:\s*', '', clean_title)  # strip leading ALL_CAPS: prefix
+    for _bad in ("Process short titled", "Process batch of", "CLI: Process", "Process"):
+        clean_title = clean_title.replace(_bad, "")
+    clean_title = clean_title.strip(" '\"")
 
     # 2. Generate Metadata
     mission_id = f"vanguard_{int(time.time())}"
@@ -131,7 +140,7 @@ def tool_compile_video(**kwargs):
         uuid_str=mission_id,
         input_path=input_paths,
         output_path=output_path,
-        title=f"{niche.upper()}: {clean_title}",
+        title=clean_title,  # [FIX] No niche prefix — clean actress name only (e.g. "Disha Patani")
         description=request,
         profile_data=profile_data
     )

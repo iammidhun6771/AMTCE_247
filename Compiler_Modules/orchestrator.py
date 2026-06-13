@@ -5619,13 +5619,36 @@ def compile_video(
             from Compiler_Modules.karaoke_subtitle_engine import apply_karaoke_subtitles, is_karaoke_enabled
             if is_karaoke_enabled() and os.path.exists(output_path):
                 # Resolve the narration script for voiceover + hallucination shield
+                _mon_raw = (
+                    profile_data.get("monetization_data")
+                    or profile_data.get("monetization")
+                    or (profile_data.get("pipeline_metrics", {}) or {}).get("monetization", {})
+                    or {}
+                )
                 _karaoke_script = (
                     profile_data.get("karaoke_script")
-                    or (profile_data.get("monetization") or {}).get("editorial_script")
-                    or (profile_data.get("pipeline_metrics", {}).get("monetization", {})).get("editorial_script")
+                    or _mon_raw.get("editorial_script")
                     or profile_data.get("editorial_script")
-                    or title  # Last resort: use the video title
                 )
+                if not _karaoke_script:
+                    # [FIX] Build "Title | Hook" fallback instead of raw niche string
+                    import re as _re_k
+                    _hook_for_sub = (
+                        _mon_raw.get("telegram_hook")
+                        or _mon_raw.get("instagram_hook")
+                        or _mon_raw.get("youtube_hook")
+                        or ""
+                    )
+                    # Strip niche prefix from title (e.g. "VIRAL: Disha Patani" → "Disha Patani")
+                    _clean_title_k = _re_k.sub(r'^[A-Z_]+:\s*', '', str(title)).strip(" '\"")
+                    _karaoke_script = f"{_clean_title_k} | {_hook_for_sub}" if _hook_for_sub else _clean_title_k
+
+                # [FIX] Sanitize any residual niche/CLI prefix from the final script
+                if _karaoke_script:
+                    import re as _re_k2
+                    _karaoke_script = _re_k2.sub(r'^[A-Z_]+:\s*', '', str(_karaoke_script))
+                    for _bp in ("CLI: Process", "Process short titled", "Process batch of", "Process"):
+                        _karaoke_script = _karaoke_script.replace(_bp, "").strip(" '\"")
                 if _karaoke_script:
                     _karaoke_out = os.path.splitext(output_path)[0] + "_captioned.mp4"
                     _karaoke_tmp = os.path.join(job_dir, "_karaoke_tmp")

@@ -125,6 +125,10 @@ class MonetizationStrategist:
             # 1. Input Sanitization
             clean_title = re.sub(r"[\x00-\x1F\x7F]", "", title).strip()
             clean_title = clean_title[:200]
+            # [FIX] Strip any residual niche/CLI prefixes that leaked from tool_system
+            clean_title = re.sub(r'^[A-Z_]+:\s*', '', clean_title)  # e.g. "VIRAL: " or "STREETWEAR: "
+            for _prefix in ("CLI: Process", "Process short titled", "Process batch of", "Process"):
+                clean_title = clean_title.replace(_prefix, "").strip(" '\"")
 
             # Calculate target word count based on 140 WPM
             word_target = max(20, min(int((duration / 60) * 140), 55))
@@ -664,7 +668,10 @@ class MonetizationStrategist:
 
             # ── 6. Finalization & MoneyFlow Optimization ───────────────────
             # Prepend the title to the script if missing (Voiceover requirement)
+            # [FIX] Strip any niche prefix before prepending (e.g. "VIRAL: Disha Patani" → "Disha Patani")
             clean_title_str = original_title.split(":", 1)[-1].replace("_", " ").strip()
+            # If the split left another prefix, strip again (handles double-prefix edge case)
+            clean_title_str = re.sub(r'^[A-Z_]+:\s*', '', clean_title_str).strip()
             title_words = set(re.findall(r"\w+", clean_title_str.lower()))
             if clean_title_str and not all(w in script.lower() for w in title_words if len(w) > 3):
                 script = f"{clean_title_str}. {script}"
@@ -883,15 +890,19 @@ class MonetizationStrategist:
         # [mkpv-fix] Remove forced "Link in description" (User considers this low-quality/forced)
         # We use the script as-is for the editorial script (voiceover).
         editorial_script = script
-        clean_cap = caption.lower().strip()
+        # [FIX] Strip niche prefix from caption before using as lead-in
+        _clean_cap_for_editorial = re.sub(r'^[A-Z_]+:\s*', '', str(caption))
+        for _p in ("CLI: Process", "Process short titled", "Process batch of", "Process"):
+            _clean_cap_for_editorial = _clean_cap_for_editorial.replace(_p, "").strip(" '\"")
+        clean_cap = _clean_cap_for_editorial.lower().strip()
         script_lower = script.lower()
         cap_words = set(re.findall(r'\w+', clean_cap))
         # If the caption is essentially the same as the sanitized script or vice versa, don't repeat it
         significant_overlap = len(cap_words) > 0 and len([w for w in cap_words if w in script_lower]) / len(cap_words) > 0.6
         
         if clean_cap not in script_lower and not significant_overlap:
-            # If caption is not in script and not significantly overlapping, use it as a lead-in
-            editorial_script = f"{caption}. {script}"
+            # If caption is not in script and not significantly overlapping, use clean caption as lead-in
+            editorial_script = f"{_clean_cap_for_editorial}. {script}"
 
         # Apply commentary refinement in fallback path
         if voiceover and editorial_script:
