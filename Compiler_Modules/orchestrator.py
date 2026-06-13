@@ -3214,7 +3214,7 @@ def compile_video(
                             or ol.get("brand_text")
                             or "Fashion Analysis",
                             "item_name": ol.get("item_name")
-                            or ol.get("commercial_item_name", "Style"),
+                            or ol.get("commercial_item_name") or "",
                             "price_tag": ol.get("price_tag", ""),
                             "price_tag_time": ol.get("price_tag_time", 0.75),
                         }

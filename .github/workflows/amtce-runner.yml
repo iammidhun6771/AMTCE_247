@@ -400,21 +400,6 @@ jobs:
         exit 0
 
 
-  # Chain-restart: separate job with no concurrency key so GitHub never
-  # cancels it due to the amtce-bot group. Runs after run-amtce exits.
-  chain-restart:
-    runs-on: ubuntu-latest
-    needs: run-amtce
-    if: always() && needs.run-amtce.result != 'cancelled'
-    permissions:
-      actions: write
-    steps:
-      - name: Trigger Next Run
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "Chain-restarting AMTCE for continuous 24/7 operation..."
-          gh workflow run amtce-runner.yml \
-            --repo "$GITHUB_REPOSITORY" \
-            --ref "$GITHUB_REF_NAME"
-          echo "Next run queued successfully."
+  # NOTE: chain-restart job has been REMOVED.
+  # It caused a self-triggering infinite loop (runs every 2 min instead of scheduled times).
+  # The cron schedule above handles all timed runs at correct IST peak hours.
