@@ -7,10 +7,16 @@
   },
   "publisher": {
     "last_check_date": "2026-06-13",
-    "slots_published_today": [],
+    "slots_published_today": [
+      "09:00",
+      "09:00[catchup]",
+      "10:00"
+    ],
     "slots_missed_today": [],
-    "catchup_slots_today": [],
-    "deficit_videos": 2
+    "catchup_slots_today": [
+      "09:00"
+    ],
+    "deficit_videos": 0
   },
   "apify": {
     "quota_date": "2026-06-13",
