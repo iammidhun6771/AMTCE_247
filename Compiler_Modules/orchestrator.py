@@ -3509,54 +3509,35 @@ def compile_video(
         # Script generation block — always runs regardless of feature flags
         _pm_vo = profile_data.get("pipeline_metrics", {})
         mon_data = profile_data.get("monetization", {}) or profile_data.get("monetization_data", {}) or _pm_vo.get("monetization", {})
-        full_script = (
-            mon_data.get("editorial_script")
-            or mon_data.get("fashion_scout", {}).get("editorial_script")
-            or profile_data.get("editorial_script")
+        # [FIX] Construct voiceover script using clean Title | Hook format, bypassing robotic editorial_script
+        import re as _re_k
+        _clean_title_k = _re_k.sub(r'^[A-Z_]+:\s*', '', str(title)).strip(" '\"")
+        for _prefix in ("CLI: Process", "Process short titled", "Process batch of", "Process"):
+            _clean_title_k = _clean_title_k.replace(_prefix, "").strip(" '\"")
+        _clean_title_k = _clean_title_k.replace("_", " ").strip()
+        _clean_title_k = _re_k.sub(r'\s+\d+$', '', _clean_title_k).strip()
+        _clean_title_k = _clean_title_k.title()
+
+        _mon_vo = profile_data.get("monetization", {}) or profile_data.get("monetization_data", {}) or _pm_vo.get("monetization", {}) or {}
+        _hook_for_vo = (
+            _mon_vo.get("telegram_hook")
+            or _mon_vo.get("instagram_hook")
+            or _mon_vo.get("youtube_hook")
             or ""
         )
+        if _hook_for_vo:
+            _hook_for_vo = _re_k.sub(r'#\S+', '', _hook_for_vo).strip(" '\"")
 
-        # [FASHION NARRATION] Removed override — FashionScout editorial_script is now the primary source.
+        full_script = f"{_clean_title_k} | {_hook_for_vo}" if _hook_for_vo else _clean_title_k
+        logger.info(f"🎤 [VOICEOVER] Constructed clean script: '{full_script}'")
 
-        # [FALLBACK SCRIPT] Synthesize from title/caption signals when Gemini didn't produce one
-        if not full_script:
-            _fb_caption = profile_data.get("caption") or ""
-            _fb_title = title or ""
-            _fb_parts = [p for p in [_fb_title, _fb_caption] if p]
-            if _fb_parts:
-                full_script = ". ".join(_fb_parts)
-            else:
-                try:
-                    from Audio_Modules.voiceover import EDITORIAL_TEMPLATES
-                    import random as _r
-                    full_script = _r.choice(EDITORIAL_TEMPLATES)
-                except Exception:
-                    full_script = "A masterclass in style and craftsmanship, defining the intersection of luxury and design."
-            logger.info(f"[VOICEOVER_FALLBACK] Built script from profile signals: {len(full_script)} chars")
-
-        if full_script:
-            try:
-                ref_result = voiceover.refine_commentary(full_script)
-                _refined_text = ref_result.get("text", full_script)
-                if not isinstance(_refined_text, str):
-                    logger.warning(
-                        "[COMMENTARY_ENGINE] ref_result['text'] is %s not str — keeping original.",
-                        type(_refined_text).__name__,
-                    )
-                    _refined_text = full_script
-                profile_data["editorial_script"] = _refined_text
-                mon_data["editorial_script"] = _refined_text
-                profile_data["monetization_data"] = mon_data
-                full_script = _refined_text
-                logger.info(
-                    "[COMMENTARY_ENGINE] narration_refined=%s | "
-                    'original="%s" | refined="%s"',
-                    ref_result.get("changed", False),
-                    ref_result.get("original", "")[:200],
-                    full_script[:200],
-                )
-            except Exception as e:
-                logger.warning(f"[COMMENTARY_ENGINE] refinement_failed: {e}")
+        # Bypass refine_commentary completely to avoid robotic elongation/templates
+        _refined_text = full_script
+        profile_data["editorial_script"] = _refined_text
+        if isinstance(mon_data, dict):
+            mon_data["editorial_script"] = _refined_text
+            profile_data["monetization_data"] = mon_data
+        logger.info("[COMMENTARY_ENGINE] Bypassed refinement. Set clean script on profile.")
 
         # ---- TTS AUDIO — gated separately from script generation ----------------
         if context.feature_flags.get("voiceover_generation"):
@@ -5618,32 +5599,33 @@ def compile_video(
         try:
             from Compiler_Modules.karaoke_subtitle_engine import apply_karaoke_subtitles, is_karaoke_enabled
             if is_karaoke_enabled() and os.path.exists(output_path):
-                # Resolve the narration script for voiceover + hallucination shield
+                # [FIX] Construct karaoke script strictly using clean Title | Hook format, bypassing editorial_script
+                import re as _re_k
+                _clean_title_k = _re_k.sub(r'^[A-Z_]+:\s*', '', str(title)).strip(" '\"")
+                for _prefix in ("CLI: Process", "Process short titled", "Process batch of", "Process"):
+                    _clean_title_k = _clean_title_k.replace(_prefix, "").strip(" '\"")
+                _clean_title_k = _clean_title_k.replace("_", " ").strip()
+                _clean_title_k = _re_k.sub(r'\s+\d+$', '', _clean_title_k).strip()
+                _clean_title_k = _clean_title_k.title()
+
                 _mon_raw = (
                     profile_data.get("monetization_data")
                     or profile_data.get("monetization")
                     or (profile_data.get("pipeline_metrics", {}) or {}).get("monetization", {})
                     or {}
                 )
-                _karaoke_script = (
-                    profile_data.get("karaoke_script")
-                    or _mon_raw.get("editorial_script")
-                    or profile_data.get("editorial_script")
+                _hook_for_sub = (
+                    _mon_raw.get("telegram_hook")
+                    or _mon_raw.get("instagram_hook")
+                    or _mon_raw.get("youtube_hook")
+                    or ""
                 )
-                if not _karaoke_script:
-                    # [FIX] Build "Title | Hook" fallback instead of raw niche string
-                    import re as _re_k
-                    _hook_for_sub = (
-                        _mon_raw.get("telegram_hook")
-                        or _mon_raw.get("instagram_hook")
-                        or _mon_raw.get("youtube_hook")
-                        or ""
-                    )
-                    # Strip niche prefix from title (e.g. "VIRAL: Disha Patani" → "Disha Patani")
-                    _clean_title_k = _re_k.sub(r'^[A-Z_]+:\s*', '', str(title)).strip(" '\"")
-                    _karaoke_script = f"{_clean_title_k} | {_hook_for_sub}" if _hook_for_sub else _clean_title_k
+                if _hook_for_sub:
+                    _hook_for_sub = _re_k.sub(r'#\S+', '', _hook_for_sub).strip(" '\"")
 
-                # [FIX] Sanitize any residual niche/CLI prefix from the final script
+                _karaoke_script = f"{_clean_title_k} | {_hook_for_sub}" if _hook_for_sub else _clean_title_k
+
+                # Sanitize any residual niche/CLI prefix from the final script
                 if _karaoke_script:
                     import re as _re_k2
                     _karaoke_script = _re_k2.sub(r'^[A-Z_]+:\s*', '', str(_karaoke_script))
