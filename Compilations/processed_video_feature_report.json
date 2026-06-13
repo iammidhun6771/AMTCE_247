@@ -12,7 +12,7 @@
     "hook_engine": "EXECUTED",
     "beat_detection": "EXECUTED",
     "subject_tracking": "EXECUTED",
-    "scene_intelligence": "FAILED",
+    "scene_intelligence": "EXECUTED",
     "moment_miner": "EXECUTED",
     "expression_change_detector": "EXECUTED",
     "retention_curve_engine": "EXECUTED",

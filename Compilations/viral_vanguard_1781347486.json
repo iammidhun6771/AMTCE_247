@@ -1,0 +1,544 @@
+{
+  "pipeline": "audit_passed",
+  "verdict": "unknown",
+  "editorial_title": null,
+  "caption_data": {
+    "caption": "Blue Denim Jeans VIRAL: CLI: Process 'Amy_sutra', anchoring your visual dominance with a fabric that feels as premium as it looks, guaranteeing a visual impact that lingers long after you've left the space, solving the eternal struggle of balancing beauty with pure convenience.",
+    "editorial_script": "Blue Denim Jeans VIRAL: CLI: Process 'Amy_sutra', anchoring your visual dominance with a fabric that feels as premium as it looks, guaranteeing a visual impact that lingers long after you've left the space, solving the eternal struggle of balancing beauty with pure convenience."
+  },
+  "metadata": {
+    "hook_score": 0.3914,
+    "quality_score": 0.5,
+    "transformation_score": 0.0,
+    "item_name": "Style",
+    "price_tag": "",
+    "gemini_total_calls": 1,
+    "gemini_call_log": [
+      "MASTER_INTELLIGENCE"
+    ],
+    "editing_diagnostics": {
+      "scene_count": 4,
+      "segments_created": 2,
+      "concat_used": false,
+      "editing_effective": false,
+      "non_chronological": true,
+      "avg_score": 0.12
+    },
+    "feature_flags": {
+      "scene_detection": true,
+      "smart_crop": true,
+      "caption_generation": true,
+      "music_engine": true,
+      "voiceover_generation": true,
+      "beat_detection": false,
+      "price_tag_engine": true,
+      "subject_tracking": false,
+      "scene_reconstruction": true,
+      "watermark_detection": true,
+      "watermark_inpaint": true
+    }
+  },
+  "pipeline_metrics": {
+    "monetization": {
+      "editorial_script": "Blue Denim Jeans VIRAL: CLI: Process 'Amy_sutra', anchoring your visual dominance with a fabric that feels as premium as it looks, guaranteeing a visual impact that lingers long after you've left the space, solving the eternal struggle of balancing beauty with pure convenience.",
+      "final_caption": "Blue Denim Jeans VIRAL: CLI: Process 'Amy_sutra', anchoring your visual dominance with a fabric that feels as premium as it looks, guaranteeing a visual impact that lingers long after you've left the space, solving the eternal struggle of balancing beauty with pure convenience.",
+      "caption": "Blue Denim Jeans VIRAL: CLI: Process 'Amy_sutra', anchoring your visual dominance with a fabric that feels as premium as it looks, guaranteeing a visual impact that lingers long after you've left the space, solving the eternal struggle of balancing beauty with pure convenience.",
+      "cta": null,
+      "monetization_cta": null,
+      "ypp_safe": true,
+      "risk_level": "UNKNOWN",
+      "risk_reason": "Analysis pending or not performed.",
+      "reason": "Analysis pending or not performed.",
+      "transformation_score": 0.0,
+      "policy_citation": "Significant Original Commentary",
+      "fashion_scout": {
+        "visual_dominance": {
+          "primary_garment_id": "garment_1",
+          "dominance_score": 26.0,
+          "frame_coverage_pct": 100.0,
+          "dominance_reason": "The black sequin top is consistently visible across all frames, is the primary focus of the subject's styling, and is the most visually striking element of the outfit.",
+          "secondary_garments": [
+            {
+              "garment_id": "garment_2",
+              "description": "Blue denim jeans",
+              "dominance_score": 14.0
+            }
+          ],
+          "ignored_items": [
+            "sunglasses",
+            "purple saree worn by background person"
+          ]
+        },
+        "brand_detection": {
+          "detected_brand": "",
+          "brand_confidence": 0.0,
+          "product_line": "",
+          "logo_location": ""
+        },
+        "attributes": {
+          "color": {
+            "primary": "black",
+            "secondary": "silver",
+            "tone": "dark",
+            "finish": "sparkle"
+          },
+          "fabric": {
+            "primary_material": "sequin-fabric",
+            "weight": "lightweight",
+            "texture": "smooth",
+            "sheen": "sparkle",
+            "structure": "structured",
+            "fabric_fingerprint_method": "HIGHLIGHT TOPOLOGY, TEXTURE GRAIN ZOOM"
+          },
+          "fit": {
+            "fit_type": "slim",
+            "silhouette": "column",
+            "length": "cropped",
+            "waist_style": "",
+            "sleeve_type": "sleeveless",
+            "neckline": "asymmetric",
+            "closure_type": "pullover",
+            "lining": "yes",
+            "construction_notes": "Asymmetric one-shoulder strap, all-over sequin embellishment."
+          },
+          "pattern": {
+            "type": "solid",
+            "scale": "all-over",
+            "embellishment": "sequin embellishment",
+            "placement": "all-over"
+          },
+          "classification": {
+            "primary_category": "top",
+            "sub_category": "asymmetric one-shoulder sequin cropped top",
+            "gender_target": "women",
+            "age_group": "adult",
+            "occasion": "party"
+          },
+          "brand_dna": {
+            "brand_style_match": "Zara structured minimalist",
+            "price_tier": "mid-range",
+            "market": "fast-fashion"
+          },
+          "styling": {
+            "body_coverage": "partial",
+            "layering_potential": "low",
+            "season_suitability": "all-season",
+            "styling_notes": "Pair with high-waisted bottoms to balance the cropped length and showcase the asymmetric neckline; consider sleek hair to highlight the shoulder detail."
+          }
+        },
+        "outfit_description": "A striking asymmetric one-shoulder sequin top crafted from lightweight fabric, featuring a cropped silhouette and all-over silver sequin embellishment for maximum sparkle. Perfect for evening parties and night outs; style with high-waisted denim or a sleek skirt and pointed heels.",
+        "search_query": "black sequin-fabric slim asymmetric one-shoulder sequin cropped top party women",
+        "seo_keywords": [
+          "sequin fabric cropped top",
+          "asymmetric one-shoulder construction",
+          "Zara style party top",
+          "fast-fashion evening wear",
+          "party sequin top",
+          "night out cropped top",
+          "what to wear for a party sequin top"
+        ],
+        "confidence": {
+          "detection": 0.9,
+          "query": 0.85,
+          "overall": 0.87,
+          "wear_name_quality": 0.9,
+          "fabric_certainty": "high"
+        },
+        "vibe": "party-ready",
+        "genre": "party_evening",
+        "wear_name": "Asymmetric One-Shoulder Sequin Cropped Top",
+        "industry_name": "Crop Top",
+        "_internal_score": 0.835,
+        "item_category": "top",
+        "detected_brand": "",
+        "brand_confidence": 0.0,
+        "product_line": "",
+        "imaginative_ctas": {
+          "english": "6 hours online before it was gone the first time 😱\nIt's back. Not for long 👇\n💰 Resale value after drop: ₹4,500–₹7,000 → Pre-resale price 👇\n⚡ Stock running out fast.",
+          "hinglish": "6 hours online before it was gone the first time 😱\nIt's back. Not for long 👇 (Complete Verification Step check karo)",
+          "roman_urdu": "6 hours online before it was gone the first time 😱\nIt's back. Not for long 👇 (Verification Step complete karein)",
+          "hindi": "6 hours online before it was gone the first time 😱\nIt's back. Not for long 👇 (Industrial Verification पूरा करें)"
+        },
+        "lead_magnet": "Underground Drop Archive",
+        "primary_item": {
+          "color": {
+            "primary": "black",
+            "secondary": "silver",
+            "tone": "dark",
+            "finish": "sparkle"
+          },
+          "fabric": {
+            "primary_material": "sequin-fabric",
+            "weight": "lightweight",
+            "texture": "smooth",
+            "sheen": "sparkle",
+            "structure": "structured",
+            "fabric_fingerprint_method": "HIGHLIGHT TOPOLOGY, TEXTURE GRAIN ZOOM"
+          },
+          "fit": {
+            "fit_type": "slim",
+            "silhouette": "column",
+            "length": "cropped",
+            "waist_style": "",
+            "sleeve_type": "sleeveless",
+            "neckline": "asymmetric",
+            "closure_type": "pullover",
+            "lining": "yes",
+            "construction_notes": "Asymmetric one-shoulder strap, all-over sequin embellishment."
+          },
+          "pattern": {
+            "type": "solid",
+            "scale": "all-over",
+            "embellishment": "sequin embellishment",
+            "placement": "all-over"
+          },
+          "classification": {
+            "primary_category": "top",
+            "sub_category": "asymmetric one-shoulder sequin cropped top",
+            "gender_target": "women",
+            "age_group": "adult",
+            "occasion": "party"
+          },
+          "brand_dna": {
+            "brand_style_match": "Zara structured minimalist",
+            "price_tier": "mid-range",
+            "market": "fast-fashion"
+          },
+          "styling": {
+            "body_coverage": "partial",
+            "layering_potential": "low",
+            "season_suitability": "all-season",
+            "styling_notes": "Pair with high-waisted bottoms to balance the cropped length and showcase the asymmetric neckline; consider sleek hair to highlight the shoulder detail."
+          }
+        },
+        "secondary_items": [
+          {
+            "garment_id": "garment_2",
+            "description": "Blue denim jeans",
+            "dominance_score": 14.0
+          }
+        ],
+        "search_links": {
+          "amazon_us": "https://www.amazon.com/s?k=black+sequin-fabric+slim+asymmetric+one-shoulder+sequin+cropped+top+party+women",
+          "amazon_in": "https://www.amazon.in/s?k=black+sequin-fabric+slim+asymmetric+one-shoulder+sequin+cropped+top+party+women"
+        },
+        "seo_search_keywords": [
+          "sequin fabric cropped top",
+          "asymmetric one-shoulder construction",
+          "Zara style party top",
+          "fast-fashion evening wear",
+          "party sequin top",
+          "night out cropped top",
+          "what to wear for a party sequin top"
+        ],
+        "seo_binded_links": [
+          {
+            "kw": "sequin fabric cropped top",
+            "link_in": "https://www.amazon.in/s?k=sequin+fabric+cropped+top",
+            "link_us": "https://www.amazon.com/s?k=sequin+fabric+cropped+top"
+          },
+          {
+            "kw": "asymmetric one-shoulder construction",
+            "link_in": "https://www.amazon.in/s?k=asymmetric+one-shoulder+construction",
+            "link_us": "https://www.amazon.com/s?k=asymmetric+one-shoulder+construction"
+          },
+          {
+            "kw": "Zara style party top",
+            "link_in": "https://www.amazon.in/s?k=Zara+style+party+top",
+            "link_us": "https://www.amazon.com/s?k=Zara+style+party+top"
+          }
+        ]
+      },
+      "item_name": "Style",
+      "improvement_tips": [],
+      "overlay_data": {},
+      "price_data": null,
+      "telegram_hook": null,
+      "instagram_hook": null,
+      "youtube_hook": null,
+      "hashtags": null
+    }
+  },
+  "editing_timeline": [
+    {
+      "clip_id": 0,
+      "start": 2.65,
+      "end": 6.35,
+      "style": "clean",
+      "transition": "clean",
+      "reason": "price_tag_stable_anchor",
+      "color_mode": "fashion"
+    },
+    {
+      "clip_id": 0,
+      "start": 12.602,
+      "end": 14.521,
+      "style": "clean",
+      "transition": "clean",
+      "transition_duration": 0.04,
+      "transition_intensity": 0.0,
+      "transition_context": "",
+      "transition_rag_hit": false,
+      "tie_decision": null,
+      "reason": "STIE:last_segment @ 40ms",
+      "beat_interval": 2.25,
+      "beat_offset": 0.033,
+      "_pacing_band": "escalation",
+      "_pacing_style": "rhythm_driven",
+      "energy_score": 1.0,
+      "importance": 1.0,
+      "bbox": {
+        "x": 361,
+        "y": 118,
+        "w": 165,
+        "h": 232
+      }
+    }
+  ],
+  "monetization": {
+    "editorial_script": "Blue Denim Jeans VIRAL: CLI: Process 'Amy_sutra', anchoring your visual dominance with a fabric that feels as premium as it looks, guaranteeing a visual impact that lingers long after you've left the space, solving the eternal struggle of balancing beauty with pure convenience.",
+    "final_caption": "Blue Denim Jeans VIRAL: CLI: Process 'Amy_sutra', anchoring your visual dominance with a fabric that feels as premium as it looks, guaranteeing a visual impact that lingers long after you've left the space, solving the eternal struggle of balancing beauty with pure convenience.",
+    "caption": "Blue Denim Jeans VIRAL: CLI: Process 'Amy_sutra', anchoring your visual dominance with a fabric that feels as premium as it looks, guaranteeing a visual impact that lingers long after you've left the space, solving the eternal struggle of balancing beauty with pure convenience.",
+    "cta": null,
+    "monetization_cta": null,
+    "ypp_safe": true,
+    "risk_level": "UNKNOWN",
+    "risk_reason": "Analysis pending or not performed.",
+    "reason": "Analysis pending or not performed.",
+    "transformation_score": 0.0,
+    "policy_citation": "Significant Original Commentary",
+    "fashion_scout": {
+      "visual_dominance": {
+        "primary_garment_id": "garment_1",
+        "dominance_score": 26.0,
+        "frame_coverage_pct": 100.0,
+        "dominance_reason": "The black sequin top is consistently visible across all frames, is the primary focus of the subject's styling, and is the most visually striking element of the outfit.",
+        "secondary_garments": [
+          {
+            "garment_id": "garment_2",
+            "description": "Blue denim jeans",
+            "dominance_score": 14.0
+          }
+        ],
+        "ignored_items": [
+          "sunglasses",
+          "purple saree worn by background person"
+        ]
+      },
+      "brand_detection": {
+        "detected_brand": "",
+        "brand_confidence": 0.0,
+        "product_line": "",
+        "logo_location": ""
+      },
+      "attributes": {
+        "color": {
+          "primary": "black",
+          "secondary": "silver",
+          "tone": "dark",
+          "finish": "sparkle"
+        },
+        "fabric": {
+          "primary_material": "sequin-fabric",
+          "weight": "lightweight",
+          "texture": "smooth",
+          "sheen": "sparkle",
+          "structure": "structured",
+          "fabric_fingerprint_method": "HIGHLIGHT TOPOLOGY, TEXTURE GRAIN ZOOM"
+        },
+        "fit": {
+          "fit_type": "slim",
+          "silhouette": "column",
+          "length": "cropped",
+          "waist_style": "",
+          "sleeve_type": "sleeveless",
+          "neckline": "asymmetric",
+          "closure_type": "pullover",
+          "lining": "yes",
+          "construction_notes": "Asymmetric one-shoulder strap, all-over sequin embellishment."
+        },
+        "pattern": {
+          "type": "solid",
+          "scale": "all-over",
+          "embellishment": "sequin embellishment",
+          "placement": "all-over"
+        },
+        "classification": {
+          "primary_category": "top",
+          "sub_category": "asymmetric one-shoulder sequin cropped top",
+          "gender_target": "women",
+          "age_group": "adult",
+          "occasion": "party"
+        },
+        "brand_dna": {
+          "brand_style_match": "Zara structured minimalist",
+          "price_tier": "mid-range",
+          "market": "fast-fashion"
+        },
+        "styling": {
+          "body_coverage": "partial",
+          "layering_potential": "low",
+          "season_suitability": "all-season",
+          "styling_notes": "Pair with high-waisted bottoms to balance the cropped length and showcase the asymmetric neckline; consider sleek hair to highlight the shoulder detail."
+        }
+      },
+      "outfit_description": "A striking asymmetric one-shoulder sequin top crafted from lightweight fabric, featuring a cropped silhouette and all-over silver sequin embellishment for maximum sparkle. Perfect for evening parties and night outs; style with high-waisted denim or a sleek skirt and pointed heels.",
+      "search_query": "black sequin-fabric slim asymmetric one-shoulder sequin cropped top party women",
+      "seo_keywords": [
+        "sequin fabric cropped top",
+        "asymmetric one-shoulder construction",
+        "Zara style party top",
+        "fast-fashion evening wear",
+        "party sequin top",
+        "night out cropped top",
+        "what to wear for a party sequin top"
+      ],
+      "confidence": {
+        "detection": 0.9,
+        "query": 0.85,
+        "overall": 0.87,
+        "wear_name_quality": 0.9,
+        "fabric_certainty": "high"
+      },
+      "vibe": "party-ready",
+      "genre": "party_evening",
+      "wear_name": "Asymmetric One-Shoulder Sequin Cropped Top",
+      "industry_name": "Crop Top",
+      "_internal_score": 0.835,
+      "item_category": "top",
+      "detected_brand": "",
+      "brand_confidence": 0.0,
+      "product_line": "",
+      "imaginative_ctas": {
+        "english": "6 hours online before it was gone the first time 😱\nIt's back. Not for long 👇\n💰 Resale value after drop: ₹4,500–₹7,000 → Pre-resale price 👇\n⚡ Stock running out fast.",
+        "hinglish": "6 hours online before it was gone the first time 😱\nIt's back. Not for long 👇 (Complete Verification Step check karo)",
+        "roman_urdu": "6 hours online before it was gone the first time 😱\nIt's back. Not for long 👇 (Verification Step complete karein)",
+        "hindi": "6 hours online before it was gone the first time 😱\nIt's back. Not for long 👇 (Industrial Verification पूरा करें)"
+      },
+      "lead_magnet": "Underground Drop Archive",
+      "primary_item": {
+        "color": {
+          "primary": "black",
+          "secondary": "silver",
+          "tone": "dark",
+          "finish": "sparkle"
+        },
+        "fabric": {
+          "primary_material": "sequin-fabric",
+          "weight": "lightweight",
+          "texture": "smooth",
+          "sheen": "sparkle",
+          "structure": "structured",
+          "fabric_fingerprint_method": "HIGHLIGHT TOPOLOGY, TEXTURE GRAIN ZOOM"
+        },
+        "fit": {
+          "fit_type": "slim",
+          "silhouette": "column",
+          "length": "cropped",
+          "waist_style": "",
+          "sleeve_type": "sleeveless",
+          "neckline": "asymmetric",
+          "closure_type": "pullover",
+          "lining": "yes",
+          "construction_notes": "Asymmetric one-shoulder strap, all-over sequin embellishment."
+        },
+        "pattern": {
+          "type": "solid",
+          "scale": "all-over",
+          "embellishment": "sequin embellishment",
+          "placement": "all-over"
+        },
+        "classification": {
+          "primary_category": "top",
+          "sub_category": "asymmetric one-shoulder sequin cropped top",
+          "gender_target": "women",
+          "age_group": "adult",
+          "occasion": "party"
+        },
+        "brand_dna": {
+          "brand_style_match": "Zara structured minimalist",
+          "price_tier": "mid-range",
+          "market": "fast-fashion"
+        },
+        "styling": {
+          "body_coverage": "partial",
+          "layering_potential": "low",
+          "season_suitability": "all-season",
+          "styling_notes": "Pair with high-waisted bottoms to balance the cropped length and showcase the asymmetric neckline; consider sleek hair to highlight the shoulder detail."
+        }
+      },
+      "secondary_items": [
+        {
+          "garment_id": "garment_2",
+          "description": "Blue denim jeans",
+          "dominance_score": 14.0
+        }
+      ],
+      "search_links": {
+        "amazon_us": "https://www.amazon.com/s?k=black+sequin-fabric+slim+asymmetric+one-shoulder+sequin+cropped+top+party+women",
+        "amazon_in": "https://www.amazon.in/s?k=black+sequin-fabric+slim+asymmetric+one-shoulder+sequin+cropped+top+party+women"
+      },
+      "seo_search_keywords": [
+        "sequin fabric cropped top",
+        "asymmetric one-shoulder construction",
+        "Zara style party top",
+        "fast-fashion evening wear",
+        "party sequin top",
+        "night out cropped top",
+        "what to wear for a party sequin top"
+      ],
+      "seo_binded_links": [
+        {
+          "kw": "sequin fabric cropped top",
+          "link_in": "https://www.amazon.in/s?k=sequin+fabric+cropped+top",
+          "link_us": "https://www.amazon.com/s?k=sequin+fabric+cropped+top"
+        },
+        {
+          "kw": "asymmetric one-shoulder construction",
+          "link_in": "https://www.amazon.in/s?k=asymmetric+one-shoulder+construction",
+          "link_us": "https://www.amazon.com/s?k=asymmetric+one-shoulder+construction"
+        },
+        {
+          "kw": "Zara style party top",
+          "link_in": "https://www.amazon.in/s?k=Zara+style+party+top",
+          "link_us": "https://www.amazon.com/s?k=Zara+style+party+top"
+        }
+      ]
+    },
+    "item_name": "Style",
+    "improvement_tips": [],
+    "overlay_data": {},
+    "price_data": null,
+    "telegram_hook": null,
+    "instagram_hook": null,
+    "youtube_hook": null,
+    "hashtags": null
+  },
+  "processed_only_path": "Compilations/viral_vanguard_1781347486.mp4",
+  "bgm_audio_path": "D:\\Youtube Automation\\AMTCE-v7.1\\Original_audio\\cooldown\\Zareena_khan.mp3",
+  "extracted_audio_path": "D:\\Youtube Automation\\AMTCE-v7.1\\Original_audio\\watermark_clean.mp3",
+  "all_extracted_audio": [
+    "D:\\Youtube Automation\\AMTCE-v7.1\\Original_audio\\watermark_clean.mp3"
+  ],
+  "audit": {
+    "verdict": "ACTIVE",
+    "creative_score": 0.975,
+    "silent_failures": [],
+    "health_report": {
+      "modules_connected": 22,
+      "modules_total": 22,
+      "modules_disconnected": [],
+      "signals": {
+        "beats": 9,
+        "retention_peaks": 9,
+        "emotional_spikes": 2,
+        "fused_moments": 2,
+        "candidate_moments": 17
+      },
+      "segments_generated": 2,
+      "diversity_score": 1.0,
+      "creative_edit_score": 0.975,
+      "creative_pipeline_integrity": true
+    }
+  }
+}
