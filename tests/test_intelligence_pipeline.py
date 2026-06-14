@@ -236,3 +236,51 @@ def test_no_edit_hard_stop_terminates_pipeline(*_mocks):
     # Verify render was NOT called (post-gate was blocked)
     mock_vp.compile_with_transitions.assert_not_called()
 
+
+def test_normalize_master_schema_fallback_keys():
+    """Verify normalize_master_schema extracts segments from alternative keys and timing variants."""
+    from Intelligence_Modules.unified_intelligence import engine
+
+    # Test case 1: alternative key 'segments' with 'segment_start'/'segment_end'
+    mock_resp_1 = {
+        "intent": "fashion",
+        "watermark_present": False,
+        "feature_proposals": {},
+        "segments": [
+            {
+                "segment_start": "5.58",
+                "segment_end": 7.08,
+                "role": "hook"
+            },
+            {
+                "segment_start": 10.0,
+                "segment_end": 12.2,
+                "role": "climax"
+            }
+        ]
+    }
+    norm_1 = engine.normalize_master_schema(mock_resp_1)
+    assert len(norm_1["edited_segments"]) == 2
+    assert norm_1["edited_segments"][0]["start"] == 5.58
+    assert norm_1["edited_segments"][0]["end"] == 7.08
+    assert norm_1["edited_segments"][0]["role"] == "hook"
+
+    # Test case 2: alternative key 'timeline' with 'start_time'/'end_time'
+    mock_resp_2 = {
+        "intent": "viral",
+        "watermark_present": True,
+        "timeline": [
+            {
+                "start_time": 1.5,
+                "end_time": 4.5,
+                "segment_role": "hook"
+            }
+        ]
+    }
+    norm_2 = engine.normalize_master_schema(mock_resp_2)
+    assert len(norm_2["edited_segments"]) == 1
+    assert norm_2["edited_segments"][0]["start"] == 1.5
+    assert norm_2["edited_segments"][0]["end"] == 4.5
+    assert norm_2["edited_segments"][0]["role"] == "hook"
+
+

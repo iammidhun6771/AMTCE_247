@@ -926,8 +926,10 @@ def apply_rag_to_editing_plan(editing_plan: dict, rag_strategy: dict, profile_da
 
 
 def compile_video(
-    uuid_str, input_path, output_path, title, description, profile_data={}
+    uuid_str, input_path, output_path, title, description, profile_data=None
 ):
+    if profile_data is None:
+        profile_data = {}
     """
     Narrative Intelligence Pipeline — 8-Stage Architecture.
 
@@ -1016,6 +1018,11 @@ def compile_video(
         return False, {"error": "No input paths"}
 
     logger.info(f"🚀 [INIT] Starting 10-Step Audit Pipeline for {uuid_str}")
+    from Core_Modules.studio_status_tracker import get_tracker
+    tracker = get_tracker()
+    tracker.step("STEP_FACE_SWAP", 100)
+    tracker.step("STEP_LIP_SYNC", 100)
+
     job_dir = os.path.join("temp", uuid_str)
     os.makedirs(job_dir, exist_ok=True)
 
@@ -1186,6 +1193,7 @@ def compile_video(
             profile_data["scene_boundaries"] = []
 
     # ---- AUDIO EXTRACTION + BEST-AUDIO SELECTION (Step 0.45) -------------------
+    tracker.step("STEP_AUDIO_MIX", 20)
     # Extract audio from ALL clips and pick the most energetically rich one.
     _niche_category = os.getenv("CONTENT_NICHE", "").strip().lower()
     _all_clip_audios: dict = {}  # clip_idx -> mp3_path
@@ -1457,6 +1465,7 @@ def compile_video(
         logger.info(f"🎵 [AUDIO_EXTRACT] Fallback to clip 0 audio: {os.path.basename(_fb_audio)}")
 
     # ── MUSICAL INTELLIGENCE REPORT (Step 0.46) ────────────────────────────────
+    tracker.step("STEP_AUDIO_MIX", 60)
     # One Gemini call on the selected BGM track. Extracts lyric timestamps,
     # musical section map, tension arc, shot directives, and vibe tags.
     # All downstream rhythm/editing modules read from profile_data["music_intelligence"].
@@ -1547,6 +1556,7 @@ def compile_video(
         # (Frame Extraction moved to Step 1j to utilize MomentMiner data)
             
         # ---- [FIX] Master Clip Audio Beat Detection (Step 1b) ----
+        tracker.step("STEP_AUDIO_MIX", 90)
         # If Step 0.45 already picked the best audio and populated beat_data, skip
         # re-running on just clip 0. Otherwise fall back to the original clip 0 path.
         if BEAT_ENGINE_AVAILABLE and _beat_engine:
@@ -2195,6 +2205,8 @@ def compile_video(
             profile_data["candidate_moments"] = _filtered_candidates
 
         # ---- MASTER INTELLIGENCE (Step 2) ------------------------------------------
+        tracker.step("STEP_AUDIO_MIX", 100)
+        tracker.step("STEP_SUBTITLES", 10)
         logger.info("🧠 [Step 2] Master Intelligence Request...")
         master_analysis = None
         profile_data["fallback_mode"] = False
@@ -2387,6 +2399,7 @@ def compile_video(
                         "frame_manifest":    _frame_manifest,
                         "creative_intent":   _creative_intent,
                         "creator_fingerprint": _creator_fingerprint,
+                        "vanguard_repair_data": profile_data.get("vanguard_repair_data"),
                     }
 
 
@@ -2953,7 +2966,8 @@ def compile_video(
                     # ─────────────────────────────────────────────────────────────────────────
 
                     _caption_text_for_overlay = None
-                    if context.feature_flags.get("caption_generation"):
+                    _enable_fs = os.getenv("ENABLE_FASHION_SCOUT", "yes").lower() in ("yes", "true", "on")
+                    if context.feature_flags.get("caption_generation") and _enable_fs:
                         try:
                             _pm = profile_data.get("pipeline_metrics", {})
                             mon_data = profile_data.get("monetization", {}) or profile_data.get("monetization_data", {}) or _pm.get("monetization", {})
@@ -3207,15 +3221,15 @@ def compile_video(
                                 profile_data["cold_open"] = selected_shots[0]
 
                     # Overlay defaults
-                    ol = ext.monetization.get("overlay_data", {})
+                    _enable_fs = os.getenv("ENABLE_FASHION_SCOUT", "yes").lower() in ("yes", "true", "on")
+                    ol = ext.monetization.get("overlay_data", {}) if _enable_fs else {}
                     profile_data.update(
                         {
                             "brand_text": os.getenv("BRAND_NAME")
                             or ol.get("brand_text")
                             or "Fashion Analysis",
-                            "item_name": ol.get("item_name")
-                            or ol.get("commercial_item_name") or "",
-                            "price_tag": ol.get("price_tag", ""),
+                            "item_name": (ol.get("item_name") or ol.get("commercial_item_name")) if _enable_fs else "Style",
+                            "price_tag": ol.get("price_tag", "") if _enable_fs else "",
                             "price_tag_time": ol.get("price_tag_time", 0.75),
                         }
                     )
@@ -3231,7 +3245,7 @@ def compile_video(
                     # This block re-wires the scout directly into the orchestrator pipeline
                     # so that fashion_scout data is always present in the sidecar JSON
                     # and available to main.py via mon_meta.get("fashion_scout").
-                    _enable_fs = os.getenv("ENABLE_FASHION_SCOUT", "yes").lower() in ("yes", "true", "on")
+                    # _enable_fs already resolved above
                     _active_niche_fs = profile_data.get("niche_category", "")
                     _is_nsfw_fs = bool(_active_niche_fs) and any(
                         kw in _active_niche_fs.lower()
@@ -3383,7 +3397,7 @@ def compile_video(
                         profile_data["caption"] = "Style Moment"
 
         # Safety guard
-        if False:  # Bypassed safety guard stop
+        if profile_data.get("forensic_safety") in ["blocked", "BLOCK"]:
             logger.error(
                 "🚫 [SAFETY_STOP] Content flagged as non-compliant. Terminating job."
             )
@@ -3494,53 +3508,62 @@ def compile_video(
             logger.info("🔤 [TITLE_OVERLAY] SHOW_USER_TITLE_OVERLAY=no — title overlay skipped.")
 
         # ---- VOICEOVER / SCRIPT GENERATION -----------------------------------------
-        # IMPORTANT: Script generation ALWAYS runs — the editorial_script feeds
-        # the caption, price tag, Telegram hook and YouTube description downstream.
-        # Only the TTS audio step is gated by feature flags + ENABLE_MICRO_VOICEOVER.
+        _narrator_enabled = os.getenv("CINEMATIC_NARRATOR_ENABLED", "yes").lower() == "yes"
+        _vo_env = os.getenv("ENABLE_MICRO_VOICEOVER", "yes").lower()
+        _vo_enabled = _vo_env == "yes"
+        
         voiceover_path = None
         _pm_vo = profile_data.get("pipeline_metrics", {})
-        _mon_vo = profile_data.get("monetization", {}) or profile_data.get("monetization_data", {}) or _pm_vo.get("monetization", {})
-        _has_editorial_script = bool(
-            _mon_vo.get("editorial_script")
-            or profile_data.get("editorial_script")
-        )
-        _vo_env = os.getenv("ENABLE_MICRO_VOICEOVER", "yes").lower()
-        _micro_vo_forced = _vo_env == "yes"
-        # Script generation block — always runs regardless of feature flags
-        _pm_vo = profile_data.get("pipeline_metrics", {})
         mon_data = profile_data.get("monetization", {}) or profile_data.get("monetization_data", {}) or _pm_vo.get("monetization", {})
-        # [FIX] Construct voiceover script using clean Title | Hook format, bypassing robotic editorial_script
-        import re as _re_k
-        _clean_title_k = _re_k.sub(r'^[A-Z_]+:\s*', '', str(title)).strip(" '\"")
-        for _prefix in ("CLI: Process", "Process short titled", "Process batch of", "Process"):
-            _clean_title_k = _clean_title_k.replace(_prefix, "").strip(" '\"")
-        _clean_title_k = _clean_title_k.replace("_", " ").strip()
-        _clean_title_k = _re_k.sub(r'\s+\d+$', '', _clean_title_k).strip()
-        _clean_title_k = _clean_title_k.title()
+        
+        if not _narrator_enabled or not _vo_enabled:
+            logger.info("🎙️ [VOICEOVER] Voiceover or narrator is disabled — bypassing script generation completely.")
+            full_script = ""
+            profile_data["editorial_script"] = ""
+            if isinstance(mon_data, dict):
+                mon_data["editorial_script"] = ""
+        else:
+            # [FIX] Construct voiceover script using clean Title | Hook format, bypassing robotic editorial_script
+            import re as _re_k
+            _clean_title_k = _re_k.sub(r'^[A-Z_]+:\s*', '', str(title)).strip(" '\"")
+            for _prefix in ("CLI: Process", "Process short titled", "Process batch of", "Process"):
+                _clean_title_k = _clean_title_k.replace(_prefix, "").strip(" '\"")
+            _clean_title_k = _clean_title_k.replace("_", " ").strip()
+            _clean_title_k = _re_k.sub(r'\s+\d+$', '', _clean_title_k).strip()
+            _clean_title_k = _clean_title_k.title()
 
-        _mon_vo = profile_data.get("monetization", {}) or profile_data.get("monetization_data", {}) or _pm_vo.get("monetization", {}) or {}
-        _hook_for_vo = (
-            _mon_vo.get("telegram_hook")
-            or _mon_vo.get("instagram_hook")
-            or _mon_vo.get("youtube_hook")
-            or ""
-        )
-        if _hook_for_vo:
-            _hook_for_vo = _re_k.sub(r'#\S+', '', _hook_for_vo).strip(" '\"")
+            _mon_vo = profile_data.get("monetization", {}) or profile_data.get("monetization_data", {}) or _pm_vo.get("monetization", {}) or {}
+            _hook_for_vo = (
+                _mon_vo.get("telegram_hook")
+                or _mon_vo.get("instagram_hook")
+                or _mon_vo.get("youtube_hook")
+                or ""
+            )
+            if _hook_for_vo:
+                _hook_for_vo = _re_k.sub(r'#\S+', '', _hook_for_vo).strip(" '\"")
 
-        full_script = f"{_clean_title_k} | {_hook_for_vo}" if _hook_for_vo else _clean_title_k
-        logger.info(f"🎤 [VOICEOVER] Constructed clean script: '{full_script}'")
+            full_script = f"{_clean_title_k} | {_hook_for_vo}" if _hook_for_vo else _clean_title_k
+            logger.info(f"🎤 [VOICEOVER] Constructed clean script: '{full_script}'")
 
-        # Bypass refine_commentary completely to avoid robotic elongation/templates
-        _refined_text = full_script
-        profile_data["editorial_script"] = _refined_text
-        if isinstance(mon_data, dict):
-            mon_data["editorial_script"] = _refined_text
-            profile_data["monetization_data"] = mon_data
-        logger.info("[COMMENTARY_ENGINE] Bypassed refinement. Set clean script on profile.")
+            # Bypass refine_commentary completely to avoid robotic elongation/templates
+            _refined_text = full_script
+            profile_data["editorial_script"] = _refined_text
+            if isinstance(mon_data, dict):
+                mon_data["editorial_script"] = _refined_text
+                profile_data["monetization_data"] = mon_data
+            logger.info("[COMMENTARY_ENGINE] Bypassed refinement. Set clean script on profile.")
 
         # ---- TTS AUDIO — gated separately from script generation ----------------
-        if context.feature_flags.get("voiceover_generation"):
+        # [LATE_SCRIPT_GENERATION] When LATE_SCRIPT_GENERATION=yes, TTS is deferred to
+        # after the visual render is complete so the script is duration-aware.
+        # The early TTS block is fully skipped in that mode; a dedicated block after
+        # the SRV verifier (just before FINAL AUDIO MIX) handles it instead.
+        _late_script_mode = os.getenv("LATE_SCRIPT_GENERATION", "yes").strip().lower() == "yes"
+        if _late_script_mode:
+            logger.info(
+                "🎙️ [VOICEOVER] LATE_SCRIPT_GENERATION=yes — TTS deferred to post-visual-render stage."
+            )
+        elif context.feature_flags.get("voiceover_generation"):
             if VOICEOVER_AVAILABLE and full_script and len(full_script.strip()) > 10:
                 if _vo_env == "no":
                     logger.info("🎙️ [VOICEOVER] SCRIPT GENERATED, BUT AUDIO BLOCKED (ENABLE_MICRO_VOICEOVER=no).")
@@ -3668,6 +3691,7 @@ def compile_video(
             _StepTracer.fail("creative_editor_bridge", str(_ceb_err))
 
         # ---- CREATIVE DIRECTOR (Step 2c) --------------------------------------------
+        tracker.step("STEP_SUBTITLES", 40)
         logger.info("🎭 [Step 2c] Creative Director...")
         try:
             from Content_Intelligence.creative_director import CreativeDirector
@@ -4010,6 +4034,9 @@ def compile_video(
             is_price_tag_enabled = False
         else:
             is_price_tag_enabled = context.feature_flags.get("price_tag_engine")
+        _enable_fs = os.getenv("ENABLE_FASHION_SCOUT", "yes").lower() in ("yes", "true", "on")
+        if not _enable_fs:
+            is_price_tag_enabled = False
         has_price_data = bool(profile_data.get("price_tag"))
         forced_price_tag = os.getenv("ENABLE_PRICE_TAG", "auto").lower() == "yes"
 
@@ -4401,6 +4428,8 @@ def compile_video(
                 logger.warning(f"⚠️ Rhythm Timeline Builder failed: {e}")
 
         # ---- RENDER ENGINE (Step 8) -------------------------------------------------
+        tracker.step("STEP_SUBTITLES", 100)
+        tracker.step("STEP_RENDER", 10)
         logger.info("🚀 [Step 8] Render Engine Start...")
         temp_visual_render = os.path.join(job_dir, "visual_render_temp.mp4")
 
@@ -4440,7 +4469,8 @@ def compile_video(
         #  4. The PNG composites at output second 0.75 — while the stable shot
         #     is still on screen — tag points directly at the visible garment.
         _forced_price_tag = os.getenv("ENABLE_PRICE_TAG", "auto").lower() == "yes"
-        _pt_enabled = context.feature_flags.get("price_tag_engine") or _forced_price_tag
+        _enable_fs = os.getenv("ENABLE_FASHION_SCOUT", "yes").lower() in ("yes", "true", "on")
+        _pt_enabled = (context.feature_flags.get("price_tag_engine") or _forced_price_tag) and _enable_fs
 
         if _pt_enabled and _scenes:
             _MIN_STABLE = 2.5  # Lowered from 5.0 to handle faster Shorts-style edits
@@ -5025,7 +5055,7 @@ def compile_video(
                 timeline_instructions["scenes"] = _scenes
 
                 # [FOCUS_ON_WEAR INJECTION]
-                _focus_on_wear = os.getenv("FOCUS_ON_WEAR", "True").lower() in ("true", "1", "yes")
+                _focus_on_wear = (os.getenv("FOCUS_ON_WEAR", "True").lower() in ("true", "1", "yes")) and _enable_fs
                 if _focus_on_wear:
                     _pm_scout = profile_data.get("pipeline_metrics", {})
                     _mon_data = profile_data.get("monetization", {}) or profile_data.get("monetization_data", {}) or _pm_scout.get("monetization", {})
@@ -5246,17 +5276,58 @@ def compile_video(
             auditor.mark_skipped("quality_evaluator")
 
         # ---- POST-RENDER OVERLAY ----------------------------------------------------
-        # [mkpv-fix] Preference Alignment: Use Wear Name (item_name) for overlay instead of complex captions
+        # Priority order for caption lane (same position as fashion scout wear text):
+        #   1. Wear Name from FashionScout  (best — specific item name)
+        #   2. profile_data["caption"]       (AI-generated caption fallback)
+        #   3. Viral Hook                    (engagement hook when 1 & 2 are unavailable)
+        #   4. No caption                    (brand-only overlay)
         _wear_name = profile_data.get("item_name")
         _bad_wear_names = ("Dress", "Outfit", "Look", "Style", "Ensemble", "City pace active", "Style Analysis")
         if _wear_name and _wear_name not in _bad_wear_names:
              _caption_text_for_overlay = _wear_name
              logger.info(f"🎨 [OVERLAY_ALIGN] Using garment name (Wear Name) for overlay: '{_wear_name}'")
-             
+
         # [FIX 3] Safety net: if caption resolution ran earlier, use it
         elif (not _caption_text_for_overlay or _caption_text_for_overlay in _bad_wear_names) and profile_data.get("caption"):
             _caption_text_for_overlay = profile_data["caption"]
 
+        # [VIRAL_HOOK] Reroute hook to static ASS subtitle or caption lane
+        _static_hook_mode = os.getenv("ENABLE_STATIC_HOOK_SUBTITLE", "no").lower() in ("yes", "true", "1", "on")
+        
+        # Determine the viral hook text
+        try:
+            _raw_ol_vh = profile_data.get("overlay_data") or {}
+            # overlay_data can be a list (main path) or a plain dict (lite path)
+            if isinstance(_raw_ol_vh, list) and _raw_ol_vh:
+                _raw_ol_vh = _raw_ol_vh[0]
+            _viral_hook_text = (
+                (_raw_ol_vh.get("viral_hook") if isinstance(_raw_ol_vh, dict) else None)
+                or ""
+            )
+            if not _viral_hook_text:
+                from Text_Modules.overlay_engine import select_viral_hook as _svh_orch
+                _viral_hook_text = _svh_orch({
+                    "title": title or "",
+                    "niche_category": profile_data.get("niche_category", "entertainment"),
+                    "energy_score": profile_data.get("energy_score", 0.5),
+                })
+        except Exception as _vho_err:
+            logger.warning(f"⚠️ [VIRAL_HOOK] Hook selection failed (non-fatal): {_vho_err}")
+            _viral_hook_text = ""
+
+        if _static_hook_mode and _viral_hook_text:
+            # When static hook ASS mode is enabled, ALWAYS reserve the hook for static ASS subtitle
+            profile_data["static_hook_text"] = _viral_hook_text
+            logger.info(f"🪝 [VIRAL_HOOK] Hook reserved for static ASS subtitle: \"{_viral_hook_text}\"")
+            auditor.mark_executed("viral_hook_overlay")
+            # Clear caption lane to prevent double captioning or clashing full-duration text
+            _caption_text_for_overlay = None
+        elif not _caption_text_for_overlay or _caption_text_for_overlay in _bad_wear_names:
+            # Fallback to old caption-lane behavior
+            if _viral_hook_text:
+                _caption_text_for_overlay = _viral_hook_text
+                logger.info(f"🪝 [VIRAL_HOOK] Using hook as caption overlay: \"{_viral_hook_text}\"")
+                auditor.mark_executed("viral_hook_overlay")
 
         has_caption = bool(_caption_text_for_overlay)
         has_brand = _add_text_overlay and bool(_brand_text_for_overlay)
@@ -5295,6 +5366,7 @@ def compile_video(
                     auditor.mark_failed("caption_generation")
                 if has_brand:
                     auditor.mark_failed("brand_overlay")
+
         # ---- [NEW] INTEGRATED DIAGNOSTICS (Step 9) -----------------------------------
         logger.info("🔍 [Step 9] Running Integrated Diagnostics...")
         
@@ -5441,6 +5513,234 @@ def compile_video(
         except Exception as _srve:
             logger.warning(f"⚠️ SRV Failure: {_srve}")
 
+        # ── [LATE SCRIPT GENERATION] Post-Visual-Render Script + TTS (AMTCE only) ─────
+        # Activated via LATE_SCRIPT_GENERATION=yes in Credentials/.env
+        #
+        # This block runs AFTER the visual render is finalised and its exact duration
+        # is known (_final_vid_dur). It uploads the rendered video to the Gemini File
+        # API, requests a duration-aware narration script that fits the video precisely,
+        # generates TTS audio for it, and updates all downstream script keys so the
+        # karaoke engine and audio mix use the new script.
+        #
+        # ⚠️  AMTCE-ONLY: Do NOT touch this block when modifying CEIE.
+        _late_script_mode = False  # [FIX] Forced False to prevent overwriting clean Title | Hook format with robotic commentary
+        _narrator_enabled = os.getenv("CINEMATIC_NARRATOR_ENABLED", "yes").lower() == "yes"
+        _vo_enabled = os.getenv("ENABLE_MICRO_VOICEOVER", "yes").lower() == "yes"
+        if _late_script_mode and not (_narrator_enabled and _vo_enabled):
+            logger.info("🧠 [LATE_SCRIPT] Voiceover/narration is disabled. Bypassing late script generation.")
+            _late_script_mode = False
+            
+        if _late_script_mode and os.path.exists(temp_visual_render):
+            logger.info("🧠 [LATE_SCRIPT] Starting post-render duration-aware script generation...")
+            _late_script_generated = False
+            try:
+                from google import genai as _late_genai
+                from google.genai import types as _late_types
+                import time as _late_time
+
+                _api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
+                if not _api_key:
+                    raise RuntimeError("[LATE_SCRIPT] Missing GEMINI_API_KEY — skipping late script.")
+
+                _late_client = _late_genai.Client(api_key=_api_key)
+
+                # ── 1. Upload the visual render to Gemini File API ──────────────────
+                _render_size_mb = os.path.getsize(temp_visual_render) / (1024 * 1024)
+                logger.info(
+                    f"📤 [LATE_SCRIPT] Uploading visual render ({_render_size_mb:.1f} MB) to Gemini File API..."
+                )
+                _uploaded_file = _late_client.files.upload(file=temp_visual_render)
+                logger.info(
+                    f"📤 [LATE_SCRIPT] Upload complete: name={_uploaded_file.name} | "
+                    f"state={getattr(_uploaded_file, 'state', 'unknown')}"
+                )
+
+                # ── 2. Wait for the file to be ACTIVE (Gemini processes the video) ─
+                _wait_start = _late_time.time()
+                _wait_timeout = 120  # seconds
+                while True:
+                    _file_state = getattr(_uploaded_file, "state", None)
+                    _state_name = (
+                        _file_state.name
+                        if hasattr(_file_state, "name")
+                        else str(_file_state)
+                    )
+                    if _state_name == "ACTIVE":
+                        logger.info("✅ [LATE_SCRIPT] Gemini file is ACTIVE — ready for analysis.")
+                        break
+                    if _state_name == "FAILED":
+                        raise RuntimeError("[LATE_SCRIPT] Gemini file processing FAILED.")
+                    if _late_time.time() - _wait_start > _wait_timeout:
+                        logger.warning(
+                            f"⚠️ [LATE_SCRIPT] File not ACTIVE after {_wait_timeout}s — proceeding anyway."
+                        )
+                        break
+                    _late_time.sleep(3)
+                    _uploaded_file = _late_client.files.get(name=_uploaded_file.name)
+
+                # ── 3. Build a duration-aware prompt ───────────────────────────────
+                _render_dur = _final_vid_dur or 30.0
+                # Word target: ~2.3 words/sec, capped between 15 and 75 words
+                _word_target = max(15, min(int(_render_dur * 2.3), 75))
+                _niche = (
+                    profile_data.get("niche")
+                    or profile_data.get("content_type")
+                    or "fashion/celebrity"
+                )
+                _tone = (
+                    profile_data.get("tone")
+                    or profile_data.get("editorial_tone")
+                    or "engaging and enthusiastic"
+                )
+                _item = profile_data.get("item_name") or ""
+                _item_hint = f"The featured item is: {_item}." if _item else ""
+
+                _late_prompt = (
+                    f"SYSTEM ROLE: You are a triple-threat content strategist operating simultaneously as:\n"
+                    f"  1. A Bollywood-calibre COPYWRITER — you write scripts that feel like blockbuster dialogue, not voiceover.\n"
+                    f"  2. A PSYCHOLOGIST who understands dopamine loops, pattern interrupts, and scroll-stopping hooks.\n"
+                    f"  3. A CULTURAL INSIDER who is fluent in Hinglish slang, Gen-Z tone, and desi pop-culture references.\n\n"
+                    f"MISSION: Watch this {_render_dur:.1f}s video clip with extreme precision. Your job is to write a\n"
+                    f"narration script that makes the viewer freeze mid-scroll, feel something, and watch again.\n\n"
+                    f"CONTENT CONTEXT:\n"
+                    f"  - Niche: {_niche}\n"
+                    f"  - Tone target: {_tone}\n"
+                    f"  {'- Featured subject: ' + _item + chr(10) if _item else ''}"
+                    f"  - Target word count: EXACTLY {_word_target} words (±3 words — hard constraint)\n\n"
+                    f"5-LAYER NARRATIVE FORMULA:\n"
+                    f"  LAYER 1 — PATTERN INTERRUPT (first 3-5 words): Start mid-action. No 'Welcome', no 'In this video'.\n"
+                    f"    Use a sharp observation, question, or emotional trigger that matches the opening visual.\n"
+                    f"  LAYER 2 — TENSION BUILD (words 6–40%): Create desire or FOMO. Make the viewer feel like\n"
+                    f"    they're missing something critical if they look away. Sync pacing to the edit cuts.\n"
+                    f"  LAYER 3 — REVELATION / PEAK (middle 30%): Drop the emotional centrepiece. The visual climax\n"
+                    f"    should match your verbal climax. One sentence that could stand alone as a viral quote.\n"
+                    f"  LAYER 4 — DESIRE AMPLIFIER (next 20%): Turn that revelation into craving. The viewer should\n"
+                    f"    want to DM, save, share, or come back — triggered emotionally, not instructed.\n"
+                    f"  LAYER 5 — OPEN LOOP CLOSE (final 3-5 words): End on a tease or emotional chord that makes\n"
+                    f"    them watch again or go to the comment/bio. Never close the loop fully.\n\n"
+                    f"HARD CONSTRAINTS — VIOLATION = REJECTED OUTPUT:\n"
+                    f"  ✗ NO headings, labels, bullet points, or meta-commentary\n"
+                    f"  ✗ NO filler phrases: 'amazing', 'beautiful', 'stunning', 'iconic', 'incredible'\n"
+                    f"  ✗ NO explicit calls-to-action like 'subscribe', 'like', 'follow', 'click the link'\n"
+                    f"  ✗ NO sentence longer than 12 words (mobile-listening pacing)\n"
+                    f"  ✗ DO NOT describe what is visually obvious — instead reveal what the eye misses\n\n"
+                    f"TONE CALIBRATION (match the niche):\n"
+                    f"  - fashion/celebrity: Confident. Aspirational but street-smart. Not stiff or formal.\n"
+                    f"  - fitness: Motivational but raw. Like a locker-room speech, not an ad.\n"
+                    f"  - entertainment: Conversational. Quick. Gossip-energy without being tabloid.\n"
+                    f"  - adult/nsfw: Suggestive but poetic. Heat without vulgarity. Let imagination work.\n"
+                    f"  - Default: {_tone}. Keep it punchy, real, and emotionally charged.\n\n"
+                    f"OUTPUT FORMAT: Narration text ONLY. No quotes, no prefix. Just the raw script.\n"
+                    f"Target: {_word_target} words. Start writing immediately."
+                )
+
+                # ── 4. Call Gemini with the uploaded video (multi-model retry) ────
+                _late_model_primary = os.getenv("LATE_SCRIPT_MODEL", "gemini-2.5-flash-lite")
+                _late_model_fallbacks = [
+                    _late_model_primary,
+                    "gemini-2.5-flash",
+                    "gemini-2.0-flash",
+                    "gemini-2.5-pro",
+                    "gemini-pro-latest",
+                ]
+                _late_response = None
+                _late_script_raw = ""
+                for _attempt_model in _late_model_fallbacks:
+                    try:
+                        logger.info(
+                            f"🧠 [LATE_SCRIPT] Requesting {_word_target}-word script from {_attempt_model} "
+                            f"(video={_render_dur:.1f}s)..."
+                        )
+                        _late_response = _late_client.models.generate_content(
+                            model=_attempt_model,
+                            contents=[
+                                _late_types.Part.from_uri(
+                                    file_uri=_uploaded_file.uri,
+                                    mime_type="video/mp4",
+                                ),
+                                _late_prompt,
+                            ],
+                            config=_late_types.GenerateContentConfig(
+                                temperature=0.7,
+                                max_output_tokens=256,
+                            ),
+                        )
+                        _late_script_raw = _late_response.text.strip() if _late_response.text else ""
+                        if _late_script_raw:
+                            logger.info(f"✅ [LATE_SCRIPT] Got response from {_attempt_model}.")
+                            break
+                    except Exception as _model_err:
+                        _err_str = str(_model_err).lower()
+                        if "429" in _err_str or "quota" in _err_str or "resource_exhausted" in _err_str:
+                            logger.warning(
+                                f"⚠️ [LATE_SCRIPT] {_attempt_model} returned 429/quota — trying next model..."
+                            )
+                        else:
+                            logger.warning(
+                                f"⚠️ [LATE_SCRIPT] {_attempt_model} failed ({_model_err}) — trying next model..."
+                            )
+                        _late_response = None
+                        _late_script_raw = ""
+                        continue
+
+                # ── 5. Validate and propagate the new script ───────────────────────
+                if _late_script_raw and len(_late_script_raw) > 10:
+                    logger.info(
+                        f"✅ [LATE_SCRIPT] Script generated ({len(_late_script_raw.split())} words): "
+                        f"{_late_script_raw[:120]}..."
+                    )
+                    # Update all script keys consumed by karaoke + sidecar
+                    full_script = _late_script_raw
+                    profile_data["editorial_script"] = _late_script_raw
+                    profile_data["karaoke_script"] = _late_script_raw
+                    if isinstance(mon_data, dict):
+                        mon_data["editorial_script"] = _late_script_raw
+                        profile_data["monetization_data"] = mon_data
+                    _late_script_generated = True
+                else:
+                    logger.warning("⚠️ [LATE_SCRIPT] Empty or too-short response — keeping early script.")
+
+                # ── 6. Generate TTS voiceover from the new late script ─────────────
+                if _late_script_generated and VOICEOVER_AVAILABLE:
+                    _vo_env_late = os.getenv("ENABLE_MICRO_VOICEOVER", "yes").lower()
+                    if _vo_env_late == "no":
+                        logger.info(
+                            "🎙️ [LATE_SCRIPT] Script ready but ENABLE_MICRO_VOICEOVER=no — TTS skipped."
+                        )
+                    else:
+                        _late_vo_file = os.path.join(job_dir, "voiceover.mp3")
+                        logger.info(
+                            f"🎙️ [LATE_SCRIPT] Generating TTS for {len(full_script)} chars..."
+                        )
+                        _late_vo_ok = run_with_timeout(
+                            func=voiceover.generate_voiceover,
+                            timeout_sec=120,
+                            feature_name="voiceover_generation",
+                            auditor=auditor,
+                            script_text=full_script[:500],
+                            output_file=_late_vo_file,
+                        )
+                        if _late_vo_ok:
+                            voiceover_path = _late_vo_file
+                            logger.info(
+                                f"🎙️ [LATE_SCRIPT] TTS voiceover ready: {_late_vo_file}"
+                            )
+                        else:
+                            logger.warning("⚠️ [LATE_SCRIPT] TTS generation failed — no voiceover will be mixed.")
+
+                # ── 7. Clean up: delete the uploaded file from Gemini File API ──────
+                try:
+                    _late_client.files.delete(name=_uploaded_file.name)
+                    logger.info(f"🗑️ [LATE_SCRIPT] Deleted Gemini file: {_uploaded_file.name}")
+                except Exception as _del_err:
+                    logger.debug(f"[LATE_SCRIPT] Could not delete Gemini file (non-fatal): {_del_err}")
+
+            except Exception as _late_err:
+                logger.warning(
+                    f"⚠️ [LATE_SCRIPT] Late script generation failed (non-fatal — using early script): {_late_err}"
+                )
+        # ─────────────────────────────────────────────────────────────────────────────
+
         # ---- FINAL AUDIO MIX --------------------------------------------------------
         logger.info("🎛️ Mixing Final Audio (VO + BGM)...")
 
@@ -5455,6 +5755,40 @@ def compile_video(
                 f"🎵 [FIRST_SHOT_AUDIO] BGM offset by {_music_offset}s "
                 "to preserve AI influencer intro voice."
             )
+
+        # [RANDOMIZE_BGM_OFFSET] Start BGM at a random position in the track so every
+        # compile sounds fresh and social platforms can't fingerprint repetitive audio
+        # from always starting at 0:00.
+        # - Only applies to music/ library tracks (NOT Original_audio — those are beat-synced).
+        # - Random start is capped at 60% of track duration so enough music remains.
+        # - Applied ADDITIVE to any existing _music_offset (e.g. first-shot delay).
+        _randomize_bgm = os.getenv("RANDOMIZE_BGM_OFFSET", "yes").strip().lower() == "yes"
+        if _randomize_bgm and music_path and "Original_audio" not in music_path.replace("\\", "/"):
+            try:
+                import subprocess as _sp
+                _ffprobe_bin = os.getenv("FFPROBE_BIN", "ffprobe")
+                _probe_out = _sp.check_output(
+                    [
+                        _ffprobe_bin, "-v", "error",
+                        "-show_entries", "format=duration",
+                        "-of", "default=noprint_wrappers=1:nokey=1",
+                        music_path,
+                    ],
+                    stderr=_sp.DEVNULL,
+                    timeout=10,
+                ).decode().strip()
+                _track_dur = float(_probe_out)
+                # Pick random start within first 60% of the track
+                _max_start = _track_dur * 0.60
+                _rand_start = round(random.uniform(0, max(0, _max_start - 30)), 2)  # keep ≥30s of music
+                if _rand_start > 0:
+                    _music_offset += _rand_start
+                    logger.info(
+                        f"🎲 [RANDOMIZE_BGM] Random BGM start: {_rand_start}s "
+                        f"(track={_track_dur:.1f}s, total_offset={_music_offset:.2f}s)"
+                    )
+            except Exception as _rng_err:
+                logger.debug(f"[RANDOMIZE_BGM] Could not randomize offset (non-fatal): {_rng_err}")
 
         if _separate_shorts:
             logger.info("⏭️ [SEPARATE_SHORTS] Main pipeline will now mix audio and concatenate intro for the BEST generated clip.")
@@ -5588,6 +5922,7 @@ def compile_video(
             # ─────────────────────────────────────────────────────────────────────────────
 
         # ── [KARAOKE SUBTITLE ENGINE] Optional post-render (Step 9.7) ────────────────
+        tracker.step("STEP_SUBTITLES", 80)
         # Activated via KARAOKE_ENABLED=true in Credentials/.env
         # Applies Cinema-Grade V7 .ASS karaoke subtitles to the final video.
         # This is a REPLACE-IN-PLACE step: if successful, output_path is updated
@@ -5657,6 +5992,48 @@ def compile_video(
             logger.warning(
                 f"⚠️ [KARAOKE] Non-fatal error (main pipeline unaffected): {_karaoke_err}"
             )
+        # ─────────────────────────────────────────────────────────────────────────────
+
+        # ── [STATIC HINGLISH HOOK SUBTITLE] Post-render (Step 9.8) ───────────────────
+        # Activated via ENABLE_STATIC_HOOK_SUBTITLE=yes in Credentials/.env
+        # Applies the viral Hinglish hook as a Cinema-Grade .ASS karaoke subtitle
+        # for the first HOOK_SUBTITLE_DURATION seconds (default 4s), then clean visuals.
+        # No voiceover or Whisper needed — pure static text with word-highlight animation.
+        _static_hook_text = profile_data.get("static_hook_text", "")
+        if _static_hook_text and os.path.exists(output_path):
+            try:
+                from Compiler_Modules.karaoke_subtitle_engine import (
+                    apply_static_hook_subtitle,
+                    is_static_hook_subtitle_enabled,
+                )
+                if is_static_hook_subtitle_enabled():
+                    _hook_subtitle_out = os.path.splitext(output_path)[0] + "_hook.mp4"
+                    logger.info(
+                        f"🪝 [STATIC_HOOK] Injecting Hinglish hook subtitle → "
+                        f"{os.path.basename(_hook_subtitle_out)}"
+                    )
+                    _hook_ok = apply_static_hook_subtitle(
+                        input_video=output_path,
+                        output_video=_hook_subtitle_out,
+                        hook_text=_static_hook_text,
+                    )
+                    if _hook_ok and os.path.exists(_hook_subtitle_out):
+                        import shutil as _shutil_hook
+                        _shutil_hook.move(_hook_subtitle_out, output_path)
+                        profile_data["static_hook_applied"] = True
+                        logger.info(
+                            f"✅ [STATIC_HOOK] Hook karaoke subtitle applied: "
+                            f"{os.path.basename(output_path)}"
+                        )
+                    else:
+                        logger.warning("⚠️ [STATIC_HOOK] Subtitle render failed — original video preserved.")
+                        profile_data["static_hook_applied"] = False
+            except ImportError:
+                pass  # Module not available — silently skip
+            except Exception as _sh_err:
+                logger.warning(
+                    f"⚠️ [STATIC_HOOK] Non-fatal error (main pipeline unaffected): {_sh_err}"
+                )
         # ─────────────────────────────────────────────────────────────────────────────
 
         # ---- SIDECAR JSON (Step 10) -------------------------------------------------
@@ -5740,8 +6117,24 @@ def compile_video(
             "all_extracted_audio": list(profile_data.get("_all_clip_audios_paths", [])),
         }
 
+        def _sanitize_for_json(obj):
+            if isinstance(obj, dict):
+                return {str(k): _sanitize_for_json(v) for k, v in obj.items()}
+            elif isinstance(obj, (list, tuple)):
+                return [_sanitize_for_json(x) for x in obj]
+            elif isinstance(obj, (str, int, float, bool)) or obj is None:
+                return obj
+            elif hasattr(obj, "__class__") and "Mock" in obj.__class__.__name__:
+                return f"<Mock {obj.__class__.__name__}>"
+            else:
+                try:
+                    json.dumps(obj)
+                    return obj
+                except Exception:
+                    return str(obj)
+
         with open(sidecar_path, "w", encoding="utf-8") as f:
-            json.dump(sidecar_payload, f, indent=2, ensure_ascii=False)
+            json.dump(_sanitize_for_json(sidecar_payload), f, indent=2, ensure_ascii=False)
 
         _total = profile_data.get("gemini_calls", 0)
         _log = ", ".join(profile_data.get("gemini_log", []))
@@ -5852,6 +6245,7 @@ def compile_video(
         # shutil.rmtree(job_dir, ignore_errors=True) 
 
         profile_data["job_dir"] = job_dir
+        tracker.step("STEP_RENDER", 100)
         return True, profile_data
 
     except Exception as e:
@@ -5909,8 +6303,10 @@ def compile_batch(
 
 
 def compile_juxtaposition(
-    uuid_str, input_a, input_b, output_path, title, profile_data={}
+    uuid_str, input_a, input_b, output_path, title, profile_data=None
 ):
+    if profile_data is None:
+        profile_data = {}
     """Side-by-side comparison for newsroom style."""
     job_dir = os.path.join("temp", uuid_str)
     os.makedirs(job_dir, exist_ok=True)

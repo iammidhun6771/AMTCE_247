@@ -6,7 +6,7 @@ from typing import List
 from dotenv import load_dotenv
 
 load_dotenv()
-load_dotenv("Credentials/.env")
+load_dotenv("Credentials/.env", override=True)
 
 # Suppress Python 3.10 EOL warning from Google SDKs
 warnings.filterwarnings("ignore", category=FutureWarning, module="google")
@@ -51,7 +51,7 @@ from urllib.parse import urlparse
 # External Libs (Safe Imports)
 try:
     from dotenv import load_dotenv
-    load_dotenv("Credentials/.env")
+    load_dotenv("Credentials/.env", override=True)
 except ImportError:
     load_dotenv = lambda **kwargs: None  # Dummy fallback
     logging.warning(
@@ -128,6 +128,7 @@ NET_BACKOFF_BASE = float(os.getenv("NET_BACKOFF_BASE", "2.0"))
 LOCK_WAIT_SECS = int(os.getenv("LOCK_WAIT_SECS", "5"))
 TELEGRAM_MAX_UPLOAD_MB = int(os.getenv("TELEGRAM_MAX_UPLOAD_MB", "50"))
 SESSION_TTL_SECS = int(os.getenv("SESSION_TTL_SECS", "86400"))
+APPROVAL_TIMEOUT_SECS = 0  # [FIX] Disabled auto-approval timeout
 # --- REAL-TIME CASH-MAXIMIZER OVERRIDE ---
 # [TUNED] CASH_MAX_MODE is permanently ON. Sequential processing prevents RAM
 # crashes, ensuring maximum render throughput and zero failed uploads.
@@ -3488,7 +3489,7 @@ async def handle_attachment(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await safe_reply(update, "❌ System Error: Module Portal Failed.")
         return
 
-    load_dotenv(override=True)
+    load_dotenv("Credentials/.env", override=True)
 
     user_id = update.effective_user.id
     message = update.message
@@ -3633,7 +3634,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     monetization_brain = getattr(portal, "monetization_brain", None)
     narrative_brain = getattr(portal, "narrative_brain", None)
 
-    load_dotenv(override=True)
+    load_dotenv("Credentials/.env", override=True)
     send_to_youtube = os.getenv("SEND_TO_YOUTUBE", "off").lower() in [
         "on",
         "yes",
@@ -4140,11 +4141,21 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         except:
             pass
 
-        # Default Safety Values (Bypassed safety - force LOW risk & APPROVED)
-        ypp_risk = "LOW"
-        is_approved = True
+        # Sanitize title to strip any system/CLI/niche prefixes
+        title = re.sub(r"(?i)^(?:viral|fashion|entertainment|nsfw|adult|paparazzi|general):\s*", "", title)
+        title = re.sub(r"(?i)^(?:cli:\s*)?process\s+(?:short\s+)?titled\s+", "", title)
+        title = re.sub(r"(?i)^cli:\s*process\s+", "", title)
+        title = re.sub(r"(?i)^retry\s+#\d+:\s*reprocess\s+", "", title)
+        title = re.sub(r"(?i)^retry\s+#\d+:\s*", "", title)
+        title = re.sub(r"(?i)^reprocess\s+", "", title)
+        title = re.sub(r"(?i)^cli\s+mission", "", title)
+        title = title.strip(" '\".,-_")
+
+        # Default Safety Values
+        ypp_risk = mon_meta.get("risk_level", "UNKNOWN")
+        is_approved = ypp_risk in ["LOW", "MEDIUM"]
         style = "Transformative"  # Default
-        action = "APPROVE"
+        action = "APPROVE" if is_approved else "REVIEW"
         # Reason Safety (Check both Brain 'risk_reason' and Compiler 'reason')
         reason = mon_meta.get("risk_reason") or mon_meta.get(
             "reason", "Analysis pending or not performed."
@@ -4156,7 +4167,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             wm_status = "CLEAN"
 
         # Monetization Status Derivation
-        monetization_status = "PASSED"
+        monetization_status = "PASSED" if is_approved else "REVIEW"
         if ypp_risk == "HIGH":
             monetization_status = "BLOCKED"
 
@@ -5384,21 +5395,6 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             or "Women Outfit"
         )
 
-        # [FIX] Filter out generic/meaningless item names that slip through.
-        # These are placeholder values that look bad in the FINAL REVIEW SUMMARY.
-        _BAD_ITEM_NAMES = {
-            "style", "outfit", "look", "ensemble", "vibe", "energy",
-            "fashion", "clothing", "wear", "dress", "item", "default",
-            "women outfit", "fashion item", "style analysis", "fashion analysis",
-        }
-        if not _detected_item or _detected_item.strip().lower() in _BAD_ITEM_NAMES or len(_detected_item.strip()) <= 3:
-            # Try to fall back to a richer source before giving up
-            _detected_item = (
-                profile_data.get("wear_scan_item")
-                or mon_meta.get("item_name")
-                or "Women Outfit"
-            )
-
         # Build keyword: item description + category + market qualifiers
         _kw_parts = []
         if _detected_item:
@@ -5534,6 +5530,9 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             else:
                 large_msg = f"⚠️ Video too large for Telegram preview.\n{admin_report}\n\n**Public Caption Preview:**\n{public_caption}"
                 await safe_reply(update, large_msg)
+
+            # [FIX] Auto-approval timer task creation removed to prevent auto-uploading
+
 
         except Exception as e:
             logger.error(f"Error: {e}")
@@ -5981,6 +5980,10 @@ async def _handle_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         await safe_reply(update, msg, reply_markup=reply_markup)
 
 
+# [FIX] auto_approve_timer function removed
+
+
+
 async def approve_upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
     Step 1 of Approval: Ask for Title Expansion.
@@ -6111,9 +6114,7 @@ async def _perform_upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # --- CHEETAH LOGIC V2: USE BRAIN HASHTAGS ---
     # Strategy: Brain now returns 'hashtags' directly. No separate call needed.
-    mon_report = session.get("monetization_report", {}) or {}
-    if not isinstance(mon_report, dict):
-        mon_report = {}
+    mon_report = session.get("monetization_report", {})
     brain_hashtags = mon_report.get("hashtags")
     brain_title = mon_report.get("editorial_title")
 
@@ -6240,9 +6241,7 @@ async def _perform_upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         if send_to_youtube:
             # Extract caption for rich description
-            mon_report = session.get("monetization_report", {}) or {}
-            if not isinstance(mon_report, dict):
-                mon_report = {}
+            mon_report = session.get("monetization_report", {})
             caption_text = mon_report.get("caption", "")
             rich_desc = mon_report.get("rich_description")
 
@@ -6289,9 +6288,7 @@ async def _perform_upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
             except Exception as _ao_err:
                 logger.debug(f"[ANALYTICS_OPTIMIZER] skipped: {_ao_err}")
             # ── Pre-initialize mon_data so it's always defined even on failure ──
-            mon_data = session.get("monetization_report", {}) or {}
-            if not isinstance(mon_data, dict):
-                mon_data = {}
+            mon_data = session.get("monetization_report", {})
 
             try:
                 # ── NICHE ROUTER: resolve target channel from sidecar ──────────
@@ -6312,9 +6309,7 @@ async def _perform_upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     yt_msg = f"✅ YouTube: Success ({link})"
 
                     # Log with strict monetization data
-                    mon_data = session.get("monetization_report", {}) or {}
-                    if not isinstance(mon_data, dict):
-                        mon_data = {}
+                    mon_data = session.get("monetization_report", {})
                     log_video(
                         final_path,
                         link,
@@ -6484,9 +6479,7 @@ async def _perform_upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await safe_reply(
                 update, "📤 Attempting Meta (Instagram/Facebook) Uploads..."
             )
-            mon_report = session.get("monetization_report", {}) or {}
-            if not isinstance(mon_report, dict):
-                mon_report = {}
+            mon_report = session.get("monetization_report", {})
             caption_text = mon_report.get("caption", "")
 
             # === INSTAGRAM UPLOAD MODE BRANCH ===
@@ -6584,11 +6577,9 @@ async def _perform_upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         if meta_results:
             # Instagram
-            ig_res = meta_results.get("instagram", {"status": "skipped"}) or {"status": "skipped"}
+            ig_res = meta_results.get("instagram", {"status": "skipped"})
             if isinstance(ig_res, str):
                 ig_res = {"status": ig_res}
-            elif not isinstance(ig_res, dict):
-                ig_res = {"status": "skipped"}
             ig_status = ig_res.get("status", "skipped")
             ig_link = ig_res.get("link", "")
             ig_id = ig_res.get("id", "")
@@ -6643,11 +6634,9 @@ async def _perform_upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
             report_lines.append(line_ig)
 
             # Facebook
-            fb_res = meta_results.get("facebook", {"status": "skipped"}) or {"status": "skipped"}
+            fb_res = meta_results.get("facebook", {"status": "skipped"})
             if isinstance(fb_res, str):
                 fb_res = {"status": fb_res}
-            elif not isinstance(fb_res, dict):
-                fb_res = {"status": "skipped"}
             fb_status = fb_res.get("status", "skipped")
             fb_link = fb_res.get("link", "")
             icon_fb = (
@@ -6675,9 +6664,7 @@ async def _perform_upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await safe_reply(
                     update, "📤 Sending clip to Telegram group...", force=True
                 )
-                mon_report_tg = session.get("monetization_report", {}) or {}
-                if not isinstance(mon_report_tg, dict):
-                    mon_report_tg = {}
+                mon_report_tg = session.get("monetization_report", {})
 
                 # ── [TELEGRAM EXCLUSIVE] Send the processed clip WITHOUT the first-shot intro ──
                 # The intro is a YouTube/IG hook only. Telegram members get the raw
@@ -7050,7 +7037,6 @@ async def verify_watermark(update: Update, context: ContextTypes.DEFAULT_TYPE, i
             await smart_edit(msg)
 
             # [FIX] Do NOT auto-trigger approve_upload — require explicit /approve from user
-            # Previously this called approve_upload() automatically which bypassed manual review.
             session["state"] = "WAITING_FOR_APPROVAL"
             save_session(user_id)
 
@@ -8732,8 +8718,8 @@ def run_cli_mode(args):
         _cli_result = _cli_director.execute_mission(
             niche=os.getenv("DEFAULT_NICHE", "viral"),
             video_request=(
-                f"CLI: Process '{title_val}'"
-                + (" with enhanced quality." if enhance_mode else ".")
+                title_val
+                + (". Enhanced quality output." if enhance_mode else ".")
             ),
             input_paths=[video_path],
         )
@@ -8771,7 +8757,7 @@ def process_clip(video_path: str, actress_title: str) -> str | None:
 
         result = director.execute_mission(
             niche=os.getenv("DEFAULT_NICHE", "viral"),
-            video_request=video_request,
+            video_request=title_val,
             input_paths=[video_path],
         )
 
@@ -8803,7 +8789,7 @@ def run_ci_mode():
     # the lock is still valid skips all work and exits immediately to prevent
     # two runners sharing the same Telegram bot token.
     _BOT_LOCK_FILE = "The_json/bot_lock.json"
-    if is_scheduled:
+    if is_scheduled and os.getenv("GITHUB_ACTIONS") != "true":
         try:
             if os.path.exists(_BOT_LOCK_FILE):
                 import json as _jl
@@ -9087,6 +9073,146 @@ def run_ci_mode():
     logger.info("👋 [CI] One-Shot CI Execution Finished successfully. Exiting.")
 
 
+def run_one_shot_dispatch():
+    logger.info("⚡ [DISPATCH] Running one-shot manual dispatch...")
+
+    target_url = os.getenv("DISPATCH_TARGET_URL", "").strip()
+    actress_name = os.getenv("DISPATCH_ACTRESS_NAME", "").strip()
+    niche = os.getenv("DISPATCH_NICHE", "General").strip()
+    voiceover = os.getenv("DISPATCH_VOICEOVER", "").strip()
+    review_mode = os.getenv("DISPATCH_REVIEW_MODE", "auto").strip()
+
+    from Core_Modules.studio_status_tracker import get_tracker
+    tracker = get_tracker()
+
+    if not target_url:
+        logger.info(f"🔍 [DISPATCH] No target_url provided. Searching pool for actress: {actress_name}")
+        
+        # 1. Search PublishQueue
+        from Actress_Modules.actress_publisher import PublishQueue
+        queue = PublishQueue.load()
+        matched_item = None
+        if queue:
+            for item in queue:
+                item_actress = item.get("actress_title", "")
+                if item_actress and (actress_name.lower() in item_actress.lower() or item_actress.lower() in actress_name.lower()):
+                    matched_item = item
+                    break
+        
+        if matched_item:
+            logger.info(f"✅ [DISPATCH] Found matching video in PublishQueue: {matched_item['video_path']}")
+            try:
+                queue.remove(matched_item)
+                PublishQueue.save(queue)
+            except Exception as _qe:
+                logger.warning(f"⚠️ Failed to remove item from PublishQueue: {_qe}")
+            target_url = matched_item["video_path"]
+        else:
+            # 2. Search downloads folder
+            downloads_dir = os.getenv("DOWNLOADS_DIR", "downloads")
+            matching_files = []
+            if os.path.exists(downloads_dir):
+                for root, dirs, files in os.walk(downloads_dir):
+                    for file in files:
+                        if file.endswith(".mp4") and actress_name.lower() in file.lower():
+                            matching_files.append(os.path.join(root, file))
+            if matching_files:
+                target_url = matching_files[0]
+                logger.info(f"✅ [DISPATCH] Found matching video in downloads folder: {target_url}")
+            else:
+                logger.error(f"❌ [DISPATCH] No videos found in pool or downloads for actress: {actress_name}")
+                tracker.start(
+                    job_id=os.getenv("GITHUB_RUN_ID"),
+                    actress=actress_name,
+                    niche=niche,
+                    source_url=""
+                )
+                tracker.failed(f"No videos found in pool/downloads for actress: {actress_name}")
+                return
+
+    tracker.start(
+        job_id=os.getenv("GITHUB_RUN_ID"),
+        actress=actress_name,
+        niche=niche,
+        source_url=target_url
+    )
+
+    # 1. Resolve local path vs download
+    video_path = target_url
+    if target_url.startswith("http"):
+        logger.info(f"📥 [DISPATCH] Downloading target_url: {target_url}")
+        tracker.step("STEP_DOWNLOAD", 10)
+        from Download_Modules import downloader
+        try:
+            dl_res = downloader.download_video(target_url)
+        except Exception as dl_err:
+            logger.error(f"❌ [DISPATCH] Download exception: {dl_err}")
+            tracker.failed(f"Download exception: {dl_err}")
+            return
+        if dl_res and dl_res[0]:
+            video_path, _ = dl_res
+            logger.info(f"✅ [DISPATCH] Downloaded: {video_path}")
+            tracker.step("STEP_DOWNLOAD", 100)
+        else:
+            logger.error("❌ [DISPATCH] Download failed!")
+            tracker.failed("Download failed")
+            return
+    else:
+        # Check relative path or absolute path
+        if not os.path.isabs(video_path):
+            video_path = os.path.abspath(video_path)
+        if not os.path.exists(video_path):
+            logger.error(f"❌ [DISPATCH] Local file not found: {video_path}")
+            tracker.failed(f"Local file not found: {video_path}")
+            return
+        logger.info(f"📂 [DISPATCH] Found local file at: {video_path}")
+        tracker.step("STEP_DOWNLOAD", 100)
+
+    try:
+        # Set environment variables overrides from inputs
+        if voiceover:
+            os.environ["DISPATCH_VOICEOVER_TEXT"] = voiceover
+
+        # Resolve niche name to meta_config.json folders
+        actress_folder = niche
+        if niche.lower() in ("general", "general_fallback"):
+            actress_folder = "General_Fallback"
+        elif niche.lower() in ("fashion", "fashion_style"):
+            actress_folder = "Fashion"
+        elif niche.lower() in ("nsfw", "adult"):
+            actress_folder = "NSFW"
+        elif niche.lower() in ("paparazzi"):
+            actress_folder = "Paparazzi"
+
+        # 2. Process/compile the video
+        logger.info(f"🎬 [DISPATCH] Processing clip: {video_path} for actress: {actress_name}")
+        processed_path = process_clip(video_path, actress_name)
+        if not processed_path or not os.path.exists(processed_path):
+            logger.error("❌ [DISPATCH] Compilation/Processing failed!")
+            tracker.failed("Compilation/Processing failed")
+            return
+
+        logger.info(f"✅ [DISPATCH] Processed successfully: {processed_path}")
+
+        # 3. Publish the video
+        logger.info(f"📤 [DISPATCH] Publishing processed clip...")
+        from Actress_Modules.actress_scheduler import _auto_publish_clip
+        
+        # Run publishing synchronously
+        _auto_publish_clip(
+            video_path=processed_path,
+            actress_title=actress_name,
+            actress_folder=actress_folder,
+            shortcode=f"manual_{int(time.time())}"
+        )
+        logger.info("🎉 [DISPATCH] One-shot manual dispatch run finished successfully!")
+        tracker.done()
+    except Exception as exc:
+        logger.error(f"❌ [DISPATCH] Execution failed: {exc}")
+        tracker.failed(f"Execution failed: {exc}")
+        raise exc
+
+
 if __name__ == "__main__":
     lazy_load_genai_trace()
     import argparse
@@ -9104,12 +9230,22 @@ if __name__ == "__main__":
     if args.input:
         run_cli_mode(args)
     elif os.getenv("GITHUB_ACTIONS") == "true":
+        # Check if it is a manual one-shot video run
+        if os.getenv("GITHUB_EVENT_NAME") == "workflow_dispatch":
+            target_url = os.getenv("DISPATCH_TARGET_URL", "").strip()
+            actress_name = os.getenv("DISPATCH_ACTRESS_NAME", "").strip()
+            if target_url or actress_name:
+                run_one_shot_dispatch()
+                sys.exit(0)
+            else:
+                logger.info("ℹ️ [CI] Workflow dispatch received without target_url or actress_name. Falling through to persistent bot mode.")
+
         _BOT_LOCK_FILE = "The_json/bot_lock.json"
         _BOT_TIMEOUT_HOURS = 5.25  # Run for 5.25 hours, then rotate
         _bot_expires = time.time() + (_BOT_TIMEOUT_HOURS * 3600)
         
         has_active_lock = False
-        if os.path.exists(_BOT_LOCK_FILE):
+        if os.path.exists(_BOT_LOCK_FILE) and os.getenv("GITHUB_ACTIONS") != "true":
             try:
                 import json as _jl
                 with open(_BOT_LOCK_FILE, "r") as _f:

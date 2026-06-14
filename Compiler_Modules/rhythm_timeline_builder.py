@@ -861,13 +861,27 @@ class RhythmTimelineBuilder:
 
         # Decide whether our timeline looks "reshaped" enough; if not, override
         # with fallback grid segments that force coverage of the full clip.
-        # [REMOVED] Restrictive (60% coverage) rule that was flattening creative edits.
-        # We now trust the existing selection unless it's literally empty.
+        # [RESTORED] VO-coverage safety net: if the selected content covers less than
+        # 50% of the VO target duration, the creative selection has failed silently
+        # (empty bands, all shots deduplicated out). Override with full-clip grid.
+        _selected_total = sum(
+            max(0.0, s.get("end", 0) - s.get("start", 0)) for s in timeline
+        ) if timeline else 0.0
+        _vo_min_needed = (target_max or 0.0) * 0.50   # need at least 50% of VO target
+
         if not timeline:
             logger.warning("⚠️ RhythmTimelineBuilder: timeline empty; applying fallback grid reshaping.")
             base_for_final = _fallback_grid_segments()
+        elif _vo_min_needed > 0 and _selected_total < _vo_min_needed:
+            logger.warning(
+                f"⚠️ [COVERAGE_FAILSAFE] Selected {_selected_total:.1f}s < "
+                f"50% of VO target ({target_max:.1f}s). "
+                f"Overriding with full-clip coverage grid."
+            )
+            base_for_final = _fallback_grid_segments()
         else:
             base_for_final = timeline
+
 
         final_timeline = []
         for i in range(len(base_for_final)):

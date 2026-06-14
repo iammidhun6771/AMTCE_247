@@ -151,13 +151,13 @@ def get_recommendations(ledger_path: Optional[str] = None) -> Dict:
             peaks = top_hours(hists[gender], top_n=3)
             confidence = "high"
         else:
-            # Research-backed Indian audience defaults (6-hour intervals)
-            peaks = [9, 15, 21] if gender == "women" else [10, 16, 22]
+            # Research-backed Indian audience defaults
+            peaks = [9, 13, 20] if gender == "women" else [10, 14, 21]
             confidence = f"low (only {sample_count} samples, need {MIN_SAMPLES})"
 
         # Fallback if top_hours returns empty list
         if not peaks:
-            peaks = [9, 15, 21] if gender == "women" else [10, 16, 22]
+            peaks = [9, 13, 20] if gender == "women" else [10, 14, 21]
 
         publish_times = [f"{h:02d}:00" for h in sorted(peaks)]
         harvest_times = harvest_times_from_peaks(peaks, offset=1)
@@ -170,18 +170,13 @@ def get_recommendations(ledger_path: Optional[str] = None) -> Dict:
             "confidence":     confidence,
         }
 
-    # Combined: check PAPARAZZI_MODE before combining men's and women's times
-    paparazzi_mode = os.getenv("PAPARAZZI_MODE", "no").lower() in ("yes", "true", "1")
-    if paparazzi_mode:
-        all_harvest = sorted(set(
-            result["women"]["harvest_times"] + result["men"]["harvest_times"]
-        ))[:5]
-        all_publish = sorted(set(
-            result["women"]["publish_times"] + result["men"]["publish_times"]
-        ))[:5]
-    else:
-        all_harvest = sorted(result["women"]["harvest_times"])
-        all_publish = sorted(result["women"]["publish_times"])
+    # Combined: union of both, max 5 entries to avoid spamming
+    all_harvest = sorted(set(
+        result["women"]["harvest_times"] + result["men"]["harvest_times"]
+    ))[:5]
+    all_publish = sorted(set(
+        result["women"]["publish_times"] + result["men"]["publish_times"]
+    ))[:5]
 
     result["combined"] = {
         "harvest_times": all_harvest,
