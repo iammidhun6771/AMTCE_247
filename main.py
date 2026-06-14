@@ -467,16 +467,36 @@ def load_sessions():
 
                 with open(f, "r") as fp:
                     data = json.load(fp)
-                    # Extract user_id from filename
-                    fname = os.path.basename(f)
-                    uid = int(fname.replace("session_", "").replace(".json", ""))
-                    user_sessions[uid] = data
-                    count += 1
+                    if isinstance(data, dict):
+                        # Guarantee that nested reports/contexts are dicts
+                        if "monetization_report" in data and not isinstance(data["monetization_report"], dict):
+                            data["monetization_report"] = {}
+                        if "wm_context" in data and not isinstance(data["wm_context"], dict):
+                            data["wm_context"] = {}
+                        
+                        # Extract user_id from filename
+                        fname = os.path.basename(f)
+                        uid = int(fname.replace("session_", "").replace(".json", ""))
+                        user_sessions[uid] = data
+                        count += 1
             except Exception:
                 pass
         logger.info(f"🔄 Restored {count} active sessions from disk.")
     except Exception as e:
         logger.warning(f"Session recovery failed: {e}")
+
+
+def get_clean_session(user_id) -> dict:
+    """Retrieve session, ensuring it and its key sub-objects are valid dictionaries."""
+    session = user_sessions.get(user_id)
+    if not isinstance(session, dict):
+        session = {}
+        user_sessions[user_id] = session
+    if not isinstance(session.get("monetization_report"), dict):
+        session["monetization_report"] = {}
+    if not isinstance(session.get("wm_context"), dict):
+        session["wm_context"] = {}
+    return session
 
 
 def _get_session_niche(video_path: str) -> str:
@@ -1888,7 +1908,7 @@ async def initiate_compilation_title_flow(
             hashtags,
             n_videos=n_videos,
             description=generated_desc,
-            clips=user_sessions.get(user_id, {}).get("compilation_clips")
+            clips=get_clean_session(user_id).get("compilation_clips")
         )
         return
 
@@ -1937,7 +1957,7 @@ async def initiate_compilation_title_flow(
             base_title, 
             hashtags, 
             n_videos=n_videos,
-            clips=user_sessions.get(user_id, {}).get("compilation_clips")
+            clips=get_clean_session(user_id).get("compilation_clips")
         )
 
 
@@ -2534,7 +2554,7 @@ async def maybe_compile_and_upload(update: Update):
 
         # Store clips in session for finish_compilation_upload access
         with acquire_session_lock(update.effective_user.id):
-            user_sessions[update.effective_user.id]["compilation_clips"] = files
+            get_clean_session(update.effective_user.id)["compilation_clips"] = files
             save_session(update.effective_user.id)
 
         # Initiate New Flow
@@ -2751,7 +2771,7 @@ async def compile_last(update: Update, context: ContextTypes.DEFAULT_TYPE):
                         final_title,
                         comp_hashtags,
                         description=smart_desc,
-                        clips=user_sessions.get(user_id, {}).get("compilation_clips")
+                        clips=get_clean_session(user_id).get("compilation_clips")
                     )
                 else:
                     # Smart Gen Failed -> Ask User
@@ -3019,7 +3039,7 @@ async def compile_first(update: Update, context: ContextTypes.DEFAULT_TYPE):
                         final_title,
                         comp_hashtags,
                         description=smart_desc,
-                        clips=user_sessions.get(user_id, {}).get("compilation_clips")
+                        clips=get_clean_session(user_id).get("compilation_clips")
                     )
                 else:
                     # Fail -> Fallback to User
@@ -5584,7 +5604,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 affiliate_link=user_affiliate_link,
                 affiliate_link_type=_aff_link_type,
                 real_mrp=_real_mrp,
-                clips=user_sessions.get(user_id, {}).get("compilation_clips")
+                clips=get_clean_session(user_id).get("compilation_clips")
             )
             return
 
@@ -5622,9 +5642,9 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if user_affiliate_link:
             import Monetization_Metrics.fashion_scout as fs
             with acquire_session_lock(user_id):
-                _mon_report = user_sessions.get(user_id, {}).get("monetization_report", {})
+                _mon_report = get_clean_session(user_id).get("monetization_report", {})
             _item_cat = _mon_report.get("item_name") or "compilation"
-            _uid_for_save = user_sessions.get(user_id, {}).get("video_uid", "")
+            _uid_for_save = get_clean_session(user_id).get("video_uid", "")
             fs.save_affiliate_link(_item_cat, _item_cat, user_affiliate_link, video_uid=_uid_for_save)
             await safe_reply(update, f"✅ Title: {final_title}\n🔗 Affiliate link received and saved!")
         else:
@@ -5636,7 +5656,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             affiliate_link=user_affiliate_link,
             affiliate_link_type=_aff_link_type,
             real_mrp=_real_mrp,
-            clips=user_sessions.get(user_id, {}).get("compilation_clips")
+            clips=get_clean_session(user_id).get("compilation_clips")
         )
         return
 
@@ -5678,33 +5698,34 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 if choice:
                     suffix = choice.get("suffix", "")
                     with acquire_session_lock(user_id):
-                        current_title = user_sessions[user_id].get("title", "")
-                        user_sessions[user_id]["title"] = f"{current_title}{suffix}"
+                        session = get_clean_session(user_id)
+                        current_title = session.get("title", "")
+                        session["title"] = f"{current_title}{suffix}"
                         # ── Store user-supplied affiliate link if provided ──
                         if user_affiliate_link:
-                            user_sessions[user_id]["user_affiliate_link"] = user_affiliate_link
+                            session["user_affiliate_link"] = user_affiliate_link
                             # Store link type: 'exact' = found actual celeb product; 'alternative' = similar product
                             if _aff_link_type:
-                                user_sessions[user_id]["affiliate_link_type"] = _aff_link_type
+                                session["affiliate_link_type"] = _aff_link_type
                             # ── Store real MRP if provided ──────────────────
                             if _real_mrp:
-                                user_sessions[user_id]["real_mrp"] = _real_mrp
+                                session["real_mrp"] = _real_mrp
                             import Monetization_Metrics.fashion_scout as fs
-                            _mon_report = user_sessions[user_id].get("monetization_report", {})
+                            _mon_report = session.get("monetization_report", {})
                             _item_cat = _mon_report.get("item_name") or _mon_report.get("fashion_scout", {}).get("attributes", {}).get("classification", {}).get("primary_category", "default")
                             _item_sub = _mon_report.get("fashion_scout", {}).get("attributes", {}).get("classification", {}).get("sub_category", _item_cat)
-                            _uid_for_save = user_sessions.get(user_id, {}).get("video_uid", "")
+                            _uid_for_save = session.get("video_uid", "")
                             fs.save_affiliate_link(_item_cat, _item_sub, user_affiliate_link, video_uid=_uid_for_save)
 
                             # [NICHE OVERRIDE] Affiliate link = manual Fashion & Style route.
                             # Force the niche sidecar so meta_uploader picks the right
                             # IG account regardless of what Gemini auto-detected.
                             try:
-                                _final_for_niche = user_sessions[user_id].get("final_path", "")
+                                _final_for_niche = session.get("final_path", "")
                                 if _final_for_niche and os.path.exists(_final_for_niche):
                                     from Visual_Refinement_Modules.hybrid_watermark import save_detected_niche
                                     save_detected_niche(_final_for_niche, "Fashion & Style")
-                                    user_sessions[user_id]["niche_forced_by_affiliate"] = "Fashion & Style"
+                                    session["niche_forced_by_affiliate"] = "Fashion & Style"
                                     logger.info(
                                         "🎯 [NICHE OVERRIDE] Affiliate link → forcing niche='Fashion & Style' "
                                         f"for '{os.path.basename(_final_for_niche)}'"
@@ -5716,7 +5737,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                                 logger.warning(f"⚠️ [NICHE OVERRIDE] Sidecar rewrite failed (non-fatal): {_ne}")
 
                         save_session(user_id)
-                    confirm = f"✅ Title Updated: {user_sessions[user_id]['title']}"
+                    confirm = f"✅ Title Updated: {session['title']}"
                     if user_affiliate_link:
                         _ltype_label = " [Exact Product]✔️" if _aff_link_type == 'exact' else " [Alternative Product]🔁" if _aff_link_type == 'alternative' else ""
                         confirm += f"\n🔗 Affiliate link saved{_ltype_label}\n🎯 Routed → Fashion & Style"
@@ -6054,7 +6075,7 @@ async def _perform_upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info(f"📤 [_perform_upload] Starting for User {user_id}")
 
     with get_session_lock(user_id):
-        session = user_sessions.get(user_id, {})
+        session = get_clean_session(user_id)
         final_path = session.get("final_path")
         clean_source_path = session.get(
             "clean_source_path"
