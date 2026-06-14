@@ -5140,7 +5140,7 @@ def compile_video(
             else:
                 logger.warning("⚠️ Scene Reconstruction failed. Using standard render.")
                 auditor.mark_failed("scene_reconstruction")
-                video_pipeline.render_pipeline(
+                render_success = video_pipeline.render_pipeline(
                     current_video_source,
                     temp_visual_render,
                     price_tag_images=price_tag_images,
@@ -5226,7 +5226,7 @@ def compile_video(
                         logger.warning("⚠️ [SEPARATE_SHORTS] All clip renders failed. No fallback full-video render in separate-shorts mode.")
                     else:
                         logger.warning("⚠️ Segment render failed. Falling back to full-video render.")
-                        video_pipeline.render_pipeline(
+                        render_success = video_pipeline.render_pipeline(
                             current_video_source,
                             temp_visual_render,
                             price_tag_images=price_tag_images,
@@ -5234,11 +5234,17 @@ def compile_video(
             else:
                 logger.info("⏩ No segments — Using full-video standard render.")
                 auditor.mark_disabled("scene_reconstruction")
-                video_pipeline.render_pipeline(
+                render_success = video_pipeline.render_pipeline(
                     current_video_source,
                     temp_visual_render,
                     price_tag_images=price_tag_images,
                 )
+
+        # ── RENDER ENGINE INTEGRITY CHECK ───────────────────────────────────
+        if not render_success or not temp_visual_render or not os.path.exists(temp_visual_render) or os.path.getsize(temp_visual_render) == 0:
+            logger.error("❌ [RENDER_FAILED] Both scene reconstruction and standard render fallback failed. Output video not created.")
+            return False, {"error": "Video rendering failed. Output file was not created."}
+        # ────────────────────────────────────────────────────────────────────
 
 
         # ── QUALITY EVALUATOR (Post-Render blind check) ────────────────────
