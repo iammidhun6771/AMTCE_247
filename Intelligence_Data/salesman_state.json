@@ -12,19 +12,21 @@
     ],
     "slots_missed_today": [
       "09:00",
-      "10:00"
+      "10:00",
+      "13:00",
+      "14:00"
     ],
     "catchup_slots_today": [
       "12:35",
       "13:00"
     ],
-    "deficit_videos": 3
+    "deficit_videos": 5
   },
   "apify": {
     "quota_date": "2026-06-14",
-    "quota_used": 0,
+    "quota_used": 3,
     "quota_limit": 50,
-    "total_calls_all_time": 252
+    "total_calls_all_time": 255
   },
   "scraped_posts": {
     "shortcodes": [
@@ -96,9 +98,9 @@
       "bollywood.portal": "2026-06-03T00:13:01.568542",
       "avneetphile": "2026-06-03T00:13:01.568542",
       "bollywoodstandard": "2026-06-03T00:13:01.568542",
-      "bollywxxd": "2026-06-03T12:17:05.089096",
-      "glitz.in": "2026-06-03T12:17:05.089096",
-      "bollywoodreporter.in": "2026-06-03T12:17:05.089096",
+      "bollywxxd": "2026-06-14T14:33:14.608722",
+      "glitz.in": "2026-06-14T14:33:14.608722",
+      "bollywoodreporter.in": "2026-06-14T14:33:14.608722",
       "filmygyan": "2026-06-03T14:24:53.326769",
       "filmyprincess": "2026-06-03T14:24:53.326769",
       "totalfilmii": "2026-06-03T14:24:53.326769",
