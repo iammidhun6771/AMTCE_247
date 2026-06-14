@@ -253,6 +253,40 @@ HIGH_VOLTAGE_CTA_HOOKS = [
     "Shop for {name}'s outfit and own the spotlight! 💡👗 / Is outfit ko kharidein aur chha jayein! / इस ऑउटफिट को खरीदें और छा जाएं!",
 ]
 
+_HOOK_ROTATION_PATH = "The_json/hook_rotation.json"
+
+
+def _pick_hook(name: str = "") -> str:
+    """
+    Round-robin selector for HIGH_VOLTAGE_CTA_HOOKS.
+    Persists the current index to The_json/hook_rotation.json so every hook
+    in the pool is exhausted before any repeats — identical pattern to
+    _next_template() in organic_sales_copy.py.
+    """
+    try:
+        idx = 0
+        if os.path.exists(_HOOK_ROTATION_PATH):
+            with open(_HOOK_ROTATION_PATH, "r", encoding="utf-8") as _f:
+                _data = json.load(_f)
+                idx = int(_data.get("idx", 0))
+    except Exception:
+        idx = 0
+
+    hook = HIGH_VOLTAGE_CTA_HOOKS[idx % len(HIGH_VOLTAGE_CTA_HOOKS)]
+    next_idx = (idx + 1) % len(HIGH_VOLTAGE_CTA_HOOKS)
+
+    try:
+        os.makedirs(os.path.dirname(_HOOK_ROTATION_PATH), exist_ok=True)
+        with open(_HOOK_ROTATION_PATH, "w", encoding="utf-8") as _f:
+            json.dump({"idx": next_idx}, _f)
+    except Exception as _e:
+        logger.debug(f"[HOOK_ROTATION] Could not persist index: {_e}")
+
+    try:
+        return hook.format(name=name)
+    except Exception:
+        return hook
+
 
 class GlobalState:
     is_busy = False
@@ -4506,7 +4540,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if is_filler:
             try:
                 # [Personalization Fix] Format randomized hook with display name
-                raw_cta = random.choice(HIGH_VOLTAGE_CTA_HOOKS).format(name=_display_name)
+                raw_cta = _pick_hook(name=_display_name)
             except NameError:
                 # Fallback if variable rename missed
                 raw_cta = "Warning: This look is fatal. Handle with care."
@@ -4546,7 +4580,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         # Tier 3 — HIGH_VOLTAGE last resort only ([PERSONALIZED])
         if not mystery_story or len(mystery_story.split()) < 6:
-            mystery_story = random.choice(HIGH_VOLTAGE_CTA_HOOKS).format(name=_display_name)
+            mystery_story = _pick_hook(name=_display_name)
 
         # --- Detect item category for targeted links + price psychology ---
         _item_category = (

@@ -398,7 +398,3 @@ def select_viral_hook(context: Optional[Dict] = None) -> str:
     return selected_raw
 
 
-def _similarity(a: str, b: str) -> float:
-    """Compute fuzzy string similarity (0.0 – 1.0)."""
-    from difflib import SequenceMatcher as _SM
-    return _SM(None, a.lower(), b.lower()).ratio()
