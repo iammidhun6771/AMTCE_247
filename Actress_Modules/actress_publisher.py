@@ -464,18 +464,16 @@ def _process_queue_item():
             _editorial_mode = False   # Fall through to immediate publish
 
         if _editorial_mode:
-            # Poll remote/local review queue until status changes from PENDING_REVIEW
+            # Poll remote/local review queue indefinitely until a human decision is made.
+            # No timeout — the clip will NOT auto-publish. It waits for APPROVED or REJECTED.
             _poll_interval = 10
-            _max_wait_s    = int(os.getenv("STUDIO_REVIEW_TIMEOUT_MINUTES", "10")) * 60
-            _elapsed       = 0
             _final_status  = "PENDING_REVIEW"
             _approved_entry = None
 
-            logger.info("⏳ [STUDIO] Waiting for editorial decision (max %d min)…", _max_wait_s // 60)
+            logger.info("⏳ [STUDIO] Waiting for editorial decision (no timeout — manual approval required)…")
 
-            while _elapsed < _max_wait_s:
+            while True:
                 _time_mod.sleep(_poll_interval)
-                _elapsed += _poll_interval
                 try:
                     # Get remote queue (or local if offline)
                     _rq = _get_remote_queue()
@@ -502,7 +500,7 @@ def _process_queue_item():
                 os.environ["_STUDIO_SKIP_YT"]  = "0" if _custom_platforms.get("youtube", True)   else "1"
                 os.environ["_STUDIO_SKIP_IG"]  = "0" if _custom_platforms.get("instagram", True) else "1"
                 os.environ["_STUDIO_SKIP_TT"]  = "0" if _custom_platforms.get("tiktok", False)   else "1"
-                
+
                 # Remote clean up (delete temporary video file from gh-pages)
                 try:
                     _clean_q = _get_remote_queue()
@@ -512,11 +510,11 @@ def _process_queue_item():
                     _sync_to_gh_pages(video_to_delete=final_video_path, queue_to_write=_clean_q)
                 except Exception as _ce:
                     logger.warning("⚠️ [STUDIO] Failed to clean up remote previews: %s", _ce)
-                
+
                 _auto_publish_clip(final_video_path, actress_title, actress_folder)
             elif _final_status == "REJECTED":
                 logger.info("🗑️ [STUDIO] Clip REJECTED — skipping publish.")
-                
+
                 # Remote clean up (delete temporary video file from gh-pages and update status)
                 try:
                     _clean_q = _get_remote_queue()
@@ -526,25 +524,8 @@ def _process_queue_item():
                     _sync_to_gh_pages(video_to_delete=final_video_path, queue_to_write=_clean_q)
                 except Exception as _ce:
                     logger.warning("⚠️ [STUDIO] Failed to clean up remote previews: %s", _ce)
-                
+
                 return
-            else:
-                logger.warning(
-                    "⏰ [STUDIO] Review timeout after %d min — auto-publishing without edits.",
-                    _max_wait_s // 60,
-                )
-                
-                # Remote clean up on timeout
-                try:
-                    _clean_q = _get_remote_queue()
-                    for _ritem in _clean_q:
-                        if _ritem["id"] == _review_id:
-                            _ritem["status"] = "TIMED_OUT"
-                    _sync_to_gh_pages(video_to_delete=final_video_path, queue_to_write=_clean_q)
-                except Exception as _ce:
-                    logger.warning("⚠️ [STUDIO] Failed to clean up remote previews: %s", _ce)
-                
-                _auto_publish_clip(final_video_path, actress_title, actress_folder)
             return
     # ── /EDITORIAL REVIEW GATE ────────────────────────────────────────────────
 
