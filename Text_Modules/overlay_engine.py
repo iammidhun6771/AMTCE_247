@@ -328,7 +328,7 @@ def select_viral_hook(context: Optional[Dict] = None) -> str:
         name = re.sub(r"[_\-]+", " ", name).strip()
         
         # Filter out generic/default values
-        if name.lower() in ("niche viral", "niche virals", "niche", "viral", "video", "cli mission", "generic"):
+        if name.lower() in ("niche viral", "niche virals", "viral niche", "viral niches", "niche_viral", "niche_virals", "niche", "viral", "video", "cli mission", "generic"):
             name = ""
             
         if name:

@@ -5936,7 +5936,15 @@ def compile_video(
             if is_karaoke_enabled() and os.path.exists(output_path):
                 # [FIX] Construct karaoke script strictly using clean Title | Hook format, bypassing editorial_script
                 import re as _re_k
-                _clean_title_k = _re_k.sub(r'^[A-Z_]+:\s*', '', str(title)).strip(" '\"")
+                _clean_title_k = str(title)
+                while True:
+                    _prev = _clean_title_k
+                    _clean_title_k = _re_k.sub(
+                        r"(?i)^(?:niche[_\s]?virals?|niche|viral|fashion|entertainment|nsfw|adult|paparazzi|general|process|cli|title)[\s:|]+",
+                        "", _clean_title_k
+                    ).strip()
+                    if _clean_title_k == _prev:
+                        break
                 for _prefix in ("CLI: Process", "Process short titled", "Process batch of", "Process"):
                     _clean_title_k = _clean_title_k.replace(_prefix, "").strip(" '\"")
                 _clean_title_k = _clean_title_k.replace("_", " ").strip()
