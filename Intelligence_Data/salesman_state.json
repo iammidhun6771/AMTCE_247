@@ -1,9 +1,11 @@
 {
   "harvest": {
     "last_run_date": "2026-06-14",
-    "slots_completed_today": [],
+    "slots_completed_today": [
+      "21:18"
+    ],
     "catchup_fired_today": false,
-    "total_runs_all_time": 27
+    "total_runs_all_time": 28
   },
   "publisher": {
     "last_check_date": "2026-06-14",
@@ -25,9 +27,9 @@
   },
   "apify": {
     "quota_date": "2026-06-14",
-    "quota_used": 3,
+    "quota_used": 6,
     "quota_limit": 50,
-    "total_calls_all_time": 255
+    "total_calls_all_time": 258
   },
   "scraped_posts": {
     "shortcodes": [
@@ -47,9 +49,10 @@
       "DY627qGMur-",
       "DY43UPKoDT7",
       "DZIXf8VAIn6",
-      "DZIVsrbDHI0"
+      "DZIVsrbDHI0",
+      "DZkjxp2o-Ih"
     ],
-    "total_seen": 17
+    "total_seen": 18
   },
   "account_scrape_throttle": {
     "last_scraped_at": {
@@ -102,9 +105,9 @@
       "bollywxxd": "2026-06-14T14:33:14.608722",
       "glitz.in": "2026-06-14T14:33:14.608722",
       "bollywoodreporter.in": "2026-06-14T14:33:14.608722",
-      "filmygyan": "2026-06-03T14:24:53.326769",
-      "filmyprincess": "2026-06-03T14:24:53.326769",
-      "totalfilmii": "2026-06-03T14:24:53.326769",
+      "filmygyan": "2026-06-14T21:35:20.764100",
+      "filmyprincess": "2026-06-14T21:35:20.764100",
+      "totalfilmii": "2026-06-14T21:35:20.764100",
       "bujji5749": "2026-06-03T14:33:09.125248",
       "bollywoodboundary": "2026-06-03T14:33:09.125248",
       "bollywood76612": "2026-06-03T14:33:09.125248",
