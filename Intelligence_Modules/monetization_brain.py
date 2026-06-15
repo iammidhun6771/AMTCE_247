@@ -145,7 +145,28 @@ class MonetizationStrategist:
             # Determine niche configuration FIRST so hook_strategy informs h_prompt - Unified Migration
             univ = self.niche_prompts.get("_universal", {})
             hook_strategies = self.niche_prompts.get("_hook_strategies", {})
-            hook_strategy = hook_strategies.get(niche_category, hook_strategies.get("generic", {}))
+            
+            # Normalize niche_category to map nsfw/adult -> adult_content
+            _normalized_niche = niche_category.lower().strip() if niche_category else "generic"
+            if _normalized_niche in ("nsfw", "adult", "adult_content"):
+                _normalized_niche = "adult_content"
+            elif _normalized_niche in ("fashion", "fashion_style", "fashion & style"):
+                _normalized_niche = "fashion"
+                
+            hook_strategy = hook_strategies.get(_normalized_niche, hook_strategies.get("generic", {}))
+
+            # Suggestive, tempting instructions for adult/nsfw content
+            if _normalized_niche == "adult_content":
+                _vh_instruction = (
+                    "Generate a highly engaging, suggestive, tempting Hinglish on-screen text hook (max 4-5 words) "
+                    "acting as engagement-bait. The tone must be naughty, desire-inducing, or play with double-meaning "
+                    "without using explicitly vulgar words. "
+                )
+            else:
+                _vh_instruction = (
+                    "Generate a highly engaging, persuasive, Hinglish/Hinglish-vibe on-screen text hook (max 4-5 words) "
+                    "that acts as engagement-bait. "
+                )
 
             # Telegram group handle for embedding in community hook
             _tg_raw = os.getenv("TELEGRAM_GROUP_ID", "").strip().lstrip("@")
@@ -153,7 +174,7 @@ class MonetizationStrategist:
 
             # ── MASTER HOOK BLOCK: all 4 purposes in one Gemini call ──────────────
             # Context injected so Gemini generates niche-aware, psychologically optimised output
-            _niche_label = niche_category.upper()
+            _niche_label = _normalized_niche.upper()
             _duration_label = "SHORT (≤60s)" if duration <= 60 else f"LONG ({int(duration)}s)"
             _word_target_str = str(word_target)
 
@@ -272,33 +293,20 @@ class MonetizationStrategist:
                 f'      "category": "<Item category>"\n'
                 f'    }}\n'
                 f'  ],\n'
-                # ── HASHTAGS ──────────────────────────────────────────────────────
                 f'  "generated_hashtags": ["<NICHE={_niche_label} hashtag 1>", "<hashtag 2>", "..."],\n'
                 f'  "_hashtag_rules": "First 3 high-volume brand tags. Next 4-6 niche/visual-specific. Last 3-5 long-tail search tags. NO generic filler.",\n'
-
-                # ── TITLE ─────────────────────────────────────────────────────────
                 f'  "generated_title": "<SEO-OPTIMISED TITLE (Start with original title, append curiosity gap. Max 60 chars)>",\n'
-
-                # ── TELEGRAM HOOK (Broadcast) ─────────────────────────────────────
                 f'  "telegram_hook": "<TELEGRAM BROADCAST COPY. Strategy: {hook_strategy.get("telegram_purpose", "Desire + FOMO. Specific to the content. Max 20 words.")}. '
                 f'RULES: (1) Max 20 words, no padding. (2) Name the SPECIFIC item. (3) Urgency framing. (4) End with motivation, not link. {_price_inject}>",\n'
-
-                # ── INSTAGRAM HOOK — KYC 3-TIER PATTERN-INTERRUPT ────────────────
                 f'  "instagram_hook": "<INSTAGRAM REEL CAPTION. '
                 f'LINE 1: Anomalous number or contradiction. '
                 f'LINE 2: Zero-friction CTA (e.g., Bio has it). NO hashtags. Max 2 lines.>",\n'
-
-                # ── YOUTUBE HOOK — KYC TIER-1 INTERCEPT ──────────────────────────
                 f'  "youtube_hook": "<YOUTUBE SHORTS TEXT. '
                 f'Max 12 words. Use anomalous number OR identity contradiction OR specific scarcity. NO emojis.>",\n'
-
-                # ── COMMUNITY COMMENT HOOK ────────────────────────────────────────
                 f'  "community_comment_hook": "<YOUTUBE COMMUNITY COMMENT. '
                 f'Strategy: {hook_strategy.get("community_purpose", "Drive viewers to join Telegram.")}. '
                 f'RULES: 3-4 lines max. End with exactly: Join Telegram for raw unfiltered output & outfit requests 👇\\n{_tg_display}>",\n'
-
-                # ── VIRAL HOOK (On-Screen Text) ──────────────────────────────────
-                f'  "viral_hook": "<Generate a highly engaging, persuasive, Hinglish/Hinglish-vibe on-screen text hook (max 4-5 words) that acts as engagement-bait. '
+                f'  "viral_hook": "<{_vh_instruction}'
                 f'The style must EXACTLY match the following rotated examples (using them for syntax, length, punctuation, emojis, and vibe): {_hook_examples_str}. '
                 f'If the context has a specific name resolved (e.g., {_name_candidate or "Bhai"}), feel free to use it naturally or generate a generic one similar to the examples.>"'
                 f'\n}}'
@@ -310,7 +318,7 @@ class MonetizationStrategist:
                 f'      "category": "<Item category>"\n'
                 f'    }}\n'
                 f'  ],\n'
-                f'  "viral_hook": "<Generate a highly engaging, persuasive, Hinglish/Hinglish-vibe on-screen text hook (max 4-5 words) that acts as engagement-bait. '
+                f'  "viral_hook": "<{_vh_instruction}'
                 f'The style must EXACTLY match the following rotated examples: {_hook_examples_str}.>"\n'
                 f'}}'
             )
@@ -1340,6 +1348,8 @@ class MonetizationStrategist:
 
                             # Fallback to 'default' list
                             default_links = amz_data.get("default", [])
+                            if not default_links and "general_fallback_link" in amz_data:
+                                default_links = [amz_data["general_fallback_link"]]
                             if default_links:
                                 if isinstance(default_links, dict):
                                     return random.choice(list(default_links.values()))

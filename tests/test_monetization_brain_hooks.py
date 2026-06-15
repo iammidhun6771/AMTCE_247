@@ -2,7 +2,7 @@ import os
 import sys
 import json
 import pytest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 # Setup path for imports
 sys.path.append(os.getcwd())
@@ -12,8 +12,11 @@ from Text_Modules.overlay_engine import VIRAL_HOOKS
 
 
 class TestMonetizationBrainHooks:
-    def test_gemini_generates_viral_hook(self):
+    @patch("Text_Modules.overlay_engine._save_viral_hook_memory")
+    @patch("Text_Modules.overlay_engine._load_viral_hook_memory")
+    def test_gemini_generates_viral_hook(self, mock_load, mock_save):
         """Verify that when Gemini returns a viral hook, it is used."""
+        mock_load.return_value = []
         brain = MonetizationStrategist()
         brain.router = MagicMock()
         
@@ -59,8 +62,11 @@ class TestMonetizationBrainHooks:
         assert "viral_hook" in prompt_text
         assert "rotated examples" in prompt_text
 
-    def test_gemini_missing_viral_hook_fallback(self):
+    @patch("Text_Modules.overlay_engine._save_viral_hook_memory")
+    @patch("Text_Modules.overlay_engine._load_viral_hook_memory")
+    def test_gemini_missing_viral_hook_fallback(self, mock_load, mock_save):
         """Verify fallback to select_viral_hook if Gemini does not return viral_hook."""
+        mock_load.return_value = []
         brain = MonetizationStrategist()
         brain.router = MagicMock()
         

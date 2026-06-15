@@ -5746,8 +5746,9 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                                 session["real_mrp"] = _real_mrp
                             import Monetization_Metrics.fashion_scout as fs
                             _mon_report = session.get("monetization_report", {})
-                            _item_cat = _mon_report.get("item_name") or _mon_report.get("fashion_scout", {}).get("attributes", {}).get("classification", {}).get("primary_category", "default")
-                            _item_sub = _mon_report.get("fashion_scout", {}).get("attributes", {}).get("classification", {}).get("sub_category", _item_cat)
+                            _scout = _mon_report.get("fashion_scout") or {}
+                            _item_cat = _mon_report.get("item_name") or _scout.get("attributes", {}).get("classification", {}).get("primary_category", "default")
+                            _item_sub = _scout.get("attributes", {}).get("classification", {}).get("sub_category", _item_cat)
                             _uid_for_save = session.get("video_uid", "")
                             fs.save_affiliate_link(_item_cat, _item_sub, user_affiliate_link, video_uid=_uid_for_save)
 
@@ -6643,7 +6644,7 @@ async def _perform_upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
             # --- COMMENT-TO-DM FOUNDATION ---
             if ig_status == "success" and ig_id:
                 # Find the best link that was pushed (user overrides, or auto from fashion scout)
-                _active_link = user_affiliate_link or mon_report.get("fashion_scout", {}).get("affiliate_link", "") or social_affiliate_link
+                _active_link = user_affiliate_link or (mon_report.get("fashion_scout") or {}).get("affiliate_link", "") or social_affiliate_link
                 
                 # FINAL SAFETY FALLBACK: If no specific link found, use the global fallback
                 if not _active_link:

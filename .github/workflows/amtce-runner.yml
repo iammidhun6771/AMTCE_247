@@ -208,6 +208,16 @@ jobs:
           echo "Injected Fashion (base) YT token"
         fi
 
+        # Root default YT fallback
+        if [ -n "$CLIENT_SECRET_JSON" ]; then
+          echo "$CLIENT_SECRET_JSON" > Credentials/client_secret.json
+          echo "Injected root default YT client_secret"
+        fi
+        if [ -n "$TOKEN_JSON" ]; then
+          echo "$TOKEN_JSON" > Credentials/token.json
+          echo "Injected root default YT token"
+        fi
+
         # Fashion IG -- additional accounts (_01, _02...)
         for n in 01 02 03 04; do
           VAR="META_CONFIG_JSON_FASHION_${n}"
