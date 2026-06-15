@@ -4902,120 +4902,22 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
             # ── PRICE SANITIZER: strip Gemini-invented prices when real MRP is known ────────
             # Gemini has NO access to the real Amazon price at hook-generation time.
-            # If the user supplied a real_mrp via title expansion, Gemini's hook may
-            # contain invented numbers (e.g. ₹18,330+ / ₹10,176).  Strip them so
-            # the downstream price block can insert the correct figures cleanly.
-            _real_mrp_known = _user_real_mrp and int(_user_real_mrp or 0) > 0
-            if _tg_hook_text and _real_mrp_known:
-                import re as _re_price
-                # Remove any ₹NNNN or Rs. NNNN patterns that Gemini invented
-                _tg_hook_text = _re_price.sub(
-                    r'[₹]\s*[\d,]+(?:\+)?',
-                    '',
-                    _tg_hook_text
-                ).strip()
-                # Clean up double spaces left behind
-                _tg_hook_text = _re_price.sub(r'  +', ' ', _tg_hook_text).strip()
-                logger.info(
-                    "[PRICE_SANITIZER] Stripped Gemini-invented prices from TG hook "
-                    "(real_mrp=%s is authoritative).", _user_real_mrp
-                )
-
-            _tg_hook_block = _tg_hook_text + (f"\n⚡ {_urgency}" if _urgency else "")
-
-            # For Instagram:
-            if _dynamic_ig_hook:
-                _tg_hook_text_ig = _dynamic_ig_hook
-                logger.info("✨ Using Gemini-generated dynamic Instagram hook.")
-            else:
-                _tg_hook_text_ig = _offer.get("hook", "")
-                logger.debug("[HOOK] Gemini IG hook unavailable — using MoneyFlow hardcoded hook.")
-            _ig_hook_text  = _tg_hook_text_ig
-            _ig_hook_block = _ig_hook_text + (f"\n⚡ {_urgency}" if _urgency else "")
-                
-            # Store everything including IG and YT hooks so other uploaders can grab them later
-            with acquire_session_lock(user_id):
-                user_sessions[user_id].setdefault("monetization_report", {})
-                user_sessions[user_id]["monetization_report"]["served_hook"] = _tg_hook_text
-                if _dynamic_tg_hook: user_sessions[user_id]["monetization_report"]["telegram_hook"] = _dynamic_tg_hook
-                if _dynamic_ig_hook: user_sessions[user_id]["monetization_report"]["instagram_hook"] = _dynamic_ig_hook
-                if _dynamic_yt_hook: user_sessions[user_id]["monetization_report"]["youtube_hook"] = _dynamic_yt_hook
-                save_session(user_id)
-                
-        except Exception as _mfe_e:
-            logger.warning(f"[CAPTION] Hook Generation failed (using fallback): {_mfe_e}")
-            _tg_hook_block = mystery_story or raw_cta or "Style breakdown below 👇"
-            _ig_hook_block = _tg_hook_block
-
-
-        # ── Generate / retrieve video UID for this session ─────────────────────
-        # Embedded in caption as #vid_XXXXXX so the comment-bot can do exact
-        # affiliate link lookup when someone comments "LINK" on the post.
-        import uuid as _uuid_mod
-        with acquire_session_lock(user_id):
-            _video_uid = user_sessions[user_id].get("video_uid")
-            if not _video_uid:
-                _video_uid = "vid_" + _uuid_mod.uuid4().hex[:6]
-                user_sessions[user_id]["video_uid"] = _video_uid
-                save_session(user_id)
-        logger.info(f"[VIDEO_UID] {_video_uid} assigned to this session")
-
-        # ── HIGH-CONVERSION CAPTION STRUCTURES ──────────────────────────────────
+            # If the user supplied a real_mrp via title expan        # ── HIGH-CONVERSION CAPTION STRUCTURES ──────────────────────────────────
         _primary_link = amazon_in_link or amazon_us_link or ""
         _display_name_esc = _display_name.replace('_', ' ').replace('*', '')
 
-        # ── Build Telegram Caption (tg_caption) ──────────────────────────────
-        tg_caption = f"{_display_name_esc}\n\n"
-        tg_caption += f"{_tg_hook_block}\n\n"
-        
-        if _price_data:
-            _cel_fmt   = _price_data['celebrity_price_formatted']   # e.g. "₹18,330+"
-            _clone_fmt = _price_data['clone_price_formatted']        # e.g. "₹10,176"
-            # Using _price_source_tag (set in price resolution block)
+        _seo_category = _item_category.replace("_", " ").title() if _item_category and _item_category != "default" else ""
+        _detected_item = (
+            (fashion or {}).get("wear_name")
+            or wm_context.get("wear_scan_item")
+            or profile_data.get("wear_scan_item")
+            or mon_meta.get("item_name")
+            or profile_data.get("item_name")
+            or _seo_category
+            or "Women Outfit"
+        )
 
-            if _price_source_tag == 'user_real_mrp':   # ← matches line 4499 assignment
-                # User gave us the REAL price — use authoritative language
-                tg_caption += (
-                    f"Actual Amazon price: {_clone_fmt} 😱\n"
-                    f"Market value piece at {_cel_fmt} — you pay {_clone_fmt} today.\n"
-                    f"👑 Click before this deal resets.\n\n"
-                )
-                logger.info(
-                    f"[TG_CAPTION] Real-price block used: MRP={_cel_fmt} deal={_clone_fmt}"
-                )
-            else:
-                # Estimated price — keep curiosity-gap framing
-                tg_caption += (
-                    f"YT comments guessing {_cel_fmt}... "
-                    f"it's actually {_clone_fmt}! 😱\n"
-                    f"👑 Amazon deal on the exact market value piece. Click before price resets.\n\n"
-                )
-                logger.info(
-                    f"[TG_CAPTION] Estimated-price block used: MRP={_cel_fmt} deal={_clone_fmt}"
-                )
-        else:
-            tg_caption += "\n"
-
-        if _primary_link:
-            # Show link type badge based on how user submitted (1-space=exact, 2-space=alternative)
-            with acquire_session_lock(user_id):
-                _aff_type_badge = user_sessions.get(user_id, {}).get("affiliate_link_type", "")
-            if _aff_type_badge == "exact":
-                _shop_label = "🎯 Exact Wear on Amazon\n🔗 Buy here"
-            elif _aff_type_badge == "alternative":
-                _shop_label = "🔁 Alternative on Amazon\n🔗 Buy here"
-            else:
-                _shop_label = "🛍️ Shop the Look"
-            tg_caption += f"{_shop_label}: {_primary_link}\n\n"
-
-        # ── Build Instagram Caption Base (ig_caption_base) ────────────────────
-        # 2026 HIGH-CONVERSION FORMAT:
-        # #AD + Hook → Persona pick → 3 category-aware benefits → Price →
-        # Scarcity → Comment CTA → Or.. Buy here link →
-        # Full hashtags (DEFAULT_HASHTAGS_SHORTS respected) →
-        # Copyright disclaimer → Amazon Associate line (always last)
-
-        # ── HASHTAG GENERATION (done first — needed for caption) ───────────────
+        # ── HASHTAG GENERATION (moved up for dirty mindset fallback) ───────────
         import re as _re_mod
 
         # 1. Brand hashtag
@@ -5053,186 +4955,349 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 _ordered_tags.append(_tag)
         _hashtag_str = " ".join(_ordered_tags)
 
-        # ── Resolve Telegram join line (used in tg_caption only) ─────────────
-        _tg_group_id_build = os.getenv("TELEGRAM_GROUP_ID", "")
-        _tg_link_build = ""
-        if _tg_group_id_build:
-            _tg_link_build = f"https://t.me/{_tg_group_id_build.replace('@', '')}"
+        _copyright_line = os.getenv("COPYRIGHT_DISCLAIMER", "").strip()
+        # Use session link; fall back to DEFAULT_AFFILIATE_LINK so link is never blank
+        _footer_link = _primary_link or os.getenv("DEFAULT_AFFILIATE_LINK", "").strip()
+
+        with acquire_session_lock(user_id):
+            session_data = user_sessions.get(user_id, {})
+            _is_manual_affiliate = bool(
+                session_data.get("niche_forced_by_affiliate")
+                or session_data.get("user_affiliate_link")
+            )
+        _is_fashion_niche = (
+            "fashion" in _active_niche.lower()
+            or "fashion" in _item_category.lower()
+            or session_data.get("niche_forced_by_affiliate") == "Fashion & Style"
+        )
+
+        if _is_fashion_niche and not _is_manual_affiliate:
+            _dirty_mindset_templates = [
+                f"🔥 {_display_name_esc} ne jo exact {_detected_item} pehna hai video me, wahi same to same design aapke liye le kar aaye hain! Wahi fit aur look pao jo {_display_name_esc} ne carry kiya hai. Aur kya chahiye? 😉",
+                f"🥵 Kya {_display_name_esc} is {_detected_item} me kamaal lag rahi hai na? Pure body-hugging fit aur design! Jo unhone pehna hai, wahi exact kapde aapke honge. Ekdam same to same piece. Click karo isse pehle ki stock khatam ho jaye! 🤫",
+                f"✨ {_display_name_esc} ki stunning beauty ka secret unka ye {_detected_item} hai! Wahi piece jo unke body par hai, ab aap bhi pehen sakte hain. Log dekhte reh jayenge! 😉 Direct link neeche hai, abhi order karo.",
+                f"🫣 {_display_name_esc} ka ye {_detected_item} look ekdam hot aur unique hai! Jo unhone video me pehna hai, wahi exact outfit aapko milega. Don't miss this opportunity, grab it now! 🤫✨",
+                f"🔥 {_display_name_esc} is look me pure temperature badha rahi hain! Ye exact {_detected_item} jo unhone wear kiya hai ab aap direct kharid sakte hain. Fit ekdam waisa hi milega. Click before it gets sold out! 😉"
+            ]
+            _dirty_caption = random.choice(_dirty_mindset_templates)
+
+            # Telegram Caption
+            tg_caption = f"{_display_name_esc}\n\n"
+            tg_caption += f"{_dirty_caption}\n\n"
+            if _primary_link:
+                tg_caption += f"🛍️ Shop the Look: {_primary_link}\n\n"
+
+            # Instagram Caption
+            ig_caption_base = f"#AD {_dirty_caption}\n\n"
+            ig_caption_base += f"Comment \"LINK\" or drop a guess below and I'll DM the direct link to you! 📩\n\n"
+            if _footer_link:
+                ig_caption_base += f"🔗 Buy here: {_footer_link}\n\n"
+            ig_caption_base += f"{_hashtag_str}\n\n"
+            if _copyright_line:
+                ig_caption_base += f"{_copyright_line}"
         else:
-            try:
-                with open("Credentials/telegram_config.json") as _tcf_b:
-                    _tg_link_build = json.load(_tcf_b).get("telegram_link", "")
-            except Exception:
-                pass
-        _tg_join_built = f"Join our Telegram for more: {_tg_link_build}" if _tg_link_build else "Join our Telegram for more"
+            # ── Build Telegram Caption (tg_caption) ──────────────────────────────
+            tg_caption = f"{_display_name_esc}\n\n"
+            tg_caption += f"{_tg_hook_block}\n\n"
+            
+            if _price_data:
+                _cel_fmt   = _price_data['celebrity_price_formatted']   # e.g. "₹18,330+"
+                _clone_fmt = _price_data['clone_price_formatted']        # e.g. "₹10,176"
+                # Using _price_source_tag (set in price resolution block)
 
-        if enable_lp_tele and lp_link:
-            if isinstance(lp_link, list) and len(lp_link) > 0:
-                lp_link = lp_link[0]
-            elif isinstance(lp_link, list):
-                lp_link = ""
-            if lp_link:
+                if _price_source_tag == 'user_real_mrp':   # ← matches line 4499 assignment
+                    # User gave us the REAL price — use authoritative language
+                    tg_caption += (
+                        f"Actual Amazon price: {_clone_fmt} 😱\n"
+                        f"Market value piece at {_cel_fmt} — you pay {_clone_fmt} today.\n"
+                        f"👑 Click before this deal resets.\n\n"
+                    )
+                    logger.info(
+                        f"[TG_CAPTION] Real-price block used: MRP={_cel_fmt} deal={_clone_fmt}"
+                    )
+                else:
+                    # Estimated price — keep curiosity-gap framing
+                    tg_caption += (
+                        f"YT comments guessing {_cel_fmt}... "
+                        f"it's actually {_clone_fmt}! 😱\n"
+                        f"👑 Amazon deal on the exact market value piece. Click before price resets.\n\n"
+                    )
+                    logger.info(
+                        f"[TG_CAPTION] Estimated-price block used: MRP={_cel_fmt} deal={_clone_fmt}"
+                    )
+            else:
+                tg_caption += "\n"
+
+            if _primary_link:
+                # Show link type badge based on how user submitted (1-space=exact, 2-space=alternative)
                 with acquire_session_lock(user_id):
-                    user_sessions[user_id].setdefault("monetization_report", {})
-                    user_sessions[user_id]["monetization_report"]["lp_link"] = lp_link
+                    _aff_type_badge = user_sessions.get(user_id, {}).get("affiliate_link_type", "")
+                if _aff_type_badge == "exact":
+                    _shop_label = "🎯 Exact Wear on Amazon\n🔗 Buy here"
+                elif _aff_type_badge == "alternative":
+                    _shop_label = "🔁 Alternative on Amazon\n🔗 Buy here"
+                else:
+                    _shop_label = "🛍️ Shop the Look"
+                tg_caption += f"{_shop_label}: {_primary_link}\n\n"
 
-        # ── Extract price info for caption ────────────────────────────────────
-        _price_orig_str   = ""
-        _price_sale_str   = ""
-        _discount_pct_str = ""
-        _scarcity_line    = "200+ orders in 24h. Selling fast."
-        if _price_data:
-            # Strip ₹ from formatted strings — template adds it, avoids double ₹₹
-            _price_orig_str   = str(_price_data.get("celebrity_price_formatted", "")).replace("₹", "").strip()
-            _price_sale_str   = str(_price_data.get("clone_price_formatted", "")).replace("₹", "").strip()
-            _discount_pct_str = str(_price_data.get("savings_pct", ""))
+            # ── Build Instagram Caption Base (ig_caption_base) ────────────────────
+            # 2026 HIGH-CONVERSION FORMAT:
+            # #AD + Hook → Persona pick → 3 category-aware benefits → Price →
+            # Scarcity → Comment CTA → Or.. Buy here link →
+            # Full hashtags (DEFAULT_HASHTAGS_SHORTS respected) →
+            # Copyright disclaimer → Amazon Associate line (always last)
 
-        # ── DM trigger keyword ────────────────────────────────────────────────
-        _dm_keyword = os.getenv("COMMENT_KEYWORD", "LINK").upper()
+            # ── Resolve Telegram join line (used in tg_caption only) ─────────────
+            _tg_group_id_build = os.getenv("TELEGRAM_GROUP_ID", "")
+            _tg_link_build = ""
+            if _tg_group_id_build:
+                _tg_link_build = f"https://t.me/{_tg_group_id_build.replace('@', '')}"
+            else:
+                try:
+                    with open("Credentials/telegram_config.json") as _tcf_b:
+                        _tg_link_build = json.load(_tcf_b).get("telegram_link", "")
+                except Exception:
+                    pass
+            _tg_join_built = f"Join our Telegram for more: {_tg_link_build}" if _tg_link_build else "Join our Telegram for more"
 
-        # ── Persona line (own brand name only — no celebrity names) ───────────
-        _persona = os.getenv("IG_OWNER_NAME", "").strip()
-        _persona_line = f"{_persona} pick: {_display_name_esc.title()}" if _persona else _display_name_esc
+            if enable_lp_tele and lp_link:
+                if isinstance(lp_link, list) and len(lp_link) > 0:
+                    lp_link = lp_link[0]
+                elif isinstance(lp_link, list):
+                    lp_link = ""
+                if lp_link:
+                    with acquire_session_lock(user_id):
+                        user_sessions[user_id].setdefault("monetization_report", {})
+                        user_sessions[user_id]["monetization_report"]["lp_link"] = lp_link
 
-        # ── Build bullet benefits from vis_desc or generic fallbacks ─────────
-        # vis_desc is the short 2-3 word Gemini label (e.g. "Dark Oval Sunglasses")
-        # We do NOT use the long "VIRAL: Process short titled..." paragraph
-        _clean_vis = ""
-        if vis_desc:
-            # Keep only the short garment label — strip everything from "VIRAL:" onward
-            _clean_vis = _re_mod.split(r'\s*VIRAL:', vis_desc, maxsplit=1)[0].strip()
-            _clean_vis = _re_mod.split(r'\s*Process short', _clean_vis, maxsplit=1)[0].strip()
+            # ── Extract price info for caption ────────────────────────────────────
+            _price_orig_str   = ""
+            _price_sale_str   = ""
+            _discount_pct_str = ""
+            _scarcity_line    = "200+ orders in 24h. Selling fast."
+            if _price_data:
+                # Strip ₹ from formatted strings — template adds it, avoids double ₹₹
+                _price_orig_str   = str(_price_data.get("celebrity_price_formatted", "")).replace("₹", "").strip()
+                _price_sale_str   = str(_price_data.get("clone_price_formatted", "")).replace("₹", "").strip()
+                _discount_pct_str = str(_price_data.get("savings_pct", ""))
 
-        _item_label  = _clean_vis or _display_name_esc or _item_category or "this look"
-        _cat_lower   = (_item_category or "").lower()
-        _label_lower = _item_label.lower()
+            # ── DM trigger keyword ────────────────────────────────────────────────
+            _dm_keyword = os.getenv("COMMENT_KEYWORD", "LINK").upper()
 
-        # ── Category-aware hook override ──────────────────────────────────
-        # The hook from money_flow_logic may not match the product category.
-        # Replace with a pool that fits the actual product type.
-        import random as _rand_mod
-        _hook_pools = {
-            "sunglasses": [
-                "One frame. Zero effort. All the looks 😎",
-                "The sunglasses everyone keeps asking about 👇",
-                "She walked in. The room noticed the frame first 👀",
-            ],
-            "saree": [
-                "The saree that stopped the scroll 🌸",
-                "She wore this at the function. 12 people asked the brand 🌸",
-                "Drape once. Get compliments for a week ✨",
-            ],
-            "ethnic": [
-                "Boutique look. Online price. Same quality 🌸",
-                "This sold out twice. Third restock is live 👇",
-                "Festive season sorted — and it ships in 2 days 📦",
-            ],
-            "dress": [
-                "Office to dinner without changing — that dress 👗",
-                "Her mother-in-law asked for the tailor's number. Here's something better 👇",
-                "This almost didn't make it to the feed — too good 😏",
-            ],
-            "activewear": [
-                "Gymshark energy. Indian price 💪",
-                "From workout to outing without changing ⚡",
-                "Best-seller in fitness right now — already rated 4.8★ 💪",
-            ],
-            "swimwear": [
-                "Beach-ready in under 2 minutes 🏖️",
-                "The fit everyone is saving for their next trip 🌊",
-                "Supportive AND stylish — rare combo at this price 🏄",
-            ],
-            "top": [
-                "3 compliments before 10am. Same top 👇",
-                "The top that pairs with literally everything in your wardrobe ✨",
-                "It looks expensive. It really isn't 😏",
-            ],
-            "bag": [
-                "The bag that sold out twice this month 👜",
-                "Spacious enough for everything. Cute enough for everywhere 👜",
-                "She had 4 bags. Now she only reaches for this one 😏",
-            ],
-            "footwear": [
-                "Comfortable from the first step. That's rare 👟",
-                "The shoe that works for every outfit in your wardrobe 👠",
-                "Wore these all day. Zero regrets. Zero blisters 🙌",
-            ],
-            "jewellery": [
-                "The piece everyone notices but nobody knows the price of 💎",
-                "Lightweight. Tarnish-resistant. Gifts itself 💍",
-                "She wore this for a year daily. Still looks new 💎",
-            ],
-            "luxury": [
-                "Old money never announces its source. We just did 😏",
-                "Looks ₹20,000. Isn't ₹20,000 😱",
-                "The room noticed before anyone spoke 👀",
-            ],
-            "default": [
-                "This almost didn't make it to the feed — too good 😏",
-                "Everyone asks where this is from 👇",
-                "200+ ordered in 24h. Here's why 👇",
-            ],
-        }
-        def _get_hook_key(label: str, cat: str) -> str:
-            l, c = label.lower(), cat.lower()
-            if any(k in l or k in c for k in ("sunglass", "eyewear", "goggle", "spectacle")): return "sunglasses"
-            if any(k in l or k in c for k in ("saree", "sari")): return "saree"
-            if any(k in l or k in c for k in ("kurti", "kurta", "ethnic", "lehenga", "salwar")): return "ethnic"
-            if any(k in l or k in c for k in ("midi", "maxi", "mini", "dress", "gown")): return "dress"
-            if any(k in l or k in c for k in ("biker short", "legging", "gym", "activewear", "yoga", "sport")): return "activewear"
-            if any(k in l or k in c for k in ("bikini", "swimwear", "swimsuit", "beachwear")): return "swimwear"
-            if any(k in l or k in c for k in ("top", "blouse", "crop")): return "top"
-            if any(k in l or k in c for k in ("bag", "handbag", "tote", "purse", "clutch")): return "bag"
-            if any(k in l or k in c for k in ("shoe", "heel", "sandal", "footwear", "sneaker", "flat")): return "footwear"
-            if any(k in l or k in c for k in ("jewel", "necklace", "earring", "bracelet", "ring")): return "jewellery"
-            if any(k in l or k in c for k in ("luxury", "satin", "silk", "velvet", "bespoke")): return "luxury"
-            return "default"
-        _hook_key = _get_hook_key(_item_label, _cat_lower)
-        # ONLY overwrite with hardcoded fallback if we don't have a dynamic Gemini hook
-        if not mon_meta.get("instagram_hook"):
-            _ig_hook_block = _rand_mod.choice(_hook_pools[_hook_key])
+            # ── Persona line (own brand name only — no celebrity names) ───────────
+            _persona = os.getenv("IG_OWNER_NAME", "").strip()
+            _persona_line = f"{_persona} pick: {_display_name_esc.title()}" if _persona else _display_name_esc
 
-        # ── Category-aware benefits ─────────────────────────────────────────
-        def _pick_benefits(label: str, category: str) -> list:
-            l, c = label.lower(), category.lower()
-            if any(k in l or k in c for k in ("sunglass", "eyewear", "goggle")):
-                return [f"{label} — UV400 protection with a premium finish",
-                        "lightweight frame, comfortable for all-day wear",
-                        "elevates any outfit — casual, formal, or beach"]
-            if any(k in l or k in c for k in ("saree", "sari")):
-                return [f"{label} — rich fabric with an effortless drape",
-                        "perfect weight — not too heavy, not too sheer",
-                        "festive-ready and works for formal occasions too"]
-            if any(k in l or k in c for k in ("kurti", "kurta", "ethnic", "lehenga", "salwar")):
-                return [f"{label} — intricate detailing at a fraction of boutique price",
-                        "comfortable fabric that stays crisp through the day",
-                        "festive and casual-ready — one piece, many occasions"]
-            if any(k in l or k in c for k in ("bikini", "swimwear", "swimsuit", "beachwear")):
-                return [f"{label} — supportive fit that stays in place",
-                        "quick-dry fabric, looks great all day at the beach",
-                        "compact and lightweight — packs flat in your bag"]
-            if any(k in l or k in c for k in ("biker short", "legging", "gym", "activewear", "yoga", "sport")):
-                return [f"{label} — high-waist compression that doesn't roll down",
-                        "sweat-wicking fabric, stays comfortable during workouts",
-                        "gym to street — works outside the gym too"]
-            if any(k in l or k in c for k in ("top", "blouse", "crop")):
-                return [f"{label} — flattering cut that works for most body types",
-                        "lightweight and breathable for all-day comfort",
-                        "pairs with jeans, skirts, or trousers — endlessly versatile"]
-            if any(k in l or k in c for k in ("midi", "maxi", "mini", "dress", "gown")):
-                return [f"{label} — structured silhouette that holds its shape",
-                        "premium fabric that drapes beautifully without ironing",
-                        "office to dinner without changing — that's the whole point"]
-            if any(k in l or k in c for k in ("bag", "handbag", "tote", "purse", "clutch")):
-                return [f"{label} — spacious interior with clean, minimal exterior",
-                        "sturdy hardware that doesn't tarnish or scratch easily",
-                        "day bag to evening bag — works for both"]
-            if any(k in l or k in c for k in ("shoe", "heel", "sandal", "footwear", "sneaker", "flat")):
-                return [f"{label} — true to size, comfortable from the first wear",
-                        "non-slip sole, built to last through daily use",
-                        "dresses up or down depending on what you pair it with"]
-            if any(k in l or k in c for k in ("jewel", "necklace", "earring", "bracelet", "ring")):
-                return [f"{label} — hypoallergenic, tarnish-resistant finish",
+            # ── Build bullet benefits from vis_desc or generic fallbacks ─────────
+            _clean_vis = ""
+            if vis_desc:
+                _clean_vis = _re_mod.split(r'\s*VIRAL:', vis_desc, maxsplit=1)[0].strip()
+                _clean_vis = _re_mod.split(r'\s*Process short', _clean_vis, maxsplit=1)[0].strip()
+
+            _item_label  = _clean_vis or _display_name_esc or _item_category or "this look"
+            _cat_lower   = (_item_category or "").lower()
+            _label_lower = _item_label.lower()
+
+            # ── Category-aware hook override ──────────────────────────────────
+            import random as _rand_mod
+            _hook_pools = {
+                "sunglasses": [
+                    "One frame. Zero effort. All the looks 😎",
+                    "The sunglasses everyone keeps asking about 👇",
+                    "She walked in. The room noticed the frame first 👀",
+                ],
+                "saree": [
+                    "The saree that stopped the scroll 🌸",
+                    "She wore this at the function. 12 people asked the brand 🌸",
+                    "Drape once. Get compliments for a week ✨",
+                ],
+                "ethnic": [
+                    "Boutique look. Online price. Same quality 🌸",
+                    "This sold out twice. Third restock is live 👇",
+                    "Festive season sorted — and it ships in 2 days 📦",
+                ],
+                "dress": [
+                    "Office to dinner without changing — that dress 👗",
+                    "Her mother-in-law asked for the tailor's number. Here's something better 👇",
+                    "This almost didn't make it to the feed — too good 😏",
+                ],
+                "activewear": [
+                    "Gymshark energy. Indian price 💪",
+                    "From workout to outing without changing ⚡",
+                    "Best-seller in fitness right now — already rated 4.8★ 💪",
+                ],
+                "swimwear": [
+                    "Beach-ready in under 2 minutes 🏖️",
+                    "The fit everyone is saving for their next trip 🌊",
+                    "Supportive AND stylish — rare combo at this price 🏄",
+                ],
+                "top": [
+                    "3 compliments before 10am. Same top 👇",
+                    "The top that pairs with literally everything in your wardrobe ✨",
+                    "It looks expensive. It really isn't 😏",
+                ],
+                "bag": [
+                    "The bag that sold out twice this month 👜",
+                    "Spacious enough for everything. Cute enough for everywhere 👜",
+                    "She had 4 bags. Now she only reaches for this one 😏",
+                ],
+                "footwear": [
+                    "Comfortable from the first step. That's rare 👟",
+                    "The shoe that works for every outfit in your wardrobe 👠",
+                    "Wore these all day. Zero regrets. Zero blisters 🙌",
+                ],
+                "jewellery": [
+                    "The piece everyone notices but nobody knows the price of 💎",
+                    "Lightweight. Tarnish-resistant. Gifts itself 💍",
+                    "She wore this for a year daily. Still looks new 💎",
+                ],
+                "luxury": [
+                    "Old money never announces its source. We just did 😏",
+                    "Looks ₹20,000. Isn't ₹20,000 😱",
+                    "The room noticed before anyone spoke 👀",
+                ],
+                "default": [
+                    "This almost didn't make it to the feed — too good 😏",
+                    "Everyone asks where this is from 👇",
+                    "200+ ordered in 24h. Here's why 👇",
+                ],
+            }
+            def _get_hook_key(label: str, cat: str) -> str:
+                l, c = label.lower(), cat.lower()
+                if any(k in l or k in c for k in ("sunglass", "eyewear", "goggle", "spectacle")): return "sunglasses"
+                if any(k in l or k in c for k in ("saree", "sari")): return "saree"
+                if any(k in l or k in c for k in ("kurti", "kurta", "ethnic", "lehenga", "salwar")): return "ethnic"
+                if any(k in l or k in c for k in ("midi", "maxi", "mini", "dress", "gown")): return "dress"
+                if any(k in l or k in c for k in ("biker short", "legging", "gym", "activewear", "yoga", "sport")): return "activewear"
+                if any(k in l or k in c for k in ("bikini", "swimwear", "swimsuit", "beachwear")): return "swimwear"
+                if any(k in l or k in c for k in ("top", "blouse", "crop")): return "top"
+                if any(k in l or k in c for k in ("bag", "handbag", "tote", "purse", "clutch")): return "bag"
+                if any(k in l or k in c for k in ("shoe", "heel", "sandal", "footwear", "sneaker", "flat")): return "footwear"
+                if any(k in l or k in c for k in ("jewel", "necklace", "earring", "bracelet", "ring")): return "jewellery"
+                if any(k in l or k in c for k in ("luxury", "satin", "silk", "velvet", "bespoke")): return "luxury"
+                return "default"
+            _hook_key = _get_hook_key(_item_label, _cat_lower)
+            if not mon_meta.get("instagram_hook"):
+                _ig_hook_block = _rand_mod.choice(_hook_pools[_hook_key])
+
+            # ── Category-aware benefits ─────────────────────────────────────────
+            def _pick_benefits(label: str, category: str) -> list:
+                l, c = label.lower(), category.lower()
+                if any(k in l or k in c for k in ("sunglass", "eyewear", "goggle")):
+                    return [f"{label} — UV400 protection with a premium finish",
+                            "lightweight frame, comfortable for all-day wear",
+                            "elevates any outfit — casual, formal, or beach"]
+                if any(k in l or k in c for k in ("saree", "sari")):
+                    return [f"{label} — rich fabric with an effortless drape",
+                            "perfect weight — not too heavy, not too sheer",
+                            "festive-ready and works for formal occasions too"]
+                if any(k in l or k in c for k in ("kurti", "kurta", "ethnic", "lehenga", "salwar")):
+                    return [f"{label} — intricate detailing at a fraction of boutique price",
+                            "comfortable fabric that stays QC through the day",
+                            "festive and casual-ready — one piece, many occasions"]
+                if any(k in l or k in c for k in ("bikini", "swimwear", "swimsuit", "beachwear")):
+                    return [f"{label} — supportive fit that stays in place",
+                            "quick-dry fabric, looks great all day at the beach",
+                            "compact and lightweight — packs flat in your bag"]
+                if any(k in l or k in c for k in ("biker short", "legging", "gym", "activewear", "yoga", "sport")):
+                    return [f"{label} — high-waist compression that doesn't roll down",
+                            "sweat-wicking fabric, stays comfortable during workouts",
+                            "gym to street — works outside the gym too"]
+                if any(k in l or k in c for k in ("top", "blouse", "crop")):
+                    return [f"{label} — flattering cut that works for most body types",
+                            "lightweight and breathable for all-day comfort",
+                            "pairs with jeans, skirts, or trousers — endlessly versatile"]
+                if any(k in l or k in c for k in ("midi", "maxi", "mini", "dress", "gown")):
+                    return [f"{label} — structured silhouette that holds its shape",
+                            "premium fabric that drapes beautifully without ironing",
+                            "office to dinner without changing — that's the whole point"]
+                if any(k in l or k in c for k in ("bag", "handbag", "tote", "purse", "clutch")):
+                    return [f"{label} — spacious interior with clean, minimal exterior",
+                            "sturdy hardware that doesn't tarnish or scratch easily",
+                            "day bag to evening bag — works for both"]
+                if any(k in l or k in c for k in ("shoe", "heel", "sandal", "footwear", "sneaker", "flat")):
+                    return [f"{label} — true to size, comfortable from the first wear",
+                            "non-slip sole, built to last through daily use",
+                            "dresses up or down depending on what you pair it with"]
+                if any(k in l or k in c for k in ("jewel", "necklace", "earring", "bracelet", "ring")):
+                    return [f"{label} — hypoallergenic, tarnish-resistant finish",
+                            "lightweight — you forget you're wearing it",
+                            "gift-ready packaging included"]
+                return [f"{label} — premium quality at this price point is rare",
+                        "fits well straight out of the box, no adjustment needed",
+                        "photographs beautifully — exactly what you see in the video"]
+            _benefit_pool = _pick_benefits(_item_label, _cat_lower)
+
+            # ── Template rotation ─────────────────────────────────────────────
+            _CAPTION_ROTATION = os.getenv("CAPTION_TEMPLATE_ROTATION", "sequential").lower()
+
+            with acquire_session_lock(user_id):
+                _tmpl_idx = user_sessions[user_id].get("ig_template_idx", 0)
+                user_sessions[user_id]["ig_template_idx"] = (_tmpl_idx + 1) % 3
+
+            if _CAPTION_ROTATION == "random":
+                _tmpl_idx = _rand_mod.randint(0, 2)
+
+            def _build_footer(cta: str) -> str:
+                _f  = f"{cta} Or..\n\n"
+                if _footer_link:
+                    _f += f"🔗 Buy here: {_footer_link}\n\n"
+                _f += f"{_hashtag_str}\n\n"
+                _f += f"{_copyright_line}"
+                return _f
+
+            if _tmpl_idx == 0:
+                ig_caption_base = (
+                    f"#AD {_ig_hook_block}\n"
+                    f"⚡ Selling fast today.\n\n"
+                    f"{_persona_line}\n"
+                    f"✦ {_benefit_pool[0]}\n"
+                    f"✦ {_benefit_pool[1]}\n"
+                    f"✦ {_benefit_pool[2]}\n\n"
+                )
+                if _price_orig_str:
+                    ig_caption_base += (
+                        f"This designer look usually costs ₹{_price_orig_str}+. "
+                        f"I found it for a fraction. Guess the offer price below! 👇\n\n"
+                        f"What do you think the deal price is?\n"
+                        f"Reply with your guess — closest one gets the link first 🎯\n"
+                    )
+                ig_caption_base += f"{_scarcity_line}\n\n" + _build_footer(f'Comment your guess or "{_dm_keyword}" and I\'ll DM the real price + link 👇')
+
+            elif _tmpl_idx == 1:
+                ig_caption_base = (
+                    f"#AD — {_ig_hook_block}\n"
+                    f"⚡ Limited stock today.\n\n"
+                    f"{_persona_line}\n\n"
+                    f"What actually makes this worth it:\n"
+                    f"— {_benefit_pool[0]}\n"
+                    f"— {_benefit_pool[1]}\n"
+                    f"— {_benefit_pool[2]}\n\n"
+                )
+                if _price_orig_str:
+                    ig_caption_base += (
+                        f"She paid ₹{_price_orig_str}+ for this look. "
+                        f"I found the alternative. Guess the price 👇\n\n"
+                        f"Drop your number in the comments — I'll reveal the price + link to whoever is closest 🎯\n"
+                    )
+                ig_caption_base += f"{_scarcity_line}\n\n" + _build_footer(f'Comment your price guess or "{_dm_keyword}" for the instant link 👇')
+
+            else:
+                ig_caption_base = (
+                    f"#AD | Real talk — {_ig_hook_block}\n"
+                    f"⚡ Restocked today — won't last.\n\n"
+                    f"{_persona_line}\n\n"
+                    f"Here's why it stayed in my cart:\n"
+                    f"{_benefit_pool[0]}. {_benefit_pool[1]}. {_benefit_pool[2]}.\n\n"
+                )
+                if _price_orig_str:
+                    ig_caption_base += (
+                        f"Real MRP on this look: ₹{_price_orig_str}+. "
+                        f"The alternative is sitting on Amazon right now. "
+                        f"What price do you think it is? 🤔\n\n"
+                        f"Closest guess wins the DM link first 👇\n"
+                    )
+                ig_caption_base += f"{_scarcity_line}\n\n" + _build_footer(f'Guess below or type "{_dm_keyword}" for the link 👇')t finish",
                         "lightweight — you forget you're wearing it",
                         "gift-ready packaging included"]
             return [f"{label} — premium quality at this price point is rare",
