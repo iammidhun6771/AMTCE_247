@@ -17,19 +17,20 @@
     "slots_missed_today": [
       "09:00",
       "10:00",
-      "13:00"
+      "13:00",
+      "20:00"
     ],
     "catchup_slots_today": [
       "13:05",
       "13:15"
     ],
-    "deficit_videos": 2
+    "deficit_videos": 3
   },
   "apify": {
     "quota_date": "2026-06-15",
-    "quota_used": 3,
+    "quota_used": 4,
     "quota_limit": 80,
-    "total_calls_all_time": 261
+    "total_calls_all_time": 262
   },
   "scraped_posts": {
     "shortcodes": [
@@ -121,7 +122,8 @@
       "bollywindow": "2026-06-03T23:35:37.454197",
       "euphoriaedit": "2026-06-15T14:00:40.159426",
       "euphoriashorts": "2026-06-15T14:00:40.159426",
-      "euphoriafeed": "2026-06-15T14:00:40.159426"
+      "euphoriafeed": "2026-06-15T14:00:40.159426",
+      "sofiacamarafans": "2026-06-15T21:58:45.038108"
     }
   }
 }
