@@ -66,8 +66,8 @@ class TestViralHooks:
             # (not crash or leave placeholder)
 
     def test_viral_hooks_pool_size(self):
-        """Pool should contain exactly 20 hooks."""
-        assert len(VIRAL_HOOKS) == 20, f"Expected 20 hooks, got {len(VIRAL_HOOKS)}"
+        """Pool should contain exactly 40 hooks."""
+        assert len(VIRAL_HOOKS) == 40, f"Expected 40 hooks, got {len(VIRAL_HOOKS)}"
 
     def test_energy_score_affects_selection(self):
         """High energy_score should return energetic-type hooks more often."""

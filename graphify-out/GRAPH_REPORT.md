@@ -1,7 +1,7 @@
-# Graph Report - D:\Youtube Automation\AMTCE-v7.1  (2026-06-14)
+# Graph Report - D:\Youtube Automation\AMTCE-v7.1  (2026-06-15)
 
 ## Corpus Check
-- 484 files · ~1,019,933 words
+- 484 files · ~1,020,132 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -4420,11 +4420,11 @@ Nodes (1): Prints a formatted summary of the system health.
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `get()` connect `Community 0` to `Community 1`, `Community 3`, `Community 4`, `Community 5`, `Community 6`, `Community 7`, `Community 8`, `Community 9`, `Community 10`, `Community 11`, `Community 12`, `Community 13`, `Community 14`, `Community 15`, `Community 16`, `Community 17`, `Community 18`, `Community 19`, `Community 20`, `Community 21`, `Community 22`, `Community 23`, `Community 24`, `Community 25`, `Community 26`, `Community 27`, `Community 28`, `Community 29`, `Community 30`, `Community 31`, `Community 32`, `Community 33`, `Community 35`, `Community 36`, `Community 37`, `Community 38`, `Community 39`, `Community 40`, `Community 41`, `Community 42`, `Community 45`, `Community 46`, `Community 47`, `Community 49`, `Community 50`?**
-  _High betweenness centrality (0.532) - this node is a cross-community bridge._
+  _High betweenness centrality (0.510) - this node is a cross-community bridge._
+- **Why does `SmartSceneEditor` connect `Community 1` to `Community 34`, `Community 12`, `Community 6`?**
+  _High betweenness centrality (0.046) - this node is a cross-community bridge._
 - **Why does `compile_video()` connect `Community 1` to `Community 0`, `Community 3`, `Community 4`, `Community 5`, `Community 6`, `Community 7`, `Community 8`, `Community 9`, `Community 10`, `Community 11`, `Community 12`, `Community 13`, `Community 15`, `Community 18`, `Community 19`, `Community 20`, `Community 24`, `Community 25`, `Community 30`, `Community 33`, `Community 38`, `Community 50`, `Community 53`, `Community 54`?**
-  _High betweenness centrality (0.064) - this node is a cross-community bridge._
-- **Why does `RhythmTimelineBuilder` connect `Community 2` to `Community 0`, `Community 1`, `Community 3`, `Community 4`?**
-  _High betweenness centrality (0.039) - this node is a cross-community bridge._
+  _High betweenness centrality (0.041) - this node is a cross-community bridge._
 - **Are the 809 inferred relationships involving `get()` (e.g. with `_pick_hook()` and `get_clean_session()`) actually correct?**
   _`get()` has 809 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 551 inferred relationships involving `SelfOptimizingEditor` (e.g. with `PollingFilter` and `GlobalState`) actually correct?**

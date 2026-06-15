@@ -84,11 +84,11 @@ _HOOK_RULES: Dict[str, List[int]] = {
     # Generic / no name
     "no_name":   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
     # Energetic / party vibe
-    "energetic": [2, 3, 6, 7, 11, 14, 15, 18, 35, 36],
+    "energetic": [2, 3, 6, 7, 11, 14, 15, 18, 26, 28, 31, 35, 36],
     # Romantic / soft vibe
-    "romantic":  [8, 9, 20, 37, 38, 39],
+    "romantic":  [8, 9, 20, 26, 27, 28, 30, 37, 38, 39],
     # Curiosity / tease
-    "curiosity": [0, 1, 5, 12, 16, 17, 21, 22, 23, 24, 32, 33, 34],
+    "curiosity": [0, 1, 5, 12, 16, 17, 21, 22, 23, 24, 27, 29, 31, 32, 33, 34],
 }
 
 _VIRAL_HOOK_MEMORY_PATH = "The_json/viral_hook_memory.json"
@@ -356,18 +356,26 @@ def select_viral_hook(context: Optional[Dict] = None) -> str:
             mood = "curiosity"
 
     # ── 3. Build candidate pool using rules ───────────────────────────────
-    candidate_indices: List[int] = []
-
-    if has_name:
-        candidate_indices.extend(_HOOK_RULES["has_name"])
-    else:
-        candidate_indices.extend(_HOOK_RULES["no_name"])
+    # We rank candidates by priority:
+    # 1. Name-bearing hooks matching the mood
+    # 2. Other name-bearing hooks
+    # 3. Generic hooks matching the mood
+    # 4. Remaining hooks
+    name_indices = _HOOK_RULES["has_name"]
+    other_indices = [i for i in range(len(VIRAL_HOOKS)) if i not in name_indices]
 
     mood_rule = _HOOK_RULES.get(mood, [])
-    # Intersect mood preferences with name-availability pool (soft preference)
-    mood_candidates = [i for i in mood_rule if i in candidate_indices]
-    if mood_candidates:
-        candidate_indices = mood_candidates + candidate_indices  # Prefer mood matches
+
+    p1 = [i for i in name_indices if i in mood_rule]
+    p2 = [i for i in name_indices if i not in mood_rule]
+    p3 = [i for i in other_indices if i in mood_rule]
+    p4 = [i for i in other_indices if i not in mood_rule]
+
+    if has_name:
+        candidate_indices = p1 + p2 + p3 + p4
+    else:
+        # If no name, name-bearing hooks fall back to "Bhai", so prioritize generic first
+        candidate_indices = p3 + p4 + p1 + p2
 
     # Deduplicate while preserving order
     seen: set = set()
@@ -382,7 +390,39 @@ def select_viral_hook(context: Optional[Dict] = None) -> str:
     for idx in ordered:
         hook = VIRAL_HOOKS[idx]
         resolved = hook.replace("{name}", name) if has_name else hook.replace("{name}", "Bhai")
-        if not any(_similarity(resolved, prev) > 0.75 for prev in memory):
+        
+        # Smart similarity comparison to avoid cross-actress blocking
+        too_similar = False
+        for prev in memory:
+            if has_name and "{name}" in hook:
+                parts = hook.split("{name}")
+                prefix = parts[0]
+                suffix = parts[1] if len(parts) > 1 else ""
+                
+                prev_lower = prev.lower()
+                prefix_lower = prefix.lower()
+                suffix_lower = suffix.lower()
+                
+                if prev_lower.startswith(prefix_lower) and (not suffix_lower or prev_lower.endswith(suffix_lower)):
+                    # Extract name used in prev
+                    start_idx = len(prefix_lower)
+                    end_idx = len(prev_lower) - len(suffix_lower) if suffix_lower else len(prev_lower)
+                    extracted_name = prev[start_idx:end_idx].strip()
+                    
+                    if _similarity(extracted_name, name) > 0.75:
+                        too_similar = True
+                        break
+                else:
+                    # Fallback comparison if prefix/suffix matches fail (e.g. edited prev strings)
+                    if _similarity(resolved, prev) > 0.75:
+                        too_similar = True
+                        break
+            else:
+                if _similarity(resolved, prev) > 0.75:
+                    too_similar = True
+                    break
+                    
+        if not too_similar:
             selected_raw = resolved
             break
 
