@@ -110,7 +110,7 @@ class CommunityPromoter:
             return ""
 
     @staticmethod
-    def _get_top_languages(max_langs: int = 3) -> list:
+    def _get_top_languages(max_langs: int = 3, niche: Optional[str] = None) -> list:
         """
         Reads The_json/geo_analytics.json, maps country → language,
         aggregates viewer % per language, and returns the top `max_langs`
@@ -125,7 +125,7 @@ class CommunityPromoter:
         # ── Auto-refresh from YouTube Analytics API if stale ──────────────────
         try:
             from Analytics_Modules.analytics_engine import refresh_geo_analytics
-            refresh_geo_analytics()   # no-op if file is fresh (<24h)
+            refresh_geo_analytics(niche=niche)   # no-op if file is fresh (<24h)
         except Exception as _re:
             logger.debug("[GEO] refresh_geo_analytics skipped: %s", _re)
 
@@ -163,7 +163,7 @@ class CommunityPromoter:
         logger.info(f"🌐 [GEO] Selected languages for this post: {result} (from {len(countries)} countries)")
         return result
 
-    def _generate_gemini_hook(self, is_short: bool, fashion_data: Optional[Dict], tg_display: str, actress_name: str = "") -> Optional[str]:
+    def _generate_gemini_hook(self, is_short: bool, fashion_data: Optional[Dict], tg_display: str, actress_name: str = "", niche: Optional[str] = None) -> Optional[str]:
         """Uses Gemini to generate a unique multilingual dual-CTA hook.
         Languages are chosen automatically from geo_analytics.json viewer %.
         Cache is intentionally DISABLED so every post is unique.
@@ -204,7 +204,7 @@ class CommunityPromoter:
             # _get_top_languages() reads The_json/geo_analytics.json and picks
             # the top languages by real viewer %. Always English first.
             # Current top (from analytics): English, Hindi, Urdu, Bengali, Arabic…
-            _langs = CommunityPromoter._get_top_languages(max_langs=3)
+            _langs = CommunityPromoter._get_top_languages(max_langs=3, niche=niche)
 
             # Build per-language deployment blocks — one weapon per language, alternating CTAs
             _lang_blocks = []
@@ -435,7 +435,7 @@ class CommunityPromoter:
 
         return None
 
-    def _get_template(self, clip_count: int, promo_url: str, is_short: bool = True, custom_text: Optional[str] = None, fashion_data: Optional[Dict] = None, actress_name: str = "") -> str:
+    def _get_template(self, clip_count: int, promo_url: str, is_short: bool = True, custom_text: Optional[str] = None, fashion_data: Optional[Dict] = None, actress_name: str = "", niche: Optional[str] = None) -> str:
         """
         YouTube Comment Strategy: ONLY drive Telegram GROUP JOINS.
         - No CPA links in YouTube comments (protects channel).
@@ -460,7 +460,7 @@ class CommunityPromoter:
             _actress = "this creator"
 
         # 1. Try Gemini Primary Hook
-        gemini_hook = self._generate_gemini_hook(is_short, fashion_data, tg_display, actress_name=_actress)
+        gemini_hook = self._generate_gemini_hook(is_short, fashion_data, tg_display, actress_name=_actress, niche=niche)
         if gemini_hook:
             logger.info(f"✨ Using Gemini-generated hook for '{_actress}'.")
             return gemini_hook
@@ -770,7 +770,7 @@ class CommunityPromoter:
         
         self._save_state()
 
-    async def promote_on_short_async(self, service, short_video_url: str, is_short: bool = True, delay_seconds: int = 20, custom_text: Optional[str] = None, fashion_data: Optional[Dict] = None):
+    async def promote_on_short_async(self, service, short_video_url: str, is_short: bool = True, delay_seconds: int = 20, custom_text: Optional[str] = None, fashion_data: Optional[Dict] = None, niche: Optional[str] = None):
         """
         Promotes a ROTATING Compilation on the provided Video (Short or Long).
         """
@@ -785,7 +785,7 @@ class CommunityPromoter:
         
         # We need to run the blocking API call in a thread
         clip_count = 10 
-        await asyncio.to_thread(self._promote_sync, service, short_video_url, comp_url, clip_count, is_short, custom_text, fashion_data)
+        await asyncio.to_thread(self._promote_sync, service, short_video_url, comp_url, clip_count, is_short, custom_text, fashion_data, niche)
 
     def _extract_video_id(self, url: str) -> Optional[str]:
         try:
@@ -799,7 +799,7 @@ class CommunityPromoter:
             pass
         return None
 
-    def _promote_sync(self, service, target_video_url: str, promo_link: str, clip_count: int, is_short: bool = True, custom_text: Optional[str] = None, fashion_data: Optional[Dict] = None):
+    def _promote_sync(self, service, target_video_url: str, promo_link: str, clip_count: int, is_short: bool = True, custom_text: Optional[str] = None, fashion_data: Optional[Dict] = None, niche: Optional[str] = None):
         try:
             # 1. Extract Video ID (Target Short) - Required for Unique Hashing
             video_id = self._extract_video_id(target_video_url)
@@ -814,7 +814,7 @@ class CommunityPromoter:
                 _raw_name = str(custom_text).split(":")[0].split("-")[0].strip()
                 if _raw_name and len(_raw_name.split()) <= 4:
                     _actress_name = _raw_name
-            text = self._get_template(clip_count, promo_link, is_short=is_short, custom_text=custom_text, fashion_data=fashion_data, actress_name=_actress_name)
+            text = self._get_template(clip_count, promo_link, is_short=is_short, custom_text=custom_text, fashion_data=fashion_data, actress_name=_actress_name, niche=niche)
             
             # UNIQUE HASH: Include video_id so we can post the same text on DIFFERENT videos
             content_hash = hashlib.md5(f"{video_id}:{text}".encode()).hexdigest()

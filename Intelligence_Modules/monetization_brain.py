@@ -197,12 +197,45 @@ class MonetizationStrategist:
                 words = _name_candidate.split()
                 _name_candidate = " ".join(words[:3]).strip(" '\",.")
 
-            # Load and rotate hook examples from the hardcoded pool
+            # Load and rotate hook examples from the hardcoded pool, excluding recently used ones
             _hook_examples_str = ""
+            _recent_memory = []
+            try:
+                from Text_Modules.overlay_engine import _load_viral_hook_memory, _similarity
+                _recent_memory = _load_viral_hook_memory()[-25:]
+            except Exception as _mem_e:
+                logger.warning(f"Failed to load recent viral hook memory: {_mem_e}")
+
             try:
                 from Text_Modules.overlay_engine import VIRAL_HOOKS
-                # Shuffle the entire pool of 40 hooks to rotate them on each input
-                _sampled_hooks = random.sample(VIRAL_HOOKS, len(VIRAL_HOOKS))
+                # Filter out recently used templates from the examples list
+                _filtered_pool = []
+                for _sh in VIRAL_HOOKS:
+                    _is_recent = False
+                    for _prev in _recent_memory:
+                        if "{name}" in _sh:
+                            parts = _sh.split("{name}")
+                            prefix = parts[0]
+                            suffix = parts[1] if len(parts) > 1 else ""
+                            _prev_lower = _prev.lower()
+                            if _prev_lower.startswith(prefix.lower()) and (not suffix or _prev_lower.endswith(suffix.lower())):
+                                _is_recent = True
+                                break
+                        else:
+                            # For generic templates, replace {name} (none anyway) and compare resolved versions
+                            _resolved_sh = _sh.replace("{name}", "Bhai")
+                            if _similarity(_resolved_sh, _prev) > 0.75:
+                                _is_recent = True
+                                break
+                    if not _is_recent:
+                        _filtered_pool.append(_sh)
+
+                # Fallback to full pool if we filtered out too many templates
+                if len(_filtered_pool) < 10:
+                    _filtered_pool = VIRAL_HOOKS[:]
+
+                # Shuffle the filtered pool to rotate them on each input
+                _sampled_hooks = random.sample(_filtered_pool, len(_filtered_pool))
                 _hook_examples = []
                 for _sh in _sampled_hooks:
                     _res = _sh.replace("{name}", _name_candidate) if (_name_candidate and len(_name_candidate) > 2) else _sh.replace("{name}", "Bhai")
@@ -685,9 +718,43 @@ class MonetizationStrategist:
             # We wrap it in a list as the pipeline expects 'overlay_data' to be a list
 
             # ── VIRAL HOOK SELECTION (Gemini first with fallback) ────────────────
-            # If Gemini successfully generated a viral hook, we use it.
+            # If Gemini successfully generated a viral hook, we validate it.
             # Otherwise, we fallback to select_viral_hook() which uses the hardcoded pool.
             _viral_hook_text = data.get("viral_hook", "").strip()
+
+            # Validate Gemini's output hook against recent memory to ensure uniqueness
+            _recent_memory = []
+            try:
+                from Text_Modules.overlay_engine import _load_viral_hook_memory, _similarity, VIRAL_HOOKS
+                _recent_memory = _load_viral_hook_memory()[-25:]
+            except Exception as _mem_e:
+                logger.warning(f"Failed to load recent viral hook memory: {_mem_e}")
+
+            if _viral_hook_text and _recent_memory:
+                try:
+                    _is_duplicate = False
+                    for _prev in _recent_memory:
+                        if _similarity(_viral_hook_text, _prev) > 0.75:
+                            _is_duplicate = True
+                            break
+                        # Check prefix/suffix template match
+                        for _sh in VIRAL_HOOKS:
+                            if "{name}" in _sh:
+                                parts = _sh.split("{name}")
+                                prefix = parts[0]
+                                suffix = parts[1] if len(parts) > 1 else ""
+                                if prefix and _viral_hook_text.lower().startswith(prefix.lower()) and (not suffix or _viral_hook_text.lower().endswith(suffix.lower())):
+                                    if _prev.lower().startswith(prefix.lower()) and (not suffix or _prev.lower().endswith(suffix.lower())):
+                                        _is_duplicate = True
+                                        break
+                        if _is_duplicate:
+                            break
+                    if _is_duplicate:
+                        logger.info(f"[VIRAL_HOOK] Gemini generated hook \"{_viral_hook_text}\" is a duplicate/similar to recent memory. Forcing fallback rotation.")
+                        _viral_hook_text = ""
+                except Exception as _val_e:
+                    logger.debug(f"[VIRAL_HOOK] validation failed: {_val_e}")
+
             if not _viral_hook_text:
                 try:
                     from Text_Modules.overlay_engine import select_viral_hook as _svh
@@ -704,6 +771,13 @@ class MonetizationStrategist:
                     logger.debug(f"[VIRAL_HOOK] selection fallback skipped: {_vh_err}")
             else:
                 logger.info(f"[VIRAL_HOOK] Gemini generated hook=\"{_viral_hook_text}\"")
+                # Save the validated Gemini-generated hook to memory to prevent future duplication
+                try:
+                    from Text_Modules.overlay_engine import _save_viral_hook_memory
+                    _recent_memory.append(_viral_hook_text)
+                    _save_viral_hook_memory(_recent_memory)
+                except Exception as _save_err:
+                    logger.debug(f"[VIRAL_HOOK] Failed to save Gemini hook to memory: {_save_err}")
 
             overlay = {
                 "item_name": clean_name,

@@ -387,14 +387,16 @@ def select_viral_hook(context: Optional[Dict] = None) -> str:
 
     # ── 4. Pick first hook not in recent memory ───────────────────────────
     selected_raw: str = ""
+    # Limit memory check to the last 25 entries to ensure we don't block all 40 templates
+    recent_memory = memory[-25:]
     for idx in ordered:
         hook = VIRAL_HOOKS[idx]
         resolved = hook.replace("{name}", name) if has_name else hook.replace("{name}", "Bhai")
         
         # Smart similarity comparison to avoid cross-actress blocking
         too_similar = False
-        for prev in memory:
-            if has_name and "{name}" in hook:
+        for prev in recent_memory:
+            if "{name}" in hook:
                 parts = hook.split("{name}")
                 prefix = parts[0]
                 suffix = parts[1] if len(parts) > 1 else ""
@@ -403,24 +405,15 @@ def select_viral_hook(context: Optional[Dict] = None) -> str:
                 prefix_lower = prefix.lower()
                 suffix_lower = suffix.lower()
                 
+                # If the previous resolved hook matches this template's prefix and suffix, block it
                 if prev_lower.startswith(prefix_lower) and (not suffix_lower or prev_lower.endswith(suffix_lower)):
-                    # Extract name used in prev
-                    start_idx = len(prefix_lower)
-                    end_idx = len(prev_lower) - len(suffix_lower) if suffix_lower else len(prev_lower)
-                    extracted_name = prev[start_idx:end_idx].strip()
-                    
-                    if _similarity(extracted_name, name) > 0.75:
-                        too_similar = True
-                        break
-                else:
-                    # Fallback comparison if prefix/suffix matches fail (e.g. edited prev strings)
-                    if _similarity(resolved, prev) > 0.75:
-                        too_similar = True
-                        break
-            else:
-                if _similarity(resolved, prev) > 0.75:
                     too_similar = True
                     break
+            
+            # Direct similarity check for resolved strings (handles both generic and name-resolved hooks)
+            if _similarity(resolved, prev) > 0.75:
+                too_similar = True
+                break
                     
         if not too_similar:
             selected_raw = resolved

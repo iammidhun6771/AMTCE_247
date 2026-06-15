@@ -450,7 +450,7 @@ def _upload_sync(
                     # 4. Set Thumbnail (Optional)
                     thumb_path = file_path.replace(".mp4", "_thumb.jpg")
                     if os.path.exists(thumb_path):
-                         set_youtube_thumbnail(video_id, thumb_path)
+                         set_youtube_thumbnail(video_id, thumb_path, niche=niche)
                     
                     return f"https://youtube.com/watch?v={video_id}"
                 return None
@@ -498,10 +498,10 @@ def _upload_sync(
             time.sleep(2 ** retry)
 
 
-def set_youtube_thumbnail(video_id: str, thumb_path: str):
+def set_youtube_thumbnail(video_id: str, thumb_path: str, niche: Optional[str] = None):
     """Sets a custom thumbnail for a YouTube video."""
     try:
-        service = _get_service_sync()
+        service = _get_service_sync(niche=niche)
         logger.info(f"🖼️ Setting custom thumbnail for {video_id}: {os.path.basename(thumb_path)}")
         
         request = service.thumbnails().set(

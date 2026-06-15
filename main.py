@@ -6413,6 +6413,7 @@ async def _perform_upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
                                 is_short=is_short_video,
                                 custom_text=mon_data.get("monetization_cta"),
                                 fashion_data=mon_data.get("fashion_scout"),
+                                niche=_upload_niche,
                             )
                         )
 
