@@ -180,6 +180,56 @@ class MonetizationStrategist:
                     f"[BRAIN_PRICE_INJECT] Injecting real prices into Gemini prompt: "
                     f"MRP=\u20b9{real_mrp:,} clone=\u20b9{clone_price:,}"
                 )
+            # ── NAME CANDIDATE RESOLUTION FOR HOOK EXAMPLES ────────────────────────
+            _name_candidate = clean_title
+            while True:
+                prev_nc = _name_candidate
+                _name_candidate = re.sub(
+                    r"(?i)^(?:niche[_\s]?virals?|niche|viral|fashion|entertainment|nsfw|adult|paparazzi|general|process|cli|title)[\s:|]+",
+                    "", _name_candidate
+                ).strip()
+                if _name_candidate == prev_nc:
+                    break
+            _name_candidate = re.sub(r"[_\-]+", " ", _name_candidate).strip()
+            if _name_candidate.lower() in ("niche viral", "niche virals", "viral niche", "viral niches", "niche_viral", "niche_virals", "niche", "viral", "video", "cli mission", "generic"):
+                _name_candidate = ""
+            if _name_candidate:
+                words = _name_candidate.split()
+                _name_candidate = " ".join(words[:3]).strip(" '\",.")
+
+            # Load and rotate hook examples from the hardcoded pool
+            _hook_examples_str = ""
+            try:
+                from Text_Modules.overlay_engine import VIRAL_HOOKS
+                # Shuffle the entire pool of 40 hooks to rotate them on each input
+                _sampled_hooks = random.sample(VIRAL_HOOKS, len(VIRAL_HOOKS))
+                _hook_examples = []
+                for _sh in _sampled_hooks:
+                    _res = _sh.replace("{name}", _name_candidate) if (_name_candidate and len(_name_candidate) > 2) else _sh.replace("{name}", "Bhai")
+                    _hook_examples.append(_res)
+                # Use single quotes to ensure we don't break JSON structure
+                _hook_examples_str = ", ".join(f"'{ex}'" for ex in _hook_examples)
+            except Exception as _e_hook:
+                logger.warning(f"Failed to load or process VIRAL_HOOKS examples: {_e_hook}")
+                # Large fallback pool containing representative examples of all styles
+                _fallback_pool = [
+                    "Bhai tu bas pin comment dekh 🤪", "Save krle rat ko manna 🥵", "Battery full charge ho gayi 🥵🔋",
+                    "Kaun kaun aise Ride kiya hai 😜", "Asli maal B!O pe hai 🥵🔥", "Yaar kya seen hai 😬👀",
+                    "Bhai mood ON ho gaya ek second mein 🚀", "Log pagal ho rahe hain iske liye 😜🔥",
+                    "Aisi biwi to tu bhi deserve krta hai 😍", "Ek baar dekh le poori raat yaad rahegi 🌙🥵",
+                    "Iska jawab nahi 🤯🔥", "Le bhai mood bana le 🙈🥵", "Asli cheez toh aage hai 🙈🔥",
+                    "Save kar le raat ko kam aayega 🌙👉", "Bhai ruk mat isko share kr 🙏🔥",
+                    "Ek din ke liye mil jaye to kya kroge 🤔🥵", "Yaar aisa kya hai isme 😱📥",
+                    "Pin comment me link hai 🤫👀", "Bhai teri aankh mat hhata isko dekh 😱🔥",
+                    "Kya krne ki baat kar rahe ho 😂🥵", "Ek min ruk zara 😱👀", "Scroll mat kar yaar zara ruk ✋😏",
+                    "Uff {name} yaar 🥵🔥", "Bhai {name} ne toh dil chheen liya 💘🔥", "3 second mein sab clear ho jayega ⏱🤯"
+                ]
+                _shuffled_fb = random.sample(_fallback_pool, len(_fallback_pool))
+                _hook_examples = []
+                for _fb in _shuffled_fb:
+                    _res = _fb.replace("{name}", _name_candidate) if (_name_candidate and len(_name_candidate) > 2) else _fb.replace("{name}", "Bhai")
+                    _hook_examples.append(_res)
+                _hook_examples_str = ", ".join(f"'{ex}'" for ex in _hook_examples)
 
             h_prompt = (
                 f'{{\n'
@@ -212,7 +262,12 @@ class MonetizationStrategist:
                 # ── COMMUNITY COMMENT HOOK ────────────────────────────────────────
                 f'  "community_comment_hook": "<YOUTUBE COMMUNITY COMMENT. '
                 f'Strategy: {hook_strategy.get("community_purpose", "Drive viewers to join Telegram.")}. '
-                f'RULES: 3-4 lines max. End with exactly: Join Telegram for raw unfiltered output & outfit requests 👇\\n{_tg_display}>"'
+                f'RULES: 3-4 lines max. End with exactly: Join Telegram for raw unfiltered output & outfit requests 👇\\n{_tg_display}>",\n'
+
+                # ── VIRAL HOOK (On-Screen Text) ──────────────────────────────────
+                f'  "viral_hook": "<Generate a highly engaging, persuasive, Hinglish/Hinglish-vibe on-screen text hook (max 4-5 words) that acts as engagement-bait. '
+                f'The style must EXACTLY match the following rotated examples (using them for syntax, length, punctuation, emojis, and vibe): {_hook_examples_str}. '
+                f'If the context has a specific name resolved (e.g., {_name_candidate or "Bhai"}), feel free to use it naturally or generate a generic one similar to the examples.>"'
                 f'\n}}'
             ) if hashtag_gen else (
                 f'{{\n'
@@ -221,7 +276,9 @@ class MonetizationStrategist:
                 f'      "item_name": "<Descriptive name of main item>",\n'
                 f'      "category": "<Item category>"\n'
                 f'    }}\n'
-                f'  ]\n'
+                f'  ],\n'
+                f'  "viral_hook": "<Generate a highly engaging, persuasive, Hinglish/Hinglish-vibe on-screen text hook (max 4-5 words) that acts as engagement-bait. '
+                f'The style must EXACTLY match the following rotated examples: {_hook_examples_str}.>"\n'
                 f'}}'
             )
 
@@ -288,6 +345,7 @@ class MonetizationStrategist:
                             clean_title,
                             duration=duration,
                             visual_context=visual_context,
+                            niche_category=niche_category,
                         )
                         if main_data.get("approved"):
                             # ── Hierarchical Intelligence: Fashion Scout Integration ──────────────
@@ -491,6 +549,7 @@ class MonetizationStrategist:
         original_title: str,
         duration: float = 15.0,
         visual_context: str = None,
+        niche_category: str = "generic",
     ) -> Dict:
         """
         Parses JSON using the New Professional Schema and applies Confidence Filters.
@@ -625,23 +684,26 @@ class MonetizationStrategist:
             # 5. Map to legacy overlay structure for compiler compatibility
             # We wrap it in a list as the pipeline expects 'overlay_data' to be a list
 
-            # ── VIRAL HOOK SELECTION (intelligent, context-aware) ────────────────
-            # select_viral_hook() reads title/actress name + niche/mood and picks
-            # the most appropriate persuasive Hinglish hook from VIRAL_HOOKS pool.
-            _viral_hook_text = ""
-            try:
-                from Text_Modules.overlay_engine import select_viral_hook as _svh
-                _hook_ctx = {
-                    "title": clean_title,
-                    "actress_name": data.get("actress_name") or data.get("actor_name") or "",
-                    "niche_category": niche_category,
-                    "energy_score": float(data.get("energy_score", 0.5) or 0.5),
-                    "mood": data.get("mood", ""),
-                }
-                _viral_hook_text = _svh(_hook_ctx)
-                logger.info(f"[VIRAL_HOOK] hook_selected=\"{_viral_hook_text}\"")
-            except Exception as _vh_err:
-                logger.debug(f"[VIRAL_HOOK] selection_skipped: {_vh_err}")
+            # ── VIRAL HOOK SELECTION (Gemini first with fallback) ────────────────
+            # If Gemini successfully generated a viral hook, we use it.
+            # Otherwise, we fallback to select_viral_hook() which uses the hardcoded pool.
+            _viral_hook_text = data.get("viral_hook", "").strip()
+            if not _viral_hook_text:
+                try:
+                    from Text_Modules.overlay_engine import select_viral_hook as _svh
+                    _hook_ctx = {
+                        "title": original_title,
+                        "actress_name": data.get("actress_name") or data.get("actor_name") or "",
+                        "niche_category": niche_category,
+                        "energy_score": float(data.get("energy_score", 0.5) or 0.5),
+                        "mood": data.get("mood", ""),
+                    }
+                    _viral_hook_text = _svh(_hook_ctx)
+                    logger.info(f"[VIRAL_HOOK] fallback hook_selected=\"{_viral_hook_text}\"")
+                except Exception as _vh_err:
+                    logger.debug(f"[VIRAL_HOOK] selection fallback skipped: {_vh_err}")
+            else:
+                logger.info(f"[VIRAL_HOOK] Gemini generated hook=\"{_viral_hook_text}\"")
 
             overlay = {
                 "item_name": clean_name,
