@@ -1676,7 +1676,10 @@ class GeminiGovernor:
 
                 if not api_key: raise Exception("Missing Gemini API Key")
 
-                client = genai.Client(api_key=api_key)
+                client = genai.Client(
+                    api_key=api_key,
+                    http_options=types.HttpOptions(timeout=300_000)
+                )
 
                
 
@@ -2030,7 +2033,7 @@ class GeminiGovernor:
 
                 if status == "BANNED":
 
-                    rem = (state["banned_until"] - datetime.now()).total_seconds()
+                    rem = state.get("ban_remaining_seconds", 0)
 
                     status += f" ({int(rem)}s remaining)"
 

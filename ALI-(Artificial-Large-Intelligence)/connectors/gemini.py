@@ -1,5 +1,6 @@
 import os
 from google import genai
+from google.genai import types
 from typing import Dict, Any
 from connectors.gemini_governor import GeminiGovernor
 
@@ -9,7 +10,10 @@ def call_gemini(prompt: str, system_prompt: str = "You are a helpful assistant."
         raise ValueError("GEMINI_API_KEY not found in environment variables.")
 
     governor = GeminiGovernor()
-    client = genai.Client(api_key=api_key)
+    client = genai.Client(
+        api_key=api_key,
+        http_options=types.HttpOptions(timeout=300_000)
+    )
     
     excluded_models = []
     max_retries = 3
