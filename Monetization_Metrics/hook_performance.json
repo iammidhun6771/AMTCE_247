@@ -52,7 +52,7 @@
     "clicks": 2
   },
   "This sold out in 4 hours. Someone left it in their cart.\nDon't be that person \ud83d\udc47": {
-    "serves": 3,
+    "serves": 5,
     "clicks": 0
   },
   "Old money never announces its source. We just did \ud83d\ude0f\ud83d\udc47": {
@@ -196,7 +196,7 @@
     "clicks": 0
   },
   "This almost didn't make it to the feed.\n'Too good to post,' they said \ud83d\ude0f\ud83d\udc47": {
-    "serves": 1,
+    "serves": 2,
     "clicks": 0
   }
 }

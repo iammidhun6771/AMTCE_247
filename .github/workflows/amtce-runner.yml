@@ -59,12 +59,15 @@ on:
 
 
 # ── Concurrency Control ────────────────────────────────────────────────────
-# Unify all runs under a single concurrency group. If a new run is triggered
-# (either manually or scheduled), it will cancel any currently active run
-# to prevent state and upload conflicts.
+# Unify all runs under a single concurrency group.
+# cancel-in-progress: true — NEW scheduled cron triggers cancel any QUEUED
+# (not yet started) run in the same group.  A RUNNING persistent bot run is
+# NOT affected because GitHub only cancels runs that are *waiting*, not the
+# one already executing.  This prevents cron triggers from piling up behind
+# the 5.25h persistent session.
 concurrency:
   group: amtce-bot
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   run-amtce:
@@ -351,6 +354,27 @@ jobs:
         DISPATCH_VOICEOVER: ${{ github.event.inputs.custom_voiceover || '' }}
         DISPATCH_REVIEW_MODE: ${{ github.event.inputs.review_mode || 'auto' }}
       run: |
+        # ── Scheduled-run fast-exit guard ────────────────────────────────────
+        # If this is a cron/schedule trigger AND a valid bot_lock exists in the
+        # committed repo (meaning a persistent 5.25h session is already running
+        # in another runner), exit immediately to avoid a duplicate bot instance.
+        # Manual workflow_dispatch runs are NEVER skipped.
+        if [ "$GITHUB_EVENT_NAME" = "schedule" ] && [ -f "The_json/bot_lock.json" ]; then
+          LOCK_EXPIRES=$(python3 -c "
+import json, time, sys
+try:
+    d=json.load(open('The_json/bot_lock.json'))
+    sys.stdout.write(str(int(d.get('expires_at',0))))
+except: sys.stdout.write('0')
+")
+          NOW=$(date +%s)
+          if [ "$LOCK_EXPIRES" -gt "$NOW" ]; then
+            MINS_LEFT=$(( (LOCK_EXPIRES - NOW) / 60 ))
+            echo "🔒 [CI GUARD] Persistent bot lock is active (~${MINS_LEFT}m left). Skipping duplicate cron run."
+            exit 0
+          fi
+        fi
+        # ─────────────────────────────────────────────────────────────────────
         python main.py
 
     - name: Commit Dedup State to Git
@@ -382,6 +406,14 @@ jobs:
         git add -f Intelligence_Data/salesman_state.json || true
         git add -f The_json/message_ledger.json || true
         git add -f The_json/auction_ledger.json || true
+        # ── Hook Rotation Persistence (FIX: was lost on every runner restart) ─
+        # Without these two files being committed, hook_rotation.json resets
+        # to idx=0 on every run → same CTA hook repeated forever.
+        # viral_hook_memory.json holds the Gemini dedup memory that prevents
+        # duplicate hooks — must survive across sessions.
+        git add -f The_json/hook_rotation.json || true
+        git add -f The_json/viral_hook_memory.json || true
+        # ─────────────────────────────────────────────────────────────────────
 
         # ── Audio Pool Persistence ──────────────────────────────────────────────
         # Commit extracted audio clips so the pool survives across runner sessions.
