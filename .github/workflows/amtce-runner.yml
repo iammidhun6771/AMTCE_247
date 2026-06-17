@@ -360,13 +360,7 @@ jobs:
         # in another runner), exit immediately to avoid a duplicate bot instance.
         # Manual workflow_dispatch runs are NEVER skipped.
         if [ "$GITHUB_EVENT_NAME" = "schedule" ] && [ -f "The_json/bot_lock.json" ]; then
-          LOCK_EXPIRES=$(python3 -c "
-import json, time, sys
-try:
-    d=json.load(open('The_json/bot_lock.json'))
-    sys.stdout.write(str(int(d.get('expires_at',0))))
-except: sys.stdout.write('0')
-")
+          LOCK_EXPIRES=$(python3 -c "import json; print(json.load(open('The_json/bot_lock.json')).get('expires_at', 0))" 2>/dev/null || echo 0)
           NOW=$(date +%s)
           if [ "$LOCK_EXPIRES" -gt "$NOW" ]; then
             MINS_LEFT=$(( (LOCK_EXPIRES - NOW) / 60 ))
