@@ -1,12 +1,12 @@
-# Graph Report - D:\Youtube Automation\AMTCE-v7.1  (2026-06-17)
+# Graph Report - D:\Youtube Automation\AMTCE-v7.1  (2026-06-18)
 
 ## Corpus Check
-- 485 files · ~1,199,858 words
+- 485 files · ~1,200,273 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 6330 nodes · 19812 edges · 638 communities detected
-- Extraction: 34% EXTRACTED · 66% INFERRED · 0% AMBIGUOUS · INFERRED: 13135 edges (avg confidence: 0.56)
+- 6369 nodes · 20174 edges · 642 communities detected
+- Extraction: 33% EXTRACTED · 67% INFERRED · 0% AMBIGUOUS · INFERRED: 13499 edges (avg confidence: 0.56)
 - Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
@@ -648,304 +648,308 @@
 - [[_COMMUNITY_Community 635|Community 635]]
 - [[_COMMUNITY_Community 636|Community 636]]
 - [[_COMMUNITY_Community 637|Community 637]]
+- [[_COMMUNITY_Community 638|Community 638]]
+- [[_COMMUNITY_Community 639|Community 639]]
+- [[_COMMUNITY_Community 640|Community 640]]
+- [[_COMMUNITY_Community 641|Community 641]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `get()` - 811 edges
-2. `SelfOptimizingEditor` - 580 edges
-3. `RhythmTimelineBuilder` - 573 edges
-4. `PublishQueue` - 563 edges
-5. `GeminiTrace` - 554 edges
-6. `ComputeCaps` - 549 edges
-7. `VanguardDirector` - 540 edges
-8. `IGStoryDMListener` - 528 edges
-9. `IGAutoDMResponder` - 527 edges
-10. `IGCommentLinkResponder` - 527 edges
+2. `SelfOptimizingEditor` - 603 edges
+3. `RhythmTimelineBuilder` - 596 edges
+4. `PublishQueue` - 586 edges
+5. `GeminiTrace` - 577 edges
+6. `ComputeCaps` - 572 edges
+7. `VanguardDirector` - 563 edges
+8. `IGStoryDMListener` - 551 edges
+9. `IGAutoDMResponder` - 550 edges
+10. `IGCommentLinkResponder` - 550 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `chat_endpoint()` --calls--> `get()`  [INFERRED]
   D:\Youtube Automation\AMTCE-v7.1\ALI-(Artificial-Large-Intelligence)\api\main.py → D:\Autonomous Multimedia Transformation & Compilation Engine (AMTCE)\Visual_Refinement_Modules\import_gate.py
-- `call_gemini()` --calls--> `test_gemini_connector()`  [INFERRED]
-  D:\Youtube Automation\AMTCE-v7.1\ALI-(Artificial-Large-Intelligence)\connectors\gemini.py → D:\Youtube Automation\AMTCE-v7.1\ALI-(Artificial-Large-Intelligence)\tests\test_connectors.py
+- `GeminiGovernor` --uses--> `Verify that the same session/task returns the same model.`  [INFERRED]
+  D:\Youtube Automation\AMTCE-v7.1\Intelligence_Modules\gemini_governor.py → D:\Autonomous Multimedia Transformation & Compilation Engine (AMTCE)\tests\test_model_switching_stability.py
+- `GeminiGovernor` --uses--> `Verify that the lock is broken if the model fails.`  [INFERRED]
+  D:\Youtube Automation\AMTCE-v7.1\Intelligence_Modules\gemini_governor.py → D:\Autonomous Multimedia Transformation & Compilation Engine (AMTCE)\tests\test_model_switching_stability.py
+- `GeminiGovernor` --uses--> `Verify that the system forces Lite models when budget is exceeded.`  [INFERRED]
+  D:\Youtube Automation\AMTCE-v7.1\Intelligence_Modules\gemini_governor.py → D:\Autonomous Multimedia Transformation & Compilation Engine (AMTCE)\tests\test_model_switching_stability.py
 - `Check if the global circuit breaker is active.` --uses--> `GeminiTrace`  [INFERRED]
-  D:\Youtube Automation\AMTCE-v7.1\ALI-(Artificial-Large-Intelligence)\connectors\gemini_governor.py → D:\Autonomous Multimedia Transformation & Compilation Engine (AMTCE)\Diagnostics_Modules\gemini_trace.py
-- `Record a 5xx failure. Trip breaker if conditions met.` --uses--> `GeminiTrace`  [INFERRED]
-  D:\Youtube Automation\AMTCE-v7.1\ALI-(Artificial-Large-Intelligence)\connectors\gemini_governor.py → D:\Autonomous Multimedia Transformation & Compilation Engine (AMTCE)\Diagnostics_Modules\gemini_trace.py
-- `Reset the circuit breaker on a successful call.` --uses--> `GeminiTrace`  [INFERRED]
   D:\Youtube Automation\AMTCE-v7.1\ALI-(Artificial-Large-Intelligence)\connectors\gemini_governor.py → D:\Autonomous Multimedia Transformation & Compilation Engine (AMTCE)\Diagnostics_Modules\gemini_trace.py
 
 ## Communities
 
 ### Community 0 - "Community 0"
-Cohesion: 0.01
-Nodes (505): adapt_prompt_with_emotion(), get_emotion_adjustments(), main(), # NOTE: safety is intentionally NOT a node — it runs as a FastAPI BackgroundTask, classify_task(), get_routing_plan(), Fetches channel-level geographic viewer data from the YouTube Analytics API, refresh_geo_analytics() (+497 more)
+Cohesion: 0.0
+Nodes (609): _auto_publish_clip(), extract_auction_item(), adapt_prompt_with_emotion(), get_emotion_adjustments(), main(), Cleanly disable all enhancement features., Check if model exists, if not download it (Sanity Wrapper)., 2. Strict GPU Memory Governor (PURE FUNCTION).         Returns a configuration (+601 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.05
-Nodes (554): PublishQueue, NarratedCompilationBuilder, ComputeCaps, DedupEngine, Check if the global circuit breaker is active., Record a 5xx failure. Trip breaker if conditions met., Reset the circuit breaker on a successful call., V3.5 World-Class Intelligent Router.     Handles multi-tier scoring, adaptive co (+546 more)
+Nodes (577): PublishQueue, NarratedCompilationBuilder, ComputeCaps, DedupEngine, Check if the global circuit breaker is active., Record a 5xx failure. Trip breaker if conditions met., Reset the circuit breaker on a successful call., V3.5 World-Class Intelligent Router.     Handles multi-tier scoring, adaptive co (+569 more)
 
 ### Community 2 - "Community 2"
 Cohesion: 0.01
-Nodes (312): AdaptiveBrain, Called when engagement metrics come in (or simulated success)., BeatEngine, get_beats(), get_beats_preferring_original_audio(), get_beats_with_drops(), Beat Engine ----------- Zero-dependency Beat Detection for Viral Edits. Uses, Detect beat DROPS: moments where energy surges suddenly after relative quiet. (+304 more)
+Nodes (328): AdaptiveBrain, Called after every upload attempt.         outcome: 'success', 'reject', 'error, Called when engagement metrics come in (or simulated success)., BeatEngine, get_beats(), get_beats_preferring_original_audio(), get_beats_with_drops(), Beat Engine ----------- Zero-dependency Beat Detection for Viral Edits. Uses (+320 more)
 
 ### Community 3 - "Community 3"
 Cohesion: 0.01
-Nodes (386): AIBlender, AIBlender, Handles AI-driven thumbnail composition and text overlay., Creates a thumbnail with a title overlay.         Args:             image_path, Handles AI-driven thumbnail composition and text overlay., Creates a thumbnail with a title overlay.         Args:             image_path, generate_ad_images_from_path(), Convenience wrapper: load image from file path then call generate_ad_images. (+378 more)
+Nodes (335): AIBlender, AIBlender, Handles AI-driven thumbnail composition and text overlay., Creates a thumbnail with a title overlay.         Args:             image_path, Handles AI-driven thumbnail composition and text overlay., Creates a thumbnail with a title overlay.         Args:             image_path, _composite_on_background(), generate_ad_images() (+327 more)
 
 ### Community 4 - "Community 4"
 Cohesion: 0.01
-Nodes (276): apply_edit_timeline(), get_video_duration(), match_transitions_to_gaps(), ceie/applicator.py ------------------ Master edit applicator for CEIE. Executes, Gets total duration via ffprobe., Matches planned transitions to the gaps between segment cuts.     For N segments, Executes the full edit pipeline on video_path according to timeline.     Saves f, detect_beats() (+268 more)
+Nodes (270): apply_edit_timeline(), get_video_duration(), match_transitions_to_gaps(), ceie/applicator.py ------------------ Master edit applicator for CEIE. Executes, Gets total duration via ffprobe., Matches planned transitions to the gaps between segment cuts.     For N segments, Executes the full edit pipeline on video_path according to timeline.     Saves f, detect_beats() (+262 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.01
-Nodes (262): get_all_active_accounts(), get_primary_accounts(), get_secondary_accounts(), _get_social_folders(), get_target_folder(), is_account_mode_enabled(), _load_config(), actress_config.py — AMTCE Actress Account Router =============================== (+254 more)
+Cohesion: 0.02
+Nodes (229): get_all_active_accounts(), get_primary_accounts(), get_secondary_accounts(), _get_social_folders(), get_target_folder(), is_account_mode_enabled(), _load_config(), actress_config.py — AMTCE Actress Account Router =============================== (+221 more)
 
 ### Community 6 - "Community 6"
-Cohesion: 0.01
-Nodes (128): compute_anchor(), _is_skin_or_hair(), Returns (anchor_x, anchor_y, side, debug_info).     - side: "left" or "right" ch, get_visual_critique(), judge_improvement(), _parse_judge_json(), Uses Mistral/Groq with Gemini fallback to judge if optimized critique is an impr, Orchestrates sandboxed self-repair optimization loops. (+120 more)
+Cohesion: 0.02
+Nodes (128): EffectAssigner, Effect assignment module (extracted from SmartSceneEditor)., Adds effect hints to each segment WITHOUT overwriting values already         se, Assigns transitions, zooms, and visual cues to timeline segments., MomentSelector, Moment selector module (extracted from SmartSceneEditor)., Sort candidates by importance/score descending., Ranks candidate moments for downstream timeline building. (+120 more)
 
 ### Community 7 - "Community 7"
 Cohesion: 0.02
-Nodes (109): _call_gemini_with_retry(), generate(), get_fallback_payload(), calculate_ev(), DecisionEngine, _format_patterns(), _format_profile(), generate_with_rag() (+101 more)
+Nodes (108): _call_gemini_with_retry(), generate(), get_fallback_payload(), calculate_ev(), DecisionEngine, _format_patterns(), _format_profile(), generate_with_rag() (+100 more)
 
 ### Community 8 - "Community 8"
 Cohesion: 0.02
 Nodes (143): answer_user_query_ai(), clean_html_for_telegram(), extract_base_actress_name(), generate_bargain_response(), generate_tempting_hook(), get_clean_actress_name(), ai_helper.py ──────────── Centralized AI module utilizing Gemini, Groq, and Mist, Answers customer inquiries using Gemini, Groq, or Mistral, responding as the dyn (+135 more)
 
 ### Community 9 - "Community 9"
-Cohesion: 0.03
-Nodes (107): cosine(), Deterministic hash across runs., stable_hash(), choose(), compute(), DynamicTrimCalculator, EnergyProgressionGuard, Visual_Refinement_Modules/rhythm_quality_guard.py ----------------------------- (+99 more)
+Cohesion: 0.02
+Nodes (105): flatten_timeline(), globalize_plan(), ceie/aggregator.py ------------------ Aggregates chunk-relative edit blueprints, Returns a new MasterEditPlan where all timestamps in all chunks     have been sh, Flattens a globalized MasterEditPlan into a single dict of chronological operati, analyze_reused_video(), clean_json_text(), get_gemini_client() (+97 more)
 
 ### Community 10 - "Community 10"
-Cohesion: 0.03
-Nodes (109): EffectAssigner, Effect assignment module (extracted from SmartSceneEditor)., Adds effect hints to each segment WITHOUT overwriting values already         se, Assigns transitions, zooms, and visual cues to timeline segments., MomentSelector, Moment selector module (extracted from SmartSceneEditor)., Sort candidates by importance/score descending., Ranks candidate moments for downstream timeline building. (+101 more)
+Cohesion: 0.02
+Nodes (100): FrameProducer, HeavyEditor, Detects environment and auto-installs missing acceleration libraries., Multithreaded Frame Producer to overlap I/O with GPU inference., Enhance a single frame. Safe, deterministic, strictly typed., Simple skin brightness clamping., Scientific Stability Algorithm: Guided Filtering + Temporal Blending.         S, Temporal Frame Blender: bridges the gap between AI frames.         Eliminates ' (+92 more)
 
 ### Community 11 - "Community 11"
 Cohesion: 0.03
-Nodes (68): AnalyticsEngine, analytics_engine.py Fetches YouTube Analytics data for a published video.  Retri, Return a synthetic snapshot for testing without API access., Fetch views, avg view duration, likes., Fetch audience retention curve.         Returns list of {"t": float, "pct": flo, Fetches per-video analytics from YouTube Analytics API.      Args:         crede, Return a synthetic snapshot for testing without API access., Fetch views, avg view duration, likes. (+60 more)
+Nodes (95): cosine(), Deterministic hash across runs., stable_hash(), choose(), compute(), DynamicTrimCalculator, EnergyProgressionGuard, Visual_Refinement_Modules/rhythm_quality_guard.py ----------------------------- (+87 more)
 
 ### Community 12 - "Community 12"
 Cohesion: 0.03
-Nodes (71): _compute_diversity(), _creative_pipeline_integrity(), CreativeEditingVerifier, CreativeEditorConfidenceScorer, CreativeIntelligenceVerifier, DataFlowValidator, fail(), _final_verdict() (+63 more)
+Nodes (86): Returns True if this post shortcode or video file hash has been published or see, add(), _auto_fill_queue_from_downloads(), _batch_label(), _get_active_publish_slots(), _get_remote_queue(), _get_static_peak_times(), load() (+78 more)
 
 ### Community 13 - "Community 13"
-Cohesion: 0.03
-Nodes (60): flatten_timeline(), globalize_plan(), ceie/aggregator.py ------------------ Aggregates chunk-relative edit blueprints, Returns a new MasterEditPlan where all timestamps in all chunks     have been sh, Flattens a globalized MasterEditPlan into a single dict of chronological operati, analyze_reused_video(), clean_json_text(), get_gemini_client() (+52 more)
+Cohesion: 0.02
+Nodes (107): LinkOptimizer, Periodically decay weights to prevent stagnation., Loads link performance state from JSON., Saves current state to JSON., Registers a click (impression/usage) for a link., Registers a conversion (if feedback loop exists)., Initializes a new link in the state., Recalculates weight based on performance. (+99 more)
 
 ### Community 14 - "Community 14"
-Cohesion: 0.02
-Nodes (90): LinkOptimizer, Periodically decay weights to prevent stagnation., Loads link performance state from JSON., Saves current state to JSON., Registers a click (impression/usage) for a link., Registers a conversion (if feedback loop exists)., Initializes a new link in the state., Recalculates weight based on performance. (+82 more)
+Cohesion: 0.03
+Nodes (66): AnalyticsEngine, analytics_engine.py Fetches YouTube Analytics data for a published video.  Retri, Return a synthetic snapshot for testing without API access., Fetch views, avg view duration, likes., Fetch audience retention curve.         Returns list of {"t": float, "pct": flo, Fetches per-video analytics from YouTube Analytics API.      Args:         crede, Return a synthetic snapshot for testing without API access., Fetch views, avg view duration, likes. (+58 more)
 
 ### Community 15 - "Community 15"
 Cohesion: 0.03
-Nodes (79): BaseModel, append_to_safety_log(), load_anton_solved(), _load_json(), load_knowledge_base(), load_solved_problems(), save_anton_solved(), _save_json() (+71 more)
+Nodes (67): _creative_pipeline_integrity(), CreativeEditingVerifier, CreativeEditorConfidenceScorer, CreativeIntelligenceVerifier, DataFlowValidator, fail(), _final_verdict(), LoggingConsistencyAuditor (+59 more)
 
 ### Community 16 - "Community 16"
 Cohesion: 0.03
-Nodes (66): ContentIntelligenceEngine, get_engine(), interpret_visual_context(), Content_Intelligence/content_intelligence_engine.py ---------------------------, Parses the content_director block from the forensic result     and derives feat, Extract content director data from the enriched forensic result.          Args, Validate and normalise the raw content_director dict from Gemini., Build the final feature flag set for the pipeline:           1. Start from Gemi (+58 more)
+Nodes (55): GeminiGovernor, is_gemini_globally_down(), Check if the global circuit breaker is active., Check if the global circuit breaker is active., Public wrapper for prompt simplification used by the VANGUARD retry loop., Record a 5xx failure. Trip breaker if conditions met., Record a 5xx failure. Trip breaker if conditions met., [VANGUARD] Local Fallback to Ollama (Phi-3). (+47 more)
 
 ### Community 17 - "Community 17"
 Cohesion: 0.03
-Nodes (60): build_arc_caption_spec(), build_caption_drawtext_filter(), build_drawtext_filters(), escape_drawtext(), font_size_for_line(), get_font_path(), is_emphasis_line(), _line_char_limits() (+52 more)
+Nodes (59): build_arc_caption_spec(), build_caption_drawtext_filter(), build_drawtext_filters(), escape_drawtext(), font_size_for_line(), get_font_path(), is_emphasis_line(), _line_char_limits() (+51 more)
 
 ### Community 18 - "Community 18"
 Cohesion: 0.03
-Nodes (65): FrameProducer, HeavyEditor, Cleanly disable all enhancement features., Detects environment and auto-installs missing acceleration libraries., Check if model exists, if not download it (Sanity Wrapper)., 2. Strict GPU Memory Governor (PURE FUNCTION).         Returns a configuration, Multithreaded Frame Producer to overlap I/O with GPU inference., Atomic Model Loading with Governor Check. (+57 more)
+Nodes (63): ContentIntelligenceEngine, get_engine(), interpret_visual_context(), Content_Intelligence/content_intelligence_engine.py ---------------------------, Parses the content_director block from the forensic result     and derives feat, Convenience function for orchestrator.py.     Returns (cd_block, ci_flags). Nev, compute_engagement_score(), get_strategy_signals() (+55 more)
 
 ### Community 19 - "Community 19"
-Cohesion: 0.05
-Nodes (56): Returns True if this post shortcode or video file hash has been published or see, add(), _auto_fill_queue_from_downloads(), _batch_label(), _get_active_publish_slots(), _get_remote_queue(), _get_static_peak_times(), load() (+48 more)
+Cohesion: 0.03
+Nodes (65): BaseModel, check_accuracy(), Check Watermark Model Accuracy ------------------------------ Calculates accur, chat_endpoint(), ChatRequest, OptimizeRequest, Protected endpoint for external agents (like Antigravity) to sync or trigger act, Called by the frontend when the user starts typing.     For FOCUSED users, pre-f (+57 more)
 
 ### Community 20 - "Community 20"
 Cohesion: 0.05
 Nodes (37): _build_signal_flags(), _compute_semantic_score(), _compute_signal_confidence(), _filter_dead_moments(), Content_Intelligence/signal_repair_layer.py ------------------------------------, Boostrap emotion spikes from motion + expression proxies when real     Emotional, Synthesise retention peaks from scene boundaries (shot cuts) and beat data     w, Synthesise face-present subject tracking entries from expression_moments     whe (+29 more)
 
 ### Community 21 - "Community 21"
-Cohesion: 0.03
-Nodes (61): _composite_on_background(), generate_ad_images(), generate_ad_video(), _make_background(), AI Media Generator — Smart Background Replacement Ad Engine ====================, Smart crop: resize maintaining aspect ratio, then center-crop to exact size., Save PIL image as JPEG., Generate polished studio-background advertisement images.      Strategy: (+53 more)
+Cohesion: 0.04
+Nodes (52): # NOTE: safety is intentionally NOT a node — it runs as a FastAPI BackgroundTask, classify_task(), get_routing_plan(), append_to_safety_log(), load_anton_solved(), _load_json(), load_knowledge_base(), load_solved_problems() (+44 more)
 
 ### Community 22 - "Community 22"
 Cohesion: 0.05
-Nodes (29): test_orchestra(), HFGovernor, HFGovernor — Hugging Face Model Router v1.0 ===================================, Intelligent HuggingFace model router.      Selects the best available model pe, Load all HF_TOKEN, HF_TOKEN_2, HF_TOKEN_3... from environment., Round-robin across the token pool., Decrement ban timers (call under state_lock)., Ban a model with tiered cooldown. Record per-task failure memory. (+21 more)
+Nodes (40): check_gpu_ready(), get_model_tier(), Compute Gate — Influencer Modules ================================== Reuses th, Query AMTCE's ComputeCaps and decide if the influencer engine can run.      Re, Return model-size tier based on available VRAM.      low    -> T4  16 GB  (Col, _check_cli_available(), get_engine(), HiggsfieldEngine (+32 more)
 
 ### Community 23 - "Community 23"
-Cohesion: 0.04
-Nodes (42): normalize_scenes(), Splits longer scenes into micro-segments.          Priority:         1. music_in, Score each micro shot with music-aware weights.          New signals (when music, Helper to find signal overlap for scoring. Handles dicts, tuples, and lists., Align shot boundaries to nearest beat, with human-style anticipation offset., [STIE v2 + TIE] Gap-level transition decision.          Returns a decision dict, Psycho-acoustic, duplication-free, music-intelligence-driven timeline builder., # IMPORTANT: We deliberately KEEP the selection order instead of (+34 more)
-
-### Community 24 - "Community 24"
 Cohesion: 0.06
 Nodes (30): _parse_json(), creative_brain.py ──────────────────────────────────────────────────────────────, Pass 1: Derive narrative intent from signal data.          Priority chain (each, Build a multimodal prompt list: [image_part, image_part, ..., text_part]., Vision-augmented Pass 1: send actual frames + signal table to Gemini.         Gi, Format candidate moments as a compact table for the prompt., Call Gemini (text-only) for Pass 1 editorial intent., Snap hook_time / climax_time to the nearest real candidate moment. (+22 more)
 
+### Community 24 - "Community 24"
+Cohesion: 0.07
+Nodes (32): _patch_trend_file(), tests/test_trend_intelligence.py ---------------------------------- Unit tests, Gemini's explicit commands must always be honoured., _restore_trend_file(), TestTrendEngine, TestUniversalContentDirector, add_user_trend(), collect_trend_input_interactive() (+24 more)
+
 ### Community 25 - "Community 25"
 Cohesion: 0.07
-Nodes (30): _patch_trend_file(), tests/test_trend_intelligence.py ---------------------------------- Unit tests, Gemini's explicit commands must always be honoured., _restore_trend_file(), TestTrendEngine, TestUniversalContentDirector, add_user_trend(), collect_trend_input_interactive() (+22 more)
+Nodes (34): AudioPoolManager, _is_pipeline_artifact(), Helper to get file metadata accounting for schema version., Helper to set file metadata accounting for schema version., [FIX] Move any loose .mp3/.wav files sitting in Original_audio/ root into, Scan active/ folder and ensure all files are registered in pool_metadata.json., Daemon thread: analyze one BGM track with Gemini and write the result         b, Manages the lifecycle of extracted audio clips.     Pools:       - active/: El (+26 more)
 
 ### Community 26 - "Community 26"
 Cohesion: 0.05
 Nodes (41): apply_ferrari_composer(), check_health(), compile_batch_with_transitions(), compile_monetizable_longform(), compile_with_timeline(), compile_with_transitions(), _get_video_info(), process_video_pipeline() (+33 more)
 
 ### Community 27 - "Community 27"
-Cohesion: 0.07
-Nodes (33): AudioPoolManager, _is_pipeline_artifact(), Helper to get file metadata accounting for schema version., Helper to set file metadata accounting for schema version., [FIX] Move any loose .mp3/.wav files sitting in Original_audio/ root into, Scan active/ folder and ensure all files are registered in pool_metadata.json., Daemon thread: analyze one BGM track with Gemini and write the result         b, Manages the lifecycle of extracted audio clips.     Pools:       - active/: El (+25 more)
+Cohesion: 0.11
+Nodes (11): test_orchestra(), _get_timeout(), ProviderHealth, Router Orchestra — 4-Provider Lean Architecture ===============================, Dynamic score: higher = prefer this provider.         score = success_rate * 10, Central AI routing brain for AMTCE.     Manages Groq, Mistral, and coordinates, Returns True if budget allows. Gemini vision calls bypass global counter., Call at the start of each video to reset the global call counter. (+3 more)
 
 ### Community 28 - "Community 28"
-Cohesion: 0.08
-Nodes (27): _contains_negative(), generate_overlay_text(), _get_pool(), _load_memory(), _pick_theme(), Overlay Text Engine -------------------- Generates short, punchy on-screen text, Generate short overlay text independent of captions/narration.     - Max 4 words, Intelligently select a viral Hinglish hook based on visual context.      Context (+19 more)
-
-### Community 29 - "Community 29"
-Cohesion: 0.07
-Nodes (16): calculate_std_dev(), clamp(), PsychometricEngine, Self-Healing Adaptive Intelligence Engine v3 ----------------------------------, The Core Logic for Protection., Returns restrictive parameters based on level., Calculates entropy. If low, suggests a neglected trigger., Probabilistic selection based on weights. (+8 more)
-
-### Community 30 - "Community 30"
 Cohesion: 0.07
 Nodes (25): BatchFactory, _distribute_to_platforms(), _inject_market_dna(), _load_market_memory(), _process_one_video(), The Great Machine — Batch Factory Engine =======================================, Push the finished video to every enabled platform.     Returns a dict of platfor, Run the full AMTCE pipeline on one video file.     Returns a result dict with ou (+17 more)
 
-### Community 31 - "Community 31"
+### Community 29 - "Community 29"
+Cohesion: 0.07
+Nodes (15): calculate_std_dev(), clamp(), PsychometricEngine, Self-Healing Adaptive Intelligence Engine v3 ----------------------------------, The Core Logic for Protection., Returns restrictive parameters based on level., Calculates entropy. If low, suggests a neglected trigger., Probabilistic selection based on weights. (+7 more)
+
+### Community 30 - "Community 30"
 Cohesion: 0.09
-Nodes (22): FirstShotLibrary, FirstShotSelector, get_clip_duration(), normalize_intro(), First_Shot_Engine/first_shot_engine.py ─────────────────────────────────────────, Dynamically adds a new placeholder to library_index.json and logs a loud warning, Returns an absolute path to a real (non-placeholder) clip for the topic., Returns all topic entries from the index. (+14 more)
+Nodes (28): _apply_redundancy_filter(), _build_fusion_timeline(), _determine_dominant_source(), fuse_signals(), get_engine(), Signal Fusion Engine 2.0 ------------------------ Fuses multiple streams of co, # NOTE: pseudo-random noise (math.sin time-based offset) was removed., Detects the semantic focus type for a moment. (+20 more)
+
+### Community 31 - "Community 31"
+Cohesion: 0.11
+Nodes (15): _bucket_hold(), _bucket_motion(), _field_overlap(), _key_fields(), _make_key(), Smart Transition Intelligence Engine (STIE) ====================================, Count how many of the 5 bucket fields match between two keys., Decides transition type + duration per gap, learns from every approve/reject. (+7 more)
 
 ### Community 32 - "Community 32"
-Cohesion: 0.09
-Nodes (30): apply_karaoke(), ceie/tools/karaoke_applier.py ----------------------------- Transcribes voiceove, Transcribes voiceover clips, shifts timestamps to align globally,     builds an, apply_karaoke_subtitles(), apply_static_hook_subtitle(), _bridge_timestamps(), _build_ass_content(), _build_static_hook_ass() (+22 more)
+Cohesion: 0.11
+Nodes (25): analyze_scene(), _best_face_crop(), build_clip_plan(), _call_gemini(), _cluster_faces(), _detect_faces(), _get_dnn_net(), _get_video_duration() (+17 more)
 
 ### Community 33 - "Community 33"
-Cohesion: 0.1
-Nodes (25): analyse_emotional_spikes(), _build_emotion_timeline(), _classify_spike_type(), _compute_audio_spike_score(), _compute_face_expression_score(), _compute_motion_change_score(), _detect_emotional_spikes(), _detect_emotional_spikes_with_gemini() (+17 more)
-
-### Community 34 - "Community 34"
-Cohesion: 0.11
-Nodes (25): analyze_scene(), _best_face_crop(), build_clip_plan(), _call_gemini(), _cluster_faces(), _detect_faces(), filter_scenes_by_cluster(), _get_dnn_net() (+17 more)
-
-### Community 35 - "Community 35"
-Cohesion: 0.12
-Nodes (18): _compute_adaptive_threshold(), _compute_cosine_distance(), _detect_expression_changes(), ExpressionChangeDetector, _extract_face_embedding(), get_engine(), Content_Intelligence/expression_change_engine.py -------------------------------, Compute cosine distance between two normalized embeddings.          cosine_dista (+10 more)
-
-### Community 36 - "Community 36"
 Cohesion: 0.15
 Nodes (6): tests/test_scene_highlight.py  Tests for Shot Highlight Extraction feature., Scene shorter than 3s should still return valid dict without crash., Pure fallback scoring (all zeros) should still produce a valid result., Verify the spec example case: scene 4.0-9.0 → highlight within 4.0-9.0, 3-6s., Convenience wrapper: build scene + frame_data and call select_scene_highlight., TestSelectSceneHighlight
 
-### Community 37 - "Community 37"
+### Community 34 - "Community 34"
 Cohesion: 0.14
 Nodes (20): can_post(), _get_account_entry(), get_daily_summary(), _load_state(), pick_available_account(), account_limiter.py — Per-Account Daily Post Limiter ============================, Increment the post counter for a niche + platform.     Call this AFTER a success, Returns a summary of today's post counts for all accounts. (+12 more)
 
-### Community 38 - "Community 38"
+### Community 35 - "Community 35"
+Cohesion: 0.16
+Nodes (18): _bpm_snap(), _canonicalize_direction(), decide_transition(), _energy_label(), enrich_segment_with_tie(), phase1_human_analysis(), phase2_machine_selection(), phase3_execution_parameters() (+10 more)
+
+### Community 36 - "Community 36"
+Cohesion: 0.16
+Nodes (8): _HookTracker, Money Flow Logic v3 (High-Conversion Engine — India-First Edition) ------------, Lightweight file-backed performance tracker.     Records how many times each ho, Call this from your Telegram callback / Los Pollos postback handler., Call this from your Amazon affiliate callback or Los Pollos postback         wh, Earnings Per Click. Higher = hook that drives PURCHASES, not just clicks., EPC-weighted random pick. After 10+ clicks of data exists,         prefer EPC o, Weighted random pick — hooks with higher CTR are selected more often.         F
+
+### Community 37 - "Community 37"
 Cohesion: 0.12
 Nodes (11): merge_feature_flags(), Merge feature flags from Gemini proposals, safety overrides, and transformation, detect_source(), Detects whether the video source is reused content.     Rules:     - If input co, TestReusedContentPipeline, calculate_transformation_score(), enforce_transformation_rules(), get_transformation_strategy() (+3 more)
 
-### Community 39 - "Community 39"
+### Community 38 - "Community 38"
 Cohesion: 0.15
 Nodes (10): HiggsfieldEarn, _load_submissions(), Higgsfield Earn — Campaign Submission Helper ===================================, Return all submissions not yet manually submitted to Higgsfield Earn., Mark a submission as completed and update view count., Generate a summary of all pending manual Earn submissions., Full summary of all Earn submissions and estimated earnings., Tracks Higgsfield Earn submissions and estimates payout tiers.      Usage: (+2 more)
 
-### Community 40 - "Community 40"
-Cohesion: 0.16
-Nodes (11): analyze_video(), ForensicVideoAnalyzer, get_analyzer(), Intelligence_Modules/forensic_analyzer.py --------------------------------------, Extracts frames from a video and sends them to Gemini Vision for forensic analys, Perform forensic analysis on a video (or pre-extracted frames).          Args:, Extract FRAME_COUNT frames evenly spread across the video using FFmpeg., Send frames + prompt to Gemini Vision, parse and validate JSON response. (+3 more)
+### Community 39 - "Community 39"
+Cohesion: 0.14
+Nodes (17): _get_valid_access_token(), _init_post(), _load_tokens(), _poll_status(), tiktok_uploader.py — AMTCE TikTok Content Posting API (Direct Post) ============, Return a valid (non-expired) access token, auto-refreshing if needed.     Consid, Initialize a Direct Post upload session.     Returns the full /init/ response da, Chunked PUT upload to the pre-signed upload_url from /init/. (+9 more)
 
-### Community 41 - "Community 41"
+### Community 40 - "Community 40"
 Cohesion: 0.17
 Nodes (11): _CallbackHandler, _generate_pkce_pair(), _load_env(), main(), auth_tiktok.py — One-time TikTok OAuth 2.0 Authorization Helper (PKCE) =========, Parse key=value pairs from Credentials/.env., Resolve where to save the token store for this niche., Generate a PKCE code_verifier and code_challenge (S256 method).     TikTok requi (+3 more)
 
-### Community 42 - "Community 42"
+### Community 41 - "Community 41"
 Cohesion: 0.15
 Nodes (0): 
 
-### Community 43 - "Community 43"
+### Community 42 - "Community 42"
 Cohesion: 0.18
 Nodes (7): DeepSeekRouter, DeepSeek Reasoning Router -------------------------- Primary engine for all re, Lightweight router for DeepSeek R1 API.     Wraps the OpenAI-compatible endpoin, Lazy-initialize the OpenAI-compatible client., Check if DeepSeek is configured and reachable., Return True if this task is text-only and DeepSeek can handle it., Call DeepSeek R1 with retry logic.         Returns the generated text or None o
 
+### Community 43 - "Community 43"
+Cohesion: 0.24
+Nodes (5): GeminiStatusManager, Checks if GEMINI_API_KEY has changed, and resets bans if so., Checks if a model is currently banned due to quota exceeded., Marks a model as banned for 24 hours., Returns a list of models that are not currently banned.
+
 ### Community 44 - "Community 44"
+Cohesion: 0.23
+Nodes (6): PolicyMemory, Policy Memory Module (Criterion 5) ---------------------------------- Stores s, Updates policy stats and re-evaluates enabled status., Returns True if policy is allowed to run., Helper to get rate safely., Normalize policy name.
+
+### Community 45 - "Community 45"
+Cohesion: 0.35
+Nodes (11): build_app(), _build_council_md(), _build_ubi_md(), chat_with_ali(), _check_backend(), _get_ubi_profile(), ALI - Gradio Chat Interface ============================ A premium, highly uni, Main chat handler -- sends message to ALI and streams response. (+3 more)
+
+### Community 46 - "Community 46"
 Cohesion: 0.23
 Nodes (4): CacheDomain, Safe replacement for delete. Marks bad — doesn't delete immediately.         Fix, TieredCAGEngine, Enum
 
-### Community 45 - "Community 45"
-Cohesion: 0.24
-Nodes (11): _apply_default_scores(), _measure_ffmpeg_astats(), _measure_rms_per_segment(), _normalise_and_annotate(), Energy Scorer — AMTCE Per-Segment Audio Energy Analysis =======================, FFmpeg fallback: uses `astats` filter with `atrim` to measure RMS per segment., Min-max normalises raw RMS values to [0.0, 1.0] and writes them to each     seg, Fallback: assign a neutral score so the pipeline keeps running.     0.5 means n (+3 more)
-
-### Community 46 - "Community 46"
+### Community 47 - "Community 47"
 Cohesion: 0.25
 Nodes (10): _build_benefits(), build_organic_caption(), build_youtube_description(), _extract_vibe_key(), _next_template(), organic_sales_copy.py ---------------------- 2026 High-Conversion Instagram Capt, Returns templates in round-robin order for auditable rotation., Extracts 3 scannable benefit bullet points from fashion_scout data.     Falls ba (+2 more)
 
-### Community 47 - "Community 47"
+### Community 48 - "Community 48"
+Cohesion: 0.33
+Nodes (8): calculate_score(), normalize_signals(), segment_validator.py -------------------- STRICT Video Segment Validation Syst, Normalize all signals across candidates and selected segments to [0, 1]., Find nearest signal value within a time window., Compute score = 0.35*M + 0.30*R + 0.20*V + 0.15*E, resolve_signal(), validate_segments()
+
+### Community 49 - "Community 49"
 Cohesion: 0.22
 Nodes (0): 
 
-### Community 48 - "Community 48"
+### Community 50 - "Community 50"
 Cohesion: 0.22
 Nodes (8): Verify that massive rewrites are rejected., Verify that accidental import deletions are flagged as CRITICAL., Verify that intent mismatch is caught., Verify that core brain files are strictly off-limits., test_diff_size_limit(), test_protected_files_rejection(), test_risky_diff_import_deletion(), test_semantic_intent_validation()
 
-### Community 49 - "Community 49"
+### Community 51 - "Community 51"
+Cohesion: 0.25
+Nodes (4): DigitalAnchor, Generates the FFmpeg filter for the circular anchor in the corner.         Posi, Returns the path to the current active anchor asset., Manages the 'Virtual Host' (AI Anchor) for the Synthetic Newsroom.     Provides
+
+### Community 52 - "Community 52"
 Cohesion: 0.29
 Nodes (6): CinematicDurationEngine, compute_cinematic_duration(), CinematicDurationEngine — Psychology-driven duration calculator for AMTCE.  RESE, Public API — call this from orchestrator., Computes psychologically-optimal output duration and beat plan     from an arbit, Given a source clip duration (e.g. 600.0 for 10 minutes),         return the ful
 
-### Community 50 - "Community 50"
+### Community 53 - "Community 53"
 Cohesion: 0.39
 Nodes (7): get_fallback_payload(), Returns a safe, neutral fallback payload used when Gemini fails      or confide, test_content_brain_fallback(), test_fashion_fallback(), test_mock_cache_compatibility(), test_mock_cache_with_watermarks(), test_vision_fallback()
 
-### Community 51 - "Community 51"
+### Community 54 - "Community 54"
+Cohesion: 0.33
+Nodes (3): log_end(), log_start(), patched_generate()
+
+### Community 55 - "Community 55"
 Cohesion: 0.33
 Nodes (3): _MissionResult, VanguardDirector — Agentic 4-Turn Mission Controller (Stub / Placeholder)  Thi, Minimal result object returned by execute_mission.
 
-### Community 52 - "Community 52"
+### Community 56 - "Community 56"
 Cohesion: 0.4
 Nodes (4): create_ai_editing_plan(), Factory to create a structured editing plan., Validates the editing_plan against the required schema., validate_editing_plan()
 
-### Community 53 - "Community 53"
+### Community 57 - "Community 57"
 Cohesion: 0.5
 Nodes (2): NecessaryImportGate, Necessary Import Gate     ---------------------     Centralized gatekeeper for
 
-### Community 54 - "Community 54"
+### Community 58 - "Community 58"
 Cohesion: 0.5
 Nodes (0): 
 
-### Community 55 - "Community 55"
+### Community 59 - "Community 59"
 Cohesion: 0.5
 Nodes (2): Text Region Detector (Helper for Composite Watermarks) ------------------------, TextRegionDetector
 
-### Community 56 - "Community 56"
+### Community 60 - "Community 60"
 Cohesion: 0.67
 Nodes (1): Dummy clip profile generator for testing.
 
-### Community 57 - "Community 57"
+### Community 61 - "Community 61"
 Cohesion: 0.67
 Nodes (2): process_audio_data(), BUG: This function assumes data is a list of strings.     If it receives a None
 
-### Community 58 - "Community 58"
+### Community 62 - "Community 62"
 Cohesion: 0.67
 Nodes (2): Verify that a 'REJECT' from the Auditor blocks promotion even if Pytest passes., test_auditor_disagreement_blocking()
 
-### Community 59 - "Community 59"
+### Community 63 - "Community 63"
 Cohesion: 0.67
 Nodes (2): Verify that a file cannot be forged twice in 5 minutes., test_forge_cooldown_enforcement()
 
-### Community 60 - "Community 60"
+### Community 64 - "Community 64"
 Cohesion: 1.0
 Nodes (2): mock_logic(), test_toggles()
 
-### Community 61 - "Community 61"
+### Community 65 - "Community 65"
 Cohesion: 0.67
 Nodes (1): TestPriceTagTiming
 
-### Community 62 - "Community 62"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 63 - "Community 63"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 64 - "Community 64"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 65 - "Community 65"
-Cohesion: 1.0
-Nodes (1): System Prompts for Bot Intelligence ----------------------------------- Centra
-
 ### Community 66 - "Community 66"
 Cohesion: 1.0
-Nodes (1): config/runtime_flags.py ────────────────────────────────────────────────────────
+Nodes (0): 
 
 ### Community 67 - "Community 67"
 Cohesion: 1.0
-Nodes (1): Legacy shim for compiler module.
+Nodes (0): 
 
 ### Community 68 - "Community 68"
 Cohesion: 1.0
@@ -953,19 +957,19 @@ Nodes (0):
 
 ### Community 69 - "Community 69"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): System Prompts for Bot Intelligence ----------------------------------- Centra
 
 ### Community 70 - "Community 70"
 Cohesion: 1.0
-Nodes (1): inject_scheduler.py — Injects run_paparazzi_cycle + dispatcher into actress_sche
+Nodes (1): config/runtime_flags.py ────────────────────────────────────────────────────────
 
 ### Community 71 - "Community 71"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): Legacy shim for compiler module.
 
 ### Community 72 - "Community 72"
 Cohesion: 1.0
-Nodes (1): run_bot.py ────────── Launches the sales bot. This is the script you keep runnin
+Nodes (0): 
 
 ### Community 73 - "Community 73"
 Cohesion: 1.0
@@ -973,7 +977,7 @@ Nodes (0):
 
 ### Community 74 - "Community 74"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): inject_scheduler.py — Injects run_paparazzi_cycle + dispatcher into actress_sche
 
 ### Community 75 - "Community 75"
 Cohesion: 1.0
@@ -981,7 +985,7 @@ Nodes (0):
 
 ### Community 76 - "Community 76"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): run_bot.py ────────── Launches the sales bot. This is the script you keep runnin
 
 ### Community 77 - "Community 77"
 Cohesion: 1.0
@@ -997,7 +1001,7 @@ Nodes (0):
 
 ### Community 80 - "Community 80"
 Cohesion: 1.0
-Nodes (1): Multi-clip timeline rendering shim.         Restores the 'rhythm-sync' compilat
+Nodes (0): 
 
 ### Community 81 - "Community 81"
 Cohesion: 1.0
@@ -1005,7 +1009,7 @@ Nodes (0):
 
 ### Community 82 - "Community 82"
 Cohesion: 1.0
-Nodes (1): Convenience constructor: builds a VideoLog entry from EditorBrainV3 output.
+Nodes (0): 
 
 ### Community 83 - "Community 83"
 Cohesion: 1.0
@@ -1013,7 +1017,7 @@ Nodes (0):
 
 ### Community 84 - "Community 84"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): Multi-clip timeline rendering shim.         Restores the 'rhythm-sync' compilat
 
 ### Community 85 - "Community 85"
 Cohesion: 1.0
@@ -1021,7 +1025,7 @@ Nodes (0):
 
 ### Community 86 - "Community 86"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): Convenience constructor: builds a VideoLog entry from EditorBrainV3 output.
 
 ### Community 87 - "Community 87"
 Cohesion: 1.0
@@ -1081,107 +1085,107 @@ Nodes (0):
 
 ### Community 101 - "Community 101"
 Cohesion: 1.0
-Nodes (1): Quick log for non-API events (like cache hits)
+Nodes (0): 
 
 ### Community 102 - "Community 102"
 Cohesion: 1.0
-Nodes (1): Compute a segment diversity score [0..1]. True = diverse enough.
+Nodes (0): 
 
 ### Community 103 - "Community 103"
 Cohesion: 1.0
-Nodes (1): Populate StepTracer from FeatureAuditor status string.
+Nodes (0): 
 
 ### Community 104 - "Community 104"
 Cohesion: 1.0
-Nodes (1): Install all patches. Returns count of successfully patched functions.
+Nodes (0): 
 
 ### Community 105 - "Community 105"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): Quick log for non-API events (like cache hits)
 
 ### Community 106 - "Community 106"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): Compute a segment diversity score [0..1]. True = diverse enough.
 
 ### Community 107 - "Community 107"
 Cohesion: 1.0
-Nodes (1): Attempts to import a standard module dynamically.
+Nodes (1): Populate StepTracer from FeatureAuditor status string.
 
 ### Community 108 - "Community 108"
 Cohesion: 1.0
-Nodes (1): Detects hardware capabilities WITHOUT importing torch/tensorflow if possible ini
+Nodes (1): Install all patches. Returns count of successfully patched functions.
 
 ### Community 109 - "Community 109"
 Cohesion: 1.0
-Nodes (1): Calculates Expected Value.         Confidence: 0.0 to 1.0 (Probability of Succe
+Nodes (0): 
 
 ### Community 110 - "Community 110"
 Cohesion: 1.0
-Nodes (1): Gatekeeper Function. Returns True if EV > threshold.
+Nodes (0): 
 
 ### Community 111 - "Community 111"
 Cohesion: 1.0
-Nodes (1): Computes STATIC_SCORE based on trajectory data.         Returns: 0.0 to 1.0 (Hi
+Nodes (1): Attempts to import a standard module dynamically.
 
 ### Community 112 - "Community 112"
 Cohesion: 1.0
-Nodes (1): Computes strict byte-level hash.
+Nodes (1): Detects hardware capabilities WITHOUT importing torch/tensorflow if possible ini
 
 ### Community 113 - "Community 113"
 Cohesion: 1.0
-Nodes (1): Computes DCT-based Perceptual Hash (pHash) on the middle frame.         Robust
+Nodes (1): Calculates Expected Value.         Confidence: 0.0 to 1.0 (Probability of Succe
 
 ### Community 114 - "Community 114"
 Cohesion: 1.0
-Nodes (1): Computes Hamming distance between two 64-bit hex hashes.
+Nodes (1): Gatekeeper Function. Returns True if EV > threshold.
 
 ### Community 115 - "Community 115"
 Cohesion: 1.0
-Nodes (1): Checks for collisions in the index.         Returns:             (collision_ty
+Nodes (1): Computes STATIC_SCORE based on trajectory data.         Returns: 0.0 to 1.0 (Hi
 
 ### Community 116 - "Community 116"
 Cohesion: 1.0
-Nodes (1): Registers the content in the index.
+Nodes (1): Computes strict byte-level hash.
 
 ### Community 117 - "Community 117"
 Cohesion: 1.0
-Nodes (1): Return the time of the highest expression_change in the early window.
+Nodes (1): Computes DCT-based Perceptual Hash (pHash) on the middle frame.         Robust
 
 ### Community 118 - "Community 118"
 Cohesion: 1.0
-Nodes (1): Compares input vs output video quality.         Returns dict with deltas and PA
+Nodes (1): Computes Hamming distance between two 64-bit hex hashes.
 
 ### Community 119 - "Community 119"
 Cohesion: 1.0
-Nodes (1): Uses ffmpeg scene detection to estimate scene cuts.         Fail if < 2 "scenes
+Nodes (1): Checks for collisions in the index.         Returns:             (collision_ty
 
 ### Community 120 - "Community 120"
 Cohesion: 1.0
-Nodes (1): Checks if video is effectively static.         Returns: motion_score (0.0 - 1.0
+Nodes (1): Registers the content in the index.
 
 ### Community 121 - "Community 121"
 Cohesion: 1.0
-Nodes (1): Complete check. Returns (is_safe: bool, reason: str)
+Nodes (1): Return the time of the highest expression_change in the early window.
 
 ### Community 122 - "Community 122"
 Cohesion: 1.0
-Nodes (1): Feature 1: Weighted Risk Probability Scoring.         Returns: risk_score (0-10
+Nodes (1): Compares input vs output video quality.         Returns dict with deltas and PA
 
 ### Community 123 - "Community 123"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): Uses ffmpeg scene detection to estimate scene cuts.         Fail if < 2 "scenes
 
 ### Community 124 - "Community 124"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): Checks if video is effectively static.         Returns: motion_score (0.0 - 1.0
 
 ### Community 125 - "Community 125"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): Complete check. Returns (is_safe: bool, reason: str)
 
 ### Community 126 - "Community 126"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): Feature 1: Weighted Risk Probability Scoring.         Returns: risk_score (0-10
 
 ### Community 127 - "Community 127"
 Cohesion: 1.0
@@ -1217,11 +1221,11 @@ Nodes (0):
 
 ### Community 135 - "Community 135"
 Cohesion: 1.0
-Nodes (1): Verify that a HIGH risk from the brain is NOT overwritten by the compiler.
+Nodes (0): 
 
 ### Community 136 - "Community 136"
 Cohesion: 1.0
-Nodes (1): Verify that UNKNOWN (Brain Offline) is reported as MEDIUM, not LOW.
+Nodes (0): 
 
 ### Community 137 - "Community 137"
 Cohesion: 1.0
@@ -1229,35 +1233,35 @@ Nodes (0):
 
 ### Community 138 - "Community 138"
 Cohesion: 1.0
-Nodes (1): Verify that the render pipeline:         1. Uses hardware decode (-hwaccel auto)
+Nodes (0): 
 
 ### Community 139 - "Community 139"
 Cohesion: 1.0
-Nodes (1): Verify that if no zoom, speed ramps, or transitions exist, the graph         rem
+Nodes (1): Verify that a HIGH risk from the brain is NOT overwritten by the compiler.
 
 ### Community 140 - "Community 140"
 Cohesion: 1.0
-Nodes (1): Should successfully upload, analyze and clean up the video.
+Nodes (1): Verify that UNKNOWN (Brain Offline) is reported as MEDIUM, not LOW.
 
 ### Community 141 - "Community 141"
 Cohesion: 1.0
-Nodes (1): Should attempt file cleanup even if model generation fails.
+Nodes (0): 
 
 ### Community 142 - "Community 142"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): Verify that the render pipeline:         1. Uses hardware decode (-hwaccel auto)
 
 ### Community 143 - "Community 143"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): Verify that if no zoom, speed ramps, or transitions exist, the graph         rem
 
 ### Community 144 - "Community 144"
 Cohesion: 1.0
-Nodes (1): Enforce headline rules: EXACTLY 2-3 words, no trailing period.
+Nodes (1): Should successfully upload, analyze and clean up the video.
 
 ### Community 145 - "Community 145"
 Cohesion: 1.0
-Nodes (1): Scans neighborhood of logo_box for text-like regions.         Returns list of b
+Nodes (1): Should attempt file cleanup even if model generation fails.
 
 ### Community 146 - "Community 146"
 Cohesion: 1.0
@@ -1269,11 +1273,11 @@ Nodes (0):
 
 ### Community 148 - "Community 148"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): Enforce headline rules: EXACTLY 2-3 words, no trailing period.
 
 ### Community 149 - "Community 149"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): Scans neighborhood of logo_box for text-like regions.         Returns list of b
 
 ### Community 150 - "Community 150"
 Cohesion: 1.0
@@ -1281,71 +1285,71 @@ Nodes (0):
 
 ### Community 151 - "Community 151"
 Cohesion: 1.0
-Nodes (1): Strip NSFW emojis from any string before writing it into a YouTube comment.
+Nodes (0): 
 
 ### Community 152 - "Community 152"
 Cohesion: 1.0
-Nodes (1): Reads The_json/geo_analytics.json, maps country → language,         aggregates
+Nodes (0): 
 
 ### Community 153 - "Community 153"
 Cohesion: 1.0
-Nodes (1): Resolves Meta credentials using a 3-tier priority chain:           1. Credentia
+Nodes (0): 
 
 ### Community 154 - "Community 154"
 Cohesion: 1.0
-Nodes (1): Orchestrates uploads to enabled Meta platforms.          The ``niche`` paramet
+Nodes (0): 
 
 ### Community 155 - "Community 155"
 Cohesion: 1.0
-Nodes (1): Uploads the local image to a temporary public host so the Instagram         Gra
+Nodes (1): Strip NSFW emojis from any string before writing it into a YouTube comment.
 
 ### Community 156 - "Community 156"
 Cohesion: 1.0
-Nodes (1): Smart person-aware Instagram ratio formatter (4:5 = 1080x1350).          Strat
+Nodes (1): Reads The_json/geo_analytics.json, maps country → language,         aggregates
 
 ### Community 157 - "Community 157"
 Cohesion: 1.0
-Nodes (1): Uploads a standard Image Post to Instagram feed using the Graph API.         Re
+Nodes (1): Resolves Meta credentials using a 3-tier priority chain:           1. Credentia
 
 ### Community 158 - "Community 158"
 Cohesion: 1.0
-Nodes (1): Cleans captions of UTF-16 surrogates that cause UnicodeEncodeError in httpx/UTF-
+Nodes (1): Orchestrates uploads to enabled Meta platforms.          The ``niche`` paramet
 
 ### Community 159 - "Community 159"
 Cohesion: 1.0
-Nodes (1): Generic retry wrapper for HTTP requests using httpx.         Default timeout in
+Nodes (1): Uploads the local image to a temporary public host so the Instagram         Gra
 
 ### Community 160 - "Community 160"
 Cohesion: 1.0
-Nodes (1): Polls Instagram container status until FINISHED or ERROR.         Timeout defau
+Nodes (1): Smart person-aware Instagram ratio formatter (4:5 = 1080x1350).          Strat
 
 ### Community 161 - "Community 161"
 Cohesion: 1.0
-Nodes (1): Non-blocking lock with timeout to prevent bot hangs.
+Nodes (1): Uploads a standard Image Post to Instagram feed using the Graph API.         Re
 
 ### Community 162 - "Community 162"
 Cohesion: 1.0
-Nodes (1): FOMO ESCALATION CASCADE (Upgraded A1)         Changes tone based on pot size to
+Nodes (1): Cleans captions of UTF-16 surrogates that cause UnicodeEncodeError in httpx/UTF-
 
 ### Community 163 - "Community 163"
 Cohesion: 1.0
-Nodes (1): High-pressure FOMO alerts for the final 15 minutes.
+Nodes (1): Generic retry wrapper for HTTP requests using httpx.         Default timeout in
 
 ### Community 164 - "Community 164"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): Polls Instagram container status until FINISHED or ERROR.         Timeout defau
 
 ### Community 165 - "Community 165"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): Non-blocking lock with timeout to prevent bot hangs.
 
 ### Community 166 - "Community 166"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): FOMO ESCALATION CASCADE (Upgraded A1)         Changes tone based on pot size to
 
 ### Community 167 - "Community 167"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): High-pressure FOMO alerts for the final 15 minutes.
 
 ### Community 168 - "Community 168"
 Cohesion: 1.0
@@ -1353,7 +1357,7 @@ Nodes (0):
 
 ### Community 169 - "Community 169"
 Cohesion: 1.0
-Nodes (1): Detects hardware capabilities WITHOUT importing torch/tensorflow if possible ini
+Nodes (0): 
 
 ### Community 170 - "Community 170"
 Cohesion: 1.0
@@ -1361,1199 +1365,1199 @@ Nodes (0):
 
 ### Community 171 - "Community 171"
 Cohesion: 1.0
-Nodes (1): Strategy A: Erosion/Shrink.         Reduces the mask size to minimize the "blur
+Nodes (0): 
 
 ### Community 172 - "Community 172"
 Cohesion: 1.0
-Nodes (1): Strategy B: Reduced Radius.         Calculates a safe radius for second-attempt
+Nodes (0): 
 
 ### Community 173 - "Community 173"
 Cohesion: 1.0
-Nodes (1): Singleton pattern so we only load the 500MB model into memory once.
+Nodes (1): Detects hardware capabilities WITHOUT importing torch/tensorflow if possible ini
 
 ### Community 174 - "Community 174"
 Cohesion: 1.0
-Nodes (1): Returns a list of tuples: (role_name, count)
+Nodes (0): 
 
 ### Community 175 - "Community 175"
 Cohesion: 1.0
-Nodes (1): Takes a role-assigned story_map and ensures climax score >= average build score.
+Nodes (1): Strategy A: Erosion/Shrink.         Reduces the mask size to minimize the "blur
 
 ### Community 176 - "Community 176"
 Cohesion: 1.0
-Nodes (1): Returns (pre_seconds, post_seconds) based on moment signals.
+Nodes (1): Strategy B: Reduced Radius.         Calculates a safe radius for second-attempt
 
 ### Community 177 - "Community 177"
 Cohesion: 1.0
-Nodes (1): Compute fuzzy string similarity (0.0 – 1.0).
+Nodes (1): Singleton pattern so we only load the 500MB model into memory once.
 
 ### Community 178 - "Community 178"
 Cohesion: 1.0
-Nodes (1): Returns a friendly batch name based on the hour of the slot.
+Nodes (1): Returns a list of tuples: (role_name, count)
 
 ### Community 179 - "Community 179"
 Cohesion: 1.0
-Nodes (1): Pops one item from the queue and runs it through the full AMTCE pipeline.
+Nodes (1): Takes a role-assigned story_map and ensures climax score >= average build score.
 
 ### Community 180 - "Community 180"
 Cohesion: 1.0
-Nodes (1): Pops one item from the queue and runs it through the full AMTCE pipeline.
+Nodes (1): Returns (pre_seconds, post_seconds) based on moment signals.
 
 ### Community 181 - "Community 181"
 Cohesion: 1.0
-Nodes (1): Prints a human-readable report of the posting time analysis.
+Nodes (1): Compute fuzzy string similarity (0.0 – 1.0).
 
 ### Community 182 - "Community 182"
 Cohesion: 1.0
-Nodes (1): Auto-patches ACTRESS_SCHEDULE_TIMES and ACTRESS_STATIC_PUBLISH_TIMES     in Cred
+Nodes (1): Returns a friendly batch name based on the hour of the slot.
 
 ### Community 183 - "Community 183"
 Cohesion: 1.0
-Nodes (1): Convert float seconds → ASS time format H:MM:SS.CC
+Nodes (1): Pops one item from the queue and runs it through the full AMTCE pipeline.
 
 ### Community 184 - "Community 184"
 Cohesion: 1.0
-Nodes (1): Strip punctuation and uppercase for display.
+Nodes (1): Pops one item from the queue and runs it through the full AMTCE pipeline.
 
 ### Community 185 - "Community 185"
 Cohesion: 1.0
-Nodes (1): Build the full .ASS subtitle file content with per-word karaoke highlighting.
+Nodes (1): Prints a human-readable report of the posting time analysis.
 
 ### Community 186 - "Community 186"
 Cohesion: 1.0
-Nodes (1): Master entry point. Applies V7 Cinema-Grade karaoke subtitles to a video.      T
+Nodes (1): Auto-patches ACTRESS_SCHEDULE_TIMES and ACTRESS_STATIC_PUBLISH_TIMES     in Cred
 
 ### Community 187 - "Community 187"
 Cohesion: 1.0
-Nodes (1): Quick check without loading full config.
+Nodes (1): Convert float seconds → ASS time format H:MM:SS.CC
 
 ### Community 188 - "Community 188"
 Cohesion: 1.0
-Nodes (1): Disk-persisted Apify quota tracker.     Survives process restarts — critical for
+Nodes (1): Strip punctuation and uppercase for display.
 
 ### Community 189 - "Community 189"
 Cohesion: 1.0
-Nodes (1): Returns True if quota allows `needed` more calls.
+Nodes (1): Build the full .ASS subtitle file content with per-word karaoke highlighting.
 
 ### Community 190 - "Community 190"
 Cohesion: 1.0
-Nodes (1): Record that `amount` Apify calls were made.
+Nodes (1): Master entry point. Applies V7 Cinema-Grade karaoke subtitles to a video.      T
 
 ### Community 191 - "Community 191"
 Cohesion: 1.0
-Nodes (1): Disk-persisted registry of all Instagram post shortcodes that have     already b
+Nodes (1): Quick check without loading full config.
 
 ### Community 192 - "Community 192"
 Cohesion: 1.0
-Nodes (1): Returns True if this shortcode was already processed.
+Nodes (1): Disk-persisted Apify quota tracker.     Survives process restarts — critical for
 
 ### Community 193 - "Community 193"
 Cohesion: 1.0
-Nodes (1): Persists the given shortcodes to the registry so future         harvest cycles w
+Nodes (1): Returns True if quota allows `needed` more calls.
 
 ### Community 194 - "Community 194"
 Cohesion: 1.0
-Nodes (1): Disk-persisted per-account 24h scrape cooldown.     Prevents scraping the same I
+Nodes (1): Record that `amount` Apify calls were made.
 
 ### Community 195 - "Community 195"
 Cohesion: 1.0
-Nodes (1): Returns True if the account is eligible for scraping (cooldown expired).
+Nodes (1): Disk-persisted registry of all Instagram post shortcodes that have     already b
 
 ### Community 196 - "Community 196"
 Cohesion: 1.0
-Nodes (1): Splits accounts into (ready, blocked) lists.         ready   = accounts whose 24
+Nodes (1): Returns True if this shortcode was already processed.
 
 ### Community 197 - "Community 197"
 Cohesion: 1.0
-Nodes (1): Record the current time as the last-scraped timestamp for each account.
+Nodes (1): Persists the given shortcodes to the registry so future         harvest cycles w
 
 ### Community 198 - "Community 198"
 Cohesion: 1.0
-Nodes (1): Dump a full salesman dashboard to the logger.
+Nodes (1): Disk-persisted per-account 24h scrape cooldown.     Prevents scraping the same I
 
 ### Community 199 - "Community 199"
 Cohesion: 1.0
-Nodes (1): Return the module-level singleton, creating it on first call.
+Nodes (1): Returns True if the account is eligible for scraping (cooldown expired).
 
 ### Community 200 - "Community 200"
 Cohesion: 1.0
-Nodes (1): Main Orchestrator for Forensic Analysis.
+Nodes (1): Splits accounts into (ready, blocked) lists.         ready   = accounts whose 24
 
 ### Community 201 - "Community 201"
 Cohesion: 1.0
-Nodes (1): Shared caption sanitizer for all visible text (captions, overlay labels, content
+Nodes (1): Record the current time as the last-scraped timestamp for each account.
 
 ### Community 202 - "Community 202"
 Cohesion: 1.0
-Nodes (1): Validation gate: blacklist + brand ban + meta phrases.         Uses BANNED_BRAN
+Nodes (1): Dump a full salesman dashboard to the logger.
 
 ### Community 203 - "Community 203"
 Cohesion: 1.0
-Nodes (1): Enforce headline rules: EXACTLY 2-3 words, no trailing period.
+Nodes (1): Return the module-level singleton, creating it on first call.
 
 ### Community 204 - "Community 204"
 Cohesion: 1.0
-Nodes (1): Generate AI caption from video frame (DIRECT MODE ONLY).
+Nodes (1): Main Orchestrator for Forensic Analysis.
 
 ### Community 205 - "Community 205"
 Cohesion: 1.0
-Nodes (1): Text-only caption generation using Gemini system role + diversity config.     U
+Nodes (1): Shared caption sanitizer for all visible text (captions, overlay labels, content
 
 ### Community 206 - "Community 206"
 Cohesion: 1.0
-Nodes (1): Public helper for upload caption generation.     Accepts optional profile_data
+Nodes (1): Validation gate: blacklist + brand ban + meta phrases.         Uses BANNED_BRAN
 
 ### Community 207 - "Community 207"
 Cohesion: 1.0
-Nodes (1): Generate short overlay text independent of captions/narration.     - Max 4 words
+Nodes (1): Enforce headline rules: EXACTLY 2-3 words, no trailing period.
 
 ### Community 208 - "Community 208"
 Cohesion: 1.0
-Nodes (1): Main entry point with Strict Fallback Logic and Lanes.
+Nodes (1): Generate AI caption from video frame (DIRECT MODE ONLY).
 
 ### Community 209 - "Community 209"
 Cohesion: 1.0
-Nodes (1): Wrapper for safe subprocess execution.
+Nodes (1): Text-only caption generation using Gemini system role + diversity config.     U
 
 ### Community 210 - "Community 210"
 Cohesion: 1.0
-Nodes (1): Render a persistent brand watermark at the bottom CENTER.
+Nodes (1): Public helper for upload caption generation.     Accepts optional profile_data
 
 ### Community 211 - "Community 211"
 Cohesion: 1.0
-Nodes (1): New PNG-based caption rendering system.         Guarantees exact positioning an
+Nodes (1): Generate short overlay text independent of captions/narration.     - Max 4 words
 
 ### Community 212 - "Community 212"
 Cohesion: 1.0
-Nodes (1): Fallback using ASS subtitles when drawtext fails.
+Nodes (1): Main entry point with Strict Fallback Logic and Lanes.
 
 ### Community 213 - "Community 213"
 Cohesion: 1.0
-Nodes (1): Adds a logo overlay to the video.          The new logic automatically convert
+Nodes (1): Wrapper for safe subprocess execution.
 
 ### Community 214 - "Community 214"
 Cohesion: 1.0
-Nodes (1): Adds episodic framing text (3 lines).          Refinement Logic:         - Fa
+Nodes (1): Render a persistent brand watermark at the bottom CENTER.
 
 ### Community 215 - "Community 215"
 Cohesion: 1.0
-Nodes (1): Module-level convenience wrapper for ``TextOverlay.add_brand_overlay``.      R
+Nodes (1): New PNG-based caption rendering system.         Guarantees exact positioning an
 
 ### Community 216 - "Community 216"
 Cohesion: 1.0
-Nodes (1): Module-level convenience wrapper for ``TextOverlay.add_caption_and_brand_overlay
+Nodes (1): Fallback using ASS subtitles when drawtext fails.
 
 ### Community 217 - "Community 217"
 Cohesion: 1.0
-Nodes (1): Generates a single complex filter string for a timed text overlay.     Matches
+Nodes (1): Adds a logo overlay to the video.          The new logic automatically convert
 
 ### Community 218 - "Community 218"
 Cohesion: 1.0
-Nodes (1): Module-level helper that returns an FFmpeg drawtext filter string for     the g
+Nodes (1): Adds episodic framing text (3 lines).          Refinement Logic:         - Fa
 
 ### Community 219 - "Community 219"
 Cohesion: 1.0
-Nodes (1): Load daily limits state from disk. Returns empty dict if missing.
+Nodes (1): Module-level convenience wrapper for ``TextOverlay.add_brand_overlay``.      R
 
 ### Community 220 - "Community 220"
 Cohesion: 1.0
-Nodes (1): Persist daily limits state to disk.
+Nodes (1): Module-level convenience wrapper for ``TextOverlay.add_caption_and_brand_overlay
 
 ### Community 221 - "Community 221"
 Cohesion: 1.0
-Nodes (1): Get/init the entry for a niche. Auto-resets if date has changed.
+Nodes (1): Generates a single complex filter string for a timed text overlay.     Matches
 
 ### Community 222 - "Community 222"
 Cohesion: 1.0
-Nodes (1): Returns True if the niche account is allowed to post on the given platform today
+Nodes (1): Module-level helper that returns an FFmpeg drawtext filter string for     the g
 
 ### Community 223 - "Community 223"
 Cohesion: 1.0
-Nodes (1): Increment the post counter for a niche + platform.     Call this AFTER a success
+Nodes (1): Load daily limits state from disk. Returns empty dict if missing.
 
 ### Community 224 - "Community 224"
 Cohesion: 1.0
-Nodes (1): Returns a summary of today's post counts for all accounts.
+Nodes (1): Persist daily limits state to disk.
 
 ### Community 225 - "Community 225"
 Cohesion: 1.0
-Nodes (1): Given a shuffled pool of niche folder names, returns the first one     that stil
+Nodes (1): Get/init the entry for a niche. Auto-resets if date has changed.
 
 ### Community 226 - "Community 226"
 Cohesion: 1.0
-Nodes (1): Sleep a random amount between MIN_STAGGER_SECS and MAX_STAGGER_SECS.     Call be
+Nodes (1): Returns True if the niche account is allowed to post on the given platform today
 
 ### Community 227 - "Community 227"
 Cohesion: 1.0
-Nodes (1): Returns a randomised posting style profile to vary caption structure     between
+Nodes (1): Increment the post counter for a niche + platform.     Call this AFTER a success
 
 ### Community 228 - "Community 228"
 Cohesion: 1.0
-Nodes (1): Generates a seductive bargaining reply from the actress dynamic persona.     Ins
+Nodes (1): Returns a summary of today's post counts for all accounts.
 
 ### Community 229 - "Community 229"
 Cohesion: 1.0
-Nodes (1): Sends a photo to a chat using the ADMIN bot (BOT_TOKEN) directly via HTTP.     R
+Nodes (1): Given a shuffled pool of niche folder names, returns the first one     that stil
 
 ### Community 230 - "Community 230"
 Cohesion: 1.0
-Nodes (1): Edits the caption of a message in a chat using the ADMIN bot directly via HTTP.
+Nodes (1): Sleep a random amount between MIN_STAGGER_SECS and MAX_STAGGER_SECS.     Call be
 
 ### Community 231 - "Community 231"
 Cohesion: 1.0
-Nodes (1): Sends a text message to a chat using the ADMIN bot directly via HTTP.
+Nodes (1): Returns a randomised posting style profile to vary caption structure     between
 
 ### Community 232 - "Community 232"
 Cohesion: 1.0
-Nodes (1): Asks Gemini Vision if the screenshot is a successful UPI transaction of the expe
+Nodes (1): Generates a seductive bargaining reply from the actress dynamic persona.     Ins
 
 ### Community 233 - "Community 233"
 Cohesion: 1.0
-Nodes (1): Finds the first integer in the text.
+Nodes (1): Sends a photo to a chat using the ADMIN bot (BOT_TOKEN) directly via HTTP.     R
 
 ### Community 234 - "Community 234"
 Cohesion: 1.0
-Nodes (1): Checks if the user types an acceptance word like deal, ok, done etc.
+Nodes (1): Edits the caption of a message in a chat using the ADMIN bot directly via HTTP.
 
 ### Community 235 - "Community 235"
 Cohesion: 1.0
-Nodes (1): Returns True if the user is a member (or admin/owner) of FREE_PREVIEW_GROUP_ID.
+Nodes (1): Sends a text message to a chat using the ADMIN bot directly via HTTP.
 
 ### Community 236 - "Community 236"
 Cohesion: 1.0
-Nodes (1): Manages active bargaining session state for user_id.     Validates user offers,
+Nodes (1): Asks Gemini Vision if the screenshot is a successful UPI transaction of the expe
 
 ### Community 237 - "Community 237"
 Cohesion: 1.0
-Nodes (1): Answers customer inquiries using Groq Llama 3, Mistral, or Gemini, adopting actr
+Nodes (1): Finds the first integer in the text.
 
 ### Community 238 - "Community 238"
 Cohesion: 1.0
-Nodes (1): Start command for the Admin Bot. Only responds to configured admins.
+Nodes (1): Checks if the user types an acceptance word like deal, ok, done etc.
 
 ### Community 239 - "Community 239"
 Cohesion: 1.0
-Nodes (1): Triggered when user opens bot.     If deep linked (e.g. /start slug), it sets up
+Nodes (1): Returns True if the user is a member (or admin/owner) of FREE_PREVIEW_GROUP_ID.
 
 ### Community 240 - "Community 240"
 Cohesion: 1.0
-Nodes (1): Handles tier button click.
+Nodes (1): Manages active bargaining session state for user_id.     Validates user offers,
 
 ### Community 241 - "Community 241"
 Cohesion: 1.0
-Nodes (1): Handles incoming photos (payment screenshots).
+Nodes (1): Answers customer inquiries using Groq Llama 3, Mistral, or Gemini, adopting actr
 
 ### Community 242 - "Community 242"
 Cohesion: 1.0
-Nodes (1): Processes Approval/Rejection buttons pressed by admin in the Storage Group.
+Nodes (1): Start command for the Admin Bot. Only responds to configured admins.
 
 ### Community 243 - "Community 243"
 Cohesion: 1.0
-Nodes (1): Handles standard text messages sent to the Admin Bot. Only processes admin uploa
+Nodes (1): Triggered when user opens bot.     If deep linked (e.g. /start slug), it sets up
 
 ### Community 244 - "Community 244"
 Cohesion: 1.0
-Nodes (1): Handles standard text messages from users (inquires, negotiations) using Groq/Mi
+Nodes (1): Handles tier button click.
 
 ### Community 245 - "Community 245"
 Cohesion: 1.0
-Nodes (1): Listens for manual video uploads inside the private Storage Group and auto-index
+Nodes (1): Handles incoming photos (payment screenshots).
 
 ### Community 246 - "Community 246"
 Cohesion: 1.0
-Nodes (1): Listens for trailer uploads in the public Trailer Group, generates AI hooks and
+Nodes (1): Processes Approval/Rejection buttons pressed by admin in the Storage Group.
 
 ### Community 247 - "Community 247"
 Cohesion: 1.0
-Nodes (1): Triggered when an admin uploads a document or video directly to the bot in DM.
+Nodes (1): Handles standard text messages sent to the Admin Bot. Only processes admin uploa
 
 ### Community 248 - "Community 248"
 Cohesion: 1.0
-Nodes (1): Timer thread that executes fallback configuration after 30 seconds.
+Nodes (1): Handles standard text messages from users (inquires, negotiations) using Groq/Mi
 
 ### Community 249 - "Community 249"
 Cohesion: 1.0
-Nodes (1): Default fallback routing based on media format.
+Nodes (1): Listens for manual video uploads inside the private Storage Group and auto-index
 
 ### Community 250 - "Community 250"
 Cohesion: 1.0
-Nodes (1): Processes admin buttons clicked within the 6-second window.
+Nodes (1): Listens for trailer uploads in the public Trailer Group, generates AI hooks and
 
 ### Community 251 - "Community 251"
 Cohesion: 1.0
-Nodes (1): Periodically backs up the database to Telegram every 5 hours and 45 minutes (207
+Nodes (1): Triggered when an admin uploads a document or video directly to the bot in DM.
 
 ### Community 252 - "Community 252"
 Cohesion: 1.0
-Nodes (1): Callback run on application startup to spawn background tasks.
+Nodes (1): Timer thread that executes fallback configuration after 30 seconds.
 
 ### Community 253 - "Community 253"
 Cohesion: 1.0
-Nodes (1): Callback run on application shutdown to save final database state.
+Nodes (1): Default fallback routing based on media format.
 
 ### Community 254 - "Community 254"
 Cohesion: 1.0
-Nodes (1): Admin Bot Application — runs as BOT_TOKEN (8629240240).     Responsibilities:
+Nodes (1): Processes admin buttons clicked within the 6-second window.
 
 ### Community 255 - "Community 255"
 Cohesion: 1.0
-Nodes (1): Customer Bot Application — runs as CUSTOMER_BOT_TOKEN (8946296277).     Responsi
+Nodes (1): Periodically backs up the database to Telegram every 5 hours and 45 minutes (207
 
 ### Community 256 - "Community 256"
 Cohesion: 1.0
-Nodes (1): Initialises and runs both Applications concurrently in one event loop.
+Nodes (1): Callback run on application startup to spawn background tasks.
 
 ### Community 257 - "Community 257"
 Cohesion: 1.0
-Nodes (1): Loads the video database from disk, after checking for updates.
+Nodes (1): Callback run on application shutdown to save final database state.
 
 ### Community 258 - "Community 258"
 Cohesion: 1.0
-Nodes (1): Saves the video database to disk, sorted by slug name.
+Nodes (1): Admin Bot Application — runs as BOT_TOKEN (8629240240).     Responsibilities:
 
 ### Community 259 - "Community 259"
 Cohesion: 1.0
-Nodes (1): Uploads a single file to the Storage Group.     Returns the message_id of the up
+Nodes (1): Customer Bot Application — runs as CUSTOMER_BOT_TOKEN (8946296277).     Responsi
 
 ### Community 260 - "Community 260"
 Cohesion: 1.0
-Nodes (1): Uploads all 3 tiers of a video to the Storage Group and registers them in the in
+Nodes (1): Initialises and runs both Applications concurrently in one event loop.
 
 ### Community 261 - "Community 261"
 Cohesion: 1.0
-Nodes (1): Forwards a stored video to the customer's chat.     MUST use the ADMIN bot token
+Nodes (1): Loads the video database from disk, after checking for updates.
 
 ### Community 262 - "Community 262"
 Cohesion: 1.0
-Nodes (1): Loads the purchase history from disk, after checking for updates.
+Nodes (1): Saves the video database to disk, sorted by slug name.
 
 ### Community 263 - "Community 263"
 Cohesion: 1.0
-Nodes (1): Saves the purchase history to disk, sorted by timestamp.
+Nodes (1): Uploads a single file to the Storage Group.     Returns the message_id of the up
 
 ### Community 264 - "Community 264"
 Cohesion: 1.0
-Nodes (1): Inserts a new customer receipt verification record with 'pending' status.
+Nodes (1): Uploads all 3 tiers of a video to the Storage Group and registers them in the in
 
 ### Community 265 - "Community 265"
 Cohesion: 1.0
-Nodes (1): Updates a pending submission to approved or rejected.
+Nodes (1): Forwards a stored video to the customer's chat.     MUST use the ADMIN bot token
 
 ### Community 266 - "Community 266"
 Cohesion: 1.0
-Nodes (1): Finds if a customer has an existing approved purchase for the requested video.
+Nodes (1): Loads the purchase history from disk, after checking for updates.
 
 ### Community 267 - "Community 267"
 Cohesion: 1.0
-Nodes (1): Checks the STORAGE_GROUP_ID pinned message.     If it is a database backup file,
+Nodes (1): Saves the purchase history to disk, sorted by timestamp.
 
 ### Community 268 - "Community 268"
 Cohesion: 1.0
-Nodes (1): Loads video_index.json and purchase_history.json, combines them,     uploads dat
+Nodes (1): Inserts a new customer receipt verification record with 'pending' status.
 
 ### Community 269 - "Community 269"
 Cohesion: 1.0
-Nodes (1): Return video duration in seconds via ffprobe.
+Nodes (1): Updates a pending submission to approved or rejected.
 
 ### Community 270 - "Community 270"
 Cohesion: 1.0
-Nodes (1): Split a large video into parts of ≤ max_mb MB using ffmpeg.     Returns list of
+Nodes (1): Finds if a customer has an existing approved purchase for the requested video.
 
 ### Community 271 - "Community 271"
 Cohesion: 1.0
-Nodes (1): Wraps a file object to show tqdm upload progress.
+Nodes (1): Checks the STORAGE_GROUP_ID pinned message.     If it is a database backup file,
 
 ### Community 272 - "Community 272"
 Cohesion: 1.0
-Nodes (1): POST a single video file to Telegram.     Returns the JSON response dict.     Ra
+Nodes (1): Loads video_index.json and purchase_history.json, combines them,     uploads dat
 
 ### Community 273 - "Community 273"
 Cohesion: 1.0
-Nodes (1): Upload a video (or multiple parts if large) to the Telegram group.      Args:
+Nodes (1): Return video duration in seconds via ffprobe.
 
 ### Community 274 - "Community 274"
 Cohesion: 1.0
-Nodes (1): Send a plain text message to the group.
+Nodes (1): Split a large video into parts of ≤ max_mb MB using ffmpeg.     Returns list of
 
 ### Community 275 - "Community 275"
 Cohesion: 1.0
-Nodes (1): Verify bot token and group access by sending a test message.
+Nodes (1): Wraps a file object to show tqdm upload progress.
 
 ### Community 276 - "Community 276"
 Cohesion: 1.0
-Nodes (1): Asks Gemini Vision if the screenshot is a successful UPI transaction of the expe
+Nodes (1): POST a single video file to Telegram.     Returns the JSON response dict.     Ra
 
 ### Community 277 - "Community 277"
 Cohesion: 1.0
-Nodes (1): Answers customer inquiries using Groq Llama 3, Mistral, or Gemini, adopting actr
+Nodes (1): Upload a video (or multiple parts if large) to the Telegram group.      Args:
 
 ### Community 278 - "Community 278"
 Cohesion: 1.0
-Nodes (1): Triggered when user opens bot.     If deep linked (e.g. /start slug), it sets up
+Nodes (1): Send a plain text message to the group.
 
 ### Community 279 - "Community 279"
 Cohesion: 1.0
-Nodes (1): Handles tier button click.
+Nodes (1): Verify bot token and group access by sending a test message.
 
 ### Community 280 - "Community 280"
 Cohesion: 1.0
-Nodes (1): Handles incoming photos (payment screenshots).
+Nodes (1): Asks Gemini Vision if the screenshot is a successful UPI transaction of the expe
 
 ### Community 281 - "Community 281"
 Cohesion: 1.0
-Nodes (1): Processes Approval/Rejection buttons pressed by admin in the Storage Group.
+Nodes (1): Answers customer inquiries using Groq Llama 3, Mistral, or Gemini, adopting actr
 
 ### Community 282 - "Community 282"
 Cohesion: 1.0
-Nodes (1): Handles standard text messages from users (inquires, negotiations) using Groq/Mi
+Nodes (1): Triggered when user opens bot.     If deep linked (e.g. /start slug), it sets up
 
 ### Community 283 - "Community 283"
 Cohesion: 1.0
-Nodes (1): Listens for manual video uploads inside the private Storage Group and auto-index
+Nodes (1): Handles tier button click.
 
 ### Community 284 - "Community 284"
 Cohesion: 1.0
-Nodes (1): Listens for manual video uploads inside the private Storage Group and auto-index
+Nodes (1): Handles incoming photos (payment screenshots).
 
 ### Community 285 - "Community 285"
 Cohesion: 1.0
-Nodes (1): Triggered when an admin uploads a document or video directly to the bot in DM.
+Nodes (1): Processes Approval/Rejection buttons pressed by admin in the Storage Group.
 
 ### Community 286 - "Community 286"
 Cohesion: 1.0
-Nodes (1): Timer thread that executes fallback configuration after 30 seconds.
+Nodes (1): Handles standard text messages from users (inquires, negotiations) using Groq/Mi
 
 ### Community 287 - "Community 287"
 Cohesion: 1.0
-Nodes (1): Default fallback routing based on media format.
+Nodes (1): Listens for manual video uploads inside the private Storage Group and auto-index
 
 ### Community 288 - "Community 288"
 Cohesion: 1.0
-Nodes (1): Processes admin buttons clicked within the 6-second window.
+Nodes (1): Listens for manual video uploads inside the private Storage Group and auto-index
 
 ### Community 289 - "Community 289"
 Cohesion: 1.0
-Nodes (1): Loads the video database from disk.
+Nodes (1): Triggered when an admin uploads a document or video directly to the bot in DM.
 
 ### Community 290 - "Community 290"
 Cohesion: 1.0
-Nodes (1): Saves the video database to disk.
+Nodes (1): Timer thread that executes fallback configuration after 30 seconds.
 
 ### Community 291 - "Community 291"
 Cohesion: 1.0
-Nodes (1): Uploads a single file to the Storage Group.     Returns the message_id of the up
+Nodes (1): Default fallback routing based on media format.
 
 ### Community 292 - "Community 292"
 Cohesion: 1.0
-Nodes (1): Uploads all 3 tiers of a video to the Storage Group and registers them in the in
+Nodes (1): Processes admin buttons clicked within the 6-second window.
 
 ### Community 293 - "Community 293"
 Cohesion: 1.0
-Nodes (1): Forwards a stored video to the customer's chat.     Uses Telegram's forwardMessa
+Nodes (1): Loads the video database from disk.
 
 ### Community 294 - "Community 294"
 Cohesion: 1.0
-Nodes (1): Timer thread that executes fallback configuration after 30 seconds.
+Nodes (1): Saves the video database to disk.
 
 ### Community 295 - "Community 295"
 Cohesion: 1.0
-Nodes (1): Default fallback routing based on media format.
+Nodes (1): Uploads a single file to the Storage Group.     Returns the message_id of the up
 
 ### Community 296 - "Community 296"
 Cohesion: 1.0
-Nodes (1): Processes admin buttons clicked within the 6-second window.
+Nodes (1): Uploads all 3 tiers of a video to the Storage Group and registers them in the in
 
 ### Community 297 - "Community 297"
 Cohesion: 1.0
-Nodes (1): Processes Approval/Rejection buttons pressed by admin in the Storage Group.
+Nodes (1): Forwards a stored video to the customer's chat.     Uses Telegram's forwardMessa
 
 ### Community 298 - "Community 298"
 Cohesion: 1.0
-Nodes (1): Handles standard text messages from users (inquires, negotiations) using Groq/Mi
+Nodes (1): Timer thread that executes fallback configuration after 30 seconds.
 
 ### Community 299 - "Community 299"
 Cohesion: 1.0
-Nodes (1): Listens for manual video uploads inside the private Storage Group and auto-index
+Nodes (1): Default fallback routing based on media format.
 
 ### Community 300 - "Community 300"
 Cohesion: 1.0
-Nodes (1): Listens for trailer uploads in the public Trailer Group, generates AI hooks and
+Nodes (1): Processes admin buttons clicked within the 6-second window.
 
 ### Community 301 - "Community 301"
 Cohesion: 1.0
-Nodes (1): Triggered when an admin uploads a document or video directly to the bot in DM.
+Nodes (1): Processes Approval/Rejection buttons pressed by admin in the Storage Group.
 
 ### Community 302 - "Community 302"
 Cohesion: 1.0
-Nodes (1): Timer thread that executes fallback configuration after 6 seconds.
+Nodes (1): Handles standard text messages from users (inquires, negotiations) using Groq/Mi
 
 ### Community 303 - "Community 303"
 Cohesion: 1.0
-Nodes (1): Default fallback routing based on media format.
+Nodes (1): Listens for manual video uploads inside the private Storage Group and auto-index
 
 ### Community 304 - "Community 304"
 Cohesion: 1.0
-Nodes (1): Processes admin buttons clicked within the 6-second window.
+Nodes (1): Listens for trailer uploads in the public Trailer Group, generates AI hooks and
 
 ### Community 305 - "Community 305"
 Cohesion: 1.0
-Nodes (1): Answers customer inquiries using Gemini, Groq, or Mistral, responding as the dyn
+Nodes (1): Triggered when an admin uploads a document or video directly to the bot in DM.
 
 ### Community 306 - "Community 306"
 Cohesion: 1.0
-Nodes (1): Asks Gemini Vision if the screenshot is a successful UPI transaction of the expe
+Nodes (1): Timer thread that executes fallback configuration after 6 seconds.
 
 ### Community 307 - "Community 307"
 Cohesion: 1.0
-Nodes (1): Answers customer inquiries using Groq Llama 3 or Mistral API, enforcing no barga
+Nodes (1): Default fallback routing based on media format.
 
 ### Community 308 - "Community 308"
 Cohesion: 1.0
-Nodes (1): Triggered when user opens bot.     If deep linked (e.g. /start slug), it sets up
+Nodes (1): Processes admin buttons clicked within the 6-second window.
 
 ### Community 309 - "Community 309"
 Cohesion: 1.0
-Nodes (1): Handles tier button click.
+Nodes (1): Answers customer inquiries using Gemini, Groq, or Mistral, responding as the dyn
 
 ### Community 310 - "Community 310"
 Cohesion: 1.0
-Nodes (1): Handles incoming photos (payment screenshots).
+Nodes (1): Asks Gemini Vision if the screenshot is a successful UPI transaction of the expe
 
 ### Community 311 - "Community 311"
 Cohesion: 1.0
-Nodes (1): Handles incoming photos (payment screenshots).
+Nodes (1): Answers customer inquiries using Groq Llama 3 or Mistral API, enforcing no barga
 
 ### Community 312 - "Community 312"
 Cohesion: 1.0
-Nodes (1): Processes Approval/Rejection buttons pressed by admin in the Storage Group.
+Nodes (1): Triggered when user opens bot.     If deep linked (e.g. /start slug), it sets up
 
 ### Community 313 - "Community 313"
 Cohesion: 1.0
-Nodes (1): Handles standard text messages from users (inquires, negotiations) using Groq/Mi
+Nodes (1): Handles tier button click.
 
 ### Community 314 - "Community 314"
 Cohesion: 1.0
-Nodes (1): Listens for manual video uploads inside the private Storage Group and auto-index
+Nodes (1): Handles incoming photos (payment screenshots).
 
 ### Community 315 - "Community 315"
 Cohesion: 1.0
-Nodes (1): Triggered when an admin uploads a document or video directly to the bot in DM.
+Nodes (1): Handles incoming photos (payment screenshots).
 
 ### Community 316 - "Community 316"
 Cohesion: 1.0
-Nodes (1): Timer thread that executes fallback configuration after 6 seconds.
+Nodes (1): Processes Approval/Rejection buttons pressed by admin in the Storage Group.
 
 ### Community 317 - "Community 317"
 Cohesion: 1.0
-Nodes (1): Default fallback routing based on media format.
+Nodes (1): Handles standard text messages from users (inquires, negotiations) using Groq/Mi
 
 ### Community 318 - "Community 318"
 Cohesion: 1.0
-Nodes (1): Processes admin buttons clicked within the 6-second window.
+Nodes (1): Listens for manual video uploads inside the private Storage Group and auto-index
 
 ### Community 319 - "Community 319"
 Cohesion: 1.0
-Nodes (1): Gets the bot's username dynamically using /getMe.
+Nodes (1): Triggered when an admin uploads a document or video directly to the bot in DM.
 
 ### Community 320 - "Community 320"
 Cohesion: 1.0
-Nodes (1): Generates a 10 second trailer from the start of the video.
+Nodes (1): Timer thread that executes fallback configuration after 6 seconds.
 
 ### Community 321 - "Community 321"
 Cohesion: 1.0
-Nodes (1): Uploads the trailer to the public group with a Buy button.     Returns the messa
+Nodes (1): Default fallback routing based on media format.
 
 ### Community 322 - "Community 322"
 Cohesion: 1.0
-Nodes (1): Core workflow coordinator.
+Nodes (1): Processes admin buttons clicked within the 6-second window.
 
 ### Community 323 - "Community 323"
 Cohesion: 1.0
-Nodes (1): Triggered when an admin uploads a document or video directly to the bot in DM.
+Nodes (1): Gets the bot's username dynamically using /getMe.
 
 ### Community 324 - "Community 324"
 Cohesion: 1.0
-Nodes (1): Timer thread that executes fallback configuration after 6 seconds.
+Nodes (1): Generates a 10 second trailer from the start of the video.
 
 ### Community 325 - "Community 325"
 Cohesion: 1.0
-Nodes (1): Default fallback routing based on media format.
+Nodes (1): Uploads the trailer to the public group with a Buy button.     Returns the messa
 
 ### Community 326 - "Community 326"
 Cohesion: 1.0
-Nodes (1): Processes admin buttons clicked within the 6-second window.
+Nodes (1): Core workflow coordinator.
 
 ### Community 327 - "Community 327"
 Cohesion: 1.0
-Nodes (1): Processes Approval/Rejection buttons pressed by admin in the Storage Group.
+Nodes (1): Triggered when an admin uploads a document or video directly to the bot in DM.
 
 ### Community 328 - "Community 328"
 Cohesion: 1.0
-Nodes (1): Handles standard text messages from users (inquires, negotiations) using Groq/Mi
+Nodes (1): Timer thread that executes fallback configuration after 6 seconds.
 
 ### Community 329 - "Community 329"
 Cohesion: 1.0
-Nodes (1): Listens for manual video uploads inside the private Storage Group and auto-index
+Nodes (1): Default fallback routing based on media format.
 
 ### Community 330 - "Community 330"
 Cohesion: 1.0
-Nodes (1): Triggered when an admin uploads a document or video directly to the bot in DM.
+Nodes (1): Processes admin buttons clicked within the 6-second window.
 
 ### Community 331 - "Community 331"
 Cohesion: 1.0
-Nodes (1): Timer thread that executes fallback configuration after 6 seconds.
+Nodes (1): Processes Approval/Rejection buttons pressed by admin in the Storage Group.
 
 ### Community 332 - "Community 332"
 Cohesion: 1.0
-Nodes (1): Default fallback routing based on media format.
+Nodes (1): Handles standard text messages from users (inquires, negotiations) using Groq/Mi
 
 ### Community 333 - "Community 333"
 Cohesion: 1.0
-Nodes (1): Processes admin buttons clicked within the 6-second window.
+Nodes (1): Listens for manual video uploads inside the private Storage Group and auto-index
 
 ### Community 334 - "Community 334"
 Cohesion: 1.0
-Nodes (1): Listens for manual video uploads inside the private Storage Group and auto-index
+Nodes (1): Triggered when an admin uploads a document or video directly to the bot in DM.
 
 ### Community 335 - "Community 335"
 Cohesion: 1.0
-Nodes (1): Triggered when an admin uploads a document or video directly to the bot in DM.
+Nodes (1): Timer thread that executes fallback configuration after 6 seconds.
 
 ### Community 336 - "Community 336"
 Cohesion: 1.0
-Nodes (1): Timer thread that executes fallback configuration after 6 seconds.
+Nodes (1): Default fallback routing based on media format.
 
 ### Community 337 - "Community 337"
 Cohesion: 1.0
-Nodes (1): Default fallback routing based on media format.
+Nodes (1): Processes admin buttons clicked within the 6-second window.
 
 ### Community 338 - "Community 338"
 Cohesion: 1.0
-Nodes (1): Processes admin buttons clicked within the 6-second window.
+Nodes (1): Listens for manual video uploads inside the private Storage Group and auto-index
 
 ### Community 339 - "Community 339"
 Cohesion: 1.0
-Nodes (1): Listens for manual video uploads inside the private Storage Group and auto-index
+Nodes (1): Triggered when an admin uploads a document or video directly to the bot in DM.
 
 ### Community 340 - "Community 340"
 Cohesion: 1.0
-Nodes (1): Triggered when an admin uploads a document or video directly to the bot in DM.
+Nodes (1): Timer thread that executes fallback configuration after 6 seconds.
 
 ### Community 341 - "Community 341"
 Cohesion: 1.0
-Nodes (1): Timer thread that executes fallback configuration after 6 seconds.
+Nodes (1): Default fallback routing based on media format.
 
 ### Community 342 - "Community 342"
 Cohesion: 1.0
-Nodes (1): Default fallback routing based on media format.
+Nodes (1): Processes admin buttons clicked within the 6-second window.
 
 ### Community 343 - "Community 343"
 Cohesion: 1.0
-Nodes (1): Processes admin buttons clicked within the 6-second window.
+Nodes (1): Listens for manual video uploads inside the private Storage Group and auto-index
 
 ### Community 344 - "Community 344"
 Cohesion: 1.0
-Nodes (1): Answers customer inquiries using Groq Llama 3 or Mistral API, enforcing no barga
+Nodes (1): Triggered when an admin uploads a document or video directly to the bot in DM.
 
 ### Community 345 - "Community 345"
 Cohesion: 1.0
-Nodes (1): Triggered when user opens bot.     If deep linked (e.g. /start slug), it sets up
+Nodes (1): Timer thread that executes fallback configuration after 6 seconds.
 
 ### Community 346 - "Community 346"
 Cohesion: 1.0
-Nodes (1): Handles tier button click.
+Nodes (1): Default fallback routing based on media format.
 
 ### Community 347 - "Community 347"
 Cohesion: 1.0
-Nodes (1): Handles incoming photos (payment screenshots).
+Nodes (1): Processes admin buttons clicked within the 6-second window.
 
 ### Community 348 - "Community 348"
 Cohesion: 1.0
-Nodes (1): Processes Approval/Rejection buttons pressed by admin in the Storage Group.
+Nodes (1): Answers customer inquiries using Groq Llama 3 or Mistral API, enforcing no barga
 
 ### Community 349 - "Community 349"
 Cohesion: 1.0
-Nodes (1): Handles standard text messages from users (inquires, negotiations) using Groq/Mi
+Nodes (1): Triggered when user opens bot.     If deep linked (e.g. /start slug), it sets up
 
 ### Community 350 - "Community 350"
 Cohesion: 1.0
-Nodes (1): Core workflow coordinator.
+Nodes (1): Handles tier button click.
 
 ### Community 351 - "Community 351"
 Cohesion: 1.0
-Nodes (1): Returns the channel folder that already used this shortcode,         or None if
+Nodes (1): Handles incoming photos (payment screenshots).
 
 ### Community 352 - "Community 352"
 Cohesion: 1.0
-Nodes (1): Extended commit that also records which channel used this clip         and the o
+Nodes (1): Processes Approval/Rejection buttons pressed by admin in the Storage Group.
 
 ### Community 353 - "Community 353"
 Cohesion: 1.0
-Nodes (1): Returns a dict of {shortcode: {channel, timestamp_utc}} for the posting time ana
+Nodes (1): Handles standard text messages from users (inquires, negotiations) using Groq/Mi
 
 ### Community 354 - "Community 354"
 Cohesion: 1.0
-Nodes (1): Returns the process-level singleton ledger, initialising it if needed.
+Nodes (1): Core workflow coordinator.
 
 ### Community 355 - "Community 355"
 Cohesion: 1.0
-Nodes (1): Scans the downloads/ folder for actress subfolders containing .mp4 files     an
+Nodes (1): Returns the channel folder that already used this shortcode,         or None if
 
 ### Community 356 - "Community 356"
 Cohesion: 1.0
-Nodes (1): Pops one item from the queue and runs it through the full AMTCE pipeline.
+Nodes (1): Extended commit that also records which channel used this clip         and the o
 
 ### Community 357 - "Community 357"
 Cohesion: 1.0
-Nodes (1): Scans the downloads/ folder for actress subfolders containing .mp4 files     an
+Nodes (1): Returns a dict of {shortcode: {channel, timestamp_utc}} for the posting time ana
 
 ### Community 358 - "Community 358"
 Cohesion: 1.0
-Nodes (1): Pops one item from the queue and runs it through the full AMTCE pipeline.
+Nodes (1): Returns the process-level singleton ledger, initialising it if needed.
 
 ### Community 359 - "Community 359"
 Cohesion: 1.0
-Nodes (1): Pops one item from the queue and runs it through the full AMTCE pipeline.
+Nodes (1): Scans the downloads/ folder for actress subfolders containing .mp4 files     an
 
 ### Community 360 - "Community 360"
 Cohesion: 1.0
-Nodes (1): Loads metadata safely.
+Nodes (1): Pops one item from the queue and runs it through the full AMTCE pipeline.
 
 ### Community 361 - "Community 361"
 Cohesion: 1.0
-Nodes (1): Saves metadata atomically with file locking.
+Nodes (1): Scans the downloads/ folder for actress subfolders containing .mp4 files     an
 
 ### Community 362 - "Community 362"
 Cohesion: 1.0
-Nodes (1): Fast size+mtime hash for integrity check.
+Nodes (1): Pops one item from the queue and runs it through the full AMTCE pipeline.
 
 ### Community 363 - "Community 363"
 Cohesion: 1.0
-Nodes (1): Atomic NPZ save using tempfile + replace.
+Nodes (1): Pops one item from the queue and runs it through the full AMTCE pipeline.
 
 ### Community 364 - "Community 364"
 Cohesion: 1.0
-Nodes (1): Helper to get file metadata accounting for schema version.
+Nodes (1): Loads metadata safely.
 
 ### Community 365 - "Community 365"
 Cohesion: 1.0
-Nodes (1): Helper to set file metadata accounting for schema version.
+Nodes (1): Saves metadata atomically with file locking.
 
 ### Community 366 - "Community 366"
 Cohesion: 1.0
-Nodes (1): [FIX] Move any loose .mp3/.wav files sitting in Original_audio/ root into
+Nodes (1): Fast size+mtime hash for integrity check.
 
 ### Community 367 - "Community 367"
 Cohesion: 1.0
-Nodes (1): Daemon thread: analyze one BGM track with Gemini and write the result         b
+Nodes (1): Atomic NPZ save using tempfile + replace.
 
 ### Community 368 - "Community 368"
 Cohesion: 1.0
-Nodes (1): Lazy load beat data from cache or disk.
+Nodes (1): Helper to get file metadata accounting for schema version.
 
 ### Community 369 - "Community 369"
 Cohesion: 1.0
-Nodes (1): Moves newly extracted audio into pool and caches deep beat metadata.
+Nodes (1): Helper to set file metadata accounting for schema version.
 
 ### Community 370 - "Community 370"
 Cohesion: 1.0
-Nodes (1): Scoring-based selection from the active pool.                  Formula:
+Nodes (1): [FIX] Move any loose .mp3/.wav files sitting in Original_audio/ root into
 
 ### Community 371 - "Community 371"
 Cohesion: 1.0
-Nodes (1): Rotates clips from cooldown back to active based on hybrid logic.         Clean
+Nodes (1): Daemon thread: analyze one BGM track with Gemini and write the result         b
 
 ### Community 372 - "Community 372"
 Cohesion: 1.0
-Nodes (1): # IMPORTANT: Return the src (active/) path BEFORE the move so callers
+Nodes (1): Lazy load beat data from cache or disk.
 
 ### Community 373 - "Community 373"
 Cohesion: 1.0
-Nodes (1): The High-Intelligence Orchestrator (Vanguard Pattern).     Uses gemini-3.1-pro-p
+Nodes (1): Moves newly extracted audio into pool and caches deep beat metadata.
 
 ### Community 374 - "Community 374"
 Cohesion: 1.0
-Nodes (1): Load project-level 'Winning Styles' and 'Agreements'.
+Nodes (1): Scoring-based selection from the active pool.                  Formula:
 
 ### Community 375 - "Community 375"
 Cohesion: 1.0
-Nodes (1): Standardized Mission Dashboard Logging.
+Nodes (1): Rotates clips from cooldown back to active based on hybrid logic.         Clean
 
 ### Community 376 - "Community 376"
 Cohesion: 1.0
-Nodes (1): Zero-Waste 4-Turn Vanguard Loop.         Turn 1: Local plan (no API call)
+Nodes (1): # IMPORTANT: Return the src (active/) path BEFORE the move so callers
 
 ### Community 377 - "Community 377"
 Cohesion: 1.0
-Nodes (1): Proposals older than 24h are considered stale.
+Nodes (1): The High-Intelligence Orchestrator (Vanguard Pattern).     Uses gemini-3.1-pro-p
 
 ### Community 378 - "Community 378"
 Cohesion: 1.0
-Nodes (1): Elite Meta-Learning Sandbox: Primary -> Secondary -> Pytest -> Approval -> Repla
+Nodes (1): Load project-level 'Winning Styles' and 'Agreements'.
 
 ### Community 379 - "Community 379"
 Cohesion: 1.0
-Nodes (1): Guardrail 1 & 2: Protected Files & Cooldown.
+Nodes (1): Standardized Mission Dashboard Logging.
 
 ### Community 380 - "Community 380"
 Cohesion: 1.0
-Nodes (1): Guardrail 3 & 4: Diff Risk Analyzer & Max Size Limit.
+Nodes (1): Zero-Waste 4-Turn Vanguard Loop.         Turn 1: Local plan (no API call)
 
 ### Community 381 - "Community 381"
 Cohesion: 1.0
-Nodes (1): Guardrail 5: Intent Persistence Check.         Now with 'Architect Override': Hi
+Nodes (1): Proposals older than 24h are considered stale.
 
 ### Community 382 - "Community 382"
 Cohesion: 1.0
-Nodes (1): Enforce strict schema validation on AI Auditor response.
+Nodes (1): Elite Meta-Learning Sandbox: Primary -> Secondary -> Pytest -> Approval -> Repla
 
 ### Community 383 - "Community 383"
 Cohesion: 1.0
-Nodes (1): Signal 2: The Senior AI Architect Review (Decider).
+Nodes (1): Guardrail 1 & 2: Protected Files & Cooldown.
 
 ### Community 384 - "Community 384"
 Cohesion: 1.0
-Nodes (1): The Elite Forge Workflow: Clone -> Optimize -> Risk Check -> Test -> Audit -> Re
+Nodes (1): Guardrail 3 & 4: Diff Risk Analyzer & Max Size Limit.
 
 ### Community 385 - "Community 385"
 Cohesion: 1.0
-Nodes (1): Structured JSON History for traceability.
+Nodes (1): Guardrail 5: Intent Persistence Check.         Now with 'Architect Override': Hi
 
 ### Community 386 - "Community 386"
 Cohesion: 1.0
-Nodes (1): Critical Guardrail 7: Safe Swap & Test.         Temporarily promotes forge to pr
+Nodes (1): Enforce strict schema validation on AI Auditor response.
 
 ### Community 387 - "Community 387"
 Cohesion: 1.0
-Nodes (1): Atomic Promotion: Snapshot -> Replace.         Uses os.replace for thread-safe,
+Nodes (1): Signal 2: The Senior AI Architect Review (Decider).
 
 ### Community 388 - "Community 388"
 Cohesion: 1.0
-Nodes (1): Elite Rollback: Atomic restoration from latest backup.
+Nodes (1): The Elite Forge Workflow: Clone -> Optimize -> Risk Check -> Test -> Audit -> Re
 
 ### Community 389 - "Community 389"
 Cohesion: 1.0
-Nodes (1): The Human-in-the-Loop Judge CLI.     Ensures that AI optimizations are only prom
+Nodes (1): Structured JSON History for traceability.
 
 ### Community 390 - "Community 390"
 Cohesion: 1.0
-Nodes (1): Find non-stale proposals in the history.
+Nodes (1): Critical Guardrail 7: Safe Swap & Test.         Temporarily promotes forge to pr
 
 ### Community 391 - "Community 391"
 Cohesion: 1.0
-Nodes (1): Review Flow: Summary -> Diff? -> Decision.
+Nodes (1): Atomic Promotion: Snapshot -> Replace.         Uses os.replace for thread-safe,
 
 ### Community 392 - "Community 392"
 Cohesion: 1.0
-Nodes (1): Remove the proposal JSON.
+Nodes (1): Elite Rollback: Atomic restoration from latest backup.
 
 ### Community 393 - "Community 393"
 Cohesion: 1.0
-Nodes (1): Patches Influencer_Colab.ipynb:   1. Cell 4  â€” Add Gemini/OpenCV outfit auto-d
+Nodes (1): The Human-in-the-Loop Judge CLI.     Ensures that AI optimizations are only prom
 
 ### Community 394 - "Community 394"
 Cohesion: 1.0
-Nodes (1): Convert list of plain strings into notebook source format.
+Nodes (1): Find non-stale proposals in the history.
 
 ### Community 395 - "Community 395"
 Cohesion: 1.0
-Nodes (1): Return index of first cell whose source contains keyword.
+Nodes (1): Review Flow: Summary -> Diff? -> Decision.
 
 ### Community 396 - "Community 396"
 Cohesion: 1.0
-Nodes (1): Compute number of time frames of spectrogram
+Nodes (1): Remove the proposal JSON.
 
 ### Community 397 - "Community 397"
 Cohesion: 1.0
-Nodes (1): Compute left and right padding
+Nodes (1): Patches Influencer_Colab.ipynb:   1. Cell 4  â€” Add Gemini/OpenCV outfit auto-d
 
 ### Community 398 - "Community 398"
 Cohesion: 1.0
-Nodes (1): Enum class defining the type of landmarks to detect.      ``_2D`` - the detect
+Nodes (1): Convert list of plain strings into notebook source format.
 
 ### Community 399 - "Community 399"
 Cohesion: 1.0
-Nodes (1): 3x3 convolution with padding
+Nodes (1): Return index of first cell whose source contains keyword.
 
 ### Community 400 - "Community 400"
 Cohesion: 1.0
-Nodes (1): Generate and affine transformation matrix.      Given a set of points, a cente
+Nodes (1): Compute number of time frames of spectrogram
 
 ### Community 401 - "Community 401"
 Cohesion: 1.0
-Nodes (1): Center crops an image or set of heatmaps      Arguments:         image {numpy
+Nodes (1): Compute left and right padding
 
 ### Community 402 - "Community 402"
 Cohesion: 1.0
-Nodes (1): Obtain (x,y) coordinates given a set of N heatmaps. If the center     and the s
+Nodes (1): Enum class defining the type of landmarks to detect.      ``_2D`` - the detect
 
 ### Community 403 - "Community 403"
 Cohesion: 1.0
-Nodes (1): Obtain (x,y) coordinates given a set of N heatmaps. If the centers     and the
+Nodes (1): 3x3 convolution with padding
 
 ### Community 404 - "Community 404"
 Cohesion: 1.0
-Nodes (1): Shuffle the points left-right according to the axis of symmetry     of the obje
+Nodes (1): Generate and affine transformation matrix.      Given a set of points, a cente
 
 ### Community 405 - "Community 405"
 Cohesion: 1.0
-Nodes (1): Flip an image or a set of heatmaps left-right      Arguments:         tensor
+Nodes (1): Center crops an image or set of heatmaps      Arguments:         image {numpy
 
 ### Community 406 - "Community 406"
 Cohesion: 1.0
-Nodes (1): appdata_dir(appname=None, roaming=False)      Get the path to the application
+Nodes (1): Obtain (x,y) coordinates given a set of N heatmaps. If the center     and the s
 
 ### Community 407 - "Community 407"
 Cohesion: 1.0
-Nodes (1): An abstract class representing a face detector.      Any other face detection
+Nodes (1): Obtain (x,y) coordinates given a set of N heatmaps. If the centers     and the
 
 ### Community 408 - "Community 408"
 Cohesion: 1.0
-Nodes (1): Detects faces in a given image.          This function detects the faces prese
+Nodes (1): Shuffle the points left-right according to the axis of symmetry     of the obje
 
 ### Community 409 - "Community 409"
 Cohesion: 1.0
-Nodes (1): Detects faces from all the images present in a given directory.          Argum
+Nodes (1): Flip an image or a set of heatmaps left-right      Arguments:         tensor
 
 ### Community 410 - "Community 410"
 Cohesion: 1.0
-Nodes (1): Convert path (represented as a string) or torch.tensor to a numpy.ndarray
+Nodes (1): appdata_dir(appname=None, roaming=False)      Get the path to the application
 
 ### Community 411 - "Community 411"
 Cohesion: 1.0
-Nodes (1): Encode the variances from the priorbox layers into the ground truth boxes     w
+Nodes (1): An abstract class representing a face detector.      Any other face detection
 
 ### Community 412 - "Community 412"
 Cohesion: 1.0
-Nodes (1): Decode locations from predictions using priors to undo     the encoding we did
+Nodes (1): Detects faces in a given image.          This function detects the faces prese
 
 ### Community 413 - "Community 413"
 Cohesion: 1.0
-Nodes (1): Decode locations from predictions using priors to undo     the encoding we did
+Nodes (1): Detects faces from all the images present in a given directory.          Argum
 
 ### Community 414 - "Community 414"
 Cohesion: 1.0
-Nodes (1): ChromaDB client setup for the RAG prototype.  Creates a persistent local store a
+Nodes (1): Convert path (represented as a string) or torch.tensor to a numpy.ndarray
 
 ### Community 415 - "Community 415"
 Cohesion: 1.0
-Nodes (1): Fallback embedding function that generates deterministic vectors via hashing.
+Nodes (1): Encode the variances from the priorbox layers into the ground truth boxes     w
 
 ### Community 416 - "Community 416"
 Cohesion: 1.0
-Nodes (1): Secondary fallback: uses Google's Gemini API for embeddings.
+Nodes (1): Decode locations from predictions using priors to undo     the encoding we did
 
 ### Community 417 - "Community 417"
 Cohesion: 1.0
-Nodes (1): Return a Chroma collection with resilient embeddings.
+Nodes (1): Decode locations from predictions using priors to undo     the encoding we did
 
 ### Community 418 - "Community 418"
 Cohesion: 1.0
-Nodes (1): Dataset loader for Phase-1 RAG prototype.  Hardcoded small dataset of editing pa
+Nodes (1): ChromaDB client setup for the RAG prototype.  Creates a persistent local store a
 
 ### Community 419 - "Community 419"
 Cohesion: 1.0
-Nodes (1): Lowercase and clean whitespace while preserving distinct semantic tokens.
+Nodes (1): Fallback embedding function that generates deterministic vectors via hashing.
 
 ### Community 420 - "Community 420"
 Cohesion: 1.0
-Nodes (1): Load the hardcoded dataset into the given Chroma collection.
+Nodes (1): Secondary fallback: uses Google's Gemini API for embeddings.
 
 ### Community 421 - "Community 421"
 Cohesion: 1.0
-Nodes (1): RAG Bootstrap Module -------------------- Ensures the Chroma collection is pop
+Nodes (1): Return a Chroma collection with resilient embeddings.
 
 ### Community 422 - "Community 422"
 Cohesion: 1.0
-Nodes (1): Idempotent bootstrap: checks whether the collection has documents.     If empty
+Nodes (1): Dataset loader for Phase-1 RAG prototype.  Hardcoded small dataset of editing pa
 
 ### Community 423 - "Community 423"
 Cohesion: 1.0
-Nodes (1): Convenience wrapper: get a collection that is guaranteed to have data.      Re
+Nodes (1): Lowercase and clean whitespace while preserving distinct semantic tokens.
 
 ### Community 424 - "Community 424"
 Cohesion: 1.0
-Nodes (1): Force a re-check on next call to ensure_collection_ready.     Useful in tests o
+Nodes (1): Load the hardcoded dataset into the given Chroma collection.
 
 ### Community 425 - "Community 425"
 Cohesion: 1.0
-Nodes (1): Retriever utilities for the RAG prototype.
+Nodes (1): RAG Bootstrap Module -------------------- Ensures the Chroma collection is pop
 
 ### Community 426 - "Community 426"
 Cohesion: 1.0
-Nodes (1): Query the collection, filter hard constraints, and re-rank with attribute scores
+Nodes (1): Idempotent bootstrap: checks whether the collection has documents.     If empty
 
 ### Community 427 - "Community 427"
 Cohesion: 1.0
-Nodes (1): Patch: Add 'cinematic_story' niche to niche_prompts.json This niche is purpose-b
+Nodes (1): Convenience wrapper: get a collection that is guaranteed to have data.      Re
 
 ### Community 428 - "Community 428"
 Cohesion: 1.0
-Nodes (1): Generates audio using edge-tts.
+Nodes (1): Force a re-check on next call to ensure_collection_ready.     Useful in tests o
 
 ### Community 429 - "Community 429"
 Cohesion: 1.0
-Nodes (1): Transcribes audio using faster-whisper and returns word-level timestamps.
+Nodes (1): Retriever utilities for the RAG prototype.
 
 ### Community 430 - "Community 430"
 Cohesion: 1.0
-Nodes (1): Constructs a robust FFmpeg filter script for dynamic captions.     Solves the 'L
+Nodes (1): Query the collection, filter hard constraints, and re-rank with attribute scores
 
 ### Community 431 - "Community 431"
 Cohesion: 1.0
-Nodes (1): Executes the FFmpeg command using the filter script.
+Nodes (1): Patch: Add 'cinematic_story' niche to niche_prompts.json This niche is purpose-b
 
 ### Community 432 - "Community 432"
 Cohesion: 1.0
-Nodes (1): fix_background_person_bug.py ============================ Fixes the bug where Ge
+Nodes (1): Generates audio using edge-tts.
 
 ### Community 433 - "Community 433"
 Cohesion: 1.0
-Nodes (1): Fix Dimension 5 directly by line number
+Nodes (1): Transcribes audio using faster-whisper and returns word-level timestamps.
 
 ### Community 434 - "Community 434"
 Cohesion: 1.0
-Nodes (1): patch_fashion_scout.py ====================== Surgical patcher for Monetization_
+Nodes (1): Constructs a robust FFmpeg filter script for dynamic captions.     Solves the 'L
 
 ### Community 435 - "Community 435"
 Cohesion: 1.0
-Nodes (1): Issue 3: Strip punctuation for visual text.
+Nodes (1): Executes the FFmpeg command using the filter script.
 
 ### Community 436 - "Community 436"
 Cohesion: 1.0
-Nodes (1): Issue 1: Dynamic scaling for long words.
+Nodes (1): fix_background_person_bug.py ============================ Fixes the bug where Ge
 
 ### Community 437 - "Community 437"
 Cohesion: 1.0
-Nodes (1): Exhaustive test of every image/video model on the account. Tests actual generati
+Nodes (1): Fix Dimension 5 directly by line number
 
 ### Community 438 - "Community 438"
 Cohesion: 1.0
-Nodes (1): Issue 3: Strip punctuation.
+Nodes (1): patch_fashion_scout.py ====================== Surgical patcher for Monetization_
 
 ### Community 439 - "Community 439"
 Cohesion: 1.0
-Nodes (1): Issue 1: Timestamp Bridging to fix the flicker bug.
+Nodes (1): Issue 3: Strip punctuation for visual text.
 
 ### Community 440 - "Community 440"
 Cohesion: 1.0
-Nodes (1): Strip punctuation and whitespace.
+Nodes (1): Issue 1: Dynamic scaling for long words.
 
 ### Community 441 - "Community 441"
 Cohesion: 1.0
-Nodes (1): Eliminate black frames between words.
+Nodes (1): Exhaustive test of every image/video model on the account. Tests actual generati
 
 ### Community 442 - "Community 442"
 Cohesion: 1.0
-Nodes (1): Format seconds into ASS time format H:MM:SS.CC
+Nodes (1): Issue 3: Strip punctuation.
 
 ### Community 443 - "Community 443"
 Cohesion: 1.0
-Nodes (1): Patch niche_prompts.json: Replace all narrative_brain.narrative_prompt values wi
+Nodes (1): Issue 1: Timestamp Bridging to fix the flicker bug.
 
 ### Community 444 - "Community 444"
 Cohesion: 1.0
-Nodes (1): Reads the Telegram link from config or .env.
+Nodes (1): Strip punctuation and whitespace.
 
 ### Community 445 - "Community 445"
 Cohesion: 1.0
-Nodes (1): Reads The_json/geo_analytics.json, maps country → language,         aggregates
+Nodes (1): Eliminate black frames between words.
 
 ### Community 446 - "Community 446"
 Cohesion: 1.0
-Nodes (1): Uses Gemini to generate a unique multilingual dual-CTA hook.         Languages
+Nodes (1): Format seconds into ASS time format H:MM:SS.CC
 
 ### Community 447 - "Community 447"
 Cohesion: 1.0
-Nodes (1): Uses Gemini to generate a dual-CTA psychological hook specifically for the Teleg
+Nodes (1): Patch niche_prompts.json: Replace all narrative_brain.narrative_prompt values wi
 
 ### Community 448 - "Community 448"
 Cohesion: 1.0
-Nodes (1): YouTube Comment Strategy: ONLY drive Telegram GROUP JOINS.         - No CPA lin
+Nodes (1): Reads the Telegram link from config or .env.
 
 ### Community 449 - "Community 449"
 Cohesion: 1.0
-Nodes (1): Generates a fan-page style caption for Instagram.          ── WITH affiliate_l
+Nodes (1): Reads The_json/geo_analytics.json, maps country → language,         aggregates
 
 ### Community 450 - "Community 450"
 Cohesion: 1.0
-Nodes (1): Adds compilation URL to the rotating pool (Max 10).
+Nodes (1): Uses Gemini to generate a unique multilingual dual-CTA hook.         Languages
 
 ### Community 451 - "Community 451"
 Cohesion: 1.0
-Nodes (1): Picks a URL from the pool (Random Rotation).
+Nodes (1): Uses Gemini to generate a dual-CTA psychological hook specifically for the Teleg
 
 ### Community 452 - "Community 452"
 Cohesion: 1.0
-Nodes (1): Checks rate limit (1m) and duplication.
+Nodes (1): YouTube Comment Strategy: ONLY drive Telegram GROUP JOINS.         - No CPA lin
 
 ### Community 453 - "Community 453"
 Cohesion: 1.0
-Nodes (1): Promotes a ROTATING Compilation on the provided Video (Short or Long).
+Nodes (1): Generates a fan-page style caption for Instagram.          ── WITH affiliate_l
 
 ### Community 454 - "Community 454"
 Cohesion: 1.0
-Nodes (1): Pops one item from the queue and runs it through the full AMTCE pipeline.
+Nodes (1): Adds compilation URL to the rotating pool (Max 10).
 
 ### Community 455 - "Community 455"
 Cohesion: 1.0
-Nodes (1): Scans the downloads/ folder for actress subfolders containing .mp4 files     an
+Nodes (1): Picks a URL from the pool (Random Rotation).
 
 ### Community 456 - "Community 456"
 Cohesion: 1.0
-Nodes (1): Pops one item from the queue and runs it through the full AMTCE pipeline.
+Nodes (1): Checks rate limit (1m) and duplication.
 
 ### Community 457 - "Community 457"
 Cohesion: 1.0
-Nodes (1): Return a synthetic snapshot for testing without API access.
+Nodes (1): Promotes a ROTATING Compilation on the provided Video (Short or Long).
 
 ### Community 458 - "Community 458"
 Cohesion: 1.0
-Nodes (1): Fetch views, avg view duration, likes.
+Nodes (1): Pops one item from the queue and runs it through the full AMTCE pipeline.
 
 ### Community 459 - "Community 459"
 Cohesion: 1.0
-Nodes (1): Fetch audience retention curve.         Returns list of {"t": float, "pct": floa
+Nodes (1): Scans the downloads/ folder for actress subfolders containing .mp4 files     an
 
 ### Community 460 - "Community 460"
 Cohesion: 1.0
-Nodes (1): Fetch a complete analytics snapshot for one video.          Args:             vi
+Nodes (1): Pops one item from the queue and runs it through the full AMTCE pipeline.
 
 ### Community 461 - "Community 461"
 Cohesion: 1.0
-Nodes (1): Returns a dict of {shortcode: {channel, timestamp_utc}} for the posting time ana
+Nodes (1): Return a synthetic snapshot for testing without API access.
 
 ### Community 462 - "Community 462"
 Cohesion: 1.0
-Nodes (1): Returns the process-level singleton ledger, initialising it if needed.
+Nodes (1): Fetch views, avg view duration, likes.
 
 ### Community 463 - "Community 463"
 Cohesion: 1.0
-Nodes (1): Scans the downloads/ folder for actress subfolders containing .mp4 files     and
+Nodes (1): Fetch audience retention curve.         Returns list of {"t": float, "pct": floa
 
 ### Community 464 - "Community 464"
 Cohesion: 1.0
-Nodes (1): Prints a human-readable report of the posting time analysis.
+Nodes (1): Fetch a complete analytics snapshot for one video.          Args:             vi
 
 ### Community 465 - "Community 465"
 Cohesion: 1.0
-Nodes (1): Auto-patches ACTRESS_SCHEDULE_TIMES and ACTRESS_STATIC_PUBLISH_TIMES     in Cred
+Nodes (1): Returns a dict of {shortcode: {channel, timestamp_utc}} for the posting time ana
 
 ### Community 466 - "Community 466"
 Cohesion: 1.0
-Nodes (1): Return a synthetic snapshot for testing without API access.
+Nodes (1): Returns the process-level singleton ledger, initialising it if needed.
 
 ### Community 467 - "Community 467"
 Cohesion: 1.0
-Nodes (1): Fetch views, avg view duration, likes.
+Nodes (1): Scans the downloads/ folder for actress subfolders containing .mp4 files     and
 
 ### Community 468 - "Community 468"
 Cohesion: 1.0
-Nodes (1): Fetch audience retention curve.         Returns list of {"t": float, "pct": floa
+Nodes (1): Prints a human-readable report of the posting time analysis.
 
 ### Community 469 - "Community 469"
 Cohesion: 1.0
-Nodes (1): Fetch a complete analytics snapshot for one video.          Args:             vi
+Nodes (1): Auto-patches ACTRESS_SCHEDULE_TIMES and ACTRESS_STATIC_PUBLISH_TIMES     in Cred
 
 ### Community 470 - "Community 470"
 Cohesion: 1.0
@@ -2573,1478 +2577,1486 @@ Nodes (1): Fetch a complete analytics snapshot for one video.          Args:    
 
 ### Community 474 - "Community 474"
 Cohesion: 1.0
-Nodes (1): Loads links from los_pollos_links.json and rotates through them.
+Nodes (1): Return a synthetic snapshot for testing without API access.
 
 ### Community 475 - "Community 475"
 Cohesion: 1.0
-Nodes (1): Adds compilation URL to the rotating pool (Max 10).
+Nodes (1): Fetch views, avg view duration, likes.
 
 ### Community 476 - "Community 476"
 Cohesion: 1.0
-Nodes (1): Picks a URL from the pool (Random Rotation).
+Nodes (1): Fetch audience retention curve.         Returns list of {"t": float, "pct": floa
 
 ### Community 477 - "Community 477"
 Cohesion: 1.0
-Nodes (1): Checks rate limit (1m) and duplication.
+Nodes (1): Fetch a complete analytics snapshot for one video.          Args:             vi
 
 ### Community 478 - "Community 478"
 Cohesion: 1.0
-Nodes (1): Promotes a ROTATING Compilation on the provided Video (Short or Long).
+Nodes (1): Loads links from los_pollos_links.json and rotates through them.
 
 ### Community 479 - "Community 479"
 Cohesion: 1.0
-Nodes (1): Returns True when 'meta' is listed in the NICHE_<KEY>_PLATFORMS variable     fo
+Nodes (1): Adds compilation URL to the rotating pool (Max 10).
 
 ### Community 480 - "Community 480"
 Cohesion: 1.0
-Nodes (1): Resolves Meta credentials using a 3-tier priority chain:           1. Credentia
+Nodes (1): Picks a URL from the pool (Random Rotation).
 
 ### Community 481 - "Community 481"
 Cohesion: 1.0
-Nodes (1): Orchestrates uploads to enabled Meta platforms.          The ``niche`` paramet
+Nodes (1): Checks rate limit (1m) and duplication.
 
 ### Community 482 - "Community 482"
 Cohesion: 1.0
-Nodes (1): Uploads the local image to a temporary public host so the Instagram         Gra
+Nodes (1): Promotes a ROTATING Compilation on the provided Video (Short or Long).
 
 ### Community 483 - "Community 483"
 Cohesion: 1.0
-Nodes (1): Smart person-aware Instagram ratio formatter (4:5 = 1080x1350).          Strat
+Nodes (1): Returns True when 'meta' is listed in the NICHE_<KEY>_PLATFORMS variable     fo
 
 ### Community 484 - "Community 484"
 Cohesion: 1.0
-Nodes (1): Uploads a standard Image Post to Instagram feed using the Graph API.         Re
+Nodes (1): Resolves Meta credentials using a 3-tier priority chain:           1. Credentia
 
 ### Community 485 - "Community 485"
 Cohesion: 1.0
-Nodes (1): Cleans captions of UTF-16 surrogates that cause UnicodeEncodeError in httpx/UTF-
+Nodes (1): Orchestrates uploads to enabled Meta platforms.          The ``niche`` paramet
 
 ### Community 486 - "Community 486"
 Cohesion: 1.0
-Nodes (1): Generic retry wrapper for HTTP requests using httpx.         Default timeout in
+Nodes (1): Uploads the local image to a temporary public host so the Instagram         Gra
 
 ### Community 487 - "Community 487"
 Cohesion: 1.0
-Nodes (1): Polls Instagram container status until FINISHED or ERROR.         Timeout defau
+Nodes (1): Smart person-aware Instagram ratio formatter (4:5 = 1080x1350).          Strat
 
 ### Community 488 - "Community 488"
 Cohesion: 1.0
-Nodes (1): # NOTE: Use data= (form body) not params= (URL query) to prevent
+Nodes (1): Uploads a standard Image Post to Instagram feed using the Graph API.         Re
 
 ### Community 489 - "Community 489"
 Cohesion: 1.0
-Nodes (1): # IMPORTANT: Do NOT set Content-Length manually — httpx sets it
+Nodes (1): Cleans captions of UTF-16 surrogates that cause UnicodeEncodeError in httpx/UTF-
 
 ### Community 490 - "Community 490"
 Cohesion: 1.0
-Nodes (1): Sends a local video file to the Telegram group using the Bot API.     Returns T
+Nodes (1): Generic retry wrapper for HTTP requests using httpx.         Default timeout in
 
 ### Community 491 - "Community 491"
 Cohesion: 1.0
-Nodes (1): Time-loop wrapper for 6PM announce, 7PM open, 9PM close loops.
+Nodes (1): Polls Instagram container status until FINISHED or ERROR.         Timeout defau
 
 ### Community 492 - "Community 492"
 Cohesion: 1.0
-Nodes (1): High-pressure FOMO alerts for the final 15 minutes.
+Nodes (1): # NOTE: Use data= (form body) not params= (URL query) to prevent
 
 ### Community 493 - "Community 493"
 Cohesion: 1.0
-Nodes (1): Niche-Aware Credential Resolver.      Resolution order:       1. Niche folder
+Nodes (1): # IMPORTANT: Do NOT set Content-Length manually — httpx sets it
 
 ### Community 494 - "Community 494"
 Cohesion: 1.0
-Nodes (1): Retrieves and refreshes valid credentials.     Accepts an optional niche to rou
+Nodes (1): Sends a local video file to the Telegram group using the Bot API.     Returns T
 
 ### Community 495 - "Community 495"
 Cohesion: 1.0
-Nodes (1): Checks if the video file has fresh metadata (Unique ID, Creation Time).     Ret
+Nodes (1): Time-loop wrapper for 6PM announce, 7PM open, 9PM close loops.
 
 ### Community 496 - "Community 496"
 Cohesion: 1.0
-Nodes (1): Injects a fresh Unique ID into the video metadata without re-encoding.
+Nodes (1): High-pressure FOMO alerts for the final 15 minutes.
 
 ### Community 497 - "Community 497"
 Cohesion: 1.0
-Nodes (1): Sets a custom thumbnail for a YouTube video.
+Nodes (1): Niche-Aware Credential Resolver.      Resolution order:       1. Niche folder
 
 ### Community 498 - "Community 498"
 Cohesion: 1.0
-Nodes (1): CLI Entry Point for standalone YouTube uploads.
+Nodes (1): Retrieves and refreshes valid credentials.     Accepts an optional niche to rou
 
 ### Community 499 - "Community 499"
 Cohesion: 1.0
-Nodes (1): Returns True when 'meta' is listed in the NICHE_<KEY>_PLATFORMS variable     fo
+Nodes (1): Checks if the video file has fresh metadata (Unique ID, Creation Time).     Ret
 
 ### Community 500 - "Community 500"
 Cohesion: 1.0
-Nodes (1): Resolves Meta credentials using a 3-tier priority chain:           1. Credentia
+Nodes (1): Injects a fresh Unique ID into the video metadata without re-encoding.
 
 ### Community 501 - "Community 501"
 Cohesion: 1.0
-Nodes (1): Orchestrates uploads to enabled Meta platforms.          The ``niche`` paramet
+Nodes (1): Sets a custom thumbnail for a YouTube video.
 
 ### Community 502 - "Community 502"
 Cohesion: 1.0
-Nodes (1): Uploads the local image to a temporary public host so the Instagram         Gra
+Nodes (1): CLI Entry Point for standalone YouTube uploads.
 
 ### Community 503 - "Community 503"
 Cohesion: 1.0
-Nodes (1): Smart person-aware Instagram ratio formatter (4:5 = 1080x1350).          Strat
+Nodes (1): Returns True when 'meta' is listed in the NICHE_<KEY>_PLATFORMS variable     fo
 
 ### Community 504 - "Community 504"
 Cohesion: 1.0
-Nodes (1): Uploads a standard Image Post to Instagram feed using the Graph API.         Re
+Nodes (1): Resolves Meta credentials using a 3-tier priority chain:           1. Credentia
 
 ### Community 505 - "Community 505"
 Cohesion: 1.0
-Nodes (1): Cleans captions of UTF-16 surrogates that cause UnicodeEncodeError in httpx/UTF-
+Nodes (1): Orchestrates uploads to enabled Meta platforms.          The ``niche`` paramet
 
 ### Community 506 - "Community 506"
 Cohesion: 1.0
-Nodes (1): Generic retry wrapper for HTTP requests using httpx.         Default timeout in
+Nodes (1): Uploads the local image to a temporary public host so the Instagram         Gra
 
 ### Community 507 - "Community 507"
 Cohesion: 1.0
-Nodes (1): Polls Instagram container status until FINISHED or ERROR.         Timeout defau
+Nodes (1): Smart person-aware Instagram ratio formatter (4:5 = 1080x1350).          Strat
 
 ### Community 508 - "Community 508"
 Cohesion: 1.0
-Nodes (1): # NOTE: Use data= (form body) not params= (URL query) to prevent
+Nodes (1): Uploads a standard Image Post to Instagram feed using the Graph API.         Re
 
 ### Community 509 - "Community 509"
 Cohesion: 1.0
-Nodes (1): # IMPORTANT: Do NOT set Content-Length manually — httpx sets it
+Nodes (1): Cleans captions of UTF-16 surrogates that cause UnicodeEncodeError in httpx/UTF-
 
 ### Community 510 - "Community 510"
 Cohesion: 1.0
-Nodes (1): Manages the real-time state of the auction. Fully Thread-Safe.
+Nodes (1): Generic retry wrapper for HTTP requests using httpx.         Default timeout in
 
 ### Community 511 - "Community 511"
 Cohesion: 1.0
-Nodes (1): Non-blocking lock with timeout to prevent bot hangs.
+Nodes (1): Polls Instagram container status until FINISHED or ERROR.         Timeout defau
 
 ### Community 512 - "Community 512"
 Cohesion: 1.0
-Nodes (1): Uses atomic writes to prevent JSON corruption during concurrency.
+Nodes (1): # NOTE: Use data= (form body) not params= (URL query) to prevent
 
 ### Community 513 - "Community 513"
 Cohesion: 1.0
-Nodes (1): Recalculates the pot based on verified extra bids.
+Nodes (1): # IMPORTANT: Do NOT set Content-Length manually — httpx sets it
 
 ### Community 514 - "Community 514"
 Cohesion: 1.0
-Nodes (1): Internal save for when lock is already held.
+Nodes (1): Manages the real-time state of the auction. Fully Thread-Safe.
 
 ### Community 515 - "Community 515"
 Cohesion: 1.0
-Nodes (1): Called by main.py /bid handler
+Nodes (1): Non-blocking lock with timeout to prevent bot hangs.
 
 ### Community 516 - "Community 516"
 Cohesion: 1.0
-Nodes (1): Handles manual UPI screenshot verification via Gemini Vision OCR.
+Nodes (1): Uses atomic writes to prevent JSON corruption during concurrency.
 
 ### Community 517 - "Community 517"
 Cohesion: 1.0
-Nodes (1): Handles broadcasting pot updates and tier crossing alerts.
+Nodes (1): Recalculates the pot based on verified extra bids.
 
 ### Community 518 - "Community 518"
 Cohesion: 1.0
-Nodes (1): FOMO ESCALATION CASCADE (Upgraded A1)         Changes tone based on pot size to
+Nodes (1): Internal save for when lock is already held.
 
 ### Community 519 - "Community 519"
 Cohesion: 1.0
-Nodes (1): Calculates final payout math and platform cuts.
+Nodes (1): Called by main.py /bid handler
 
 ### Community 520 - "Community 520"
 Cohesion: 1.0
-Nodes (1): Time-loop wrapper for 6PM announce, 7PM open, 9PM close loops.
+Nodes (1): Handles manual UPI screenshot verification via Gemini Vision OCR.
 
 ### Community 521 - "Community 521"
 Cohesion: 1.0
-Nodes (1): High-pressure FOMO alerts for the final 15 minutes.
+Nodes (1): Handles broadcasting pot updates and tier crossing alerts.
 
 ### Community 522 - "Community 522"
 Cohesion: 1.0
-Nodes (1): Niche-Aware Credential Resolver.      Resolution order:       1. Niche folder
+Nodes (1): FOMO ESCALATION CASCADE (Upgraded A1)         Changes tone based on pot size to
 
 ### Community 523 - "Community 523"
 Cohesion: 1.0
-Nodes (1): Retrieves and refreshes valid credentials.     Accepts an optional niche to rou
+Nodes (1): Calculates final payout math and platform cuts.
 
 ### Community 524 - "Community 524"
 Cohesion: 1.0
-Nodes (1): Checks if the video file has fresh metadata (Unique ID, Creation Time).     Ret
+Nodes (1): Time-loop wrapper for 6PM announce, 7PM open, 9PM close loops.
 
 ### Community 525 - "Community 525"
 Cohesion: 1.0
-Nodes (1): Injects a fresh Unique ID into the video metadata without re-encoding.
+Nodes (1): High-pressure FOMO alerts for the final 15 minutes.
 
 ### Community 526 - "Community 526"
 Cohesion: 1.0
-Nodes (1): Sets a custom thumbnail for a YouTube video.
+Nodes (1): Niche-Aware Credential Resolver.      Resolution order:       1. Niche folder
 
 ### Community 527 - "Community 527"
 Cohesion: 1.0
-Nodes (1): CLI Entry Point for standalone YouTube uploads.
+Nodes (1): Retrieves and refreshes valid credentials.     Accepts an optional niche to rou
 
 ### Community 528 - "Community 528"
 Cohesion: 1.0
-Nodes (1): Returns True if this Instagram post was already downloaded.
+Nodes (1): Checks if the video file has fresh metadata (Unique ID, Creation Time).     Ret
 
 ### Community 529 - "Community 529"
 Cohesion: 1.0
-Nodes (1): Computes the file MD5 and checks if we've seen it before.         Attaches the c
+Nodes (1): Injects a fresh Unique ID into the video metadata without re-encoding.
 
 ### Community 530 - "Community 530"
 Cohesion: 1.0
-Nodes (1): Adds a successfully downloaded reel to the ledger and persists to disk.
+Nodes (1): Sets a custom thumbnail for a YouTube video.
 
 ### Community 531 - "Community 531"
 Cohesion: 1.0
-Nodes (1): Returns the channel folder that already used this shortcode,         or None if
+Nodes (1): CLI Entry Point for standalone YouTube uploads.
 
 ### Community 532 - "Community 532"
 Cohesion: 1.0
-Nodes (1): Extended commit that also records which channel used this clip.         Prevents
+Nodes (1): Returns True if this Instagram post was already downloaded.
 
 ### Community 533 - "Community 533"
 Cohesion: 1.0
-Nodes (1): Returns the process-level singleton ledger, initialising it if needed.
+Nodes (1): Computes the file MD5 and checks if we've seen it before.         Attaches the c
 
 ### Community 534 - "Community 534"
 Cohesion: 1.0
-Nodes (1): Load paparazzi_identities.json. Caches in memory.
+Nodes (1): Adds a successfully downloaded reel to the ledger and persists to disk.
 
 ### Community 535 - "Community 535"
 Cohesion: 1.0
-Nodes (1): Returns the list of paparazzi Instagram account IDs to scrape from.     Reads fr
+Nodes (1): Returns the channel folder that already used this shortcode,         or None if
 
 ### Community 536 - "Community 536"
 Cohesion: 1.0
-Nodes (1): Detects gender from a person's name string.     Uses curated token lists from pa
+Nodes (1): Extended commit that also records which channel used this clip.         Prevents
 
 ### Community 537 - "Community 537"
 Cohesion: 1.0
-Nodes (1): Tries to extract the featured person's name from reel metadata.     Checks: tagg
+Nodes (1): Returns the process-level singleton ledger, initialising it if needed.
 
 ### Community 538 - "Community 538"
 Cohesion: 1.0
-Nodes (1): Determines the destination channel for a scraped reel.      Args:         ig_id
+Nodes (1): Load paparazzi_identities.json. Caches in memory.
 
 ### Community 539 - "Community 539"
 Cohesion: 1.0
-Nodes (1): Returns all credential folders for a given prefix, including:       - Base folde
+Nodes (1): Returns the list of paparazzi Instagram account IDs to scrape from.     Reads fr
 
 ### Community 540 - "Community 540"
 Cohesion: 1.0
-Nodes (1): Returns the full shuffled pool of eligible niche folders for a category.     Alw
+Nodes (1): Detects gender from a person's name string.     Uses curated token lists from pa
 
 ### Community 541 - "Community 541"
 Cohesion: 1.0
-Nodes (1): Extract the middle frame from a video as a temp JPEG. Returns path or None.
+Nodes (1): Tries to extract the featured person's name from reel metadata.     Checks: tagg
 
 ### Community 542 - "Community 542"
 Cohesion: 1.0
-Nodes (1): Send frame to Gemini Vision and get clothing coverage classification.     Return
+Nodes (1): Determines the destination channel for a scraped reel.      Args:         ig_id
 
 ### Community 543 - "Community 543"
 Cohesion: 1.0
-Nodes (1): Classifies a video clip and returns routing info.      Returns:         {
+Nodes (1): Returns all credential folders for a given prefix, including:       - Base folde
 
 ### Community 544 - "Community 544"
 Cohesion: 1.0
-Nodes (1): Convenience wrapper — returns shuffled pool of target niche folder names.
+Nodes (1): Returns the full shuffled pool of eligible niche folders for a category.     Alw
 
 ### Community 545 - "Community 545"
 Cohesion: 1.0
-Nodes (1): Uses ffmpeg to extract the single best frame identified by detect_watermark().
+Nodes (1): Extract the middle frame from a video as a temp JPEG. Returns path or None.
 
 ### Community 546 - "Community 546"
 Cohesion: 1.0
-Nodes (1): 3-tier confidence check for surgical removal.
+Nodes (1): Send frame to Gemini Vision and get clothing coverage classification.     Return
 
 ### Community 547 - "Community 547"
 Cohesion: 1.0
-Nodes (1): Fetches per-video analytics from YouTube Analytics API.      Args:         crede
+Nodes (1): Classifies a video clip and returns routing info.      Returns:         {
 
 ### Community 548 - "Community 548"
 Cohesion: 1.0
-Nodes (1): Return a synthetic snapshot for testing without API access.
+Nodes (1): Convenience wrapper — returns shuffled pool of target niche folder names.
 
 ### Community 549 - "Community 549"
 Cohesion: 1.0
-Nodes (1): Fetch views, avg view duration, likes.
+Nodes (1): Uses ffmpeg to extract the single best frame identified by detect_watermark().
 
 ### Community 550 - "Community 550"
 Cohesion: 1.0
-Nodes (1): Fetch audience retention curve.         Returns list of {"t": float, "pct": floa
+Nodes (1): 3-tier confidence check for surgical removal.
 
 ### Community 551 - "Community 551"
 Cohesion: 1.0
-Nodes (1): Fetch a complete analytics snapshot for one video.          Args:             vi
+Nodes (1): Fetches per-video analytics from YouTube Analytics API.      Args:         crede
 
 ### Community 552 - "Community 552"
 Cohesion: 1.0
-Nodes (1): Handles 'Community Post' promotion via Channel Comments (commentThreads).     -
+Nodes (1): Return a synthetic snapshot for testing without API access.
 
 ### Community 553 - "Community 553"
 Cohesion: 1.0
-Nodes (1): Uses Gemini to generate a dual-CTA psychological hook (Partner + Clips).
+Nodes (1): Fetch views, avg view duration, likes.
 
 ### Community 554 - "Community 554"
 Cohesion: 1.0
-Nodes (1): Uses Gemini to generate a dual-CTA psychological hook specifically for the Teleg
+Nodes (1): Fetch audience retention curve.         Returns list of {"t": float, "pct": floa
 
 ### Community 555 - "Community 555"
 Cohesion: 1.0
-Nodes (1): YouTube Comment Strategy: ONLY drive Telegram GROUP JOINS.         - No CPA lin
+Nodes (1): Fetch a complete analytics snapshot for one video.          Args:             vi
 
 ### Community 556 - "Community 556"
 Cohesion: 1.0
-Nodes (1): Generates a fan-page style caption for Instagram.          ── WITH affiliate_l
+Nodes (1): Handles 'Community Post' promotion via Channel Comments (commentThreads).     -
 
 ### Community 557 - "Community 557"
 Cohesion: 1.0
-Nodes (1): Loads links from los_pollos_links.json and rotates through them.
+Nodes (1): Uses Gemini to generate a dual-CTA psychological hook (Partner + Clips).
 
 ### Community 558 - "Community 558"
 Cohesion: 1.0
-Nodes (1): Adds compilation URL to the rotating pool (Max 10).
+Nodes (1): Uses Gemini to generate a dual-CTA psychological hook specifically for the Teleg
 
 ### Community 559 - "Community 559"
 Cohesion: 1.0
-Nodes (1): Picks a URL from the pool (Random Rotation).
+Nodes (1): YouTube Comment Strategy: ONLY drive Telegram GROUP JOINS.         - No CPA lin
 
 ### Community 560 - "Community 560"
 Cohesion: 1.0
-Nodes (1): Checks rate limit (1m) and duplication.
+Nodes (1): Generates a fan-page style caption for Instagram.          ── WITH affiliate_l
 
 ### Community 561 - "Community 561"
 Cohesion: 1.0
-Nodes (1): Promotes a ROTATING Compilation on the provided Video (Short or Long).
+Nodes (1): Loads links from los_pollos_links.json and rotates through them.
 
 ### Community 562 - "Community 562"
 Cohesion: 1.0
-Nodes (1): Uploads the local image to a temporary public host so the Instagram         Gra
+Nodes (1): Adds compilation URL to the rotating pool (Max 10).
 
 ### Community 563 - "Community 563"
 Cohesion: 1.0
-Nodes (1): Smart person-aware Instagram ratio formatter (4:5 = 1080x1350).          Strat
+Nodes (1): Picks a URL from the pool (Random Rotation).
 
 ### Community 564 - "Community 564"
 Cohesion: 1.0
-Nodes (1): Uploads a standard Image Post to Instagram feed using the Graph API.         Re
+Nodes (1): Checks rate limit (1m) and duplication.
 
 ### Community 565 - "Community 565"
 Cohesion: 1.0
-Nodes (1): Cleans captions of UTF-16 surrogates that cause UnicodeEncodeError in httpx/UTF-
+Nodes (1): Promotes a ROTATING Compilation on the provided Video (Short or Long).
 
 ### Community 566 - "Community 566"
 Cohesion: 1.0
-Nodes (1): Generic retry wrapper for HTTP requests using httpx.         Default timeout in
+Nodes (1): Uploads the local image to a temporary public host so the Instagram         Gra
 
 ### Community 567 - "Community 567"
 Cohesion: 1.0
-Nodes (1): Uses ffmpeg to extract the single best frame identified by detect_watermark().
+Nodes (1): Smart person-aware Instagram ratio formatter (4:5 = 1080x1350).          Strat
 
 ### Community 568 - "Community 568"
 Cohesion: 1.0
-Nodes (1): 3-tier confidence check for surgical removal.
+Nodes (1): Uploads a standard Image Post to Instagram feed using the Graph API.         Re
 
 ### Community 569 - "Community 569"
 Cohesion: 1.0
-Nodes (1): Returns a friendly batch name based on the hour of the slot.
+Nodes (1): Cleans captions of UTF-16 surrogates that cause UnicodeEncodeError in httpx/UTF-
 
 ### Community 570 - "Community 570"
 Cohesion: 1.0
-Nodes (1): Scans the downloads/ folder for actress subfolders containing .mp4 files     and
+Nodes (1): Generic retry wrapper for HTTP requests using httpx.         Default timeout in
 
 ### Community 571 - "Community 571"
 Cohesion: 1.0
-Nodes (1): Pops one item from the queue and runs it through the full AMTCE pipeline.
+Nodes (1): Uses ffmpeg to extract the single best frame identified by detect_watermark().
 
 ### Community 572 - "Community 572"
 Cohesion: 1.0
-Nodes (1): Returns the list of paparazzi Instagram account IDs to scrape from.     Reads fr
+Nodes (1): 3-tier confidence check for surgical removal.
 
 ### Community 573 - "Community 573"
 Cohesion: 1.0
-Nodes (1): Detects gender from a person's name string.     Uses curated token lists from pa
+Nodes (1): Returns a friendly batch name based on the hour of the slot.
 
 ### Community 574 - "Community 574"
 Cohesion: 1.0
-Nodes (1): Tries to extract the featured person's name from reel metadata.     Checks: tagg
+Nodes (1): Scans the downloads/ folder for actress subfolders containing .mp4 files     and
 
 ### Community 575 - "Community 575"
 Cohesion: 1.0
-Nodes (1): Draws a strikethrough line over the celebrity price text.
+Nodes (1): Pops one item from the queue and runs it through the full AMTCE pipeline.
 
 ### Community 576 - "Community 576"
 Cohesion: 1.0
-Nodes (1): Adaptive Anchor System: Calculates a safe y-coordinate for the tag.         Targ
+Nodes (1): Returns the list of paparazzi Instagram account IDs to scrape from.     Reads fr
 
 ### Community 577 - "Community 577"
 Cohesion: 1.0
-Nodes (1): Generates a transparent PNG overlay with Smart Price Tag.         Uses Adaptive
+Nodes (1): Detects gender from a person's name string.     Uses curated token lists from pa
 
 ### Community 578 - "Community 578"
 Cohesion: 1.0
-Nodes (1): Scans the downloads/ folder for actress subfolders containing .mp4 files     and
+Nodes (1): Tries to extract the featured person's name from reel metadata.     Checks: tagg
 
 ### Community 579 - "Community 579"
 Cohesion: 1.0
-Nodes (1): Daemon thread: analyze one BGM track with Gemini and write the result         b
+Nodes (1): Draws a strikethrough line over the celebrity price text.
 
 ### Community 580 - "Community 580"
 Cohesion: 1.0
-Nodes (1): Lazy load beat data from cache or disk.
+Nodes (1): Adaptive Anchor System: Calculates a safe y-coordinate for the tag.         Targ
 
 ### Community 581 - "Community 581"
 Cohesion: 1.0
-Nodes (1): Moves newly extracted audio into pool and caches deep beat metadata.
+Nodes (1): Generates a transparent PNG overlay with Smart Price Tag.         Uses Adaptive
 
 ### Community 582 - "Community 582"
 Cohesion: 1.0
-Nodes (1): Scoring-based selection from the active pool.                  Formula:
+Nodes (1): Scans the downloads/ folder for actress subfolders containing .mp4 files     and
 
 ### Community 583 - "Community 583"
 Cohesion: 1.0
-Nodes (1): Rotates clips from cooldown back to active based on hybrid logic.         Clean
+Nodes (1): Daemon thread: analyze one BGM track with Gemini and write the result         b
 
 ### Community 584 - "Community 584"
 Cohesion: 1.0
-Nodes (1): Manages harvest slot tracking and catch-up logic.      Usage:         state = Ha
+Nodes (1): Lazy load beat data from cache or disk.
 
 ### Community 585 - "Community 585"
 Cohesion: 1.0
-Nodes (1): Reset daily counters when a new day starts.
+Nodes (1): Moves newly extracted audio into pool and caches deep beat metadata.
 
 ### Community 586 - "Community 586"
 Cohesion: 1.0
-Nodes (1): Call this immediately after a successful harvest run.
+Nodes (1): Scoring-based selection from the active pool.                  Formula:
 
 ### Community 587 - "Community 587"
 Cohesion: 1.0
-Nodes (1): Returns True if:           - At least one configured harvest slot passed today
+Nodes (1): Rotates clips from cooldown back to active based on hybrid logic.         Clean
 
 ### Community 588 - "Community 588"
 Cohesion: 1.0
-Nodes (1): Manages publish slot tracking and intelligent catch-up scheduling.      The publ
+Nodes (1): Manages harvest slot tracking and catch-up logic.      Usage:         state = Ha
 
 ### Community 589 - "Community 589"
 Cohesion: 1.0
-Nodes (1): Call this when a publish slot successfully fires.
+Nodes (1): Reset daily counters when a new day starts.
 
 ### Community 590 - "Community 590"
 Cohesion: 1.0
-Nodes (1): Call this when a slot is detected as missed (program was off).
+Nodes (1): Call this immediately after a successful harvest run.
 
 ### Community 591 - "Community 591"
 Cohesion: 1.0
-Nodes (1): Compare configured slots against published-today to find what was missed.
+Nodes (1): Returns True if:           - At least one configured harvest slot passed today
 
 ### Community 592 - "Community 592"
 Cohesion: 1.0
-Nodes (1): Intelligently plans catch-up publish times for missed slots.          Strategy:
+Nodes (1): Manages publish slot tracking and intelligent catch-up scheduling.      The publ
 
 ### Community 593 - "Community 593"
 Cohesion: 1.0
-Nodes (1): Disk-persisted Apify quota tracker.     Survives process restarts — critical for
+Nodes (1): Call this when a publish slot successfully fires.
 
 ### Community 594 - "Community 594"
 Cohesion: 1.0
-Nodes (1): Returns True if quota allows `needed` more calls.
+Nodes (1): Call this when a slot is detected as missed (program was off).
 
 ### Community 595 - "Community 595"
 Cohesion: 1.0
-Nodes (1): Record that `amount` Apify calls were made.
+Nodes (1): Compare configured slots against published-today to find what was missed.
 
 ### Community 596 - "Community 596"
 Cohesion: 1.0
-Nodes (1): Dump a full salesman dashboard to the logger.
+Nodes (1): Intelligently plans catch-up publish times for missed slots.          Strategy:
 
 ### Community 597 - "Community 597"
 Cohesion: 1.0
-Nodes (1): High-level safety check for core loops.     Returns True if system is within op
+Nodes (1): Disk-persisted Apify quota tracker.     Survives process restarts — critical for
 
 ### Community 598 - "Community 598"
 Cohesion: 1.0
-Nodes (1): Prints a formatted summary of the system health.
+Nodes (1): Returns True if quota allows `needed` more calls.
 
 ### Community 599 - "Community 599"
 Cohesion: 1.0
-Nodes (1): Perform forensic analysis on a video (or pre-extracted frames).          Args:
+Nodes (1): Record that `amount` Apify calls were made.
 
 ### Community 600 - "Community 600"
 Cohesion: 1.0
-Nodes (1): Extract FRAME_COUNT frames evenly spread across the video using FFmpeg.
+Nodes (1): Dump a full salesman dashboard to the logger.
 
 ### Community 601 - "Community 601"
 Cohesion: 1.0
-Nodes (1): Send frames + prompt to Gemini Vision, parse and validate JSON response.
+Nodes (1): High-level safety check for core loops.     Returns True if system is within op
 
 ### Community 602 - "Community 602"
 Cohesion: 1.0
-Nodes (1): Parse and validate Gemini JSON response.         Handles BOTH schemas:
+Nodes (1): Prints a formatted summary of the system health.
 
 ### Community 603 - "Community 603"
 Cohesion: 1.0
-Nodes (1): Return the module-level singleton, creating it on first call.
+Nodes (1): Perform forensic analysis on a video (or pre-extracted frames).          Args:
 
 ### Community 604 - "Community 604"
 Cohesion: 1.0
-Nodes (1): Main Orchestrator for Forensic Analysis.
+Nodes (1): Extract FRAME_COUNT frames evenly spread across the video using FFmpeg.
 
 ### Community 605 - "Community 605"
 Cohesion: 1.0
-Nodes (1): Jaccard word-overlap matcher for product keys within a category bucket.      C
+Nodes (1): Send frames + prompt to Gemini Vision, parse and validate JSON response.
 
 ### Community 606 - "Community 606"
 Cohesion: 1.0
-Nodes (1): Returns the most specific Amazon affiliate link for the detected product.
+Nodes (1): Parse and validate Gemini JSON response.         Handles BOTH schemas:
 
 ### Community 607 - "Community 607"
 Cohesion: 1.0
-Nodes (1): Persists a user-provided affiliate link using a dual-key strategy.        1. b
+Nodes (1): Return the module-level singleton, creating it on first call.
 
 ### Community 608 - "Community 608"
 Cohesion: 1.0
-Nodes (1): Hard schema-validation gate. Rejects any result that would produce a bad     Am
+Nodes (1): Main Orchestrator for Forensic Analysis.
 
 ### Community 609 - "Community 609"
 Cohesion: 1.0
-Nodes (1): Independent query quality scorer. Returns 0.0–1.0.      Scoring breakdown (eac
+Nodes (1): Jaccard word-overlap matcher for product keys within a category bucket.      C
 
 ### Community 610 - "Community 610"
 Cohesion: 1.0
-Nodes (1): Evaluates product title (wear_name) for retail-grade (industry-standard) naming.
+Nodes (1): Returns the most specific Amazon affiliate link for the detected product.
 
 ### Community 611 - "Community 611"
 Cohesion: 1.0
-Nodes (1): Hierarchical Fashion Intelligence Pipeline.      Public API     ----------
+Nodes (1): Persists a user-provided affiliate link using a dual-key strategy.        1. b
 
 ### Community 612 - "Community 612"
 Cohesion: 1.0
-Nodes (1): Sends image frames + prompt to Gemini Vision and returns a parsed JSON dict.
+Nodes (1): Hard schema-validation gate. Rejects any result that would produce a bad     Am
 
 ### Community 613 - "Community 613"
 Cohesion: 1.0
-Nodes (1): Guarantees no critical attribute field is blank after Gemini's response.
+Nodes (1): Independent query quality scorer. Returns 0.0–1.0.      Scoring breakdown (eac
 
 ### Community 614 - "Community 614"
 Cohesion: 1.0
-Nodes (1): Deterministic Amazon query builder — pure Python, zero hallucination risk.
+Nodes (1): Evaluates product title (wear_name) for retail-grade (industry-standard) naming.
 
 ### Community 615 - "Community 615"
 Cohesion: 1.0
-Nodes (1): Hierarchical Fashion Intelligence Pipeline.          Flow         ----
+Nodes (1): Hierarchical Fashion Intelligence Pipeline.      Public API     ----------
 
 ### Community 616 - "Community 616"
 Cohesion: 1.0
-Nodes (1): Returns a safe, neutral fallback payload used when Gemini fails      or confide
+Nodes (1): Sends image frames + prompt to Gemini Vision and returns a parsed JSON dict.
 
 ### Community 617 - "Community 617"
 Cohesion: 1.0
-Nodes (1): Return structured caption line data:     [         {"text": "...", "fontsize":
+Nodes (1): Guarantees no critical attribute field is blank after Gemini's response.
 
 ### Community 618 - "Community 618"
 Cohesion: 1.0
-Nodes (1): Build FFmpeg drawtext filter segments for the arc caption style.
+Nodes (1): Deterministic Amazon query builder — pure Python, zero hallucination risk.
 
 ### Community 619 - "Community 619"
 Cohesion: 1.0
-Nodes (1): Build FFmpeg drawtext filter for viral caption style.      Style:     - Color
+Nodes (1): Hierarchical Fashion Intelligence Pipeline.          Flow         ----
 
 ### Community 620 - "Community 620"
 Cohesion: 1.0
-Nodes (1): Text-only caption generation using Gemini system role + diversity config.     U
+Nodes (1): Returns a safe, neutral fallback payload used when Gemini fails      or confide
 
 ### Community 621 - "Community 621"
 Cohesion: 1.0
-Nodes (1): Public helper for upload caption generation.     Accepts optional profile_data
+Nodes (1): Return structured caption line data:     [         {"text": "...", "fontsize":
 
 ### Community 622 - "Community 622"
 Cohesion: 1.0
-Nodes (1): Generates a transparent PNG overlay with Smart Price Tag.         Uses Adaptive
+Nodes (1): Build FFmpeg drawtext filter segments for the arc caption style.
 
 ### Community 623 - "Community 623"
 Cohesion: 1.0
-Nodes (1): Create a PIL Image with the specified studio background style.
+Nodes (1): Build FFmpeg drawtext filter for viral caption style.      Style:     - Color
 
 ### Community 624 - "Community 624"
 Cohesion: 1.0
-Nodes (1): Remove background from image bytes using rembg (ONNX, CPU-only).     Returns a P
+Nodes (1): Text-only caption generation using Gemini system role + diversity config.     U
 
 ### Community 625 - "Community 625"
 Cohesion: 1.0
-Nodes (1): Composite the subject (RGBA with transparent bg) onto a studio background.     S
+Nodes (1): Public helper for upload caption generation.     Accepts optional profile_data
 
 ### Community 626 - "Community 626"
 Cohesion: 1.0
-Nodes (1): Smart crop: resize maintaining aspect ratio, then center-crop to exact size.
+Nodes (1): Generates a transparent PNG overlay with Smart Price Tag.         Uses Adaptive
 
 ### Community 627 - "Community 627"
 Cohesion: 1.0
-Nodes (1): Save PIL image as JPEG.
+Nodes (1): Create a PIL Image with the specified studio background style.
 
 ### Community 628 - "Community 628"
 Cohesion: 1.0
-Nodes (1): Generate polished studio-background advertisement images.      Strategy:       -
+Nodes (1): Remove background from image bytes using rembg (ONNX, CPU-only).     Returns a P
 
 ### Community 629 - "Community 629"
 Cohesion: 1.0
-Nodes (1): Convenience wrapper: load image from file path then call generate_ad_images.
+Nodes (1): Composite the subject (RGBA with transparent bg) onto a studio background.     S
 
 ### Community 630 - "Community 630"
 Cohesion: 1.0
-Nodes (1): Video ad placeholder — no free-tier video API exists.     Set ENABLE_AI_VIDEO_CR
+Nodes (1): Smart crop: resize maintaining aspect ratio, then center-crop to exact size.
 
 ### Community 631 - "Community 631"
 Cohesion: 1.0
-Nodes (1): Generates a fan-page style caption for Instagram.         Tone: fan community,
+Nodes (1): Save PIL image as JPEG.
 
 ### Community 632 - "Community 632"
 Cohesion: 1.0
-Nodes (1): Loads links from los_pollos_links.json and rotates through them.
+Nodes (1): Generate polished studio-background advertisement images.      Strategy:       -
 
 ### Community 633 - "Community 633"
 Cohesion: 1.0
-Nodes (1): Adds compilation URL to the rotating pool (Max 10).
+Nodes (1): Convenience wrapper: load image from file path then call generate_ad_images.
 
 ### Community 634 - "Community 634"
 Cohesion: 1.0
-Nodes (1): Picks a URL from the pool (Random Rotation).
+Nodes (1): Video ad placeholder — no free-tier video API exists.     Set ENABLE_AI_VIDEO_CR
 
 ### Community 635 - "Community 635"
 Cohesion: 1.0
-Nodes (1): Checks rate limit (1m) and duplication.
+Nodes (1): Generates a fan-page style caption for Instagram.         Tone: fan community,
 
 ### Community 636 - "Community 636"
 Cohesion: 1.0
-Nodes (1): Promotes a ROTATING Compilation on the provided Video (Short or Long).
+Nodes (1): Loads links from los_pollos_links.json and rotates through them.
 
 ### Community 637 - "Community 637"
+Cohesion: 1.0
+Nodes (1): Adds compilation URL to the rotating pool (Max 10).
+
+### Community 638 - "Community 638"
+Cohesion: 1.0
+Nodes (1): Picks a URL from the pool (Random Rotation).
+
+### Community 639 - "Community 639"
+Cohesion: 1.0
+Nodes (1): Checks rate limit (1m) and duplication.
+
+### Community 640 - "Community 640"
+Cohesion: 1.0
+Nodes (1): Promotes a ROTATING Compilation on the provided Video (Short or Long).
+
+### Community 641 - "Community 641"
 Cohesion: 1.0
 Nodes (1): Prints a formatted summary of the system health.
 
 ## Knowledge Gaps
-- **1939 isolated node(s):** `review_server.py — AMTCE Live Editorial Interruption Server ====================`, `Background thread: tail the AMTCE log file and push lines to SSE queue.`, `Serve the Studio UI HTML.`, `Return the full review queue with clip metadata.`, `Return AMTCE system health and queue stats.` (+1934 more)
+- **1957 isolated node(s):** `review_server.py — AMTCE Live Editorial Interruption Server ====================`, `Background thread: tail the AMTCE log file and push lines to SSE queue.`, `Serve the Studio UI HTML.`, `Return the full review queue with clip metadata.`, `Return AMTCE system health and queue stats.` (+1952 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **Thin community `Community 62`** (2 nodes): `call_cerebras()`, `cerebras_connector.py`
+- **Thin community `Community 66`** (2 nodes): `call_cerebras()`, `cerebras_connector.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 63`** (2 nodes): `generate_ast_graph()`, `ast_generator.py`
+- **Thin community `Community 67`** (2 nodes): `generate_ast_graph()`, `ast_generator.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 64`** (2 nodes): `dependency_graph.py`, `generate_dependency_graph()`
+- **Thin community `Community 68`** (2 nodes): `dependency_graph.py`, `generate_dependency_graph()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 65`** (2 nodes): `system_prompts.py`, `System Prompts for Bot Intelligence ----------------------------------- Centra`
+- **Thin community `Community 69`** (2 nodes): `system_prompts.py`, `System Prompts for Bot Intelligence ----------------------------------- Centra`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 66`** (2 nodes): `runtime_flags.py`, `config/runtime_flags.py ────────────────────────────────────────────────────────`
+- **Thin community `Community 70`** (2 nodes): `runtime_flags.py`, `config/runtime_flags.py ────────────────────────────────────────────────────────`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 67`** (2 nodes): `Legacy shim for compiler module.`, `compiler.py`
+- **Thin community `Community 71`** (2 nodes): `Legacy shim for compiler module.`, `compiler.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 68`** (2 nodes): `test_cag.py`, `mock_generate_metadata()`
+- **Thin community `Community 72`** (2 nodes): `test_cag.py`, `mock_generate_metadata()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 69`** (2 nodes): `test_gemini_raw.py`, `test_raw_gemini()`
+- **Thin community `Community 73`** (2 nodes): `test_gemini_raw.py`, `test_raw_gemini()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 70`** (2 nodes): `inject_scheduler.py`, `inject_scheduler.py — Injects run_paparazzi_cycle + dispatcher into actress_sche`
+- **Thin community `Community 74`** (2 nodes): `inject_scheduler.py`, `inject_scheduler.py — Injects run_paparazzi_cycle + dispatcher into actress_sche`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 71`** (2 nodes): `rebuild_dataset.py`, `rebuild()`
+- **Thin community `Community 75`** (2 nodes): `rebuild_dataset.py`, `rebuild()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 72`** (2 nodes): `run_bot.py`, `run_bot.py ────────── Launches the sales bot. This is the script you keep runnin`
+- **Thin community `Community 76`** (2 nodes): `run_bot.py`, `run_bot.py ────────── Launches the sales bot. This is the script you keep runnin`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 73`** (2 nodes): `test_creative_director.py`, `generate_mock_profile()`
+- **Thin community `Community 77`** (2 nodes): `test_creative_director.py`, `generate_mock_profile()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 74`** (1 nodes): `check_yaml.py`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 75`** (1 nodes): `__init__.py`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 76`** (1 nodes): `__init__.py`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 77`** (1 nodes): `__init__.py`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 78`** (1 nodes): `__init__.py`
+- **Thin community `Community 78`** (1 nodes): `check_yaml.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 79`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 80`** (1 nodes): `Multi-clip timeline rendering shim.         Restores the 'rhythm-sync' compilat`
+- **Thin community `Community 80`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 81`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 82`** (1 nodes): `Convenience constructor: builds a VideoLog entry from EditorBrainV3 output.`
+- **Thin community `Community 82`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 83`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 84`** (1 nodes): `boot_test.py`
+- **Thin community `Community 84`** (1 nodes): `Multi-clip timeline rendering shim.         Restores the 'rhythm-sync' compilat`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 85`** (1 nodes): `check_keys.py`
+- **Thin community `Community 85`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 86`** (1 nodes): `check_vp.py`
+- **Thin community `Community 86`** (1 nodes): `Convenience constructor: builds a VideoLog entry from EditorBrainV3 output.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 87`** (1 nodes): `data_resolver.py`
+- **Thin community `Community 87`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 88`** (1 nodes): `diag_full.py`
+- **Thin community `Community 88`** (1 nodes): `boot_test.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 89`** (1 nodes): `discover_classes.py`
+- **Thin community `Community 89`** (1 nodes): `check_keys.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 90`** (1 nodes): `fix_engine_deps.py`
+- **Thin community `Community 90`** (1 nodes): `check_vp.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 91`** (1 nodes): `fix_rhythm_deps.py`
+- **Thin community `Community 91`** (1 nodes): `data_resolver.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 92`** (1 nodes): `fix_rtb.py`
+- **Thin community `Community 92`** (1 nodes): `diag_full.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 93`** (1 nodes): `inspect_apis.py`
+- **Thin community `Community 93`** (1 nodes): `discover_classes.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 94`** (1 nodes): `inspect_compilers.py`
+- **Thin community `Community 94`** (1 nodes): `fix_engine_deps.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 95`** (1 nodes): `sig_check.py`
+- **Thin community `Community 95`** (1 nodes): `fix_rhythm_deps.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 96`** (1 nodes): `strip_editor.py`
+- **Thin community `Community 96`** (1 nodes): `fix_rtb.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 97`** (1 nodes): `test_deps.py`
+- **Thin community `Community 97`** (1 nodes): `inspect_apis.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 98`** (1 nodes): `test_shot_detector.py`
+- **Thin community `Community 98`** (1 nodes): `inspect_compilers.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 99`** (1 nodes): `test_sigs.py`
+- **Thin community `Community 99`** (1 nodes): `sig_check.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 100`** (1 nodes): `test_tracker.py`
+- **Thin community `Community 100`** (1 nodes): `strip_editor.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 101`** (1 nodes): `Quick log for non-API events (like cache hits)`
+- **Thin community `Community 101`** (1 nodes): `test_deps.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 102`** (1 nodes): `Compute a segment diversity score [0..1]. True = diverse enough.`
+- **Thin community `Community 102`** (1 nodes): `test_shot_detector.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 103`** (1 nodes): `Populate StepTracer from FeatureAuditor status string.`
+- **Thin community `Community 103`** (1 nodes): `test_sigs.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 104`** (1 nodes): `Install all patches. Returns count of successfully patched functions.`
+- **Thin community `Community 104`** (1 nodes): `test_tracker.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 105`** (1 nodes): `__init__.py`
+- **Thin community `Community 105`** (1 nodes): `Quick log for non-API events (like cache hits)`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 106`** (1 nodes): `__init__.py`
+- **Thin community `Community 106`** (1 nodes): `Compute a segment diversity score [0..1]. True = diverse enough.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 107`** (1 nodes): `Attempts to import a standard module dynamically.`
+- **Thin community `Community 107`** (1 nodes): `Populate StepTracer from FeatureAuditor status string.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 108`** (1 nodes): `Detects hardware capabilities WITHOUT importing torch/tensorflow if possible ini`
+- **Thin community `Community 108`** (1 nodes): `Install all patches. Returns count of successfully patched functions.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 109`** (1 nodes): `Calculates Expected Value.         Confidence: 0.0 to 1.0 (Probability of Succe`
+- **Thin community `Community 109`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 110`** (1 nodes): `Gatekeeper Function. Returns True if EV > threshold.`
+- **Thin community `Community 110`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 111`** (1 nodes): `Computes STATIC_SCORE based on trajectory data.         Returns: 0.0 to 1.0 (Hi`
+- **Thin community `Community 111`** (1 nodes): `Attempts to import a standard module dynamically.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 112`** (1 nodes): `Computes strict byte-level hash.`
+- **Thin community `Community 112`** (1 nodes): `Detects hardware capabilities WITHOUT importing torch/tensorflow if possible ini`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 113`** (1 nodes): `Computes DCT-based Perceptual Hash (pHash) on the middle frame.         Robust`
+- **Thin community `Community 113`** (1 nodes): `Calculates Expected Value.         Confidence: 0.0 to 1.0 (Probability of Succe`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 114`** (1 nodes): `Computes Hamming distance between two 64-bit hex hashes.`
+- **Thin community `Community 114`** (1 nodes): `Gatekeeper Function. Returns True if EV > threshold.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 115`** (1 nodes): `Checks for collisions in the index.         Returns:             (collision_ty`
+- **Thin community `Community 115`** (1 nodes): `Computes STATIC_SCORE based on trajectory data.         Returns: 0.0 to 1.0 (Hi`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 116`** (1 nodes): `Registers the content in the index.`
+- **Thin community `Community 116`** (1 nodes): `Computes strict byte-level hash.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 117`** (1 nodes): `Return the time of the highest expression_change in the early window.`
+- **Thin community `Community 117`** (1 nodes): `Computes DCT-based Perceptual Hash (pHash) on the middle frame.         Robust`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 118`** (1 nodes): `Compares input vs output video quality.         Returns dict with deltas and PA`
+- **Thin community `Community 118`** (1 nodes): `Computes Hamming distance between two 64-bit hex hashes.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 119`** (1 nodes): `Uses ffmpeg scene detection to estimate scene cuts.         Fail if < 2 "scenes`
+- **Thin community `Community 119`** (1 nodes): `Checks for collisions in the index.         Returns:             (collision_ty`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 120`** (1 nodes): `Checks if video is effectively static.         Returns: motion_score (0.0 - 1.0`
+- **Thin community `Community 120`** (1 nodes): `Registers the content in the index.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 121`** (1 nodes): `Complete check. Returns (is_safe: bool, reason: str)`
+- **Thin community `Community 121`** (1 nodes): `Return the time of the highest expression_change in the early window.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 122`** (1 nodes): `Feature 1: Weighted Risk Probability Scoring.         Returns: risk_score (0-10`
+- **Thin community `Community 122`** (1 nodes): `Compares input vs output video quality.         Returns dict with deltas and PA`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 123`** (1 nodes): `__init__.py`
+- **Thin community `Community 123`** (1 nodes): `Uses ffmpeg scene detection to estimate scene cuts.         Fail if < 2 "scenes`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 124`** (1 nodes): `__init__.py`
+- **Thin community `Community 124`** (1 nodes): `Checks if video is effectively static.         Returns: motion_score (0.0 - 1.0`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 125`** (1 nodes): `__init__.py`
+- **Thin community `Community 125`** (1 nodes): `Complete check. Returns (is_safe: bool, reason: str)`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 126`** (1 nodes): `orphan_check.py`
+- **Thin community `Community 126`** (1 nodes): `Feature 1: Weighted Risk Probability Scoring.         Returns: risk_score (0-10`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 127`** (1 nodes): `test_channel_router.py`
+- **Thin community `Community 127`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 128`** (1 nodes): `test_tracker.py`
+- **Thin community `Community 128`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 129`** (1 nodes): `verify_compute.py`
+- **Thin community `Community 129`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 130`** (1 nodes): `verify_dnn.py`
+- **Thin community `Community 130`** (1 nodes): `orphan_check.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 131`** (1 nodes): `verify_integration.py`
+- **Thin community `Community 131`** (1 nodes): `test_channel_router.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 132`** (1 nodes): `__init__.py`
+- **Thin community `Community 132`** (1 nodes): `test_tracker.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 133`** (1 nodes): `verify_crew.py`
+- **Thin community `Community 133`** (1 nodes): `verify_compute.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 134`** (1 nodes): `generate_test_graph.py`
+- **Thin community `Community 134`** (1 nodes): `verify_dnn.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 135`** (1 nodes): `Verify that a HIGH risk from the brain is NOT overwritten by the compiler.`
+- **Thin community `Community 135`** (1 nodes): `verify_integration.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 136`** (1 nodes): `Verify that UNKNOWN (Brain Offline) is reported as MEDIUM, not LOW.`
+- **Thin community `Community 136`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 137`** (1 nodes): `test_onnx.py`
+- **Thin community `Community 137`** (1 nodes): `verify_crew.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 138`** (1 nodes): `Verify that the render pipeline:         1. Uses hardware decode (-hwaccel auto)`
+- **Thin community `Community 138`** (1 nodes): `generate_test_graph.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 139`** (1 nodes): `Verify that if no zoom, speed ramps, or transitions exist, the graph         rem`
+- **Thin community `Community 139`** (1 nodes): `Verify that a HIGH risk from the brain is NOT overwritten by the compiler.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 140`** (1 nodes): `Should successfully upload, analyze and clean up the video.`
+- **Thin community `Community 140`** (1 nodes): `Verify that UNKNOWN (Brain Offline) is reported as MEDIUM, not LOW.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 141`** (1 nodes): `Should attempt file cleanup even if model generation fails.`
+- **Thin community `Community 141`** (1 nodes): `test_onnx.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 142`** (1 nodes): `__init__.py`
+- **Thin community `Community 142`** (1 nodes): `Verify that the render pipeline:         1. Uses hardware decode (-hwaccel auto)`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 143`** (1 nodes): `__init__.py`
+- **Thin community `Community 143`** (1 nodes): `Verify that if no zoom, speed ramps, or transitions exist, the graph         rem`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 144`** (1 nodes): `Enforce headline rules: EXACTLY 2-3 words, no trailing period.`
+- **Thin community `Community 144`** (1 nodes): `Should successfully upload, analyze and clean up the video.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 145`** (1 nodes): `Scans neighborhood of logo_box for text-like regions.         Returns list of b`
+- **Thin community `Community 145`** (1 nodes): `Should attempt file cleanup even if model generation fails.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 146`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 147`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 148`** (1 nodes): `test.py`
+- **Thin community `Community 148`** (1 nodes): `Enforce headline rules: EXACTLY 2-3 words, no trailing period.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 149`** (1 nodes): `test_import.py`
+- **Thin community `Community 149`** (1 nodes): `Scans neighborhood of logo_box for text-like regions.         Returns list of b`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 150`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 151`** (1 nodes): `Strip NSFW emojis from any string before writing it into a YouTube comment.`
+- **Thin community `Community 151`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 152`** (1 nodes): `Reads The_json/geo_analytics.json, maps country → language,         aggregates`
+- **Thin community `Community 152`** (1 nodes): `test.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 153`** (1 nodes): `Resolves Meta credentials using a 3-tier priority chain:           1. Credentia`
+- **Thin community `Community 153`** (1 nodes): `test_import.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 154`** (1 nodes): `Orchestrates uploads to enabled Meta platforms.          The ``niche`` paramet`
+- **Thin community `Community 154`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 155`** (1 nodes): `Uploads the local image to a temporary public host so the Instagram         Gra`
+- **Thin community `Community 155`** (1 nodes): `Strip NSFW emojis from any string before writing it into a YouTube comment.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 156`** (1 nodes): `Smart person-aware Instagram ratio formatter (4:5 = 1080x1350).          Strat`
+- **Thin community `Community 156`** (1 nodes): `Reads The_json/geo_analytics.json, maps country → language,         aggregates`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 157`** (1 nodes): `Uploads a standard Image Post to Instagram feed using the Graph API.         Re`
+- **Thin community `Community 157`** (1 nodes): `Resolves Meta credentials using a 3-tier priority chain:           1. Credentia`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 158`** (1 nodes): `Cleans captions of UTF-16 surrogates that cause UnicodeEncodeError in httpx/UTF-`
+- **Thin community `Community 158`** (1 nodes): `Orchestrates uploads to enabled Meta platforms.          The ``niche`` paramet`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 159`** (1 nodes): `Generic retry wrapper for HTTP requests using httpx.         Default timeout in`
+- **Thin community `Community 159`** (1 nodes): `Uploads the local image to a temporary public host so the Instagram         Gra`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 160`** (1 nodes): `Polls Instagram container status until FINISHED or ERROR.         Timeout defau`
+- **Thin community `Community 160`** (1 nodes): `Smart person-aware Instagram ratio formatter (4:5 = 1080x1350).          Strat`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 161`** (1 nodes): `Non-blocking lock with timeout to prevent bot hangs.`
+- **Thin community `Community 161`** (1 nodes): `Uploads a standard Image Post to Instagram feed using the Graph API.         Re`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 162`** (1 nodes): `FOMO ESCALATION CASCADE (Upgraded A1)         Changes tone based on pot size to`
+- **Thin community `Community 162`** (1 nodes): `Cleans captions of UTF-16 surrogates that cause UnicodeEncodeError in httpx/UTF-`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 163`** (1 nodes): `High-pressure FOMO alerts for the final 15 minutes.`
+- **Thin community `Community 163`** (1 nodes): `Generic retry wrapper for HTTP requests using httpx.         Default timeout in`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 164`** (1 nodes): `__init__.py`
+- **Thin community `Community 164`** (1 nodes): `Polls Instagram container status until FINISHED or ERROR.         Timeout defau`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 165`** (1 nodes): `__init__.py`
+- **Thin community `Community 165`** (1 nodes): `Non-blocking lock with timeout to prevent bot hangs.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 166`** (1 nodes): `list_models.py`
+- **Thin community `Community 166`** (1 nodes): `FOMO ESCALATION CASCADE (Upgraded A1)         Changes tone based on pot size to`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 167`** (1 nodes): `list_models_filtered.py`
+- **Thin community `Community 167`** (1 nodes): `High-pressure FOMO alerts for the final 15 minutes.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 168`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 169`** (1 nodes): `Detects hardware capabilities WITHOUT importing torch/tensorflow if possible ini`
+- **Thin community `Community 169`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 170`** (1 nodes): `debug_orientation.py`
+- **Thin community `Community 170`** (1 nodes): `list_models.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 171`** (1 nodes): `Strategy A: Erosion/Shrink.         Reduces the mask size to minimize the "blur`
+- **Thin community `Community 171`** (1 nodes): `list_models_filtered.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 172`** (1 nodes): `Strategy B: Reduced Radius.         Calculates a safe radius for second-attempt`
+- **Thin community `Community 172`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 173`** (1 nodes): `Singleton pattern so we only load the 500MB model into memory once.`
+- **Thin community `Community 173`** (1 nodes): `Detects hardware capabilities WITHOUT importing torch/tensorflow if possible ini`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 174`** (1 nodes): `Returns a list of tuples: (role_name, count)`
+- **Thin community `Community 174`** (1 nodes): `debug_orientation.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 175`** (1 nodes): `Takes a role-assigned story_map and ensures climax score >= average build score.`
+- **Thin community `Community 175`** (1 nodes): `Strategy A: Erosion/Shrink.         Reduces the mask size to minimize the "blur`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 176`** (1 nodes): `Returns (pre_seconds, post_seconds) based on moment signals.`
+- **Thin community `Community 176`** (1 nodes): `Strategy B: Reduced Radius.         Calculates a safe radius for second-attempt`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 177`** (1 nodes): `Compute fuzzy string similarity (0.0 – 1.0).`
+- **Thin community `Community 177`** (1 nodes): `Singleton pattern so we only load the 500MB model into memory once.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 178`** (1 nodes): `Returns a friendly batch name based on the hour of the slot.`
+- **Thin community `Community 178`** (1 nodes): `Returns a list of tuples: (role_name, count)`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 179`** (1 nodes): `Pops one item from the queue and runs it through the full AMTCE pipeline.`
+- **Thin community `Community 179`** (1 nodes): `Takes a role-assigned story_map and ensures climax score >= average build score.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 180`** (1 nodes): `Pops one item from the queue and runs it through the full AMTCE pipeline.`
+- **Thin community `Community 180`** (1 nodes): `Returns (pre_seconds, post_seconds) based on moment signals.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 181`** (1 nodes): `Prints a human-readable report of the posting time analysis.`
+- **Thin community `Community 181`** (1 nodes): `Compute fuzzy string similarity (0.0 – 1.0).`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 182`** (1 nodes): `Auto-patches ACTRESS_SCHEDULE_TIMES and ACTRESS_STATIC_PUBLISH_TIMES     in Cred`
+- **Thin community `Community 182`** (1 nodes): `Returns a friendly batch name based on the hour of the slot.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 183`** (1 nodes): `Convert float seconds → ASS time format H:MM:SS.CC`
+- **Thin community `Community 183`** (1 nodes): `Pops one item from the queue and runs it through the full AMTCE pipeline.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 184`** (1 nodes): `Strip punctuation and uppercase for display.`
+- **Thin community `Community 184`** (1 nodes): `Pops one item from the queue and runs it through the full AMTCE pipeline.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 185`** (1 nodes): `Build the full .ASS subtitle file content with per-word karaoke highlighting.`
+- **Thin community `Community 185`** (1 nodes): `Prints a human-readable report of the posting time analysis.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 186`** (1 nodes): `Master entry point. Applies V7 Cinema-Grade karaoke subtitles to a video.      T`
+- **Thin community `Community 186`** (1 nodes): `Auto-patches ACTRESS_SCHEDULE_TIMES and ACTRESS_STATIC_PUBLISH_TIMES     in Cred`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 187`** (1 nodes): `Quick check without loading full config.`
+- **Thin community `Community 187`** (1 nodes): `Convert float seconds → ASS time format H:MM:SS.CC`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 188`** (1 nodes): `Disk-persisted Apify quota tracker.     Survives process restarts — critical for`
+- **Thin community `Community 188`** (1 nodes): `Strip punctuation and uppercase for display.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 189`** (1 nodes): `Returns True if quota allows `needed` more calls.`
+- **Thin community `Community 189`** (1 nodes): `Build the full .ASS subtitle file content with per-word karaoke highlighting.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 190`** (1 nodes): `Record that `amount` Apify calls were made.`
+- **Thin community `Community 190`** (1 nodes): `Master entry point. Applies V7 Cinema-Grade karaoke subtitles to a video.      T`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 191`** (1 nodes): `Disk-persisted registry of all Instagram post shortcodes that have     already b`
+- **Thin community `Community 191`** (1 nodes): `Quick check without loading full config.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 192`** (1 nodes): `Returns True if this shortcode was already processed.`
+- **Thin community `Community 192`** (1 nodes): `Disk-persisted Apify quota tracker.     Survives process restarts — critical for`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 193`** (1 nodes): `Persists the given shortcodes to the registry so future         harvest cycles w`
+- **Thin community `Community 193`** (1 nodes): `Returns True if quota allows `needed` more calls.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 194`** (1 nodes): `Disk-persisted per-account 24h scrape cooldown.     Prevents scraping the same I`
+- **Thin community `Community 194`** (1 nodes): `Record that `amount` Apify calls were made.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 195`** (1 nodes): `Returns True if the account is eligible for scraping (cooldown expired).`
+- **Thin community `Community 195`** (1 nodes): `Disk-persisted registry of all Instagram post shortcodes that have     already b`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 196`** (1 nodes): `Splits accounts into (ready, blocked) lists.         ready   = accounts whose 24`
+- **Thin community `Community 196`** (1 nodes): `Returns True if this shortcode was already processed.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 197`** (1 nodes): `Record the current time as the last-scraped timestamp for each account.`
+- **Thin community `Community 197`** (1 nodes): `Persists the given shortcodes to the registry so future         harvest cycles w`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 198`** (1 nodes): `Dump a full salesman dashboard to the logger.`
+- **Thin community `Community 198`** (1 nodes): `Disk-persisted per-account 24h scrape cooldown.     Prevents scraping the same I`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 199`** (1 nodes): `Return the module-level singleton, creating it on first call.`
+- **Thin community `Community 199`** (1 nodes): `Returns True if the account is eligible for scraping (cooldown expired).`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 200`** (1 nodes): `Main Orchestrator for Forensic Analysis.`
+- **Thin community `Community 200`** (1 nodes): `Splits accounts into (ready, blocked) lists.         ready   = accounts whose 24`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 201`** (1 nodes): `Shared caption sanitizer for all visible text (captions, overlay labels, content`
+- **Thin community `Community 201`** (1 nodes): `Record the current time as the last-scraped timestamp for each account.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 202`** (1 nodes): `Validation gate: blacklist + brand ban + meta phrases.         Uses BANNED_BRAN`
+- **Thin community `Community 202`** (1 nodes): `Dump a full salesman dashboard to the logger.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 203`** (1 nodes): `Enforce headline rules: EXACTLY 2-3 words, no trailing period.`
+- **Thin community `Community 203`** (1 nodes): `Return the module-level singleton, creating it on first call.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 204`** (1 nodes): `Generate AI caption from video frame (DIRECT MODE ONLY).`
+- **Thin community `Community 204`** (1 nodes): `Main Orchestrator for Forensic Analysis.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 205`** (1 nodes): `Text-only caption generation using Gemini system role + diversity config.     U`
+- **Thin community `Community 205`** (1 nodes): `Shared caption sanitizer for all visible text (captions, overlay labels, content`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 206`** (1 nodes): `Public helper for upload caption generation.     Accepts optional profile_data`
+- **Thin community `Community 206`** (1 nodes): `Validation gate: blacklist + brand ban + meta phrases.         Uses BANNED_BRAN`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 207`** (1 nodes): `Generate short overlay text independent of captions/narration.     - Max 4 words`
+- **Thin community `Community 207`** (1 nodes): `Enforce headline rules: EXACTLY 2-3 words, no trailing period.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 208`** (1 nodes): `Main entry point with Strict Fallback Logic and Lanes.`
+- **Thin community `Community 208`** (1 nodes): `Generate AI caption from video frame (DIRECT MODE ONLY).`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 209`** (1 nodes): `Wrapper for safe subprocess execution.`
+- **Thin community `Community 209`** (1 nodes): `Text-only caption generation using Gemini system role + diversity config.     U`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 210`** (1 nodes): `Render a persistent brand watermark at the bottom CENTER.`
+- **Thin community `Community 210`** (1 nodes): `Public helper for upload caption generation.     Accepts optional profile_data`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 211`** (1 nodes): `New PNG-based caption rendering system.         Guarantees exact positioning an`
+- **Thin community `Community 211`** (1 nodes): `Generate short overlay text independent of captions/narration.     - Max 4 words`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 212`** (1 nodes): `Fallback using ASS subtitles when drawtext fails.`
+- **Thin community `Community 212`** (1 nodes): `Main entry point with Strict Fallback Logic and Lanes.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 213`** (1 nodes): `Adds a logo overlay to the video.          The new logic automatically convert`
+- **Thin community `Community 213`** (1 nodes): `Wrapper for safe subprocess execution.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 214`** (1 nodes): `Adds episodic framing text (3 lines).          Refinement Logic:         - Fa`
+- **Thin community `Community 214`** (1 nodes): `Render a persistent brand watermark at the bottom CENTER.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 215`** (1 nodes): `Module-level convenience wrapper for ``TextOverlay.add_brand_overlay``.      R`
+- **Thin community `Community 215`** (1 nodes): `New PNG-based caption rendering system.         Guarantees exact positioning an`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 216`** (1 nodes): `Module-level convenience wrapper for ``TextOverlay.add_caption_and_brand_overlay`
+- **Thin community `Community 216`** (1 nodes): `Fallback using ASS subtitles when drawtext fails.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 217`** (1 nodes): `Generates a single complex filter string for a timed text overlay.     Matches`
+- **Thin community `Community 217`** (1 nodes): `Adds a logo overlay to the video.          The new logic automatically convert`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 218`** (1 nodes): `Module-level helper that returns an FFmpeg drawtext filter string for     the g`
+- **Thin community `Community 218`** (1 nodes): `Adds episodic framing text (3 lines).          Refinement Logic:         - Fa`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 219`** (1 nodes): `Load daily limits state from disk. Returns empty dict if missing.`
+- **Thin community `Community 219`** (1 nodes): `Module-level convenience wrapper for ``TextOverlay.add_brand_overlay``.      R`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 220`** (1 nodes): `Persist daily limits state to disk.`
+- **Thin community `Community 220`** (1 nodes): `Module-level convenience wrapper for ``TextOverlay.add_caption_and_brand_overlay`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 221`** (1 nodes): `Get/init the entry for a niche. Auto-resets if date has changed.`
+- **Thin community `Community 221`** (1 nodes): `Generates a single complex filter string for a timed text overlay.     Matches`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 222`** (1 nodes): `Returns True if the niche account is allowed to post on the given platform today`
+- **Thin community `Community 222`** (1 nodes): `Module-level helper that returns an FFmpeg drawtext filter string for     the g`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 223`** (1 nodes): `Increment the post counter for a niche + platform.     Call this AFTER a success`
+- **Thin community `Community 223`** (1 nodes): `Load daily limits state from disk. Returns empty dict if missing.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 224`** (1 nodes): `Returns a summary of today's post counts for all accounts.`
+- **Thin community `Community 224`** (1 nodes): `Persist daily limits state to disk.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 225`** (1 nodes): `Given a shuffled pool of niche folder names, returns the first one     that stil`
+- **Thin community `Community 225`** (1 nodes): `Get/init the entry for a niche. Auto-resets if date has changed.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 226`** (1 nodes): `Sleep a random amount between MIN_STAGGER_SECS and MAX_STAGGER_SECS.     Call be`
+- **Thin community `Community 226`** (1 nodes): `Returns True if the niche account is allowed to post on the given platform today`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 227`** (1 nodes): `Returns a randomised posting style profile to vary caption structure     between`
+- **Thin community `Community 227`** (1 nodes): `Increment the post counter for a niche + platform.     Call this AFTER a success`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 228`** (1 nodes): `Generates a seductive bargaining reply from the actress dynamic persona.     Ins`
+- **Thin community `Community 228`** (1 nodes): `Returns a summary of today's post counts for all accounts.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 229`** (1 nodes): `Sends a photo to a chat using the ADMIN bot (BOT_TOKEN) directly via HTTP.     R`
+- **Thin community `Community 229`** (1 nodes): `Given a shuffled pool of niche folder names, returns the first one     that stil`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 230`** (1 nodes): `Edits the caption of a message in a chat using the ADMIN bot directly via HTTP.`
+- **Thin community `Community 230`** (1 nodes): `Sleep a random amount between MIN_STAGGER_SECS and MAX_STAGGER_SECS.     Call be`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 231`** (1 nodes): `Sends a text message to a chat using the ADMIN bot directly via HTTP.`
+- **Thin community `Community 231`** (1 nodes): `Returns a randomised posting style profile to vary caption structure     between`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 232`** (1 nodes): `Asks Gemini Vision if the screenshot is a successful UPI transaction of the expe`
+- **Thin community `Community 232`** (1 nodes): `Generates a seductive bargaining reply from the actress dynamic persona.     Ins`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 233`** (1 nodes): `Finds the first integer in the text.`
+- **Thin community `Community 233`** (1 nodes): `Sends a photo to a chat using the ADMIN bot (BOT_TOKEN) directly via HTTP.     R`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 234`** (1 nodes): `Checks if the user types an acceptance word like deal, ok, done etc.`
+- **Thin community `Community 234`** (1 nodes): `Edits the caption of a message in a chat using the ADMIN bot directly via HTTP.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 235`** (1 nodes): `Returns True if the user is a member (or admin/owner) of FREE_PREVIEW_GROUP_ID.`
+- **Thin community `Community 235`** (1 nodes): `Sends a text message to a chat using the ADMIN bot directly via HTTP.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 236`** (1 nodes): `Manages active bargaining session state for user_id.     Validates user offers,`
+- **Thin community `Community 236`** (1 nodes): `Asks Gemini Vision if the screenshot is a successful UPI transaction of the expe`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 237`** (1 nodes): `Answers customer inquiries using Groq Llama 3, Mistral, or Gemini, adopting actr`
+- **Thin community `Community 237`** (1 nodes): `Finds the first integer in the text.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 238`** (1 nodes): `Start command for the Admin Bot. Only responds to configured admins.`
+- **Thin community `Community 238`** (1 nodes): `Checks if the user types an acceptance word like deal, ok, done etc.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 239`** (1 nodes): `Triggered when user opens bot.     If deep linked (e.g. /start slug), it sets up`
+- **Thin community `Community 239`** (1 nodes): `Returns True if the user is a member (or admin/owner) of FREE_PREVIEW_GROUP_ID.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 240`** (1 nodes): `Handles tier button click.`
+- **Thin community `Community 240`** (1 nodes): `Manages active bargaining session state for user_id.     Validates user offers,`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 241`** (1 nodes): `Handles incoming photos (payment screenshots).`
+- **Thin community `Community 241`** (1 nodes): `Answers customer inquiries using Groq Llama 3, Mistral, or Gemini, adopting actr`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 242`** (1 nodes): `Processes Approval/Rejection buttons pressed by admin in the Storage Group.`
+- **Thin community `Community 242`** (1 nodes): `Start command for the Admin Bot. Only responds to configured admins.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 243`** (1 nodes): `Handles standard text messages sent to the Admin Bot. Only processes admin uploa`
+- **Thin community `Community 243`** (1 nodes): `Triggered when user opens bot.     If deep linked (e.g. /start slug), it sets up`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 244`** (1 nodes): `Handles standard text messages from users (inquires, negotiations) using Groq/Mi`
+- **Thin community `Community 244`** (1 nodes): `Handles tier button click.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 245`** (1 nodes): `Listens for manual video uploads inside the private Storage Group and auto-index`
+- **Thin community `Community 245`** (1 nodes): `Handles incoming photos (payment screenshots).`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 246`** (1 nodes): `Listens for trailer uploads in the public Trailer Group, generates AI hooks and`
+- **Thin community `Community 246`** (1 nodes): `Processes Approval/Rejection buttons pressed by admin in the Storage Group.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 247`** (1 nodes): `Triggered when an admin uploads a document or video directly to the bot in DM.`
+- **Thin community `Community 247`** (1 nodes): `Handles standard text messages sent to the Admin Bot. Only processes admin uploa`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 248`** (1 nodes): `Timer thread that executes fallback configuration after 30 seconds.`
+- **Thin community `Community 248`** (1 nodes): `Handles standard text messages from users (inquires, negotiations) using Groq/Mi`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 249`** (1 nodes): `Default fallback routing based on media format.`
+- **Thin community `Community 249`** (1 nodes): `Listens for manual video uploads inside the private Storage Group and auto-index`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 250`** (1 nodes): `Processes admin buttons clicked within the 6-second window.`
+- **Thin community `Community 250`** (1 nodes): `Listens for trailer uploads in the public Trailer Group, generates AI hooks and`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 251`** (1 nodes): `Periodically backs up the database to Telegram every 5 hours and 45 minutes (207`
+- **Thin community `Community 251`** (1 nodes): `Triggered when an admin uploads a document or video directly to the bot in DM.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 252`** (1 nodes): `Callback run on application startup to spawn background tasks.`
+- **Thin community `Community 252`** (1 nodes): `Timer thread that executes fallback configuration after 30 seconds.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 253`** (1 nodes): `Callback run on application shutdown to save final database state.`
+- **Thin community `Community 253`** (1 nodes): `Default fallback routing based on media format.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 254`** (1 nodes): `Admin Bot Application — runs as BOT_TOKEN (8629240240).     Responsibilities:`
+- **Thin community `Community 254`** (1 nodes): `Processes admin buttons clicked within the 6-second window.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 255`** (1 nodes): `Customer Bot Application — runs as CUSTOMER_BOT_TOKEN (8946296277).     Responsi`
+- **Thin community `Community 255`** (1 nodes): `Periodically backs up the database to Telegram every 5 hours and 45 minutes (207`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 256`** (1 nodes): `Initialises and runs both Applications concurrently in one event loop.`
+- **Thin community `Community 256`** (1 nodes): `Callback run on application startup to spawn background tasks.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 257`** (1 nodes): `Loads the video database from disk, after checking for updates.`
+- **Thin community `Community 257`** (1 nodes): `Callback run on application shutdown to save final database state.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 258`** (1 nodes): `Saves the video database to disk, sorted by slug name.`
+- **Thin community `Community 258`** (1 nodes): `Admin Bot Application — runs as BOT_TOKEN (8629240240).     Responsibilities:`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 259`** (1 nodes): `Uploads a single file to the Storage Group.     Returns the message_id of the up`
+- **Thin community `Community 259`** (1 nodes): `Customer Bot Application — runs as CUSTOMER_BOT_TOKEN (8946296277).     Responsi`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 260`** (1 nodes): `Uploads all 3 tiers of a video to the Storage Group and registers them in the in`
+- **Thin community `Community 260`** (1 nodes): `Initialises and runs both Applications concurrently in one event loop.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 261`** (1 nodes): `Forwards a stored video to the customer's chat.     MUST use the ADMIN bot token`
+- **Thin community `Community 261`** (1 nodes): `Loads the video database from disk, after checking for updates.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 262`** (1 nodes): `Loads the purchase history from disk, after checking for updates.`
+- **Thin community `Community 262`** (1 nodes): `Saves the video database to disk, sorted by slug name.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 263`** (1 nodes): `Saves the purchase history to disk, sorted by timestamp.`
+- **Thin community `Community 263`** (1 nodes): `Uploads a single file to the Storage Group.     Returns the message_id of the up`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 264`** (1 nodes): `Inserts a new customer receipt verification record with 'pending' status.`
+- **Thin community `Community 264`** (1 nodes): `Uploads all 3 tiers of a video to the Storage Group and registers them in the in`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 265`** (1 nodes): `Updates a pending submission to approved or rejected.`
+- **Thin community `Community 265`** (1 nodes): `Forwards a stored video to the customer's chat.     MUST use the ADMIN bot token`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 266`** (1 nodes): `Finds if a customer has an existing approved purchase for the requested video.`
+- **Thin community `Community 266`** (1 nodes): `Loads the purchase history from disk, after checking for updates.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 267`** (1 nodes): `Checks the STORAGE_GROUP_ID pinned message.     If it is a database backup file,`
+- **Thin community `Community 267`** (1 nodes): `Saves the purchase history to disk, sorted by timestamp.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 268`** (1 nodes): `Loads video_index.json and purchase_history.json, combines them,     uploads dat`
+- **Thin community `Community 268`** (1 nodes): `Inserts a new customer receipt verification record with 'pending' status.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 269`** (1 nodes): `Return video duration in seconds via ffprobe.`
+- **Thin community `Community 269`** (1 nodes): `Updates a pending submission to approved or rejected.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 270`** (1 nodes): `Split a large video into parts of ≤ max_mb MB using ffmpeg.     Returns list of`
+- **Thin community `Community 270`** (1 nodes): `Finds if a customer has an existing approved purchase for the requested video.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 271`** (1 nodes): `Wraps a file object to show tqdm upload progress.`
+- **Thin community `Community 271`** (1 nodes): `Checks the STORAGE_GROUP_ID pinned message.     If it is a database backup file,`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 272`** (1 nodes): `POST a single video file to Telegram.     Returns the JSON response dict.     Ra`
+- **Thin community `Community 272`** (1 nodes): `Loads video_index.json and purchase_history.json, combines them,     uploads dat`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 273`** (1 nodes): `Upload a video (or multiple parts if large) to the Telegram group.      Args:`
+- **Thin community `Community 273`** (1 nodes): `Return video duration in seconds via ffprobe.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 274`** (1 nodes): `Send a plain text message to the group.`
+- **Thin community `Community 274`** (1 nodes): `Split a large video into parts of ≤ max_mb MB using ffmpeg.     Returns list of`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 275`** (1 nodes): `Verify bot token and group access by sending a test message.`
+- **Thin community `Community 275`** (1 nodes): `Wraps a file object to show tqdm upload progress.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 276`** (1 nodes): `Asks Gemini Vision if the screenshot is a successful UPI transaction of the expe`
+- **Thin community `Community 276`** (1 nodes): `POST a single video file to Telegram.     Returns the JSON response dict.     Ra`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 277`** (1 nodes): `Answers customer inquiries using Groq Llama 3, Mistral, or Gemini, adopting actr`
+- **Thin community `Community 277`** (1 nodes): `Upload a video (or multiple parts if large) to the Telegram group.      Args:`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 278`** (1 nodes): `Triggered when user opens bot.     If deep linked (e.g. /start slug), it sets up`
+- **Thin community `Community 278`** (1 nodes): `Send a plain text message to the group.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 279`** (1 nodes): `Handles tier button click.`
+- **Thin community `Community 279`** (1 nodes): `Verify bot token and group access by sending a test message.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 280`** (1 nodes): `Handles incoming photos (payment screenshots).`
+- **Thin community `Community 280`** (1 nodes): `Asks Gemini Vision if the screenshot is a successful UPI transaction of the expe`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 281`** (1 nodes): `Processes Approval/Rejection buttons pressed by admin in the Storage Group.`
+- **Thin community `Community 281`** (1 nodes): `Answers customer inquiries using Groq Llama 3, Mistral, or Gemini, adopting actr`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 282`** (1 nodes): `Handles standard text messages from users (inquires, negotiations) using Groq/Mi`
+- **Thin community `Community 282`** (1 nodes): `Triggered when user opens bot.     If deep linked (e.g. /start slug), it sets up`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 283`** (1 nodes): `Listens for manual video uploads inside the private Storage Group and auto-index`
+- **Thin community `Community 283`** (1 nodes): `Handles tier button click.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 284`** (1 nodes): `Listens for manual video uploads inside the private Storage Group and auto-index`
+- **Thin community `Community 284`** (1 nodes): `Handles incoming photos (payment screenshots).`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 285`** (1 nodes): `Triggered when an admin uploads a document or video directly to the bot in DM.`
+- **Thin community `Community 285`** (1 nodes): `Processes Approval/Rejection buttons pressed by admin in the Storage Group.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 286`** (1 nodes): `Timer thread that executes fallback configuration after 30 seconds.`
+- **Thin community `Community 286`** (1 nodes): `Handles standard text messages from users (inquires, negotiations) using Groq/Mi`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 287`** (1 nodes): `Default fallback routing based on media format.`
+- **Thin community `Community 287`** (1 nodes): `Listens for manual video uploads inside the private Storage Group and auto-index`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 288`** (1 nodes): `Processes admin buttons clicked within the 6-second window.`
+- **Thin community `Community 288`** (1 nodes): `Listens for manual video uploads inside the private Storage Group and auto-index`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 289`** (1 nodes): `Loads the video database from disk.`
+- **Thin community `Community 289`** (1 nodes): `Triggered when an admin uploads a document or video directly to the bot in DM.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 290`** (1 nodes): `Saves the video database to disk.`
+- **Thin community `Community 290`** (1 nodes): `Timer thread that executes fallback configuration after 30 seconds.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 291`** (1 nodes): `Uploads a single file to the Storage Group.     Returns the message_id of the up`
+- **Thin community `Community 291`** (1 nodes): `Default fallback routing based on media format.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 292`** (1 nodes): `Uploads all 3 tiers of a video to the Storage Group and registers them in the in`
+- **Thin community `Community 292`** (1 nodes): `Processes admin buttons clicked within the 6-second window.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 293`** (1 nodes): `Forwards a stored video to the customer's chat.     Uses Telegram's forwardMessa`
+- **Thin community `Community 293`** (1 nodes): `Loads the video database from disk.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 294`** (1 nodes): `Timer thread that executes fallback configuration after 30 seconds.`
+- **Thin community `Community 294`** (1 nodes): `Saves the video database to disk.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 295`** (1 nodes): `Default fallback routing based on media format.`
+- **Thin community `Community 295`** (1 nodes): `Uploads a single file to the Storage Group.     Returns the message_id of the up`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 296`** (1 nodes): `Processes admin buttons clicked within the 6-second window.`
+- **Thin community `Community 296`** (1 nodes): `Uploads all 3 tiers of a video to the Storage Group and registers them in the in`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 297`** (1 nodes): `Processes Approval/Rejection buttons pressed by admin in the Storage Group.`
+- **Thin community `Community 297`** (1 nodes): `Forwards a stored video to the customer's chat.     Uses Telegram's forwardMessa`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 298`** (1 nodes): `Handles standard text messages from users (inquires, negotiations) using Groq/Mi`
+- **Thin community `Community 298`** (1 nodes): `Timer thread that executes fallback configuration after 30 seconds.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 299`** (1 nodes): `Listens for manual video uploads inside the private Storage Group and auto-index`
+- **Thin community `Community 299`** (1 nodes): `Default fallback routing based on media format.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 300`** (1 nodes): `Listens for trailer uploads in the public Trailer Group, generates AI hooks and`
+- **Thin community `Community 300`** (1 nodes): `Processes admin buttons clicked within the 6-second window.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 301`** (1 nodes): `Triggered when an admin uploads a document or video directly to the bot in DM.`
+- **Thin community `Community 301`** (1 nodes): `Processes Approval/Rejection buttons pressed by admin in the Storage Group.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 302`** (1 nodes): `Timer thread that executes fallback configuration after 6 seconds.`
+- **Thin community `Community 302`** (1 nodes): `Handles standard text messages from users (inquires, negotiations) using Groq/Mi`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 303`** (1 nodes): `Default fallback routing based on media format.`
+- **Thin community `Community 303`** (1 nodes): `Listens for manual video uploads inside the private Storage Group and auto-index`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 304`** (1 nodes): `Processes admin buttons clicked within the 6-second window.`
+- **Thin community `Community 304`** (1 nodes): `Listens for trailer uploads in the public Trailer Group, generates AI hooks and`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 305`** (1 nodes): `Answers customer inquiries using Gemini, Groq, or Mistral, responding as the dyn`
+- **Thin community `Community 305`** (1 nodes): `Triggered when an admin uploads a document or video directly to the bot in DM.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 306`** (1 nodes): `Asks Gemini Vision if the screenshot is a successful UPI transaction of the expe`
+- **Thin community `Community 306`** (1 nodes): `Timer thread that executes fallback configuration after 6 seconds.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 307`** (1 nodes): `Answers customer inquiries using Groq Llama 3 or Mistral API, enforcing no barga`
+- **Thin community `Community 307`** (1 nodes): `Default fallback routing based on media format.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 308`** (1 nodes): `Triggered when user opens bot.     If deep linked (e.g. /start slug), it sets up`
+- **Thin community `Community 308`** (1 nodes): `Processes admin buttons clicked within the 6-second window.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 309`** (1 nodes): `Handles tier button click.`
+- **Thin community `Community 309`** (1 nodes): `Answers customer inquiries using Gemini, Groq, or Mistral, responding as the dyn`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 310`** (1 nodes): `Handles incoming photos (payment screenshots).`
+- **Thin community `Community 310`** (1 nodes): `Asks Gemini Vision if the screenshot is a successful UPI transaction of the expe`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 311`** (1 nodes): `Handles incoming photos (payment screenshots).`
+- **Thin community `Community 311`** (1 nodes): `Answers customer inquiries using Groq Llama 3 or Mistral API, enforcing no barga`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 312`** (1 nodes): `Processes Approval/Rejection buttons pressed by admin in the Storage Group.`
+- **Thin community `Community 312`** (1 nodes): `Triggered when user opens bot.     If deep linked (e.g. /start slug), it sets up`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 313`** (1 nodes): `Handles standard text messages from users (inquires, negotiations) using Groq/Mi`
+- **Thin community `Community 313`** (1 nodes): `Handles tier button click.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 314`** (1 nodes): `Listens for manual video uploads inside the private Storage Group and auto-index`
+- **Thin community `Community 314`** (1 nodes): `Handles incoming photos (payment screenshots).`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 315`** (1 nodes): `Triggered when an admin uploads a document or video directly to the bot in DM.`
+- **Thin community `Community 315`** (1 nodes): `Handles incoming photos (payment screenshots).`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 316`** (1 nodes): `Timer thread that executes fallback configuration after 6 seconds.`
+- **Thin community `Community 316`** (1 nodes): `Processes Approval/Rejection buttons pressed by admin in the Storage Group.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 317`** (1 nodes): `Default fallback routing based on media format.`
+- **Thin community `Community 317`** (1 nodes): `Handles standard text messages from users (inquires, negotiations) using Groq/Mi`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 318`** (1 nodes): `Processes admin buttons clicked within the 6-second window.`
+- **Thin community `Community 318`** (1 nodes): `Listens for manual video uploads inside the private Storage Group and auto-index`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 319`** (1 nodes): `Gets the bot's username dynamically using /getMe.`
+- **Thin community `Community 319`** (1 nodes): `Triggered when an admin uploads a document or video directly to the bot in DM.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 320`** (1 nodes): `Generates a 10 second trailer from the start of the video.`
+- **Thin community `Community 320`** (1 nodes): `Timer thread that executes fallback configuration after 6 seconds.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 321`** (1 nodes): `Uploads the trailer to the public group with a Buy button.     Returns the messa`
+- **Thin community `Community 321`** (1 nodes): `Default fallback routing based on media format.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 322`** (1 nodes): `Core workflow coordinator.`
+- **Thin community `Community 322`** (1 nodes): `Processes admin buttons clicked within the 6-second window.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 323`** (1 nodes): `Triggered when an admin uploads a document or video directly to the bot in DM.`
+- **Thin community `Community 323`** (1 nodes): `Gets the bot's username dynamically using /getMe.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 324`** (1 nodes): `Timer thread that executes fallback configuration after 6 seconds.`
+- **Thin community `Community 324`** (1 nodes): `Generates a 10 second trailer from the start of the video.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 325`** (1 nodes): `Default fallback routing based on media format.`
+- **Thin community `Community 325`** (1 nodes): `Uploads the trailer to the public group with a Buy button.     Returns the messa`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 326`** (1 nodes): `Processes admin buttons clicked within the 6-second window.`
+- **Thin community `Community 326`** (1 nodes): `Core workflow coordinator.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 327`** (1 nodes): `Processes Approval/Rejection buttons pressed by admin in the Storage Group.`
+- **Thin community `Community 327`** (1 nodes): `Triggered when an admin uploads a document or video directly to the bot in DM.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 328`** (1 nodes): `Handles standard text messages from users (inquires, negotiations) using Groq/Mi`
+- **Thin community `Community 328`** (1 nodes): `Timer thread that executes fallback configuration after 6 seconds.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 329`** (1 nodes): `Listens for manual video uploads inside the private Storage Group and auto-index`
+- **Thin community `Community 329`** (1 nodes): `Default fallback routing based on media format.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 330`** (1 nodes): `Triggered when an admin uploads a document or video directly to the bot in DM.`
+- **Thin community `Community 330`** (1 nodes): `Processes admin buttons clicked within the 6-second window.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 331`** (1 nodes): `Timer thread that executes fallback configuration after 6 seconds.`
+- **Thin community `Community 331`** (1 nodes): `Processes Approval/Rejection buttons pressed by admin in the Storage Group.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 332`** (1 nodes): `Default fallback routing based on media format.`
+- **Thin community `Community 332`** (1 nodes): `Handles standard text messages from users (inquires, negotiations) using Groq/Mi`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 333`** (1 nodes): `Processes admin buttons clicked within the 6-second window.`
+- **Thin community `Community 333`** (1 nodes): `Listens for manual video uploads inside the private Storage Group and auto-index`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 334`** (1 nodes): `Listens for manual video uploads inside the private Storage Group and auto-index`
+- **Thin community `Community 334`** (1 nodes): `Triggered when an admin uploads a document or video directly to the bot in DM.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 335`** (1 nodes): `Triggered when an admin uploads a document or video directly to the bot in DM.`
+- **Thin community `Community 335`** (1 nodes): `Timer thread that executes fallback configuration after 6 seconds.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 336`** (1 nodes): `Timer thread that executes fallback configuration after 6 seconds.`
+- **Thin community `Community 336`** (1 nodes): `Default fallback routing based on media format.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 337`** (1 nodes): `Default fallback routing based on media format.`
+- **Thin community `Community 337`** (1 nodes): `Processes admin buttons clicked within the 6-second window.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 338`** (1 nodes): `Processes admin buttons clicked within the 6-second window.`
+- **Thin community `Community 338`** (1 nodes): `Listens for manual video uploads inside the private Storage Group and auto-index`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 339`** (1 nodes): `Listens for manual video uploads inside the private Storage Group and auto-index`
+- **Thin community `Community 339`** (1 nodes): `Triggered when an admin uploads a document or video directly to the bot in DM.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 340`** (1 nodes): `Triggered when an admin uploads a document or video directly to the bot in DM.`
+- **Thin community `Community 340`** (1 nodes): `Timer thread that executes fallback configuration after 6 seconds.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 341`** (1 nodes): `Timer thread that executes fallback configuration after 6 seconds.`
+- **Thin community `Community 341`** (1 nodes): `Default fallback routing based on media format.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 342`** (1 nodes): `Default fallback routing based on media format.`
+- **Thin community `Community 342`** (1 nodes): `Processes admin buttons clicked within the 6-second window.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 343`** (1 nodes): `Processes admin buttons clicked within the 6-second window.`
+- **Thin community `Community 343`** (1 nodes): `Listens for manual video uploads inside the private Storage Group and auto-index`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 344`** (1 nodes): `Answers customer inquiries using Groq Llama 3 or Mistral API, enforcing no barga`
+- **Thin community `Community 344`** (1 nodes): `Triggered when an admin uploads a document or video directly to the bot in DM.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 345`** (1 nodes): `Triggered when user opens bot.     If deep linked (e.g. /start slug), it sets up`
+- **Thin community `Community 345`** (1 nodes): `Timer thread that executes fallback configuration after 6 seconds.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 346`** (1 nodes): `Handles tier button click.`
+- **Thin community `Community 346`** (1 nodes): `Default fallback routing based on media format.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 347`** (1 nodes): `Handles incoming photos (payment screenshots).`
+- **Thin community `Community 347`** (1 nodes): `Processes admin buttons clicked within the 6-second window.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 348`** (1 nodes): `Processes Approval/Rejection buttons pressed by admin in the Storage Group.`
+- **Thin community `Community 348`** (1 nodes): `Answers customer inquiries using Groq Llama 3 or Mistral API, enforcing no barga`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 349`** (1 nodes): `Handles standard text messages from users (inquires, negotiations) using Groq/Mi`
+- **Thin community `Community 349`** (1 nodes): `Triggered when user opens bot.     If deep linked (e.g. /start slug), it sets up`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 350`** (1 nodes): `Core workflow coordinator.`
+- **Thin community `Community 350`** (1 nodes): `Handles tier button click.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 351`** (1 nodes): `Returns the channel folder that already used this shortcode,         or None if`
+- **Thin community `Community 351`** (1 nodes): `Handles incoming photos (payment screenshots).`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 352`** (1 nodes): `Extended commit that also records which channel used this clip         and the o`
+- **Thin community `Community 352`** (1 nodes): `Processes Approval/Rejection buttons pressed by admin in the Storage Group.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 353`** (1 nodes): `Returns a dict of {shortcode: {channel, timestamp_utc}} for the posting time ana`
+- **Thin community `Community 353`** (1 nodes): `Handles standard text messages from users (inquires, negotiations) using Groq/Mi`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 354`** (1 nodes): `Returns the process-level singleton ledger, initialising it if needed.`
+- **Thin community `Community 354`** (1 nodes): `Core workflow coordinator.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 355`** (1 nodes): `Scans the downloads/ folder for actress subfolders containing .mp4 files     an`
+- **Thin community `Community 355`** (1 nodes): `Returns the channel folder that already used this shortcode,         or None if`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 356`** (1 nodes): `Pops one item from the queue and runs it through the full AMTCE pipeline.`
+- **Thin community `Community 356`** (1 nodes): `Extended commit that also records which channel used this clip         and the o`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 357`** (1 nodes): `Scans the downloads/ folder for actress subfolders containing .mp4 files     an`
+- **Thin community `Community 357`** (1 nodes): `Returns a dict of {shortcode: {channel, timestamp_utc}} for the posting time ana`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 358`** (1 nodes): `Pops one item from the queue and runs it through the full AMTCE pipeline.`
+- **Thin community `Community 358`** (1 nodes): `Returns the process-level singleton ledger, initialising it if needed.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 359`** (1 nodes): `Pops one item from the queue and runs it through the full AMTCE pipeline.`
+- **Thin community `Community 359`** (1 nodes): `Scans the downloads/ folder for actress subfolders containing .mp4 files     an`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 360`** (1 nodes): `Loads metadata safely.`
+- **Thin community `Community 360`** (1 nodes): `Pops one item from the queue and runs it through the full AMTCE pipeline.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 361`** (1 nodes): `Saves metadata atomically with file locking.`
+- **Thin community `Community 361`** (1 nodes): `Scans the downloads/ folder for actress subfolders containing .mp4 files     an`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 362`** (1 nodes): `Fast size+mtime hash for integrity check.`
+- **Thin community `Community 362`** (1 nodes): `Pops one item from the queue and runs it through the full AMTCE pipeline.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 363`** (1 nodes): `Atomic NPZ save using tempfile + replace.`
+- **Thin community `Community 363`** (1 nodes): `Pops one item from the queue and runs it through the full AMTCE pipeline.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 364`** (1 nodes): `Helper to get file metadata accounting for schema version.`
+- **Thin community `Community 364`** (1 nodes): `Loads metadata safely.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 365`** (1 nodes): `Helper to set file metadata accounting for schema version.`
+- **Thin community `Community 365`** (1 nodes): `Saves metadata atomically with file locking.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 366`** (1 nodes): `[FIX] Move any loose .mp3/.wav files sitting in Original_audio/ root into`
+- **Thin community `Community 366`** (1 nodes): `Fast size+mtime hash for integrity check.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 367`** (1 nodes): `Daemon thread: analyze one BGM track with Gemini and write the result         b`
+- **Thin community `Community 367`** (1 nodes): `Atomic NPZ save using tempfile + replace.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 368`** (1 nodes): `Lazy load beat data from cache or disk.`
+- **Thin community `Community 368`** (1 nodes): `Helper to get file metadata accounting for schema version.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 369`** (1 nodes): `Moves newly extracted audio into pool and caches deep beat metadata.`
+- **Thin community `Community 369`** (1 nodes): `Helper to set file metadata accounting for schema version.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 370`** (1 nodes): `Scoring-based selection from the active pool.                  Formula:`
+- **Thin community `Community 370`** (1 nodes): `[FIX] Move any loose .mp3/.wav files sitting in Original_audio/ root into`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 371`** (1 nodes): `Rotates clips from cooldown back to active based on hybrid logic.         Clean`
+- **Thin community `Community 371`** (1 nodes): `Daemon thread: analyze one BGM track with Gemini and write the result         b`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 372`** (1 nodes): `# IMPORTANT: Return the src (active/) path BEFORE the move so callers`
+- **Thin community `Community 372`** (1 nodes): `Lazy load beat data from cache or disk.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 373`** (1 nodes): `The High-Intelligence Orchestrator (Vanguard Pattern).     Uses gemini-3.1-pro-p`
+- **Thin community `Community 373`** (1 nodes): `Moves newly extracted audio into pool and caches deep beat metadata.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 374`** (1 nodes): `Load project-level 'Winning Styles' and 'Agreements'.`
+- **Thin community `Community 374`** (1 nodes): `Scoring-based selection from the active pool.                  Formula:`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 375`** (1 nodes): `Standardized Mission Dashboard Logging.`
+- **Thin community `Community 375`** (1 nodes): `Rotates clips from cooldown back to active based on hybrid logic.         Clean`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 376`** (1 nodes): `Zero-Waste 4-Turn Vanguard Loop.         Turn 1: Local plan (no API call)`
+- **Thin community `Community 376`** (1 nodes): `# IMPORTANT: Return the src (active/) path BEFORE the move so callers`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 377`** (1 nodes): `Proposals older than 24h are considered stale.`
+- **Thin community `Community 377`** (1 nodes): `The High-Intelligence Orchestrator (Vanguard Pattern).     Uses gemini-3.1-pro-p`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 378`** (1 nodes): `Elite Meta-Learning Sandbox: Primary -> Secondary -> Pytest -> Approval -> Repla`
+- **Thin community `Community 378`** (1 nodes): `Load project-level 'Winning Styles' and 'Agreements'.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 379`** (1 nodes): `Guardrail 1 & 2: Protected Files & Cooldown.`
+- **Thin community `Community 379`** (1 nodes): `Standardized Mission Dashboard Logging.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 380`** (1 nodes): `Guardrail 3 & 4: Diff Risk Analyzer & Max Size Limit.`
+- **Thin community `Community 380`** (1 nodes): `Zero-Waste 4-Turn Vanguard Loop.         Turn 1: Local plan (no API call)`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 381`** (1 nodes): `Guardrail 5: Intent Persistence Check.         Now with 'Architect Override': Hi`
+- **Thin community `Community 381`** (1 nodes): `Proposals older than 24h are considered stale.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 382`** (1 nodes): `Enforce strict schema validation on AI Auditor response.`
+- **Thin community `Community 382`** (1 nodes): `Elite Meta-Learning Sandbox: Primary -> Secondary -> Pytest -> Approval -> Repla`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 383`** (1 nodes): `Signal 2: The Senior AI Architect Review (Decider).`
+- **Thin community `Community 383`** (1 nodes): `Guardrail 1 & 2: Protected Files & Cooldown.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 384`** (1 nodes): `The Elite Forge Workflow: Clone -> Optimize -> Risk Check -> Test -> Audit -> Re`
+- **Thin community `Community 384`** (1 nodes): `Guardrail 3 & 4: Diff Risk Analyzer & Max Size Limit.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 385`** (1 nodes): `Structured JSON History for traceability.`
+- **Thin community `Community 385`** (1 nodes): `Guardrail 5: Intent Persistence Check.         Now with 'Architect Override': Hi`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 386`** (1 nodes): `Critical Guardrail 7: Safe Swap & Test.         Temporarily promotes forge to pr`
+- **Thin community `Community 386`** (1 nodes): `Enforce strict schema validation on AI Auditor response.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 387`** (1 nodes): `Atomic Promotion: Snapshot -> Replace.         Uses os.replace for thread-safe,`
+- **Thin community `Community 387`** (1 nodes): `Signal 2: The Senior AI Architect Review (Decider).`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 388`** (1 nodes): `Elite Rollback: Atomic restoration from latest backup.`
+- **Thin community `Community 388`** (1 nodes): `The Elite Forge Workflow: Clone -> Optimize -> Risk Check -> Test -> Audit -> Re`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 389`** (1 nodes): `The Human-in-the-Loop Judge CLI.     Ensures that AI optimizations are only prom`
+- **Thin community `Community 389`** (1 nodes): `Structured JSON History for traceability.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 390`** (1 nodes): `Find non-stale proposals in the history.`
+- **Thin community `Community 390`** (1 nodes): `Critical Guardrail 7: Safe Swap & Test.         Temporarily promotes forge to pr`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 391`** (1 nodes): `Review Flow: Summary -> Diff? -> Decision.`
+- **Thin community `Community 391`** (1 nodes): `Atomic Promotion: Snapshot -> Replace.         Uses os.replace for thread-safe,`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 392`** (1 nodes): `Remove the proposal JSON.`
+- **Thin community `Community 392`** (1 nodes): `Elite Rollback: Atomic restoration from latest backup.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 393`** (1 nodes): `Patches Influencer_Colab.ipynb:   1. Cell 4  â€” Add Gemini/OpenCV outfit auto-d`
+- **Thin community `Community 393`** (1 nodes): `The Human-in-the-Loop Judge CLI.     Ensures that AI optimizations are only prom`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 394`** (1 nodes): `Convert list of plain strings into notebook source format.`
+- **Thin community `Community 394`** (1 nodes): `Find non-stale proposals in the history.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 395`** (1 nodes): `Return index of first cell whose source contains keyword.`
+- **Thin community `Community 395`** (1 nodes): `Review Flow: Summary -> Diff? -> Decision.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 396`** (1 nodes): `Compute number of time frames of spectrogram`
+- **Thin community `Community 396`** (1 nodes): `Remove the proposal JSON.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 397`** (1 nodes): `Compute left and right padding`
+- **Thin community `Community 397`** (1 nodes): `Patches Influencer_Colab.ipynb:   1. Cell 4  â€” Add Gemini/OpenCV outfit auto-d`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 398`** (1 nodes): `Enum class defining the type of landmarks to detect.      ``_2D`` - the detect`
+- **Thin community `Community 398`** (1 nodes): `Convert list of plain strings into notebook source format.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 399`** (1 nodes): `3x3 convolution with padding`
+- **Thin community `Community 399`** (1 nodes): `Return index of first cell whose source contains keyword.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 400`** (1 nodes): `Generate and affine transformation matrix.      Given a set of points, a cente`
+- **Thin community `Community 400`** (1 nodes): `Compute number of time frames of spectrogram`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 401`** (1 nodes): `Center crops an image or set of heatmaps      Arguments:         image {numpy`
+- **Thin community `Community 401`** (1 nodes): `Compute left and right padding`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 402`** (1 nodes): `Obtain (x,y) coordinates given a set of N heatmaps. If the center     and the s`
+- **Thin community `Community 402`** (1 nodes): `Enum class defining the type of landmarks to detect.      ``_2D`` - the detect`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 403`** (1 nodes): `Obtain (x,y) coordinates given a set of N heatmaps. If the centers     and the`
+- **Thin community `Community 403`** (1 nodes): `3x3 convolution with padding`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 404`** (1 nodes): `Shuffle the points left-right according to the axis of symmetry     of the obje`
+- **Thin community `Community 404`** (1 nodes): `Generate and affine transformation matrix.      Given a set of points, a cente`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 405`** (1 nodes): `Flip an image or a set of heatmaps left-right      Arguments:         tensor`
+- **Thin community `Community 405`** (1 nodes): `Center crops an image or set of heatmaps      Arguments:         image {numpy`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 406`** (1 nodes): `appdata_dir(appname=None, roaming=False)      Get the path to the application`
+- **Thin community `Community 406`** (1 nodes): `Obtain (x,y) coordinates given a set of N heatmaps. If the center     and the s`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 407`** (1 nodes): `An abstract class representing a face detector.      Any other face detection`
+- **Thin community `Community 407`** (1 nodes): `Obtain (x,y) coordinates given a set of N heatmaps. If the centers     and the`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 408`** (1 nodes): `Detects faces in a given image.          This function detects the faces prese`
+- **Thin community `Community 408`** (1 nodes): `Shuffle the points left-right according to the axis of symmetry     of the obje`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 409`** (1 nodes): `Detects faces from all the images present in a given directory.          Argum`
+- **Thin community `Community 409`** (1 nodes): `Flip an image or a set of heatmaps left-right      Arguments:         tensor`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 410`** (1 nodes): `Convert path (represented as a string) or torch.tensor to a numpy.ndarray`
+- **Thin community `Community 410`** (1 nodes): `appdata_dir(appname=None, roaming=False)      Get the path to the application`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 411`** (1 nodes): `Encode the variances from the priorbox layers into the ground truth boxes     w`
+- **Thin community `Community 411`** (1 nodes): `An abstract class representing a face detector.      Any other face detection`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 412`** (1 nodes): `Decode locations from predictions using priors to undo     the encoding we did`
+- **Thin community `Community 412`** (1 nodes): `Detects faces in a given image.          This function detects the faces prese`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 413`** (1 nodes): `Decode locations from predictions using priors to undo     the encoding we did`
+- **Thin community `Community 413`** (1 nodes): `Detects faces from all the images present in a given directory.          Argum`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 414`** (1 nodes): `ChromaDB client setup for the RAG prototype.  Creates a persistent local store a`
+- **Thin community `Community 414`** (1 nodes): `Convert path (represented as a string) or torch.tensor to a numpy.ndarray`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 415`** (1 nodes): `Fallback embedding function that generates deterministic vectors via hashing.`
+- **Thin community `Community 415`** (1 nodes): `Encode the variances from the priorbox layers into the ground truth boxes     w`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 416`** (1 nodes): `Secondary fallback: uses Google's Gemini API for embeddings.`
+- **Thin community `Community 416`** (1 nodes): `Decode locations from predictions using priors to undo     the encoding we did`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 417`** (1 nodes): `Return a Chroma collection with resilient embeddings.`
+- **Thin community `Community 417`** (1 nodes): `Decode locations from predictions using priors to undo     the encoding we did`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 418`** (1 nodes): `Dataset loader for Phase-1 RAG prototype.  Hardcoded small dataset of editing pa`
+- **Thin community `Community 418`** (1 nodes): `ChromaDB client setup for the RAG prototype.  Creates a persistent local store a`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 419`** (1 nodes): `Lowercase and clean whitespace while preserving distinct semantic tokens.`
+- **Thin community `Community 419`** (1 nodes): `Fallback embedding function that generates deterministic vectors via hashing.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 420`** (1 nodes): `Load the hardcoded dataset into the given Chroma collection.`
+- **Thin community `Community 420`** (1 nodes): `Secondary fallback: uses Google's Gemini API for embeddings.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 421`** (1 nodes): `RAG Bootstrap Module -------------------- Ensures the Chroma collection is pop`
+- **Thin community `Community 421`** (1 nodes): `Return a Chroma collection with resilient embeddings.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 422`** (1 nodes): `Idempotent bootstrap: checks whether the collection has documents.     If empty`
+- **Thin community `Community 422`** (1 nodes): `Dataset loader for Phase-1 RAG prototype.  Hardcoded small dataset of editing pa`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 423`** (1 nodes): `Convenience wrapper: get a collection that is guaranteed to have data.      Re`
+- **Thin community `Community 423`** (1 nodes): `Lowercase and clean whitespace while preserving distinct semantic tokens.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 424`** (1 nodes): `Force a re-check on next call to ensure_collection_ready.     Useful in tests o`
+- **Thin community `Community 424`** (1 nodes): `Load the hardcoded dataset into the given Chroma collection.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 425`** (1 nodes): `Retriever utilities for the RAG prototype.`
+- **Thin community `Community 425`** (1 nodes): `RAG Bootstrap Module -------------------- Ensures the Chroma collection is pop`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 426`** (1 nodes): `Query the collection, filter hard constraints, and re-rank with attribute scores`
+- **Thin community `Community 426`** (1 nodes): `Idempotent bootstrap: checks whether the collection has documents.     If empty`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 427`** (1 nodes): `Patch: Add 'cinematic_story' niche to niche_prompts.json This niche is purpose-b`
+- **Thin community `Community 427`** (1 nodes): `Convenience wrapper: get a collection that is guaranteed to have data.      Re`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 428`** (1 nodes): `Generates audio using edge-tts.`
+- **Thin community `Community 428`** (1 nodes): `Force a re-check on next call to ensure_collection_ready.     Useful in tests o`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 429`** (1 nodes): `Transcribes audio using faster-whisper and returns word-level timestamps.`
+- **Thin community `Community 429`** (1 nodes): `Retriever utilities for the RAG prototype.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 430`** (1 nodes): `Constructs a robust FFmpeg filter script for dynamic captions.     Solves the 'L`
+- **Thin community `Community 430`** (1 nodes): `Query the collection, filter hard constraints, and re-rank with attribute scores`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 431`** (1 nodes): `Executes the FFmpeg command using the filter script.`
+- **Thin community `Community 431`** (1 nodes): `Patch: Add 'cinematic_story' niche to niche_prompts.json This niche is purpose-b`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 432`** (1 nodes): `fix_background_person_bug.py ============================ Fixes the bug where Ge`
+- **Thin community `Community 432`** (1 nodes): `Generates audio using edge-tts.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 433`** (1 nodes): `Fix Dimension 5 directly by line number`
+- **Thin community `Community 433`** (1 nodes): `Transcribes audio using faster-whisper and returns word-level timestamps.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 434`** (1 nodes): `patch_fashion_scout.py ====================== Surgical patcher for Monetization_`
+- **Thin community `Community 434`** (1 nodes): `Constructs a robust FFmpeg filter script for dynamic captions.     Solves the 'L`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 435`** (1 nodes): `Issue 3: Strip punctuation for visual text.`
+- **Thin community `Community 435`** (1 nodes): `Executes the FFmpeg command using the filter script.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 436`** (1 nodes): `Issue 1: Dynamic scaling for long words.`
+- **Thin community `Community 436`** (1 nodes): `fix_background_person_bug.py ============================ Fixes the bug where Ge`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 437`** (1 nodes): `Exhaustive test of every image/video model on the account. Tests actual generati`
+- **Thin community `Community 437`** (1 nodes): `Fix Dimension 5 directly by line number`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 438`** (1 nodes): `Issue 3: Strip punctuation.`
+- **Thin community `Community 438`** (1 nodes): `patch_fashion_scout.py ====================== Surgical patcher for Monetization_`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 439`** (1 nodes): `Issue 1: Timestamp Bridging to fix the flicker bug.`
+- **Thin community `Community 439`** (1 nodes): `Issue 3: Strip punctuation for visual text.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 440`** (1 nodes): `Strip punctuation and whitespace.`
+- **Thin community `Community 440`** (1 nodes): `Issue 1: Dynamic scaling for long words.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 441`** (1 nodes): `Eliminate black frames between words.`
+- **Thin community `Community 441`** (1 nodes): `Exhaustive test of every image/video model on the account. Tests actual generati`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 442`** (1 nodes): `Format seconds into ASS time format H:MM:SS.CC`
+- **Thin community `Community 442`** (1 nodes): `Issue 3: Strip punctuation.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 443`** (1 nodes): `Patch niche_prompts.json: Replace all narrative_brain.narrative_prompt values wi`
+- **Thin community `Community 443`** (1 nodes): `Issue 1: Timestamp Bridging to fix the flicker bug.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 444`** (1 nodes): `Reads the Telegram link from config or .env.`
+- **Thin community `Community 444`** (1 nodes): `Strip punctuation and whitespace.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 445`** (1 nodes): `Reads The_json/geo_analytics.json, maps country → language,         aggregates`
+- **Thin community `Community 445`** (1 nodes): `Eliminate black frames between words.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 446`** (1 nodes): `Uses Gemini to generate a unique multilingual dual-CTA hook.         Languages`
+- **Thin community `Community 446`** (1 nodes): `Format seconds into ASS time format H:MM:SS.CC`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 447`** (1 nodes): `Uses Gemini to generate a dual-CTA psychological hook specifically for the Teleg`
+- **Thin community `Community 447`** (1 nodes): `Patch niche_prompts.json: Replace all narrative_brain.narrative_prompt values wi`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 448`** (1 nodes): `YouTube Comment Strategy: ONLY drive Telegram GROUP JOINS.         - No CPA lin`
+- **Thin community `Community 448`** (1 nodes): `Reads the Telegram link from config or .env.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 449`** (1 nodes): `Generates a fan-page style caption for Instagram.          ── WITH affiliate_l`
+- **Thin community `Community 449`** (1 nodes): `Reads The_json/geo_analytics.json, maps country → language,         aggregates`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 450`** (1 nodes): `Adds compilation URL to the rotating pool (Max 10).`
+- **Thin community `Community 450`** (1 nodes): `Uses Gemini to generate a unique multilingual dual-CTA hook.         Languages`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 451`** (1 nodes): `Picks a URL from the pool (Random Rotation).`
+- **Thin community `Community 451`** (1 nodes): `Uses Gemini to generate a dual-CTA psychological hook specifically for the Teleg`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 452`** (1 nodes): `Checks rate limit (1m) and duplication.`
+- **Thin community `Community 452`** (1 nodes): `YouTube Comment Strategy: ONLY drive Telegram GROUP JOINS.         - No CPA lin`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 453`** (1 nodes): `Promotes a ROTATING Compilation on the provided Video (Short or Long).`
+- **Thin community `Community 453`** (1 nodes): `Generates a fan-page style caption for Instagram.          ── WITH affiliate_l`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 454`** (1 nodes): `Pops one item from the queue and runs it through the full AMTCE pipeline.`
+- **Thin community `Community 454`** (1 nodes): `Adds compilation URL to the rotating pool (Max 10).`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 455`** (1 nodes): `Scans the downloads/ folder for actress subfolders containing .mp4 files     an`
+- **Thin community `Community 455`** (1 nodes): `Picks a URL from the pool (Random Rotation).`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 456`** (1 nodes): `Pops one item from the queue and runs it through the full AMTCE pipeline.`
+- **Thin community `Community 456`** (1 nodes): `Checks rate limit (1m) and duplication.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 457`** (1 nodes): `Return a synthetic snapshot for testing without API access.`
+- **Thin community `Community 457`** (1 nodes): `Promotes a ROTATING Compilation on the provided Video (Short or Long).`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 458`** (1 nodes): `Fetch views, avg view duration, likes.`
+- **Thin community `Community 458`** (1 nodes): `Pops one item from the queue and runs it through the full AMTCE pipeline.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 459`** (1 nodes): `Fetch audience retention curve.         Returns list of {"t": float, "pct": floa`
+- **Thin community `Community 459`** (1 nodes): `Scans the downloads/ folder for actress subfolders containing .mp4 files     an`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 460`** (1 nodes): `Fetch a complete analytics snapshot for one video.          Args:             vi`
+- **Thin community `Community 460`** (1 nodes): `Pops one item from the queue and runs it through the full AMTCE pipeline.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 461`** (1 nodes): `Returns a dict of {shortcode: {channel, timestamp_utc}} for the posting time ana`
+- **Thin community `Community 461`** (1 nodes): `Return a synthetic snapshot for testing without API access.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 462`** (1 nodes): `Returns the process-level singleton ledger, initialising it if needed.`
+- **Thin community `Community 462`** (1 nodes): `Fetch views, avg view duration, likes.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 463`** (1 nodes): `Scans the downloads/ folder for actress subfolders containing .mp4 files     and`
+- **Thin community `Community 463`** (1 nodes): `Fetch audience retention curve.         Returns list of {"t": float, "pct": floa`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 464`** (1 nodes): `Prints a human-readable report of the posting time analysis.`
+- **Thin community `Community 464`** (1 nodes): `Fetch a complete analytics snapshot for one video.          Args:             vi`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 465`** (1 nodes): `Auto-patches ACTRESS_SCHEDULE_TIMES and ACTRESS_STATIC_PUBLISH_TIMES     in Cred`
+- **Thin community `Community 465`** (1 nodes): `Returns a dict of {shortcode: {channel, timestamp_utc}} for the posting time ana`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 466`** (1 nodes): `Return a synthetic snapshot for testing without API access.`
+- **Thin community `Community 466`** (1 nodes): `Returns the process-level singleton ledger, initialising it if needed.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 467`** (1 nodes): `Fetch views, avg view duration, likes.`
+- **Thin community `Community 467`** (1 nodes): `Scans the downloads/ folder for actress subfolders containing .mp4 files     and`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 468`** (1 nodes): `Fetch audience retention curve.         Returns list of {"t": float, "pct": floa`
+- **Thin community `Community 468`** (1 nodes): `Prints a human-readable report of the posting time analysis.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 469`** (1 nodes): `Fetch a complete analytics snapshot for one video.          Args:             vi`
+- **Thin community `Community 469`** (1 nodes): `Auto-patches ACTRESS_SCHEDULE_TIMES and ACTRESS_STATIC_PUBLISH_TIMES     in Cred`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 470`** (1 nodes): `Return a synthetic snapshot for testing without API access.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
@@ -4054,349 +4066,357 @@ Nodes (1): Prints a formatted summary of the system health.
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 473`** (1 nodes): `Fetch a complete analytics snapshot for one video.          Args:             vi`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 474`** (1 nodes): `Loads links from los_pollos_links.json and rotates through them.`
+- **Thin community `Community 474`** (1 nodes): `Return a synthetic snapshot for testing without API access.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 475`** (1 nodes): `Adds compilation URL to the rotating pool (Max 10).`
+- **Thin community `Community 475`** (1 nodes): `Fetch views, avg view duration, likes.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 476`** (1 nodes): `Picks a URL from the pool (Random Rotation).`
+- **Thin community `Community 476`** (1 nodes): `Fetch audience retention curve.         Returns list of {"t": float, "pct": floa`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 477`** (1 nodes): `Checks rate limit (1m) and duplication.`
+- **Thin community `Community 477`** (1 nodes): `Fetch a complete analytics snapshot for one video.          Args:             vi`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 478`** (1 nodes): `Promotes a ROTATING Compilation on the provided Video (Short or Long).`
+- **Thin community `Community 478`** (1 nodes): `Loads links from los_pollos_links.json and rotates through them.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 479`** (1 nodes): `Returns True when 'meta' is listed in the NICHE_<KEY>_PLATFORMS variable     fo`
+- **Thin community `Community 479`** (1 nodes): `Adds compilation URL to the rotating pool (Max 10).`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 480`** (1 nodes): `Resolves Meta credentials using a 3-tier priority chain:           1. Credentia`
+- **Thin community `Community 480`** (1 nodes): `Picks a URL from the pool (Random Rotation).`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 481`** (1 nodes): `Orchestrates uploads to enabled Meta platforms.          The ``niche`` paramet`
+- **Thin community `Community 481`** (1 nodes): `Checks rate limit (1m) and duplication.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 482`** (1 nodes): `Uploads the local image to a temporary public host so the Instagram         Gra`
+- **Thin community `Community 482`** (1 nodes): `Promotes a ROTATING Compilation on the provided Video (Short or Long).`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 483`** (1 nodes): `Smart person-aware Instagram ratio formatter (4:5 = 1080x1350).          Strat`
+- **Thin community `Community 483`** (1 nodes): `Returns True when 'meta' is listed in the NICHE_<KEY>_PLATFORMS variable     fo`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 484`** (1 nodes): `Uploads a standard Image Post to Instagram feed using the Graph API.         Re`
+- **Thin community `Community 484`** (1 nodes): `Resolves Meta credentials using a 3-tier priority chain:           1. Credentia`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 485`** (1 nodes): `Cleans captions of UTF-16 surrogates that cause UnicodeEncodeError in httpx/UTF-`
+- **Thin community `Community 485`** (1 nodes): `Orchestrates uploads to enabled Meta platforms.          The ``niche`` paramet`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 486`** (1 nodes): `Generic retry wrapper for HTTP requests using httpx.         Default timeout in`
+- **Thin community `Community 486`** (1 nodes): `Uploads the local image to a temporary public host so the Instagram         Gra`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 487`** (1 nodes): `Polls Instagram container status until FINISHED or ERROR.         Timeout defau`
+- **Thin community `Community 487`** (1 nodes): `Smart person-aware Instagram ratio formatter (4:5 = 1080x1350).          Strat`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 488`** (1 nodes): `# NOTE: Use data= (form body) not params= (URL query) to prevent`
+- **Thin community `Community 488`** (1 nodes): `Uploads a standard Image Post to Instagram feed using the Graph API.         Re`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 489`** (1 nodes): `# IMPORTANT: Do NOT set Content-Length manually — httpx sets it`
+- **Thin community `Community 489`** (1 nodes): `Cleans captions of UTF-16 surrogates that cause UnicodeEncodeError in httpx/UTF-`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 490`** (1 nodes): `Sends a local video file to the Telegram group using the Bot API.     Returns T`
+- **Thin community `Community 490`** (1 nodes): `Generic retry wrapper for HTTP requests using httpx.         Default timeout in`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 491`** (1 nodes): `Time-loop wrapper for 6PM announce, 7PM open, 9PM close loops.`
+- **Thin community `Community 491`** (1 nodes): `Polls Instagram container status until FINISHED or ERROR.         Timeout defau`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 492`** (1 nodes): `High-pressure FOMO alerts for the final 15 minutes.`
+- **Thin community `Community 492`** (1 nodes): `# NOTE: Use data= (form body) not params= (URL query) to prevent`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 493`** (1 nodes): `Niche-Aware Credential Resolver.      Resolution order:       1. Niche folder`
+- **Thin community `Community 493`** (1 nodes): `# IMPORTANT: Do NOT set Content-Length manually — httpx sets it`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 494`** (1 nodes): `Retrieves and refreshes valid credentials.     Accepts an optional niche to rou`
+- **Thin community `Community 494`** (1 nodes): `Sends a local video file to the Telegram group using the Bot API.     Returns T`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 495`** (1 nodes): `Checks if the video file has fresh metadata (Unique ID, Creation Time).     Ret`
+- **Thin community `Community 495`** (1 nodes): `Time-loop wrapper for 6PM announce, 7PM open, 9PM close loops.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 496`** (1 nodes): `Injects a fresh Unique ID into the video metadata without re-encoding.`
+- **Thin community `Community 496`** (1 nodes): `High-pressure FOMO alerts for the final 15 minutes.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 497`** (1 nodes): `Sets a custom thumbnail for a YouTube video.`
+- **Thin community `Community 497`** (1 nodes): `Niche-Aware Credential Resolver.      Resolution order:       1. Niche folder`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 498`** (1 nodes): `CLI Entry Point for standalone YouTube uploads.`
+- **Thin community `Community 498`** (1 nodes): `Retrieves and refreshes valid credentials.     Accepts an optional niche to rou`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 499`** (1 nodes): `Returns True when 'meta' is listed in the NICHE_<KEY>_PLATFORMS variable     fo`
+- **Thin community `Community 499`** (1 nodes): `Checks if the video file has fresh metadata (Unique ID, Creation Time).     Ret`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 500`** (1 nodes): `Resolves Meta credentials using a 3-tier priority chain:           1. Credentia`
+- **Thin community `Community 500`** (1 nodes): `Injects a fresh Unique ID into the video metadata without re-encoding.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 501`** (1 nodes): `Orchestrates uploads to enabled Meta platforms.          The ``niche`` paramet`
+- **Thin community `Community 501`** (1 nodes): `Sets a custom thumbnail for a YouTube video.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 502`** (1 nodes): `Uploads the local image to a temporary public host so the Instagram         Gra`
+- **Thin community `Community 502`** (1 nodes): `CLI Entry Point for standalone YouTube uploads.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 503`** (1 nodes): `Smart person-aware Instagram ratio formatter (4:5 = 1080x1350).          Strat`
+- **Thin community `Community 503`** (1 nodes): `Returns True when 'meta' is listed in the NICHE_<KEY>_PLATFORMS variable     fo`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 504`** (1 nodes): `Uploads a standard Image Post to Instagram feed using the Graph API.         Re`
+- **Thin community `Community 504`** (1 nodes): `Resolves Meta credentials using a 3-tier priority chain:           1. Credentia`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 505`** (1 nodes): `Cleans captions of UTF-16 surrogates that cause UnicodeEncodeError in httpx/UTF-`
+- **Thin community `Community 505`** (1 nodes): `Orchestrates uploads to enabled Meta platforms.          The ``niche`` paramet`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 506`** (1 nodes): `Generic retry wrapper for HTTP requests using httpx.         Default timeout in`
+- **Thin community `Community 506`** (1 nodes): `Uploads the local image to a temporary public host so the Instagram         Gra`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 507`** (1 nodes): `Polls Instagram container status until FINISHED or ERROR.         Timeout defau`
+- **Thin community `Community 507`** (1 nodes): `Smart person-aware Instagram ratio formatter (4:5 = 1080x1350).          Strat`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 508`** (1 nodes): `# NOTE: Use data= (form body) not params= (URL query) to prevent`
+- **Thin community `Community 508`** (1 nodes): `Uploads a standard Image Post to Instagram feed using the Graph API.         Re`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 509`** (1 nodes): `# IMPORTANT: Do NOT set Content-Length manually — httpx sets it`
+- **Thin community `Community 509`** (1 nodes): `Cleans captions of UTF-16 surrogates that cause UnicodeEncodeError in httpx/UTF-`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 510`** (1 nodes): `Manages the real-time state of the auction. Fully Thread-Safe.`
+- **Thin community `Community 510`** (1 nodes): `Generic retry wrapper for HTTP requests using httpx.         Default timeout in`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 511`** (1 nodes): `Non-blocking lock with timeout to prevent bot hangs.`
+- **Thin community `Community 511`** (1 nodes): `Polls Instagram container status until FINISHED or ERROR.         Timeout defau`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 512`** (1 nodes): `Uses atomic writes to prevent JSON corruption during concurrency.`
+- **Thin community `Community 512`** (1 nodes): `# NOTE: Use data= (form body) not params= (URL query) to prevent`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 513`** (1 nodes): `Recalculates the pot based on verified extra bids.`
+- **Thin community `Community 513`** (1 nodes): `# IMPORTANT: Do NOT set Content-Length manually — httpx sets it`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 514`** (1 nodes): `Internal save for when lock is already held.`
+- **Thin community `Community 514`** (1 nodes): `Manages the real-time state of the auction. Fully Thread-Safe.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 515`** (1 nodes): `Called by main.py /bid handler`
+- **Thin community `Community 515`** (1 nodes): `Non-blocking lock with timeout to prevent bot hangs.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 516`** (1 nodes): `Handles manual UPI screenshot verification via Gemini Vision OCR.`
+- **Thin community `Community 516`** (1 nodes): `Uses atomic writes to prevent JSON corruption during concurrency.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 517`** (1 nodes): `Handles broadcasting pot updates and tier crossing alerts.`
+- **Thin community `Community 517`** (1 nodes): `Recalculates the pot based on verified extra bids.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 518`** (1 nodes): `FOMO ESCALATION CASCADE (Upgraded A1)         Changes tone based on pot size to`
+- **Thin community `Community 518`** (1 nodes): `Internal save for when lock is already held.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 519`** (1 nodes): `Calculates final payout math and platform cuts.`
+- **Thin community `Community 519`** (1 nodes): `Called by main.py /bid handler`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 520`** (1 nodes): `Time-loop wrapper for 6PM announce, 7PM open, 9PM close loops.`
+- **Thin community `Community 520`** (1 nodes): `Handles manual UPI screenshot verification via Gemini Vision OCR.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 521`** (1 nodes): `High-pressure FOMO alerts for the final 15 minutes.`
+- **Thin community `Community 521`** (1 nodes): `Handles broadcasting pot updates and tier crossing alerts.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 522`** (1 nodes): `Niche-Aware Credential Resolver.      Resolution order:       1. Niche folder`
+- **Thin community `Community 522`** (1 nodes): `FOMO ESCALATION CASCADE (Upgraded A1)         Changes tone based on pot size to`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 523`** (1 nodes): `Retrieves and refreshes valid credentials.     Accepts an optional niche to rou`
+- **Thin community `Community 523`** (1 nodes): `Calculates final payout math and platform cuts.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 524`** (1 nodes): `Checks if the video file has fresh metadata (Unique ID, Creation Time).     Ret`
+- **Thin community `Community 524`** (1 nodes): `Time-loop wrapper for 6PM announce, 7PM open, 9PM close loops.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 525`** (1 nodes): `Injects a fresh Unique ID into the video metadata without re-encoding.`
+- **Thin community `Community 525`** (1 nodes): `High-pressure FOMO alerts for the final 15 minutes.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 526`** (1 nodes): `Sets a custom thumbnail for a YouTube video.`
+- **Thin community `Community 526`** (1 nodes): `Niche-Aware Credential Resolver.      Resolution order:       1. Niche folder`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 527`** (1 nodes): `CLI Entry Point for standalone YouTube uploads.`
+- **Thin community `Community 527`** (1 nodes): `Retrieves and refreshes valid credentials.     Accepts an optional niche to rou`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 528`** (1 nodes): `Returns True if this Instagram post was already downloaded.`
+- **Thin community `Community 528`** (1 nodes): `Checks if the video file has fresh metadata (Unique ID, Creation Time).     Ret`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 529`** (1 nodes): `Computes the file MD5 and checks if we've seen it before.         Attaches the c`
+- **Thin community `Community 529`** (1 nodes): `Injects a fresh Unique ID into the video metadata without re-encoding.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 530`** (1 nodes): `Adds a successfully downloaded reel to the ledger and persists to disk.`
+- **Thin community `Community 530`** (1 nodes): `Sets a custom thumbnail for a YouTube video.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 531`** (1 nodes): `Returns the channel folder that already used this shortcode,         or None if`
+- **Thin community `Community 531`** (1 nodes): `CLI Entry Point for standalone YouTube uploads.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 532`** (1 nodes): `Extended commit that also records which channel used this clip.         Prevents`
+- **Thin community `Community 532`** (1 nodes): `Returns True if this Instagram post was already downloaded.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 533`** (1 nodes): `Returns the process-level singleton ledger, initialising it if needed.`
+- **Thin community `Community 533`** (1 nodes): `Computes the file MD5 and checks if we've seen it before.         Attaches the c`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 534`** (1 nodes): `Load paparazzi_identities.json. Caches in memory.`
+- **Thin community `Community 534`** (1 nodes): `Adds a successfully downloaded reel to the ledger and persists to disk.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 535`** (1 nodes): `Returns the list of paparazzi Instagram account IDs to scrape from.     Reads fr`
+- **Thin community `Community 535`** (1 nodes): `Returns the channel folder that already used this shortcode,         or None if`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 536`** (1 nodes): `Detects gender from a person's name string.     Uses curated token lists from pa`
+- **Thin community `Community 536`** (1 nodes): `Extended commit that also records which channel used this clip.         Prevents`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 537`** (1 nodes): `Tries to extract the featured person's name from reel metadata.     Checks: tagg`
+- **Thin community `Community 537`** (1 nodes): `Returns the process-level singleton ledger, initialising it if needed.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 538`** (1 nodes): `Determines the destination channel for a scraped reel.      Args:         ig_id`
+- **Thin community `Community 538`** (1 nodes): `Load paparazzi_identities.json. Caches in memory.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 539`** (1 nodes): `Returns all credential folders for a given prefix, including:       - Base folde`
+- **Thin community `Community 539`** (1 nodes): `Returns the list of paparazzi Instagram account IDs to scrape from.     Reads fr`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 540`** (1 nodes): `Returns the full shuffled pool of eligible niche folders for a category.     Alw`
+- **Thin community `Community 540`** (1 nodes): `Detects gender from a person's name string.     Uses curated token lists from pa`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 541`** (1 nodes): `Extract the middle frame from a video as a temp JPEG. Returns path or None.`
+- **Thin community `Community 541`** (1 nodes): `Tries to extract the featured person's name from reel metadata.     Checks: tagg`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 542`** (1 nodes): `Send frame to Gemini Vision and get clothing coverage classification.     Return`
+- **Thin community `Community 542`** (1 nodes): `Determines the destination channel for a scraped reel.      Args:         ig_id`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 543`** (1 nodes): `Classifies a video clip and returns routing info.      Returns:         {`
+- **Thin community `Community 543`** (1 nodes): `Returns all credential folders for a given prefix, including:       - Base folde`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 544`** (1 nodes): `Convenience wrapper — returns shuffled pool of target niche folder names.`
+- **Thin community `Community 544`** (1 nodes): `Returns the full shuffled pool of eligible niche folders for a category.     Alw`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 545`** (1 nodes): `Uses ffmpeg to extract the single best frame identified by detect_watermark().`
+- **Thin community `Community 545`** (1 nodes): `Extract the middle frame from a video as a temp JPEG. Returns path or None.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 546`** (1 nodes): `3-tier confidence check for surgical removal.`
+- **Thin community `Community 546`** (1 nodes): `Send frame to Gemini Vision and get clothing coverage classification.     Return`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 547`** (1 nodes): `Fetches per-video analytics from YouTube Analytics API.      Args:         crede`
+- **Thin community `Community 547`** (1 nodes): `Classifies a video clip and returns routing info.      Returns:         {`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 548`** (1 nodes): `Return a synthetic snapshot for testing without API access.`
+- **Thin community `Community 548`** (1 nodes): `Convenience wrapper — returns shuffled pool of target niche folder names.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 549`** (1 nodes): `Fetch views, avg view duration, likes.`
+- **Thin community `Community 549`** (1 nodes): `Uses ffmpeg to extract the single best frame identified by detect_watermark().`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 550`** (1 nodes): `Fetch audience retention curve.         Returns list of {"t": float, "pct": floa`
+- **Thin community `Community 550`** (1 nodes): `3-tier confidence check for surgical removal.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 551`** (1 nodes): `Fetch a complete analytics snapshot for one video.          Args:             vi`
+- **Thin community `Community 551`** (1 nodes): `Fetches per-video analytics from YouTube Analytics API.      Args:         crede`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 552`** (1 nodes): `Handles 'Community Post' promotion via Channel Comments (commentThreads).     -`
+- **Thin community `Community 552`** (1 nodes): `Return a synthetic snapshot for testing without API access.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 553`** (1 nodes): `Uses Gemini to generate a dual-CTA psychological hook (Partner + Clips).`
+- **Thin community `Community 553`** (1 nodes): `Fetch views, avg view duration, likes.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 554`** (1 nodes): `Uses Gemini to generate a dual-CTA psychological hook specifically for the Teleg`
+- **Thin community `Community 554`** (1 nodes): `Fetch audience retention curve.         Returns list of {"t": float, "pct": floa`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 555`** (1 nodes): `YouTube Comment Strategy: ONLY drive Telegram GROUP JOINS.         - No CPA lin`
+- **Thin community `Community 555`** (1 nodes): `Fetch a complete analytics snapshot for one video.          Args:             vi`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 556`** (1 nodes): `Generates a fan-page style caption for Instagram.          ── WITH affiliate_l`
+- **Thin community `Community 556`** (1 nodes): `Handles 'Community Post' promotion via Channel Comments (commentThreads).     -`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 557`** (1 nodes): `Loads links from los_pollos_links.json and rotates through them.`
+- **Thin community `Community 557`** (1 nodes): `Uses Gemini to generate a dual-CTA psychological hook (Partner + Clips).`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 558`** (1 nodes): `Adds compilation URL to the rotating pool (Max 10).`
+- **Thin community `Community 558`** (1 nodes): `Uses Gemini to generate a dual-CTA psychological hook specifically for the Teleg`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 559`** (1 nodes): `Picks a URL from the pool (Random Rotation).`
+- **Thin community `Community 559`** (1 nodes): `YouTube Comment Strategy: ONLY drive Telegram GROUP JOINS.         - No CPA lin`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 560`** (1 nodes): `Checks rate limit (1m) and duplication.`
+- **Thin community `Community 560`** (1 nodes): `Generates a fan-page style caption for Instagram.          ── WITH affiliate_l`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 561`** (1 nodes): `Promotes a ROTATING Compilation on the provided Video (Short or Long).`
+- **Thin community `Community 561`** (1 nodes): `Loads links from los_pollos_links.json and rotates through them.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 562`** (1 nodes): `Uploads the local image to a temporary public host so the Instagram         Gra`
+- **Thin community `Community 562`** (1 nodes): `Adds compilation URL to the rotating pool (Max 10).`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 563`** (1 nodes): `Smart person-aware Instagram ratio formatter (4:5 = 1080x1350).          Strat`
+- **Thin community `Community 563`** (1 nodes): `Picks a URL from the pool (Random Rotation).`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 564`** (1 nodes): `Uploads a standard Image Post to Instagram feed using the Graph API.         Re`
+- **Thin community `Community 564`** (1 nodes): `Checks rate limit (1m) and duplication.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 565`** (1 nodes): `Cleans captions of UTF-16 surrogates that cause UnicodeEncodeError in httpx/UTF-`
+- **Thin community `Community 565`** (1 nodes): `Promotes a ROTATING Compilation on the provided Video (Short or Long).`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 566`** (1 nodes): `Generic retry wrapper for HTTP requests using httpx.         Default timeout in`
+- **Thin community `Community 566`** (1 nodes): `Uploads the local image to a temporary public host so the Instagram         Gra`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 567`** (1 nodes): `Uses ffmpeg to extract the single best frame identified by detect_watermark().`
+- **Thin community `Community 567`** (1 nodes): `Smart person-aware Instagram ratio formatter (4:5 = 1080x1350).          Strat`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 568`** (1 nodes): `3-tier confidence check for surgical removal.`
+- **Thin community `Community 568`** (1 nodes): `Uploads a standard Image Post to Instagram feed using the Graph API.         Re`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 569`** (1 nodes): `Returns a friendly batch name based on the hour of the slot.`
+- **Thin community `Community 569`** (1 nodes): `Cleans captions of UTF-16 surrogates that cause UnicodeEncodeError in httpx/UTF-`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 570`** (1 nodes): `Scans the downloads/ folder for actress subfolders containing .mp4 files     and`
+- **Thin community `Community 570`** (1 nodes): `Generic retry wrapper for HTTP requests using httpx.         Default timeout in`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 571`** (1 nodes): `Pops one item from the queue and runs it through the full AMTCE pipeline.`
+- **Thin community `Community 571`** (1 nodes): `Uses ffmpeg to extract the single best frame identified by detect_watermark().`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 572`** (1 nodes): `Returns the list of paparazzi Instagram account IDs to scrape from.     Reads fr`
+- **Thin community `Community 572`** (1 nodes): `3-tier confidence check for surgical removal.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 573`** (1 nodes): `Detects gender from a person's name string.     Uses curated token lists from pa`
+- **Thin community `Community 573`** (1 nodes): `Returns a friendly batch name based on the hour of the slot.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 574`** (1 nodes): `Tries to extract the featured person's name from reel metadata.     Checks: tagg`
+- **Thin community `Community 574`** (1 nodes): `Scans the downloads/ folder for actress subfolders containing .mp4 files     and`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 575`** (1 nodes): `Draws a strikethrough line over the celebrity price text.`
+- **Thin community `Community 575`** (1 nodes): `Pops one item from the queue and runs it through the full AMTCE pipeline.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 576`** (1 nodes): `Adaptive Anchor System: Calculates a safe y-coordinate for the tag.         Targ`
+- **Thin community `Community 576`** (1 nodes): `Returns the list of paparazzi Instagram account IDs to scrape from.     Reads fr`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 577`** (1 nodes): `Generates a transparent PNG overlay with Smart Price Tag.         Uses Adaptive`
+- **Thin community `Community 577`** (1 nodes): `Detects gender from a person's name string.     Uses curated token lists from pa`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 578`** (1 nodes): `Scans the downloads/ folder for actress subfolders containing .mp4 files     and`
+- **Thin community `Community 578`** (1 nodes): `Tries to extract the featured person's name from reel metadata.     Checks: tagg`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 579`** (1 nodes): `Daemon thread: analyze one BGM track with Gemini and write the result         b`
+- **Thin community `Community 579`** (1 nodes): `Draws a strikethrough line over the celebrity price text.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 580`** (1 nodes): `Lazy load beat data from cache or disk.`
+- **Thin community `Community 580`** (1 nodes): `Adaptive Anchor System: Calculates a safe y-coordinate for the tag.         Targ`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 581`** (1 nodes): `Moves newly extracted audio into pool and caches deep beat metadata.`
+- **Thin community `Community 581`** (1 nodes): `Generates a transparent PNG overlay with Smart Price Tag.         Uses Adaptive`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 582`** (1 nodes): `Scoring-based selection from the active pool.                  Formula:`
+- **Thin community `Community 582`** (1 nodes): `Scans the downloads/ folder for actress subfolders containing .mp4 files     and`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 583`** (1 nodes): `Rotates clips from cooldown back to active based on hybrid logic.         Clean`
+- **Thin community `Community 583`** (1 nodes): `Daemon thread: analyze one BGM track with Gemini and write the result         b`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 584`** (1 nodes): `Manages harvest slot tracking and catch-up logic.      Usage:         state = Ha`
+- **Thin community `Community 584`** (1 nodes): `Lazy load beat data from cache or disk.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 585`** (1 nodes): `Reset daily counters when a new day starts.`
+- **Thin community `Community 585`** (1 nodes): `Moves newly extracted audio into pool and caches deep beat metadata.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 586`** (1 nodes): `Call this immediately after a successful harvest run.`
+- **Thin community `Community 586`** (1 nodes): `Scoring-based selection from the active pool.                  Formula:`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 587`** (1 nodes): `Returns True if:           - At least one configured harvest slot passed today`
+- **Thin community `Community 587`** (1 nodes): `Rotates clips from cooldown back to active based on hybrid logic.         Clean`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 588`** (1 nodes): `Manages publish slot tracking and intelligent catch-up scheduling.      The publ`
+- **Thin community `Community 588`** (1 nodes): `Manages harvest slot tracking and catch-up logic.      Usage:         state = Ha`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 589`** (1 nodes): `Call this when a publish slot successfully fires.`
+- **Thin community `Community 589`** (1 nodes): `Reset daily counters when a new day starts.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 590`** (1 nodes): `Call this when a slot is detected as missed (program was off).`
+- **Thin community `Community 590`** (1 nodes): `Call this immediately after a successful harvest run.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 591`** (1 nodes): `Compare configured slots against published-today to find what was missed.`
+- **Thin community `Community 591`** (1 nodes): `Returns True if:           - At least one configured harvest slot passed today`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 592`** (1 nodes): `Intelligently plans catch-up publish times for missed slots.          Strategy:`
+- **Thin community `Community 592`** (1 nodes): `Manages publish slot tracking and intelligent catch-up scheduling.      The publ`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 593`** (1 nodes): `Disk-persisted Apify quota tracker.     Survives process restarts — critical for`
+- **Thin community `Community 593`** (1 nodes): `Call this when a publish slot successfully fires.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 594`** (1 nodes): `Returns True if quota allows `needed` more calls.`
+- **Thin community `Community 594`** (1 nodes): `Call this when a slot is detected as missed (program was off).`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 595`** (1 nodes): `Record that `amount` Apify calls were made.`
+- **Thin community `Community 595`** (1 nodes): `Compare configured slots against published-today to find what was missed.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 596`** (1 nodes): `Dump a full salesman dashboard to the logger.`
+- **Thin community `Community 596`** (1 nodes): `Intelligently plans catch-up publish times for missed slots.          Strategy:`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 597`** (1 nodes): `High-level safety check for core loops.     Returns True if system is within op`
+- **Thin community `Community 597`** (1 nodes): `Disk-persisted Apify quota tracker.     Survives process restarts — critical for`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 598`** (1 nodes): `Prints a formatted summary of the system health.`
+- **Thin community `Community 598`** (1 nodes): `Returns True if quota allows `needed` more calls.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 599`** (1 nodes): `Perform forensic analysis on a video (or pre-extracted frames).          Args:`
+- **Thin community `Community 599`** (1 nodes): `Record that `amount` Apify calls were made.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 600`** (1 nodes): `Extract FRAME_COUNT frames evenly spread across the video using FFmpeg.`
+- **Thin community `Community 600`** (1 nodes): `Dump a full salesman dashboard to the logger.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 601`** (1 nodes): `Send frames + prompt to Gemini Vision, parse and validate JSON response.`
+- **Thin community `Community 601`** (1 nodes): `High-level safety check for core loops.     Returns True if system is within op`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 602`** (1 nodes): `Parse and validate Gemini JSON response.         Handles BOTH schemas:`
+- **Thin community `Community 602`** (1 nodes): `Prints a formatted summary of the system health.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 603`** (1 nodes): `Return the module-level singleton, creating it on first call.`
+- **Thin community `Community 603`** (1 nodes): `Perform forensic analysis on a video (or pre-extracted frames).          Args:`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 604`** (1 nodes): `Main Orchestrator for Forensic Analysis.`
+- **Thin community `Community 604`** (1 nodes): `Extract FRAME_COUNT frames evenly spread across the video using FFmpeg.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 605`** (1 nodes): `Jaccard word-overlap matcher for product keys within a category bucket.      C`
+- **Thin community `Community 605`** (1 nodes): `Send frames + prompt to Gemini Vision, parse and validate JSON response.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 606`** (1 nodes): `Returns the most specific Amazon affiliate link for the detected product.`
+- **Thin community `Community 606`** (1 nodes): `Parse and validate Gemini JSON response.         Handles BOTH schemas:`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 607`** (1 nodes): `Persists a user-provided affiliate link using a dual-key strategy.        1. b`
+- **Thin community `Community 607`** (1 nodes): `Return the module-level singleton, creating it on first call.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 608`** (1 nodes): `Hard schema-validation gate. Rejects any result that would produce a bad     Am`
+- **Thin community `Community 608`** (1 nodes): `Main Orchestrator for Forensic Analysis.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 609`** (1 nodes): `Independent query quality scorer. Returns 0.0–1.0.      Scoring breakdown (eac`
+- **Thin community `Community 609`** (1 nodes): `Jaccard word-overlap matcher for product keys within a category bucket.      C`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 610`** (1 nodes): `Evaluates product title (wear_name) for retail-grade (industry-standard) naming.`
+- **Thin community `Community 610`** (1 nodes): `Returns the most specific Amazon affiliate link for the detected product.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 611`** (1 nodes): `Hierarchical Fashion Intelligence Pipeline.      Public API     ----------`
+- **Thin community `Community 611`** (1 nodes): `Persists a user-provided affiliate link using a dual-key strategy.        1. b`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 612`** (1 nodes): `Sends image frames + prompt to Gemini Vision and returns a parsed JSON dict.`
+- **Thin community `Community 612`** (1 nodes): `Hard schema-validation gate. Rejects any result that would produce a bad     Am`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 613`** (1 nodes): `Guarantees no critical attribute field is blank after Gemini's response.`
+- **Thin community `Community 613`** (1 nodes): `Independent query quality scorer. Returns 0.0–1.0.      Scoring breakdown (eac`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 614`** (1 nodes): `Deterministic Amazon query builder — pure Python, zero hallucination risk.`
+- **Thin community `Community 614`** (1 nodes): `Evaluates product title (wear_name) for retail-grade (industry-standard) naming.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 615`** (1 nodes): `Hierarchical Fashion Intelligence Pipeline.          Flow         ----`
+- **Thin community `Community 615`** (1 nodes): `Hierarchical Fashion Intelligence Pipeline.      Public API     ----------`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 616`** (1 nodes): `Returns a safe, neutral fallback payload used when Gemini fails      or confide`
+- **Thin community `Community 616`** (1 nodes): `Sends image frames + prompt to Gemini Vision and returns a parsed JSON dict.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 617`** (1 nodes): `Return structured caption line data:     [         {"text": "...", "fontsize":`
+- **Thin community `Community 617`** (1 nodes): `Guarantees no critical attribute field is blank after Gemini's response.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 618`** (1 nodes): `Build FFmpeg drawtext filter segments for the arc caption style.`
+- **Thin community `Community 618`** (1 nodes): `Deterministic Amazon query builder — pure Python, zero hallucination risk.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 619`** (1 nodes): `Build FFmpeg drawtext filter for viral caption style.      Style:     - Color`
+- **Thin community `Community 619`** (1 nodes): `Hierarchical Fashion Intelligence Pipeline.          Flow         ----`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 620`** (1 nodes): `Text-only caption generation using Gemini system role + diversity config.     U`
+- **Thin community `Community 620`** (1 nodes): `Returns a safe, neutral fallback payload used when Gemini fails      or confide`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 621`** (1 nodes): `Public helper for upload caption generation.     Accepts optional profile_data`
+- **Thin community `Community 621`** (1 nodes): `Return structured caption line data:     [         {"text": "...", "fontsize":`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 622`** (1 nodes): `Generates a transparent PNG overlay with Smart Price Tag.         Uses Adaptive`
+- **Thin community `Community 622`** (1 nodes): `Build FFmpeg drawtext filter segments for the arc caption style.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 623`** (1 nodes): `Create a PIL Image with the specified studio background style.`
+- **Thin community `Community 623`** (1 nodes): `Build FFmpeg drawtext filter for viral caption style.      Style:     - Color`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 624`** (1 nodes): `Remove background from image bytes using rembg (ONNX, CPU-only).     Returns a P`
+- **Thin community `Community 624`** (1 nodes): `Text-only caption generation using Gemini system role + diversity config.     U`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 625`** (1 nodes): `Composite the subject (RGBA with transparent bg) onto a studio background.     S`
+- **Thin community `Community 625`** (1 nodes): `Public helper for upload caption generation.     Accepts optional profile_data`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 626`** (1 nodes): `Smart crop: resize maintaining aspect ratio, then center-crop to exact size.`
+- **Thin community `Community 626`** (1 nodes): `Generates a transparent PNG overlay with Smart Price Tag.         Uses Adaptive`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 627`** (1 nodes): `Save PIL image as JPEG.`
+- **Thin community `Community 627`** (1 nodes): `Create a PIL Image with the specified studio background style.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 628`** (1 nodes): `Generate polished studio-background advertisement images.      Strategy:       -`
+- **Thin community `Community 628`** (1 nodes): `Remove background from image bytes using rembg (ONNX, CPU-only).     Returns a P`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 629`** (1 nodes): `Convenience wrapper: load image from file path then call generate_ad_images.`
+- **Thin community `Community 629`** (1 nodes): `Composite the subject (RGBA with transparent bg) onto a studio background.     S`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 630`** (1 nodes): `Video ad placeholder — no free-tier video API exists.     Set ENABLE_AI_VIDEO_CR`
+- **Thin community `Community 630`** (1 nodes): `Smart crop: resize maintaining aspect ratio, then center-crop to exact size.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 631`** (1 nodes): `Generates a fan-page style caption for Instagram.         Tone: fan community,`
+- **Thin community `Community 631`** (1 nodes): `Save PIL image as JPEG.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 632`** (1 nodes): `Loads links from los_pollos_links.json and rotates through them.`
+- **Thin community `Community 632`** (1 nodes): `Generate polished studio-background advertisement images.      Strategy:       -`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 633`** (1 nodes): `Adds compilation URL to the rotating pool (Max 10).`
+- **Thin community `Community 633`** (1 nodes): `Convenience wrapper: load image from file path then call generate_ad_images.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 634`** (1 nodes): `Picks a URL from the pool (Random Rotation).`
+- **Thin community `Community 634`** (1 nodes): `Video ad placeholder — no free-tier video API exists.     Set ENABLE_AI_VIDEO_CR`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 635`** (1 nodes): `Checks rate limit (1m) and duplication.`
+- **Thin community `Community 635`** (1 nodes): `Generates a fan-page style caption for Instagram.         Tone: fan community,`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 636`** (1 nodes): `Promotes a ROTATING Compilation on the provided Video (Short or Long).`
+- **Thin community `Community 636`** (1 nodes): `Loads links from los_pollos_links.json and rotates through them.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 637`** (1 nodes): `Prints a formatted summary of the system health.`
+- **Thin community `Community 637`** (1 nodes): `Adds compilation URL to the rotating pool (Max 10).`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 638`** (1 nodes): `Picks a URL from the pool (Random Rotation).`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 639`** (1 nodes): `Checks rate limit (1m) and duplication.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 640`** (1 nodes): `Promotes a ROTATING Compilation on the provided Video (Short or Long).`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 641`** (1 nodes): `Prints a formatted summary of the system health.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `get()` connect `Community 0` to `Community 2`, `Community 3`, `Community 4`, `Community 5`, `Community 6`, `Community 7`, `Community 8`, `Community 9`, `Community 10`, `Community 11`, `Community 12`, `Community 13`, `Community 14`, `Community 15`, `Community 16`, `Community 17`, `Community 18`, `Community 19`, `Community 20`, `Community 21`, `Community 22`, `Community 23`, `Community 24`, `Community 25`, `Community 26`, `Community 27`, `Community 28`, `Community 30`, `Community 31`, `Community 32`, `Community 33`, `Community 34`, `Community 35`, `Community 37`, `Community 38`, `Community 39`, `Community 40`, `Community 41`, `Community 45`, `Community 46`?**
-  _High betweenness centrality (0.569) - this node is a cross-community bridge._
-- **Why does `compile_video()` connect `Community 2` to `Community 0`, `Community 3`, `Community 4`, `Community 5`, `Community 6`, `Community 7`, `Community 8`, `Community 10`, `Community 11`, `Community 12`, `Community 13`, `Community 17`, `Community 20`, `Community 21`, `Community 22`, `Community 24`, `Community 27`, `Community 29`, `Community 31`, `Community 32`, `Community 34`, `Community 38`, `Community 45`, `Community 49`?**
-  _High betweenness centrality (0.048) - this node is a cross-community bridge._
-- **Why does `SmartSceneEditor` connect `Community 2` to `Community 10`, `Community 3`, `Community 36`, `Community 7`?**
-  _High betweenness centrality (0.046) - this node is a cross-community bridge._
+- **Why does `get()` connect `Community 0` to `Community 2`, `Community 3`, `Community 4`, `Community 5`, `Community 6`, `Community 7`, `Community 8`, `Community 9`, `Community 10`, `Community 11`, `Community 12`, `Community 13`, `Community 14`, `Community 15`, `Community 16`, `Community 17`, `Community 18`, `Community 19`, `Community 20`, `Community 21`, `Community 22`, `Community 23`, `Community 24`, `Community 25`, `Community 26`, `Community 27`, `Community 28`, `Community 30`, `Community 31`, `Community 32`, `Community 34`, `Community 35`, `Community 36`, `Community 37`, `Community 38`, `Community 39`, `Community 40`, `Community 43`, `Community 44`, `Community 45`, `Community 47`, `Community 48`?**
+  _High betweenness centrality (0.561) - this node is a cross-community bridge._
+- **Why does `compile_video()` connect `Community 2` to `Community 0`, `Community 3`, `Community 4`, `Community 5`, `Community 6`, `Community 7`, `Community 8`, `Community 9`, `Community 10`, `Community 14`, `Community 15`, `Community 17`, `Community 19`, `Community 20`, `Community 22`, `Community 23`, `Community 25`, `Community 27`, `Community 32`, `Community 37`, `Community 48`, `Community 52`?**
+  _High betweenness centrality (0.060) - this node is a cross-community bridge._
+- **Why does `SmartSceneEditor` connect `Community 2` to `Community 33`, `Community 6`, `Community 7`?**
+  _High betweenness centrality (0.049) - this node is a cross-community bridge._
 - **Are the 810 inferred relationships involving `get()` (e.g. with `_pick_hook()` and `get_clean_session()`) actually correct?**
   _`get()` has 810 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 569 inferred relationships involving `SelfOptimizingEditor` (e.g. with `PollingFilter` and `GlobalState`) actually correct?**
-  _`SelfOptimizingEditor` has 569 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 562 inferred relationships involving `RhythmTimelineBuilder` (e.g. with `PollingFilter` and `GlobalState`) actually correct?**
-  _`RhythmTimelineBuilder` has 562 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 562 inferred relationships involving `PublishQueue` (e.g. with `PollingFilter` and `GlobalState`) actually correct?**
-  _`PublishQueue` has 562 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 592 inferred relationships involving `SelfOptimizingEditor` (e.g. with `PollingFilter` and `GlobalState`) actually correct?**
+  _`SelfOptimizingEditor` has 592 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 585 inferred relationships involving `RhythmTimelineBuilder` (e.g. with `PollingFilter` and `GlobalState`) actually correct?**
+  _`RhythmTimelineBuilder` has 585 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 585 inferred relationships involving `PublishQueue` (e.g. with `PollingFilter` and `GlobalState`) actually correct?**
+  _`PublishQueue` has 585 INFERRED edges - model-reasoned connections that need verification._
