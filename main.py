@@ -4902,7 +4902,65 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
             # ── PRICE SANITIZER: strip Gemini-invented prices when real MRP is known ────────
             # Gemini has NO access to the real Amazon price at hook-generation time.
-            # If the user supplied a real_mrp via title expan        # ── HIGH-CONVERSION CAPTION STRUCTURES ──────────────────────────────────
+            # If the user supplied a real_mrp via title expansion, Gemini's hook may
+            # contain invented numbers (e.g. ₹18,330+ / ₹10,176).  Strip them so
+            # the downstream price block can insert the correct figures cleanly.
+            _real_mrp_known = _user_real_mrp and int(_user_real_mrp or 0) > 0
+            if _tg_hook_text and _real_mrp_known:
+                import re as _re_price
+                # Remove any ₹NNNN or Rs. NNNN patterns that Gemini invented
+                _tg_hook_text = _re_price.sub(
+                    r'[₹]\s*[\d,]+(?:\+)?',
+                    '',
+                    _tg_hook_text
+                ).strip()
+                # Clean up double spaces left behind
+                _tg_hook_text = _re_price.sub(r'  +', ' ', _tg_hook_text).strip()
+                logger.info(
+                    "[PRICE_SANITIZER] Stripped Gemini-invented prices from TG hook "
+                    "(real_mrp=%s is authoritative).", _user_real_mrp
+                )
+
+            _tg_hook_block = _tg_hook_text + (f"\n⚡ {_urgency}" if _urgency else "")
+
+            # For Instagram:
+            if _dynamic_ig_hook:
+                _tg_hook_text_ig = _dynamic_ig_hook
+                logger.info("✨ Using Gemini-generated dynamic Instagram hook.")
+            else:
+                _tg_hook_text_ig = _offer.get("hook", "")
+                logger.debug("[HOOK] Gemini IG hook unavailable — using MoneyFlow hardcoded hook.")
+            _ig_hook_text  = _tg_hook_text_ig
+            _ig_hook_block = _ig_hook_text + (f"\n⚡ {_urgency}" if _urgency else "")
+                
+            # Store everything including IG and YT hooks so other uploaders can grab them later
+            with acquire_session_lock(user_id):
+                user_sessions[user_id].setdefault("monetization_report", {})
+                user_sessions[user_id]["monetization_report"]["served_hook"] = _tg_hook_text
+                if _dynamic_tg_hook: user_sessions[user_id]["monetization_report"]["telegram_hook"] = _dynamic_tg_hook
+                if _dynamic_ig_hook: user_sessions[user_id]["monetization_report"]["instagram_hook"] = _dynamic_ig_hook
+                if _dynamic_yt_hook: user_sessions[user_id]["monetization_report"]["youtube_hook"] = _dynamic_yt_hook
+                save_session(user_id)
+                
+        except Exception as _mfe_e:
+            logger.warning(f"[CAPTION] Hook Generation failed (using fallback): {_mfe_e}")
+            _tg_hook_block = mystery_story or raw_cta or "Style breakdown below 👇"
+            _ig_hook_block = _tg_hook_block
+
+
+        # ── Generate / retrieve video UID for this session ─────────────────────
+        # Embedded in caption as #vid_XXXXXX so the comment-bot can do exact
+        # affiliate link lookup when someone comments "LINK" on the post.
+        import uuid as _uuid_mod
+        with acquire_session_lock(user_id):
+            _video_uid = user_sessions[user_id].get("video_uid")
+            if not _video_uid:
+                _video_uid = "vid_" + _uuid_mod.uuid4().hex[:6]
+                user_sessions[user_id]["video_uid"] = _video_uid
+                save_session(user_id)
+        logger.info(f"[VIDEO_UID] {_video_uid} assigned to this session")
+
+        # ── HIGH-CONVERSION CAPTION STRUCTURES ──────────────────────────────────
         _primary_link = amazon_in_link or amazon_us_link or ""
         _display_name_esc = _display_name.replace('_', ' ').replace('*', '')
 
@@ -5297,89 +5355,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                         f"What price do you think it is? 🤔\n\n"
                         f"Closest guess wins the DM link first 👇\n"
                     )
-                ig_caption_base += f"{_scarcity_line}\n\n" + _build_footer(f'Guess below or type "{_dm_keyword}" for the link 👇')t finish",
-                        "lightweight — you forget you're wearing it",
-                        "gift-ready packaging included"]
-            return [f"{label} — premium quality at this price point is rare",
-                    "fits well straight out of the box, no adjustment needed",
-                    "photographs beautifully — exactly what you see in the video"]
-        _benefit_pool = _pick_benefits(_item_label, _cat_lower)
-
-        # ── Template rotation ─────────────────────────────────────────────
-        _CAPTION_ROTATION = os.getenv("CAPTION_TEMPLATE_ROTATION", "sequential").lower()
-
-        # Track rotation index in session
-        with acquire_session_lock(user_id):
-            _tmpl_idx = user_sessions[user_id].get("ig_template_idx", 0)
-            user_sessions[user_id]["ig_template_idx"] = (_tmpl_idx + 1) % 3
-
-        if _CAPTION_ROTATION == "random":
-            _tmpl_idx = _rand_mod.randint(0, 2)
-
-        # ── Shared footer: CTA → Or.. link → hashtags → copyright/attribution (last) ──
-        _copyright_line = os.getenv("COPYRIGHT_DISCLAIMER", "").strip()
-        # Use session link; fall back to DEFAULT_AFFILIATE_LINK so link is never blank
-        _footer_link = _primary_link or os.getenv("DEFAULT_AFFILIATE_LINK", "").strip()
-        def _build_footer(cta: str) -> str:
-            _f  = f"{cta} Or..\n\n"
-            if _footer_link:
-                _f += f"🔗 Buy here: {_footer_link}\n\n"
-            _f += f"{_hashtag_str}\n\n"
-            _f += f"{_copyright_line}"
-            return _f
-
-        if _tmpl_idx == 0:
-            ig_caption_base = (
-                f"#AD {_ig_hook_block}\n"
-                f"⚡ Selling fast today.\n\n"
-                f"{_persona_line}\n"
-                f"✦ {_benefit_pool[0]}\n"
-                f"✦ {_benefit_pool[1]}\n"
-                f"✦ {_benefit_pool[2]}\n\n"
-            )
-            if _price_orig_str:
-                ig_caption_base += (
-                    f"This designer look usually costs ₹{_price_orig_str}+. "
-                    f"I found it for a fraction. Guess the offer price below! 👇\n\n"
-                    f"What do you think the deal price is?\n"
-                    f"Reply with your guess — closest one gets the link first 🎯\n"
-                )
-            ig_caption_base += f"{_scarcity_line}\n\n" + _build_footer(f'Comment your guess or "{_dm_keyword}" and I\'ll DM the real price + link 👇')
-
-        elif _tmpl_idx == 1:
-            ig_caption_base = (
-                f"#AD — {_ig_hook_block}\n"
-                f"⚡ Limited stock today.\n\n"
-                f"{_persona_line}\n\n"
-                f"What actually makes this worth it:\n"
-                f"— {_benefit_pool[0]}\n"
-                f"— {_benefit_pool[1]}\n"
-                f"— {_benefit_pool[2]}\n\n"
-            )
-            if _price_orig_str:
-                ig_caption_base += (
-                    f"She paid ₹{_price_orig_str}+ for this look. "
-                    f"I found the alternative. Guess the price 👇\n\n"
-                    f"Drop your number in the comments — I'll reveal the price + link to whoever is closest 🎯\n"
-                )
-            ig_caption_base += f"{_scarcity_line}\n\n" + _build_footer(f'Comment your price guess or "{_dm_keyword}" for the instant link 👇')
-
-        else:
-            ig_caption_base = (
-                f"#AD | Real talk — {_ig_hook_block}\n"
-                f"⚡ Restocked today — won't last.\n\n"
-                f"{_persona_line}\n\n"
-                f"Here's why it stayed in my cart:\n"
-                f"{_benefit_pool[0]}. {_benefit_pool[1]}. {_benefit_pool[2]}.\n\n"
-            )
-            if _price_orig_str:
-                ig_caption_base += (
-                    f"Real MRP on this look: ₹{_price_orig_str}+. "
-                    f"The alternative is sitting on Amazon right now. "
-                    f"What price do you think it is? 🤔\n\n"
-                    f"Closest guess wins the DM link first 👇\n"
-                )
-            ig_caption_base += f"{_scarcity_line}\n\n" + _build_footer(f'Guess below or type "{_dm_keyword}" for the link 👇')
+                ig_caption_base += f"{_scarcity_line}\n\n" + _build_footer(f'Guess below or type "{_dm_keyword}" for the link 👇')
 
 
         # Admin warning if all links missing
