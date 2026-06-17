@@ -596,8 +596,8 @@
       "version": 2
     },
     "Riddhi_dogra.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1781661944.5416436,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9485884,
@@ -776,8 +776,8 @@
       "version": 2
     },
     "Tammanah_bhatia_1.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1781662257.0941625,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9506483,
@@ -1027,17 +1027,16 @@
       "version": 2
     },
     "Disha_patani.mp3": {
+      "is_speech_only": true,
       "usage_count": 0,
       "last_used": 0,
-      "bpm": 90.0,
-      "energy": 0.8675384615384615,
-      "created_at": 1780496185.4853427,
-      "beat_data_path": "beats/Disha_patani.npz",
-      "drop_times": [
-        1.15
-      ],
+      "bpm": 0.0,
+      "energy": 0.701,
+      "created_at": 1781661916.8719897,
+      "beat_data_path": null,
+      "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "228352_1780496185",
+      "audio_hash": "",
       "version": 2
     },
     "Jacqueline_Fernandez.mp3": {
