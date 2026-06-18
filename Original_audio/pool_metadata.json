@@ -365,8 +365,8 @@
       "version": 2
     },
     "Kaydu_lohar.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1781796888.6294022,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9460042,
@@ -776,8 +776,8 @@
       "version": 2
     },
     "Tammanah_bhatia_1.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1781796633.4843116,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9506483,
@@ -1204,6 +1204,18 @@
         "study"
       ],
       "gemini_analyzed": true
+    },
+    "Chandni.mp3": {
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 68.3,
+      "energy": 0.7618823529411765,
+      "created_at": 1781796601.4633734,
+      "beat_data_path": "beats/Chandni.npz",
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "360005_1781796601",
+      "version": 2
     }
   }
 }
