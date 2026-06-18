@@ -428,8 +428,8 @@
       "version": 2
     },
     "Malavika_2.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1781701765.7307794,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9470403,
@@ -596,8 +596,8 @@
       "version": 2
     },
     "Riddhi_dogra.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1781661944.5416436,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9485884,
@@ -848,8 +848,8 @@
       "version": 2
     },
     "Wamiqa_gabbi.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1781702172.9489095,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9516847,
@@ -1027,6 +1027,7 @@
       "version": 2
     },
     "Disha_patani.mp3": {
+      "is_speech_only": true,
       "usage_count": 0,
       "last_used": 0,
       "bpm": 97.1,
@@ -1204,6 +1205,18 @@
         "study"
       ],
       "gemini_analyzed": true
+    },
+    "Arya_menon.mp3": {
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 94.4,
+      "energy": 0.7684800000000003,
+      "created_at": 1781701738.4973671,
+      "beat_data_path": "beats/Arya_menon.npz",
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "375679_1781701738",
+      "version": 2
     },
     "Chandni.mp3": {
       "usage_count": 0,
