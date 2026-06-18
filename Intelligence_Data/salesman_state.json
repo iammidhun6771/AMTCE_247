@@ -8,7 +8,8 @@
   "publisher": {
     "last_check_date": "2026-06-18",
     "slots_published_today": [
-      "12:45[catchup]"
+      "12:45[catchup]",
+      "20:00"
     ],
     "slots_missed_today": [
       "09:00",
@@ -20,7 +21,7 @@
       "12:45",
       "13:05"
     ],
-    "deficit_videos": 5
+    "deficit_videos": 4
   },
   "apify": {
     "quota_date": "2026-06-18",
