@@ -91,8 +91,8 @@
       "version": 2
     },
     "Akanksha_puri_1.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1781756617.8009813,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9433477,
@@ -245,8 +245,8 @@
       "version": 2
     },
     "Fit_girl_2.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1781757072.1282945,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9449425,
@@ -526,13 +526,13 @@
     "Pooja_hedge.mp3": {
       "usage_count": 0,
       "last_used": 0,
-      "bpm": 0.0,
-      "energy": 0.5,
+      "bpm": 113.6,
+      "energy": 0.8952619047619047,
       "created_at": 1780391156.9480724,
-      "beat_data_path": null,
+      "beat_data_path": "beats/Pooja_hedge.npz",
       "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "312357_1777583679",
+      "audio_hash": "543699_1781756233",
       "version": 2
     },
     "Poonam_pandey.mp3": {
@@ -560,8 +560,8 @@
       "version": 2
     },
     "Rasha_Thadani.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1781757281.25064,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9485884,
@@ -836,8 +836,8 @@
       "version": 2
     },
     "Vrinda.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1781756307.1254003,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9516847,
@@ -1029,15 +1029,13 @@
     "Disha_patani.mp3": {
       "usage_count": 0,
       "last_used": 0,
-      "bpm": 90.0,
-      "energy": 0.8675384615384615,
+      "bpm": 97.1,
+      "energy": 0.8405,
       "created_at": 1780496185.4853427,
       "beat_data_path": "beats/Disha_patani.npz",
-      "drop_times": [
-        1.15
-      ],
+      "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "228352_1780496185",
+      "audio_hash": "412672_1781757031",
       "version": 2
     },
     "Jacqueline_Fernandez.mp3": {
