@@ -482,11 +482,7 @@ class PollSchedulerDaemon:
             logger.error("❌ 'schedule' package not available — HotnessPollDaemon disabled.")
             return
 
-        _schedule.every().day.at("13:00").do(cls.job_announce)   # 6:30 PM IST — pre-poll tease
         _schedule.every().day.at("13:30").do(cls.job_open_poll)  # 7:00 PM IST — poll opens
-        _schedule.every().day.at("15:15").do(cls.job_war_mode, tick=3)  # 8:45 PM IST
-        _schedule.every().day.at("15:20").do(cls.job_war_mode, tick=2)  # 8:50 PM IST
-        _schedule.every().day.at("15:25").do(cls.job_war_mode, tick=1)  # 8:55 PM IST
         _schedule.every().day.at("15:30").do(cls.job_close_poll) # 9:00 PM IST — poll closes
 
         while not cls._stop.is_set():
@@ -496,172 +492,106 @@ class PollSchedulerDaemon:
     # ---- scheduled jobs ---------------------------------------------------
 
     @classmethod
-    def job_announce(cls):
+    def job_open_poll(cls):
+        """7 PM IST — Pick two reels, open the poll, post both videos, send ONE message."""
         if datetime.now().weekday() == 6:
             return  # Skip Sunday
+
         poll = HotnessPollState()
 
-        # Try to load tonight's contenders from the schedule json first
-        path_a = None
-        path_b = None
-        actress_a = None
-        actress_b = None
+        # --- Pick contenders (schedule JSON first, fallback to ledger) ---
+        path_a = path_b = actress_a = actress_b = None
 
         if os.path.exists(POLL_SCHEDULE_FILE):
             try:
                 with open(POLL_SCHEDULE_FILE, "r", encoding="utf-8") as f:
                     sched = json.load(f)
-                written_at = sched.get("written_at", 0)
-                # Check if schedule is fresh (written within past 4 hours)
-                if time.time() - written_at < 4 * 3600:
+                if time.time() - sched.get("written_at", 0) < 4 * 3600:
                     post_a = sched.get("post_a", {})
                     post_b = sched.get("post_b", {})
-                    path_a = post_a.get("video_path")
+                    path_a    = post_a.get("video_path")
                     actress_a = post_a.get("actress")
-                    path_b = post_b.get("video_path")
+                    path_b    = post_b.get("video_path")
                     actress_b = post_b.get("actress")
-                    logger.info("[POLL] Loaded schedule from JSON: A=%s, B=%s", actress_a, actress_b)
-                else:
-                    logger.warning("[POLL] Schedule JSON is stale (>4h). Falling back to random pick.")
+                    logger.info("[POLL] Loaded schedule: A=%s B=%s", actress_a, actress_b)
             except Exception as e:
-                logger.error("[POLL] Error reading schedule JSON: %s. Falling back.", e)
+                logger.error("[POLL] Schedule read error: %s", e)
 
-        # Fallback to pick_two_reels()
         if not path_a or not path_b:
-            logger.info("[POLL] Falling back to pick_two_reels()")
-            fallback_a, fallback_b = pick_two_reels()
+            fb_a, fb_b = pick_two_reels()
             if not path_a:
-                path_a = fallback_a
+                path_a    = fb_a
                 actress_a = os.path.splitext(os.path.basename(path_a))[0].split("_")[0] if path_a else "Actress A"
             if not path_b:
-                path_b = fallback_b
+                path_b    = fb_b
                 actress_b = os.path.splitext(os.path.basename(path_b))[0].split("_")[0] if path_b else "Actress B"
 
+        # --- Reset state and open ---
         with poll.safe_lock():
             poll.state.update({
                 "session_id": datetime.now().strftime("%Y-%m-%d"),
-                "post_a": {"label": f"🔥 {actress_a}", "actress": actress_a, "video_path": path_a or ""},
-                "post_b": {"label": f"💥 {actress_b}", "actress": actress_b, "video_path": path_b or ""},
-                "votes": {},
-                "pot_a": 0.0,
-                "pot_b": 0.0,
-                "winner_side": None,
-                "settled": False,
-                "active": False,
+                "post_a": {"label": f"A: {actress_a}", "actress": actress_a or "", "video_path": path_a or ""},
+                "post_b": {"label": f"B: {actress_b}", "actress": actress_b or "", "video_path": path_b or ""},
+                "votes": {}, "pot_a": 0.0, "pot_b": 0.0,
+                "winner_side": None, "settled": False, "active": True,
             })
             poll.save()
 
         upi_id = os.getenv("UPI_ID", "your-upi@bank")
 
+        # --- Post both videos first (so the message lands after) ---
+        if path_a and os.path.exists(path_a):
+            _bot_send_video(_group_id(), path_a, caption=f"Option A — {actress_a}")
+        if path_b and os.path.exists(path_b):
+            _bot_send_video(_group_id(), path_b, caption=f"Option B — {actress_b}")
+
+        # --- ONE clean poll message ---
         msg = (
-            f"🔥 <b>TONIGHT'S FACE-OFF — 7:00 PM IST</b>\n\n"
-            f"Two posts. One question: <b>Who's hotter?</b>\n\n"
-            f"🅰️  <b>{actress_a}</b>\n"
-            f"🅱️  <b>{actress_b}</b>\n\n"
-            f"💰 Invest ₹ on your pick! Winners split the losing pot.\n"
-            f"📲 Commands: <code>/vote A 100</code> or <code>/vote B 50</code>\n\n"
-            f"🏦 UPI: <code>{upi_id}</code>\n"
-            f"Minimum bet: ₹{MIN_VOTE_AMOUNT:.0f}\n\n"
-            f"Voting opens at <b>7:00 PM IST</b> 👇"
+            f"🗳️ <b>Who's hotter? Vote now! (7 PM – 9 PM only)</b>\n\n"
+            f"Option A — <b>{actress_a}</b>\n"
+            f"Option B — <b>{actress_b}</b>\n\n"
+            f"Reply with /vote A or /vote B and the amount (min ₹{MIN_VOTE_AMOUNT:.0f})\n"
+            f"Example: <code>/vote A 50</code>\n\n"
+            f"Pay to UPI: <code>{upi_id}</code> then send screenshot here.\n"
+            f"Winners split the losing pot. Poll closes at 9 PM."
         )
         broadcast(msg)
 
-        # Post both reels
-        if path_a:
-            _bot_send_video(_group_id(), path_a, caption=f"🅰️ Post A — {actress_a}\n\nIs this one hotter? 🔥 Use /vote A &lt;amount&gt;")
-        if path_b:
-            _bot_send_video(_group_id(), path_b, caption=f"🅱️ Post B — {actress_b}\n\nOr is this one? 🔥 Use /vote B &lt;amount&gt;")
 
-    @classmethod
-    def job_open_poll(cls):
-        if datetime.now().weekday() == 6:
-            return
-        poll = HotnessPollState()
-        with poll.safe_lock():
-            if poll.state.get("settled"):
-                return  # Already settled, skip
-            poll.state["active"] = True
-            poll.save()
-
-        status = poll.get_live_status()
-        upi_id = os.getenv("UPI_ID", "your-upi@bank")
-        msg = (
-            f"🗳️ <b>HOTNESS POLL IS NOW OPEN!</b>\n\n"
-            f"🅰️ {status['post_a_label']}  vs  🅱️ {status['post_b_label']}\n\n"
-            f"💰 Send UPI to <code>{upi_id}</code> then use:\n"
-            f"  <code>/vote A 100</code> — ₹100 on Post A\n"
-            f"  <code>/vote B 50</code>  — ₹50 on Post B\n\n"
-            f"Then send your payment screenshot here.\n"
-            f"Winners get a <b>proportional share of the losing side's pot</b>! 🏆\n\n"
-            f"Closes at <b>9:00 PM IST</b> ⏰"
-        )
-        broadcast(msg)
-
-    @classmethod
-    def job_war_mode(cls, tick: int):
-        poll  = HotnessPollState()
-        status = poll.get_live_status()
-        msgs = {
-            3: (
-                f"⚔️ <b>15 MINUTES LEFT!</b>\n\n"
-                f"🅰️ {status['post_a_label']}: {status['votes_a']} voters | ₹{status['pot_a']:.0f}\n"
-                f"🅱️ {status['post_b_label']}: {status['votes_b']} voters | ₹{status['pot_b']:.0f}\n\n"
-                f"Total pot: ₹{status['total_pot']:.0f} 🔥 Place your bets NOW!"
-            ),
-            2: (
-                f"🚨 <b>10 MINUTES LEFT!</b>\n\n"
-                f"🅰️ ₹{status['pot_a']:.0f}  vs  🅱️ ₹{status['pot_b']:.0f}\n\n"
-                f"The gap is narrowing. Switch sides or hold? 😈"
-            ),
-            1: (
-                f"🔥 <b>5 MINUTES! FINAL CHANCE!</b>\n\n"
-                f"Current leader: {'🅰️' if status['pot_a'] >= status['pot_b'] else '🅱️'} "
-                f"with ₹{max(status['pot_a'], status['pot_b']):.0f}\n\n"
-                f"Last chance to vote and win. GO! ⚡"
-            ),
-        }
-        broadcast(msgs.get(tick, "⏰ Closing soon!"))
 
     @classmethod
     def job_close_poll(cls):
+        """9 PM IST — Settle and post ONE result message."""
         if datetime.now().weekday() == 6:
             return
         poll   = HotnessPollState()
         result = PollResultCalculator.settle(poll)
 
         if result["status"] == "cancelled":
-            broadcast("🛑 Tonight's face-off had no verified votes. No payouts.")
+            broadcast("Poll closed. No verified votes tonight.")
             return
 
+        winner_label = result["winner_label"]
         payouts = result["payouts"]
-        winner_lines = "\n".join(
-            f"  @{p['username']}: ₹{p['payout']:.2f} 🏆"
-            for p in payouts if p["status"] == "winner"
-        )
-        loser_lines = "\n".join(
-            f"  @{p['username']}: ₹{p['payout']:.2f} refund"
-            for p in payouts if p["status"] == "loser_refund"
-        )
+        winners = [p for p in payouts if p["status"] == "winner"]
+        winner_names = ", ".join(f"@{p['username']}" for p in winners) or "—"
 
         msg = (
-            f"🏆 <b>FACE-OFF OVER!</b>\n\n"
-            f"Winner: <b>{result['winner_label']}</b> with ₹{result['pot_a'] if result['winner_side'] == 'A' else result['pot_b']:.0f} invested!\n\n"
-            f"🏅 <b>Winners (payout incoming):</b>\n{winner_lines or '  None'}\n\n"
-            f"💸 <b>Losers (30% refund):</b>\n{loser_lines or '  None'}\n\n"
-            f"Platform revenue: ₹{result['platform_revenue']:.2f}\n"
-            f"Payouts will be processed within 24 hours via UPI."
+            f"Poll closed. <b>{winner_label}</b> wins!\n\n"
+            f"Winners: {winner_names}\n"
+            f"Payouts will be sent via UPI within 24 hours."
         )
         broadcast(msg)
         broadcast(
-            f"📊 SETTLE UP: {len(payouts)} payouts pending. Revenue ₹{result['platform_revenue']:.2f}",
+            f"SETTLE: {len(payouts)} payouts. Revenue ₹{result['platform_revenue']:.2f}",
             admin_only=True
         )
 
-    # ---- manual triggers (for run_ci_mode) --------------------------------
+    # ---- manual triggers (for run_ci_mode / admin commands) ---------------
 
     @classmethod
     def trigger_announce(cls):
-        cls.job_announce()
+        pass  # Announce step removed — open poll does everything at 7 PM
 
     @classmethod
     def trigger_open(cls):
