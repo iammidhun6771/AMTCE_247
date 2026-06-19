@@ -79,15 +79,13 @@
     "Akanksha_puri.mp3": {
       "usage_count": 1,
       "last_used": 1780498846.951133,
-      "bpm": 118.7,
-      "energy": 0.7697435897435897,
+      "bpm": 79.5,
+      "energy": 0.5958285714285714,
       "created_at": 1780391156.9433477,
       "beat_data_path": "beats/Akanksha_puri.npz",
-      "drop_times": [
-        18.05
-      ],
+      "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "477247_1780497950",
+      "audio_hash": "646516_1781906186",
       "version": 2
     },
     "Akanksha_puri_1.mp3": {
@@ -221,8 +219,8 @@
       "gemini_analyzed": true
     },
     "Disha_patani_2.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1781906228.7915266,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9444246,
@@ -644,8 +642,8 @@
       "version": 2
     },
     "Rubysimpy.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1781906507.4675608,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9496174,
