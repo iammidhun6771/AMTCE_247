@@ -389,8 +389,8 @@
       "version": 2
     },
     "Malavika.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1781828086.5847313,
       "bpm": 102.2,
       "energy": 0.65625,
       "created_at": 1780391156.946521,
@@ -464,8 +464,8 @@
       "version": 2
     },
     "Monika_chaudhary.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1781828375.3560543,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9475565,
@@ -1228,6 +1228,18 @@
       "drop_times": [],
       "sample_rate": 44100,
       "audio_hash": "360005_1781796601",
+      "version": 2
+    },
+    "Kriti_Sanon.mp3": {
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 38.0,
+      "energy": 0.9005000000000001,
+      "created_at": 1781828020.1732607,
+      "beat_data_path": "beats/Kriti_Sanon.npz",
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "606392_1781828019",
       "version": 2
     }
   }
