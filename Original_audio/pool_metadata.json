@@ -79,14 +79,32 @@
     "Akanksha_puri.mp3": {
       "usage_count": 1,
       "last_used": 1780498846.951133,
-      "bpm": 105.1,
-      "energy": 0.8653409090909094,
+      "bpm": 79.5,
+      "energy": 0.5958285714285714,
       "created_at": 1780391156.9433477,
       "beat_data_path": "beats/Akanksha_puri.npz",
       "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "613916_1782441813",
-      "version": 2
+      "audio_hash": "646520_1781906227",
+      "version": 2,
+      "gemini_genre": "pop",
+      "gemini_mood_tags": [
+        "chill",
+        "dreamy",
+        "romantic"
+      ],
+      "gemini_energy_level": "medium",
+      "gemini_has_vocals": true,
+      "gemini_content_match": [
+        "aesthetic",
+        "travel",
+        "fashion"
+      ],
+      "gemini_avoid_match": [
+        "fitness",
+        "gaming"
+      ],
+      "gemini_analyzed": true
     },
     "Akanksha_puri_1.mp3": {
       "usage_count": 1,
@@ -220,9 +238,9 @@
     },
     "Disha_patani_2.mp3": {
       "usage_count": 1,
-      "last_used": 1781906228.7915266,
-      "bpm": 75.2,
-      "energy": 0.5222500000000001,
+      "last_used": 1781906276.2452486,
+      "bpm": 0.0,
+      "energy": 0.5,
       "created_at": 1780391156.9444246,
       "beat_data_path": "beats/Disha_patani_2.npz",
       "drop_times": [
@@ -1056,10 +1074,10 @@
     },
     "Sakshi_malik.mp3": {
       "usage_count": 1,
-      "last_used": 1782567961.060937,
-      "bpm": 88.0,
-      "energy": 0.809076923076923,
-      "created_at": 1782365634.3225172,
+      "last_used": 1781906550.3571064,
+      "bpm": 89.9,
+      "energy": 0.6605925925925926,
+      "created_at": 1780497636.594601,
       "beat_data_path": "beats/Sakshi_malik.npz",
       "drop_times": [
         0.8

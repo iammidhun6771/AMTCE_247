@@ -27,10 +27,10 @@
     "deficit_videos": 3
   },
   "apify": {
-    "quota_date": "2026-06-19",
-    "quota_used": 5,
+    "quota_date": "2026-06-20",
+    "quota_used": 1,
     "quota_limit": 80,
-    "total_calls_all_time": 283
+    "total_calls_all_time": 284
   },
   "scraped_posts": {
     "shortcodes": [
