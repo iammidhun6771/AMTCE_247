@@ -79,13 +79,16 @@
     "Akanksha_puri.mp3": {
       "usage_count": 1,
       "last_used": 1780498846.951133,
-      "bpm": 79.5,
-      "energy": 0.5958285714285714,
+      "bpm": 85.0,
+      "energy": 0.8188611111111113,
       "created_at": 1780391156.9433477,
       "beat_data_path": "beats/Akanksha_puri.npz",
-      "drop_times": [],
+      "drop_times": [
+        2.4,
+        4.8
+      ],
       "sample_rate": 44100,
-      "audio_hash": "646516_1781906186",
+      "audio_hash": "635859_1782057615",
       "version": 2
     },
     "Akanksha_puri_1.mp3": {
@@ -151,8 +154,8 @@
       "version": 2
     },
     "Arabella.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782058015.7970197,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9438772,
@@ -1157,8 +1160,8 @@
       "version": 2
     },
     "Janhvi_kapoor.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782057692.872666,
       "bpm": 88.6,
       "energy": 0.6223333333333334,
       "created_at": 1781541066.5967813,
