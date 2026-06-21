@@ -132,7 +132,7 @@
     },
     "Ankita_singh.mp3": {
       "usage_count": 1,
-      "last_used": 1782186298.9840667,
+      "last_used": 1782018460.1902351,
       "bpm": 63.0,
       "energy": 0.8484117647058823,
       "created_at": 1780391156.9438772,
@@ -767,7 +767,7 @@
     },
     "Tammanah_bhatia.mp3": {
       "usage_count": 1,
-      "last_used": 1782001387.226695,
+      "last_used": 1782018620.36322,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9506483,
@@ -1046,34 +1046,16 @@
     "Jacqueline_Fernandez.mp3": {
       "usage_count": 0,
       "last_used": 0,
-      "bpm": 78.5,
-      "energy": 0.6997200000000001,
+      "bpm": 86.7,
+      "energy": 0.6984736842105262,
       "created_at": 1780497404.403071,
       "beat_data_path": "beats/Jacqueline_Fernandez.npz",
       "drop_times": [
-        5.45
+        0.1
       ],
       "sample_rate": 44100,
-      "audio_hash": "449035_1782015521",
-      "version": 2,
-      "gemini_genre": "pop",
-      "gemini_mood_tags": [
-        "romantic",
-        "chill",
-        "dreamy"
-      ],
-      "gemini_energy_level": "low",
-      "gemini_has_vocals": true,
-      "gemini_content_match": [
-        "aesthetic",
-        "travel",
-        "fashion"
-      ],
-      "gemini_avoid_match": [
-        "fitness",
-        "gaming"
-      ],
-      "gemini_analyzed": true
+      "audio_hash": "312985_1782018404",
+      "version": 2
     },
     "Sakshi_malik.mp3": {
       "usage_count": 1,
