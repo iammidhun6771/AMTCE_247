@@ -5,10 +5,11 @@
       "10:00",
       "11:00",
       "14:00",
-      "15:00"
+      "15:00",
+      "21:00"
     ],
     "catchup_fired_today": false,
-    "total_runs_all_time": 46
+    "total_runs_all_time": 47
   },
   "publisher": {
     "last_check_date": "2026-06-21",
