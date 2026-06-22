@@ -1,9 +1,12 @@
 {
   "harvest": {
     "last_run_date": "2026-06-22",
-    "slots_completed_today": [],
+    "slots_completed_today": [
+      "10:00",
+      "11:00"
+    ],
     "catchup_fired_today": false,
-    "total_runs_all_time": 47
+    "total_runs_all_time": 49
   },
   "publisher": {
     "last_check_date": "2026-06-22",
@@ -11,17 +14,19 @@
       "09:00",
       "09:00[catchup]"
     ],
-    "slots_missed_today": [],
+    "slots_missed_today": [
+      "10:00"
+    ],
     "catchup_slots_today": [
       "09:00"
     ],
-    "deficit_videos": 0
+    "deficit_videos": 1
   },
   "apify": {
     "quota_date": "2026-06-22",
-    "quota_used": 0,
+    "quota_used": 4,
     "quota_limit": 80,
-    "total_calls_all_time": 295
+    "total_calls_all_time": 299
   },
   "scraped_posts": {
     "shortcodes": [
@@ -111,10 +116,10 @@
       "filmygalaxy": "2026-06-03T23:35:37.454197",
       "filmymantramedia": "2026-06-03T23:35:37.454197",
       "bollywindow": "2026-06-03T23:35:37.454197",
-      "euphoriaedit": "2026-06-21T10:36:51.856010",
-      "euphoriashorts": "2026-06-21T10:36:51.856010",
-      "euphoriafeed": "2026-06-21T10:36:51.856010",
-      "sofiacamarafans": "2026-06-21T10:00:33.059013"
+      "euphoriaedit": "2026-06-22T11:00:39.254173",
+      "euphoriashorts": "2026-06-22T11:00:39.254173",
+      "euphoriafeed": "2026-06-22T11:00:39.254173",
+      "sofiacamarafans": "2026-06-22T10:26:17.950333"
     }
   }
 }
