@@ -476,8 +476,8 @@
       "version": 2
     },
     "Neha_Sharma_1.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782161573.3841546,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9475565,
@@ -788,8 +788,8 @@
       "version": 2
     },
     "Tripti_dimri.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782165823.9334428,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9511678,
@@ -897,8 +897,8 @@
       "version": 2
     },
     "Shruthi_hassan.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782166003.7694194,
       "bpm": 100.3,
       "energy": 0.8626727272727271,
       "created_at": 1780402172.5887027,
@@ -1027,16 +1027,15 @@
       "version": 2
     },
     "Disha_patani.mp3": {
-      "is_speech_only": true,
       "usage_count": 0,
       "last_used": 0,
-      "bpm": 0.0,
-      "energy": 0.758,
+      "bpm": 93.1,
+      "energy": 0.8809642857142858,
       "created_at": 1782001324.328863,
-      "beat_data_path": null,
+      "beat_data_path": "beats/Disha_patani.npz",
       "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "",
+      "audio_hash": "431480_1782165769",
       "version": 2
     },
     "Jacqueline_Fernandez.mp3": {
@@ -1214,8 +1213,8 @@
       "version": 2
     },
     "Kriti_Sanon.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782175165.19243,
       "bpm": 38.0,
       "energy": 0.9005000000000001,
       "created_at": 1781828020.1732607,
@@ -1226,8 +1225,8 @@
       "version": 2
     },
     "Disha_patani_3.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782161767.5852716,
       "bpm": 66.2,
       "energy": 0.6218750000000001,
       "created_at": 1782003268.9267507,
@@ -1252,6 +1251,52 @@
       "sample_rate": 44100,
       "audio_hash": "349978_1782015209",
       "version": 2
+    },
+    "Guess_who.mp3": {
+      "usage_count": 1,
+      "last_used": 1782174967.7958918,
+      "bpm": 89.8,
+      "energy": 0.9395217391304349,
+      "created_at": 1782161520.011129,
+      "beat_data_path": "beats/Guess_who.npz",
+      "drop_times": [
+        0.35
+      ],
+      "sample_rate": 44100,
+      "audio_hash": "368783_1782161519",
+      "version": 2
+    },
+    "Vedika.mp3": {
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 83.7,
+      "energy": 0.8397567567567568,
+      "created_at": 1782174951.9005227,
+      "beat_data_path": "beats/Vedika.npz",
+      "drop_times": [
+        2.2,
+        14.75
+      ],
+      "sample_rate": 44100,
+      "audio_hash": "625205_1782174951",
+      "version": 2,
+      "gemini_genre": "pop",
+      "gemini_mood_tags": [
+        "melancholy",
+        "sad",
+        "emotional"
+      ],
+      "gemini_energy_level": "medium",
+      "gemini_has_vocals": true,
+      "gemini_content_match": [
+        "aesthetic",
+        "travel"
+      ],
+      "gemini_avoid_match": [
+        "fitness",
+        "gaming"
+      ],
+      "gemini_analyzed": true
     }
   }
 }
