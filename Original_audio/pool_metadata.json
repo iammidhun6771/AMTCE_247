@@ -65,8 +65,8 @@
       "version": 2
     },
     "Aishwarya_Laxmi.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782178194.3679967,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9428434,
@@ -79,17 +79,32 @@
     "Akanksha_puri.mp3": {
       "usage_count": 1,
       "last_used": 1780498846.951133,
-      "bpm": 85.0,
-      "energy": 0.8188611111111113,
+      "bpm": 79.5,
+      "energy": 0.5958285714285714,
       "created_at": 1780391156.9433477,
       "beat_data_path": "beats/Akanksha_puri.npz",
-      "drop_times": [
-        2.4,
-        4.8
-      ],
+      "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "635859_1782057615",
-      "version": 2
+      "audio_hash": "646520_1782183051",
+      "version": 2,
+      "gemini_genre": "pop",
+      "gemini_mood_tags": [
+        "chill",
+        "dreamy",
+        "romantic"
+      ],
+      "gemini_energy_level": "medium",
+      "gemini_has_vocals": true,
+      "gemini_content_match": [
+        "aesthetic",
+        "travel",
+        "fashion"
+      ],
+      "gemini_avoid_match": [
+        "fitness",
+        "gaming"
+      ],
+      "gemini_analyzed": true
     },
     "Akanksha_puri_1.mp3": {
       "usage_count": 1,
@@ -116,8 +131,8 @@
       "version": 2
     },
     "Ankita_singh.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782186298.9840667,
       "bpm": 63.0,
       "energy": 0.8484117647058823,
       "created_at": 1780391156.9438772,
@@ -928,8 +943,8 @@
       "usage_count": 0,
       "last_used": 0,
       "bpm": 0.0,
-      "energy": 0.627,
-      "created_at": 1780481657.2948036,
+      "energy": 0.668,
+      "created_at": 1782186264.6536725,
       "beat_data_path": null,
       "drop_times": [],
       "sample_rate": 44100,
@@ -1239,8 +1254,8 @@
       "version": 2
     },
     "Disha_patani_4.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782183377.8123937,
       "bpm": 76.7,
       "energy": 0.813111111111111,
       "created_at": 1782015209.8571346,
@@ -1267,8 +1282,8 @@
       "version": 2
     },
     "Vedika.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782183094.2198017,
       "bpm": 83.7,
       "energy": 0.8397567567567568,
       "created_at": 1782174951.9005227,
@@ -1295,6 +1310,36 @@
       "gemini_avoid_match": [
         "fitness",
         "gaming"
+      ],
+      "gemini_analyzed": true
+    },
+    "Edin_rose.mp3": {
+      "usage_count": 1,
+      "last_used": 1782186457.8761036,
+      "bpm": 95.7,
+      "energy": 0.8742826086956521,
+      "created_at": 1782178181.2077494,
+      "beat_data_path": "beats/Edin_rose.npz",
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "689148_1782178180",
+      "version": 2,
+      "gemini_genre": "hiphop",
+      "gemini_mood_tags": [
+        "playful",
+        "chill",
+        "upbeat"
+      ],
+      "gemini_energy_level": "medium",
+      "gemini_has_vocals": true,
+      "gemini_content_match": [
+        "fashion",
+        "dance",
+        "comedy"
+      ],
+      "gemini_avoid_match": [
+        "motivational",
+        "nature"
       ],
       "gemini_analyzed": true
     }
