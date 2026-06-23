@@ -443,7 +443,7 @@
     },
     "Malavika_3.mp3": {
       "usage_count": 1,
-      "last_used": 1782005250.0118408,
+      "last_used": 1782161577.4531255,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9470403,
@@ -562,15 +562,16 @@
       "version": 2
     },
     "Rasha_Thadani.mp3": {
-      "usage_count": 2,
-      "last_used": 1782578087.3771474,
+      "is_speech_only": true,
+      "usage_count": 0,
+      "last_used": 0,
       "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9485884,
+      "energy": 0.619,
+      "created_at": 1782161489.5842893,
       "beat_data_path": null,
       "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "297938_1777586957",
+      "audio_hash": "",
       "version": 2
     },
     "Rasha_Thadani_01.mp3": {
