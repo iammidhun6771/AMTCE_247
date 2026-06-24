@@ -145,8 +145,8 @@
       "version": 2
     },
     "Anshivi.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782273295.8439715,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9438772,
@@ -193,8 +193,8 @@
       "version": 2
     },
     "Dhansree_verma.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782273914.6537104,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9444246,
@@ -356,8 +356,8 @@
       "version": 2
     },
     "Kashmira.mp3": {
-      "usage_count": 1,
-      "last_used": 1780498428.5276375,
+      "usage_count": 2,
+      "last_used": 1782275414.415971,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9460042,
@@ -887,8 +887,8 @@
       "version": 2
     },
     "Warina_hussain.mp3": {
-      "usage_count": 1,
-      "last_used": 1782002228.801517,
+      "usage_count": 2,
+      "last_used": 1782275796.1433172,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9522057,
@@ -1044,14 +1044,34 @@
     "Disha_patani.mp3": {
       "usage_count": 0,
       "last_used": 0,
-      "bpm": 93.1,
-      "energy": 0.8809642857142858,
+      "bpm": 70.6,
+      "energy": 0.6346071428571429,
       "created_at": 1782001324.328863,
       "beat_data_path": "beats/Disha_patani.npz",
-      "drop_times": [],
+      "drop_times": [
+        5.0
+      ],
       "sample_rate": 44100,
-      "audio_hash": "431480_1782165769",
-      "version": 2
+      "audio_hash": "565014_1782273207",
+      "version": 2,
+      "gemini_genre": "hiphop",
+      "gemini_mood_tags": [
+        "playful",
+        "energetic",
+        "confident"
+      ],
+      "gemini_energy_level": "medium",
+      "gemini_has_vocals": true,
+      "gemini_content_match": [
+        "comedy",
+        "fashion",
+        "luxury"
+      ],
+      "gemini_avoid_match": [
+        "nature",
+        "meditation"
+      ],
+      "gemini_analyzed": true
     },
     "Jacqueline_Fernandez.mp3": {
       "usage_count": 1,
