@@ -42,7 +42,7 @@
     },
     "Aditi_bhatia_01.mp3": {
       "usage_count": 1,
-      "last_used": 1782015244.4753954,
+      "last_used": 1782276986.4647923,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9428434,
@@ -170,7 +170,7 @@
     },
     "Arabella.mp3": {
       "usage_count": 1,
-      "last_used": 1782058015.7970197,
+      "last_used": 1782275607.3353934,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9438772,
@@ -193,8 +193,8 @@
       "version": 2
     },
     "Dhansree_verma.mp3": {
-      "usage_count": 2,
-      "last_used": 1782279283.4471285,
+      "usage_count": 1,
+      "last_used": 1782273949.633453,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9444246,
@@ -671,8 +671,8 @@
       "version": 2
     },
     "Sakshi_malik_1.mp3": {
-      "usage_count": 2,
-      "last_used": 1782557387.0458972,
+      "usage_count": 1,
+      "last_used": 1782274175.2083972,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9496174,
@@ -1032,17 +1032,34 @@
     "Disha_patani.mp3": {
       "usage_count": 0,
       "last_used": 0,
-      "bpm": 75.2,
-      "energy": 0.5222500000000001,
+      "bpm": 70.6,
+      "energy": 0.6346071428571429,
       "created_at": 1780496185.4853427,
       "beat_data_path": "beats/Disha_patani.npz",
       "drop_times": [
-        3.25,
-        9.4
+        5.0
       ],
       "sample_rate": 44100,
-      "audio_hash": "410161_1782002783",
-      "version": 2
+      "audio_hash": "565018_1782276923",
+      "version": 2,
+      "gemini_genre": "hiphop",
+      "gemini_mood_tags": [
+        "playful",
+        "energetic",
+        "confident"
+      ],
+      "gemini_energy_level": "medium",
+      "gemini_has_vocals": true,
+      "gemini_content_match": [
+        "comedy",
+        "fashion",
+        "luxury"
+      ],
+      "gemini_avoid_match": [
+        "nature",
+        "meditation"
+      ],
+      "gemini_analyzed": true
     },
     "Jacqueline_Fernandez.mp3": {
       "usage_count": 0,
@@ -1163,7 +1180,7 @@
     },
     "Janhvi_kapoor.mp3": {
       "usage_count": 1,
-      "last_used": 1782057692.872666,
+      "last_used": 1782275346.991712,
       "bpm": 88.6,
       "energy": 0.6223333333333334,
       "created_at": 1781541066.5967813,
