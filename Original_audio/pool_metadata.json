@@ -324,8 +324,8 @@
       "version": 2
     },
     "Giorgia_3.mp3": {
-      "usage_count": 1,
-      "last_used": 1780422913.425444,
+      "usage_count": 2,
+      "last_used": 1782327134.6881444,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.945487,
@@ -723,8 +723,8 @@
       "version": 2
     },
     "Sara_Tendulkar.mp3": {
-      "usage_count": 1,
-      "last_used": 1780578683.004878,
+      "usage_count": 2,
+      "last_used": 1782326853.9815273,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9501328,
@@ -1046,17 +1046,37 @@
       "version": 2
     },
     "Disha_patani.mp3": {
-      "is_speech_only": true,
       "usage_count": 0,
       "last_used": 0,
-      "bpm": 0.0,
-      "energy": 0.594,
+      "bpm": 69.8,
+      "energy": 0.6982857142857144,
       "created_at": 1782284463.2269568,
-      "beat_data_path": null,
-      "drop_times": [],
+      "beat_data_path": "beats/Disha_patani.npz",
+      "drop_times": [
+        0.25,
+        5.0
+      ],
       "sample_rate": 44100,
-      "audio_hash": "",
-      "version": 2
+      "audio_hash": "425834_1782326784",
+      "version": 2,
+      "gemini_genre": "hiphop",
+      "gemini_mood_tags": [
+        "playful",
+        "sarcastic",
+        "upbeat"
+      ],
+      "gemini_energy_level": "medium",
+      "gemini_has_vocals": true,
+      "gemini_content_match": [
+        "comedy",
+        "fashion",
+        "dance"
+      ],
+      "gemini_avoid_match": [
+        "motivational",
+        "nature"
+      ],
+      "gemini_analyzed": true
     },
     "Jacqueline_Fernandez.mp3": {
       "usage_count": 1,
