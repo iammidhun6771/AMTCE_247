@@ -792,7 +792,7 @@
     },
     "Tripti_dimri.mp3": {
       "usage_count": 1,
-      "last_used": 1782165823.9334428,
+      "last_used": 1782326862.3293571,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9511678,
@@ -1032,32 +1032,33 @@
     "Disha_patani.mp3": {
       "usage_count": 0,
       "last_used": 0,
-      "bpm": 70.6,
-      "energy": 0.6346071428571429,
+      "bpm": 69.8,
+      "energy": 0.6982857142857144,
       "created_at": 1780496185.4853427,
       "beat_data_path": "beats/Disha_patani.npz",
       "drop_times": [
+        0.25,
         5.0
       ],
       "sample_rate": 44100,
-      "audio_hash": "565014_1782279132",
+      "audio_hash": "425834_1782326794",
       "version": 2,
       "gemini_genre": "hiphop",
       "gemini_mood_tags": [
         "playful",
-        "energetic",
-        "confident"
+        "sarcastic",
+        "upbeat"
       ],
       "gemini_energy_level": "medium",
       "gemini_has_vocals": true,
       "gemini_content_match": [
         "comedy",
         "fashion",
-        "luxury"
+        "dance"
       ],
       "gemini_avoid_match": [
-        "nature",
-        "meditation"
+        "motivational",
+        "nature"
       ],
       "gemini_analyzed": true
     },
