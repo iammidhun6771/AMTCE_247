@@ -193,8 +193,8 @@
       "version": 2
     },
     "Dhansree_verma.mp3": {
-      "usage_count": 1,
-      "last_used": 1782273914.6537104,
+      "usage_count": 2,
+      "last_used": 1782279283.4471285,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9444246,
@@ -207,28 +207,32 @@
     "Disha_patani_1.mp3": {
       "usage_count": 1,
       "last_used": 1782014153.7374387,
-      "bpm": 88.9,
-      "energy": 0.9330434782608696,
+      "bpm": 70.6,
+      "energy": 0.6346071428571429,
       "created_at": 1780391156.9444246,
       "beat_data_path": "beats/Disha_patani_1.npz",
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "382579_1782001867",
-      "version": 2,
-      "gemini_genre": "unknown",
-      "gemini_mood_tags": [
-        "energetic",
-        "upbeat"
+      "drop_times": [
+        5.0
       ],
-      "gemini_energy_level": "high",
+      "sample_rate": 44100,
+      "audio_hash": "565018_1782279221",
+      "version": 2,
+      "gemini_genre": "hiphop",
+      "gemini_mood_tags": [
+        "playful",
+        "energetic",
+        "confident"
+      ],
+      "gemini_energy_level": "medium",
       "gemini_has_vocals": true,
       "gemini_content_match": [
-        "dance",
-        "fitness"
+        "comedy",
+        "fashion",
+        "luxury"
       ],
       "gemini_avoid_match": [
-        "meditation",
-        "study"
+        "nature",
+        "meditation"
       ],
       "gemini_analyzed": true
     },
@@ -260,8 +264,8 @@
       "version": 2
     },
     "Fit_girl_2.mp3": {
-      "usage_count": 1,
-      "last_used": 1781757072.1282945,
+      "usage_count": 2,
+      "last_used": 1782279619.1308963,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9449425,
@@ -767,8 +771,8 @@
       "version": 2
     },
     "Shefali_1.mp3": {
-      "usage_count": 1,
-      "last_used": 1780578656.0315487,
+      "usage_count": 2,
+      "last_used": 1782280094.4873576,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9506483,
@@ -1042,36 +1046,17 @@
       "version": 2
     },
     "Disha_patani.mp3": {
+      "is_speech_only": true,
       "usage_count": 0,
       "last_used": 0,
-      "bpm": 70.6,
-      "energy": 0.6346071428571429,
-      "created_at": 1782001324.328863,
-      "beat_data_path": "beats/Disha_patani.npz",
-      "drop_times": [
-        5.0
-      ],
+      "bpm": 0.0,
+      "energy": 0.594,
+      "created_at": 1782279176.4487631,
+      "beat_data_path": null,
+      "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "565014_1782273207",
-      "version": 2,
-      "gemini_genre": "hiphop",
-      "gemini_mood_tags": [
-        "playful",
-        "energetic",
-        "confident"
-      ],
-      "gemini_energy_level": "medium",
-      "gemini_has_vocals": true,
-      "gemini_content_match": [
-        "comedy",
-        "fashion",
-        "luxury"
-      ],
-      "gemini_avoid_match": [
-        "nature",
-        "meditation"
-      ],
-      "gemini_analyzed": true
+      "audio_hash": "",
+      "version": 2
     },
     "Jacqueline_Fernandez.mp3": {
       "usage_count": 1,
