@@ -53,8 +53,8 @@
       "version": 2
     },
     "Aisha.mp3": {
-      "usage_count": 1,
-      "last_used": 1780502749.2203379,
+      "usage_count": 2,
+      "last_used": 1782366179.7518623,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9428434,
@@ -1046,8 +1046,8 @@
       "version": 2
     },
     "Disha_patani.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782365717.2895577,
       "bpm": 69.8,
       "energy": 0.6982857142857144,
       "created_at": 1782284463.2269568,
@@ -1093,20 +1093,16 @@
       "version": 2
     },
     "Sakshi_malik.mp3": {
-      "usage_count": 1,
-      "last_used": 1782005060.95398,
-      "bpm": 89.9,
-      "energy": 0.6605925925925926,
-      "created_at": 1780497636.594601,
-      "beat_data_path": "beats/Sakshi_malik.npz",
-      "drop_times": [
-        1.85,
-        3.7,
-        5.5,
-        7.3
-      ],
+      "is_speech_only": true,
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 0.0,
+      "energy": 0.873,
+      "created_at": 1782365634.3225172,
+      "beat_data_path": null,
+      "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "444646_1780497636",
+      "audio_hash": "",
       "version": 2
     },
     "Sunny_Leone.mp3": {
