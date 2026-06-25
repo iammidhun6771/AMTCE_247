@@ -8415,10 +8415,10 @@ def main():
     except Exception as e:
         logger.warning(f"⚠️ [CI/Bot] Failed to run posting time analyzer: {e}")
 
-    # Start Hotness Poll background scheduler (announces, opens, and closes daily face-off)
+    # Start Hotness Poll background scheduler (announces, opens, and closes daily face-off) (Disabled as per user request)
     try:
-        PollSchedulerDaemon.start_background_polling()
-        logger.info("🔥 [CI/Bot] HotnessPollDaemon started — daily face-off active.")
+        # PollSchedulerDaemon.start_background_polling()
+        logger.info("ℹ️ HotnessPollDaemon background polling has been disabled.")
     except Exception as e:
         logger.warning(f"⚠️ [CI/Bot] Failed to start HotnessPollDaemon: {e}")
 
@@ -8534,7 +8534,8 @@ def main():
         
     try:
         from Uploader_Modules.telegram_auction_engine import SchedulerDaemon
-        SchedulerDaemon.start_background_polling()         # Automation 5: Flash Deal Auction Engine
+        # SchedulerDaemon.start_background_polling()         # Automation 5: Flash Deal Auction Engine (Disabled as per user request)
+        logger.info("ℹ️ Telegram Auction Engine background polling has been disabled.")
     except Exception as _a5_err:
         logger.warning(f"⚠️ Telegram Auction Engine failed to start: {_a5_err}")
 
@@ -9119,51 +9120,54 @@ def run_ci_mode():
         except Exception as e:
             logger.error(f"❌ [CI] Queue processing failed: {e}")
 
-    # 5. Precise Auction triggers based on cron schedule / time of day
+    # 5. Precise Auction triggers based on cron schedule / time of day (Disabled as per user request)
     try:
-        from Uploader_Modules.telegram_auction_engine import SchedulerDaemon
-        import datetime as _dt
-        
-        now_local = _dt.datetime.now() # TZ is Asia/Kolkata, so this is IST
-        weekday = now_local.isoweekday() # 1-7 (Mon-Sun)
-        cron_key = " ".join(github_cron.split())
-        
-        # Determine auction action
-        auction_action = None
-        
-        if is_scheduled:
-            if cron_key == '0 12 * * 1-6':
-                auction_action = "announce"
-            elif cron_key == '30 13 * * *':
-                auction_action = "open"
-            elif cron_key == '30 15 * * 1-6':
-                auction_action = "close"
-        else:
-            # Manual / test trigger fallback: check current IST time (Asia/Kolkata)
-            # Announce: 17:00 - 18:29 IST (Mon-Sat)
-            if weekday <= 6 and (now_local.hour == 17 or (now_local.hour == 18 and now_local.minute < 30)):
-                auction_action = "announce"
-            # Open: 19:00 - 19:59 IST (everyday)
-            elif now_local.hour == 19:
-                auction_action = "open"
-            # Close: 21:00 - 21:59 IST (Mon-Sat)
-            elif weekday <= 6 and now_local.hour == 21:
-                auction_action = "close"
-
-        if auction_action == "announce":
-            logger.info("🎬 [CI Auction] Firing deal announcement...")
-            SchedulerDaemon.job_announce_deal()
-            logger.info("✅ [CI Auction] Deal announcement complete.")
-        elif auction_action == "open":
-            logger.info("🎬 [CI Auction] Firing auction open...")
-            SchedulerDaemon.job_open_auction()
-            logger.info("✅ [CI Auction] Auction open complete.")
-        elif auction_action == "close":
-            logger.info("🎬 [CI Auction] Firing auction close...")
-            SchedulerDaemon.job_close_auction()
-            logger.info("✅ [CI Auction] Auction close complete.")
-        else:
-            logger.info(f"⏰ [CI Auction] No auction action triggered for current schedule/time (IST: {now_local.strftime('%H:%M')}).")
+        # from Uploader_Modules.telegram_auction_engine import SchedulerDaemon
+        # import datetime as _dt
+        # 
+        # now_local = _dt.datetime.now() # TZ is Asia/Kolkata, so this is IST
+        # weekday = now_local.isoweekday() # 1-7 (Mon-Sun)
+        # cron_key = " ".join(github_cron.split())
+        # 
+        # # Determine auction action
+        # auction_action = None
+        # 
+        # if is_scheduled:
+        #     if cron_key == '0 12 * * 1-6':
+        #         auction_action = "announce"
+        #     elif cron_key == '30 13 * * *':
+        #         auction_action = "open"
+        #     elif cron_key == '30 15 * * 1-6':
+        #         auction_action = "close"
+        # else:
+        #     # Manual / test trigger fallback: check current IST time (Asia/Kolkata)
+        #     # Announce: 17:00 - 18:29 IST (Mon-Sat)
+        #     if weekday <= 6 and (now_local.hour == 17 or (now_local.hour == 18 and now_local.minute < 30)):
+        #         auction_action = "announce"
+        #     # Open: 19:00 - 19:59 IST (everyday)
+        #     elif now_local.hour == 19:
+        #         auction_action = "open"
+        #     # Close: 21:00 - 21:59 IST (Mon-Sat)
+        #     elif weekday <= 6 and now_local.hour == 21:
+        #         auction_action = "close"
+        # 
+        # if auction_action == "announce":
+        #     logger.info("🎬 [CI Auction] Firing deal announcement...")
+        #     SchedulerDaemon.job_announce_deal()
+        #     logger.info("✅ [CI Auction] Deal announcement complete.")
+        # elif auction_action == "open":
+        #     logger.info("🎬 [CI Auction] Firing auction open...")
+        #     SchedulerDaemon.job_open_auction()
+        #     logger.info("✅ [CI Auction] Auction open complete.")
+        # elif auction_action == "close":
+        #     logger.info("🎬 [CI Auction] Firing auction close...")
+        #     SchedulerDaemon.job_close_auction()
+        #     logger.info("✅ [CI Auction] Auction close complete.")
+        # else:
+        #     logger.info(f"⏰ [CI Auction] No auction action triggered for current schedule/time (IST: {now_local.strftime('%H:%M')}).")
+        logger.info("⏰ [CI Auction] Automated scheduled auctions are disabled.")
+    except Exception as e:
+        logger.error(f"❌ [CI Auction] Trigger failed: {e}")
             
     except Exception as e:
         logger.error(f"❌ [CI Auction] Trigger failed: {e}")

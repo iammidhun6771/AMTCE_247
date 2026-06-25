@@ -29,49 +29,49 @@ logger = logging.getLogger("overlay_engine")
 # ─────────────────────────────────────────────────────────────────────────────
 VIRAL_HOOKS: List[str] = [
     # ── no-name / generic — high energy ──────────────────────────────────────
-    "Bhai tu bas pin comment dekh 🤪",                          # 0
-    "Save krle rat ko manna 🥵",                                # 1
-    "Battery full charge ho gayi 🥵🔋",                          # 2
-    "Kaun kaun aise Ride kiya hai 😜",                          # 3
-    "Asli maal B!O pe hai 🥵🔥",                               # 4
-    "Yaar kya seen hai 😬👀",                                   # 5
-    "Bhai mood ON ho gaya ek second mein 🚀",                  # 6
-    "Log pagal ho rahe hain iske liye 😜🔥",                   # 7
-    "Aisi biwi to tu bhi deserve krta hai 😍",                # 8
-    "Ek baar dekh le poori raat yaad rahegi 🌙🥵",           # 9
-    "Iska jawab nahi 🤯🔥",                                    # 10
-    "Le bhai mood bana le 🙈🥵",                               # 11
-    "Asli cheez toh aage hai 🙈🔥",                            # 12
-    "Save kar le raat ko kam aayega 🌙👉",                    # 13
-    "Bhai ruk mat isko share kr 🙏🔥",                         # 14
-    "Ek din ke liye mil jaye to kya kroge 🤔🥵",              # 15
-    "Yaar aisa kya hai isme 😱📥",                             # 16
-    "Pin comment me link hai 🤫👀",                            # 17
-    "Bhai teri aankh mat hhata isko dekh 😱🔥",              # 18
-    "Kya krne ki baat kar rahe ho 😂🥵",                      # 19
-    "Isko dekh ke dil khush ho gaya 😍✨",                      # 20
-    "Ek min ruk zara 😱👀",                                   # 21
-    "Scroll mat kar yaar zara ruk ✋😏",                       # 22
-    "Ye dekhke neend udh jayegi bhai 😵🌙",                  # 23
-    "Pin comment mein sab kuch hai sach bol raha 🤫",         # 24
-    "Bhai tune kya dekh liya 🤯🔥",                          # 25
+    "Just feel that heat 🥵🔥",                          # 0
+    "Look at that walk, too clean 🤤",                                # 1
+    "Bhai back profile is next level 😳",                          # 2
+    "Vibe check: Out of this world 🚀✨",                          # 3
+    "Aisi beauty is rare 🤫🥵",                               # 4
+    "Can we appreciate this posture? 🥵",                                   # 5
+    "Bhai content is too hot to handle 🌡️🔥",                  # 6
+    "She knows exactly what she's doing 😏",                   # 7
+    "That drop was completely illegal 😵🔥",                # 8
+    "Just look at the way it fits her 🥵😍",           # 9
+    "Absolute goddess energy ✨👑",                                    # 10
+    "Le bhai, weekend mood set ho gaya 🙈🥵",                               # 11
+    "The view gets better every second 😏🔥",                            # 12
+    "Save krle, dynamic entry hai 🥵👉",                    # 13
+    "Can't take my eyes off this walk 😱🔥",                         # 14
+    "Aisi girlfriend to dream hoti hai 😍",              # 15
+    "Iska attitude is purely addictive 🤫👀",                             # 16
+    "That confidence is unmatched 🖤",                            # 17
+    "Bhai pure beauty in one frame 😱🔥",              # 18
+    "Vibe is purely therapeutic 🤤✨",                      # 19
+    "Look at that drop, absolute banger 💥",                      # 20
+    "Ek min ruk, look check kr ✋😏",                                   # 21
+    "Scroll mat kar, look at the detail 👀",                       # 22
+    "Ye dressing style is top tier 😵🔥",                  # 23
+    "Outfit of the year, hands down 🤫",         # 24
+    "Bhai kya look hai, absolute fire 🤯🔥",                          # 25
     # ── name-resolved hooks ───────────────────────────────────────────────────
-    "{name} expression 😍🥵",                                 # 26
-    "Ek din ke liye {name} mil jaye to kya kroge 🥵✨",       # 27
-    "Uff {name} yaar 🥵🔥",                                   # 28
-    "{name} ki ye wali video save karna mat bhoolna 🙏",       # 29
-    "Bhai {name} ne toh dil chheen liya 💘🔥",               # 30
-    "{name} ke liye log pagal hain aur baat bhi kya hai 🤯",  # 31
+    "Just feel that, {name}'s look 🥵",                                 # 26
+    "Boom! {name}'s another banger 🔥",       # 27
+    "{name} in this outfit is illegal 😳🥵",                                   # 28
+    "Bhai {name} completely owned this walk 👑",       # 29
+    "Save this to appreciate {name}'s vibe later 🥵",               # 30
+    "{name} is setting the screen on fire 🤯🔥",  # 31
     # ── curiosity / tease ─────────────────────────────────────────────────────
-    "Isko sunoge toh raat neend nahi aayegi 😱🌙",           # 32
-    "Bhai ye wala secret kisi ko mat batana 🙈🤫",             # 33
-    "Aage kya hoga koi nahi jaanta 😱👀",                     # 34
-    "Duniya dekh rahi hai tu bhi dekh 🌍🔥",                 # 35
-    "3 second mein sab clear ho jayega ⏱🤯",                 # 36
+    "The secret of this styling is below 🤫👇",           # 32
+    "Wait for the slow-mo, it's worth it ⏱️🤯",             # 33
+    "Behind the scenes is even crazier 😱👀",                     # 34
+    "Only few noticed the detail at the end 😏",                 # 35
+    "This transition is too smooth to be real 😵",                 # 36
     # ── romantic / soft ───────────────────────────────────────────────────────
-    "Kash aisa ek pal mujhe bhi mil jata 😢😍",              # 37
-    "Aisi nazar kissi pe nahi padni chahiye 😍✨",             # 38
-    "Ye wala feel describe nahi hota 💘😢",                    # 39
+    "Aisi beauty makes you believe in love 😍✨",              # 37
+    "Kash aisi ek smile mujhe bhi mil jata 😢😍",             # 38
+    "Pure elegance with a touch of magic 💘😢",                    # 39
 ]
 
 # ─────────────────────────────────────────────────────────────────────────────

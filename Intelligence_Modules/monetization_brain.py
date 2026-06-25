@@ -267,16 +267,18 @@ class MonetizationStrategist:
                 logger.warning(f"Failed to load or process VIRAL_HOOKS examples: {_e_hook}")
                 # Large fallback pool containing representative examples of all styles
                 _fallback_pool = [
-                    "Bhai tu bas pin comment dekh 🤪", "Save krle rat ko manna 🥵", "Battery full charge ho gayi 🥵🔋",
-                    "Kaun kaun aise Ride kiya hai 😜", "Asli maal B!O pe hai 🥵🔥", "Yaar kya seen hai 😬👀",
-                    "Bhai mood ON ho gaya ek second mein 🚀", "Log pagal ho rahe hain iske liye 😜🔥",
-                    "Aisi biwi to tu bhi deserve krta hai 😍", "Ek baar dekh le poori raat yaad rahegi 🌙🥵",
-                    "Iska jawab nahi 🤯🔥", "Le bhai mood bana le 🙈🥵", "Asli cheez toh aage hai 🙈🔥",
-                    "Save kar le raat ko kam aayega 🌙👉", "Bhai ruk mat isko share kr 🙏🔥",
-                    "Ek din ke liye mil jaye to kya kroge 🤔🥵", "Yaar aisa kya hai isme 😱📥",
-                    "Pin comment me link hai 🤫👀", "Bhai teri aankh mat hhata isko dekh 😱🔥",
-                    "Kya krne ki baat kar rahe ho 😂🥵", "Ek min ruk zara 😱👀", "Scroll mat kar yaar zara ruk ✋😏",
-                    "Uff {name} yaar 🥵🔥", "Bhai {name} ne toh dil chheen liya 💘🔥", "3 second mein sab clear ho jayega ⏱🤯"
+                    "Just feel that heat 🥵🔥", "Look at that walk, too clean 🤤", "Bhai back profile is next level 😳",
+                    "Vibe check: Out of this world 🚀✨", "Aisi beauty is rare 🤫🥵", "Can we appreciate this posture? 🥵",
+                    "Bhai content is too hot to handle 🌡️🔥", "She knows exactly what she's doing 😏",
+                    "That drop was completely illegal 😵🔥", "Just look at the way it fits her 🥵😍",
+                    "Absolute goddess energy ✨👑", "Le bhai, weekend mood set ho gaya 🙈🥵",
+                    "The view gets better every second 😏🔥", "Save krle, dynamic entry hai 🥵👉",
+                    "Can't take my eyes off this walk 😱🔥", "Aisi girlfriend to dream hoti hai 😍",
+                    "Iska attitude is purely addictive 🤫👀", "That confidence is unmatched 🖤",
+                    "Bhai pure beauty in one frame 😱🔥", "Vibe is purely therapeutic 🤤✨",
+                    "Look at that drop, absolute banger 💥", "Boom! {name}'s another banger 🔥",
+                    "{name} in this outfit is illegal 😳🥵", "Bhai {name} completely owned this walk 👑",
+                    "Behind the scenes is even crazier 😱👀"
                 ]
                 _shuffled_fb = random.sample(_fallback_pool, len(_fallback_pool))
                 _hook_examples = []
