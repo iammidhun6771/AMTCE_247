@@ -205,8 +205,8 @@
       "version": 2
     },
     "Disha_patani_1.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782366780.2901483,
       "bpm": 77.2,
       "energy": 0.7540399999999999,
       "created_at": 1780391156.9444246,
@@ -1233,119 +1233,36 @@
       "audio_hash": "360005_1781796601",
       "version": 2
     },
-    "Kriti_Sanon.mp3": {
-      "usage_count": 1,
-      "last_used": 1782175165.19243,
-      "bpm": 38.0,
-      "energy": 0.9005000000000001,
-      "created_at": 1781828020.1732607,
-      "beat_data_path": "beats/Kriti_Sanon.npz",
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "606392_1781828019",
-      "version": 2
-    },
-    "Disha_patani_3.mp3": {
-      "usage_count": 1,
-      "last_used": 1782161767.5852716,
-      "bpm": 66.2,
-      "energy": 0.6218750000000001,
-      "created_at": 1782003268.9267507,
-      "beat_data_path": "beats/Disha_patani_3.npz",
+    "Ayesha_Khan.mp3": {
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 107.9,
+      "energy": 0.8777200000000001,
+      "created_at": 1782366668.114046,
+      "beat_data_path": "beats/Ayesha_Khan.npz",
       "drop_times": [
-        23.2
+        0.1,
+        1.25
       ],
       "sample_rate": 44100,
-      "audio_hash": "717992_1782003268",
-      "version": 2
-    },
-    "Disha_patani_4.mp3": {
-      "usage_count": 1,
-      "last_used": 1782183377.8123937,
-      "bpm": 76.7,
-      "energy": 0.813111111111111,
-      "created_at": 1782015209.8571346,
-      "beat_data_path": "beats/Disha_patani_4.npz",
-      "drop_times": [
-        11.95
-      ],
-      "sample_rate": 44100,
-      "audio_hash": "349978_1782015209",
-      "version": 2
-    },
-    "Guess_who.mp3": {
-      "usage_count": 1,
-      "last_used": 1782174967.7958918,
-      "bpm": 89.8,
-      "energy": 0.9395217391304349,
-      "created_at": 1782161520.011129,
-      "beat_data_path": "beats/Guess_who.npz",
-      "drop_times": [
-        0.35
-      ],
-      "sample_rate": 44100,
-      "audio_hash": "368783_1782161519",
-      "version": 2
-    },
-    "Vedika.mp3": {
-      "usage_count": 1,
-      "last_used": 1782183094.2198017,
-      "bpm": 83.7,
-      "energy": 0.8397567567567568,
-      "created_at": 1782174951.9005227,
-      "beat_data_path": "beats/Vedika.npz",
-      "drop_times": [
-        2.2,
-        14.75
-      ],
-      "sample_rate": 44100,
-      "audio_hash": "625205_1782174951",
+      "audio_hash": "667832_1782366667",
       "version": 2,
       "gemini_genre": "pop",
       "gemini_mood_tags": [
-        "melancholy",
-        "sad",
-        "emotional"
+        "dreamy",
+        "chill",
+        "romantic"
       ],
       "gemini_energy_level": "medium",
       "gemini_has_vocals": true,
       "gemini_content_match": [
         "aesthetic",
-        "travel"
+        "travel",
+        "fashion"
       ],
       "gemini_avoid_match": [
         "fitness",
         "gaming"
-      ],
-      "gemini_analyzed": true
-    },
-    "Edin_rose.mp3": {
-      "usage_count": 1,
-      "last_used": 1782186457.8761036,
-      "bpm": 95.7,
-      "energy": 0.8742826086956521,
-      "created_at": 1782178181.2077494,
-      "beat_data_path": "beats/Edin_rose.npz",
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "689148_1782178180",
-      "version": 2,
-      "gemini_genre": "hiphop",
-      "gemini_mood_tags": [
-        "playful",
-        "chill",
-        "upbeat"
-      ],
-      "gemini_energy_level": "medium",
-      "gemini_has_vocals": true,
-      "gemini_content_match": [
-        "fashion",
-        "dance",
-        "comedy"
-      ],
-      "gemini_avoid_match": [
-        "motivational",
-        "nature"
       ],
       "gemini_analyzed": true
     }
