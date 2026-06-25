@@ -828,7 +828,7 @@
     },
     "Urvashi_Rautela_2.mp3": {
       "usage_count": 1,
-      "last_used": 1782003332.813181,
+      "last_used": 1782416588.6124413,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9511678,
@@ -1032,33 +1032,30 @@
     "Disha_patani.mp3": {
       "usage_count": 0,
       "last_used": 0,
-      "bpm": 69.8,
-      "energy": 0.6982857142857144,
+      "bpm": 85.4,
+      "energy": 0.7762857142857142,
       "created_at": 1780496185.4853427,
       "beat_data_path": "beats/Disha_patani.npz",
-      "drop_times": [
-        0.25,
-        5.0
-      ],
+      "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "425834_1782326794",
+      "audio_hash": "356871_1782416533",
       "version": 2,
-      "gemini_genre": "hiphop",
+      "gemini_genre": "pop",
       "gemini_mood_tags": [
-        "playful",
-        "sarcastic",
-        "upbeat"
+        "upbeat",
+        "energetic",
+        "playful"
       ],
-      "gemini_energy_level": "medium",
+      "gemini_energy_level": "high",
       "gemini_has_vocals": true,
       "gemini_content_match": [
-        "comedy",
+        "dance",
         "fashion",
-        "dance"
+        "travel"
       ],
       "gemini_avoid_match": [
-        "motivational",
-        "nature"
+        "meditation",
+        "study"
       ],
       "gemini_analyzed": true
     },
