@@ -17,8 +17,8 @@
       "version": 2
     },
     "Adam_john.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782004371.6969275,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.941843,
@@ -41,8 +41,8 @@
       "version": 2
     },
     "Aditi_bhatia_01.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782015244.4753954,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9428434,
@@ -53,8 +53,8 @@
       "version": 2
     },
     "Aisha.mp3": {
-      "usage_count": 1,
-      "last_used": 1780502749.2203379,
+      "usage_count": 2,
+      "last_used": 1782366179.7518623,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9428434,
@@ -65,8 +65,8 @@
       "version": 2
     },
     "Aishwarya_Laxmi.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782178194.3679967,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9428434,
@@ -79,16 +79,32 @@
     "Akanksha_puri.mp3": {
       "usage_count": 1,
       "last_used": 1780498846.951133,
-      "bpm": 118.7,
-      "energy": 0.7697435897435897,
+      "bpm": 79.5,
+      "energy": 0.5958285714285714,
       "created_at": 1780391156.9433477,
       "beat_data_path": "beats/Akanksha_puri.npz",
-      "drop_times": [
-        18.05
-      ],
+      "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "477247_1780497950",
-      "version": 2
+      "audio_hash": "646520_1782183051",
+      "version": 2,
+      "gemini_genre": "pop",
+      "gemini_mood_tags": [
+        "chill",
+        "dreamy",
+        "romantic"
+      ],
+      "gemini_energy_level": "medium",
+      "gemini_has_vocals": true,
+      "gemini_content_match": [
+        "aesthetic",
+        "travel",
+        "fashion"
+      ],
+      "gemini_avoid_match": [
+        "fitness",
+        "gaming"
+      ],
+      "gemini_analyzed": true
     },
     "Akanksha_puri_1.mp3": {
       "usage_count": 1,
@@ -115,8 +131,8 @@
       "version": 2
     },
     "Ankita_singh.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782186298.9840667,
       "bpm": 63.0,
       "energy": 0.8484117647058823,
       "created_at": 1780391156.9438772,
@@ -129,8 +145,8 @@
       "version": 2
     },
     "Anshivi.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782273295.8439715,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9438772,
@@ -153,8 +169,8 @@
       "version": 2
     },
     "Arabella.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782058015.7970197,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9438772,
@@ -177,8 +193,8 @@
       "version": 2
     },
     "Dhansree_verma.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 2,
+      "last_used": 1782279283.4471285,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9444246,
@@ -189,47 +205,50 @@
       "version": 2
     },
     "Disha_patani_1.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
-      "bpm": 68.8,
-      "energy": 0.8221764705882353,
+      "usage_count": 1,
+      "last_used": 1782014153.7374387,
+      "bpm": 70.6,
+      "energy": 0.6346071428571429,
       "created_at": 1780391156.9444246,
       "beat_data_path": "beats/Disha_patani_1.npz",
       "drop_times": [
-        3.95
+        5.0
       ],
       "sample_rate": 44100,
-      "audio_hash": "375683_1780498398",
+      "audio_hash": "565018_1782279221",
       "version": 2,
-      "gemini_genre": "pop",
+      "gemini_genre": "hiphop",
       "gemini_mood_tags": [
-        "upbeat",
+        "playful",
         "energetic",
-        "catchy"
+        "confident"
       ],
-      "gemini_energy_level": "high",
+      "gemini_energy_level": "medium",
       "gemini_has_vocals": true,
       "gemini_content_match": [
-        "dance",
+        "comedy",
         "fashion",
-        "aesthetic"
+        "luxury"
       ],
       "gemini_avoid_match": [
-        "educational",
-        "nature"
+        "nature",
+        "meditation"
       ],
       "gemini_analyzed": true
     },
     "Disha_patani_2.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
-      "bpm": 0.0,
-      "energy": 0.5,
+      "usage_count": 1,
+      "last_used": 1781906228.7915266,
+      "bpm": 75.2,
+      "energy": 0.5222500000000001,
       "created_at": 1780391156.9444246,
-      "beat_data_path": null,
-      "drop_times": [],
+      "beat_data_path": "beats/Disha_patani_2.npz",
+      "drop_times": [
+        3.25,
+        9.4
+      ],
       "sample_rate": 44100,
-      "audio_hash": "412667_1778336869",
+      "audio_hash": "410161_1782003230",
       "version": 2
     },
     "Fathima_sana.mp3": {
@@ -245,8 +264,8 @@
       "version": 2
     },
     "Fit_girl_2.mp3": {
-      "usage_count": 1,
-      "last_used": 1781757072.1282945,
+      "usage_count": 2,
+      "last_used": 1782279619.1308963,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9449425,
@@ -305,8 +324,8 @@
       "version": 2
     },
     "Giorgia_3.mp3": {
-      "usage_count": 1,
-      "last_used": 1780422913.425444,
+      "usage_count": 2,
+      "last_used": 1782327134.6881444,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.945487,
@@ -341,8 +360,8 @@
       "version": 2
     },
     "Kashmira.mp3": {
-      "usage_count": 1,
-      "last_used": 1780498428.5276375,
+      "usage_count": 2,
+      "last_used": 1782275414.415971,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9460042,
@@ -389,8 +408,8 @@
       "version": 2
     },
     "Malavika.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1781828086.5847313,
       "bpm": 102.2,
       "energy": 0.65625,
       "created_at": 1780391156.946521,
@@ -428,8 +447,8 @@
       "version": 2
     },
     "Malavika_2.mp3": {
-      "usage_count": 1,
-      "last_used": 1781701765.7307794,
+      "usage_count": 2,
+      "last_used": 1782284881.9519787,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9470403,
@@ -440,8 +459,8 @@
       "version": 2
     },
     "Malavika_3.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782005250.0118408,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9470403,
@@ -464,8 +483,8 @@
       "version": 2
     },
     "Monika_chaudhary.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1781828375.3560543,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9475565,
@@ -476,8 +495,8 @@
       "version": 2
     },
     "Neha_Sharma_1.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782161573.3841546,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9475565,
@@ -524,8 +543,8 @@
       "version": 2
     },
     "Pooja_hedge.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782003923.173321,
       "bpm": 113.6,
       "energy": 0.8952619047619047,
       "created_at": 1780391156.9480724,
@@ -572,8 +591,8 @@
       "version": 2
     },
     "Rasha_Thadani_01.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782016228.167732,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9485884,
@@ -584,8 +603,8 @@
       "version": 2
     },
     "Reem.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782001662.2913542,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9485884,
@@ -620,8 +639,8 @@
       "version": 2
     },
     "Romancham.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782016434.8167126,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.949104,
@@ -632,8 +651,8 @@
       "version": 2
     },
     "Roshniwalia_1.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 2,
+      "last_used": 1782284581.8313143,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.949104,
@@ -644,8 +663,8 @@
       "version": 2
     },
     "Rubysimpy.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1781906507.4675608,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9496174,
@@ -668,8 +687,8 @@
       "version": 2
     },
     "Sakshi_malik_1.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782003028.636892,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9496174,
@@ -704,8 +723,8 @@
       "version": 2
     },
     "Sara_Tendulkar.mp3": {
-      "usage_count": 1,
-      "last_used": 1780578683.004878,
+      "usage_count": 2,
+      "last_used": 1782326853.9815273,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9501328,
@@ -752,8 +771,8 @@
       "version": 2
     },
     "Shefali_1.mp3": {
-      "usage_count": 1,
-      "last_used": 1780578656.0315487,
+      "usage_count": 2,
+      "last_used": 1782280094.4873576,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9506483,
@@ -764,8 +783,8 @@
       "version": 2
     },
     "Tammanah_bhatia.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782001387.226695,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9506483,
@@ -788,8 +807,8 @@
       "version": 2
     },
     "Tripti_dimri.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782165823.9334428,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9511678,
@@ -824,8 +843,8 @@
       "version": 2
     },
     "Urvashi_Rautela_2.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782003332.813181,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9511678,
@@ -872,8 +891,8 @@
       "version": 2
     },
     "Warina_hussain.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 2,
+      "last_used": 1782275796.1433172,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9522057,
@@ -897,8 +916,8 @@
       "version": 2
     },
     "Shruthi_hassan.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782166003.7694194,
       "bpm": 100.3,
       "energy": 0.8626727272727271,
       "created_at": 1780402172.5887027,
@@ -928,8 +947,8 @@
       "usage_count": 0,
       "last_used": 0,
       "bpm": 0.0,
-      "energy": 0.627,
-      "created_at": 1780481657.2948036,
+      "energy": 0.668,
+      "created_at": 1782186264.6536725,
       "beat_data_path": null,
       "drop_times": [],
       "sample_rate": 44100,
@@ -967,8 +986,8 @@
       "gemini_analyzed": true
     },
     "Nyra_banerjee.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782004688.9132044,
       "bpm": 60.3,
       "energy": 0.7527358490566038,
       "created_at": 1780494525.2878742,
@@ -1027,23 +1046,43 @@
       "version": 2
     },
     "Disha_patani.mp3": {
-      "is_speech_only": true,
-      "usage_count": 0,
-      "last_used": 0,
-      "bpm": 97.1,
-      "energy": 0.8405,
-      "created_at": 1780496185.4853427,
+      "usage_count": 1,
+      "last_used": 1782365717.2895577,
+      "bpm": 69.8,
+      "energy": 0.6982857142857144,
+      "created_at": 1782284463.2269568,
       "beat_data_path": "beats/Disha_patani.npz",
-      "drop_times": [],
+      "drop_times": [
+        0.25,
+        5.0
+      ],
       "sample_rate": 44100,
-      "audio_hash": "412672_1781757031",
-      "version": 2
+      "audio_hash": "425834_1782326784",
+      "version": 2,
+      "gemini_genre": "hiphop",
+      "gemini_mood_tags": [
+        "playful",
+        "sarcastic",
+        "upbeat"
+      ],
+      "gemini_energy_level": "medium",
+      "gemini_has_vocals": true,
+      "gemini_content_match": [
+        "comedy",
+        "fashion",
+        "dance"
+      ],
+      "gemini_avoid_match": [
+        "motivational",
+        "nature"
+      ],
+      "gemini_analyzed": true
     },
     "Jacqueline_Fernandez.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
-      "bpm": 74.0,
-      "energy": 0.7715,
+      "usage_count": 1,
+      "last_used": 1782001927.2383592,
+      "bpm": 94.0,
+      "energy": 0.8542692307692309,
       "created_at": 1780497404.403071,
       "beat_data_path": "beats/Jacqueline_Fernandez.npz",
       "drop_times": [
@@ -1054,25 +1093,21 @@
       "version": 2
     },
     "Sakshi_malik.mp3": {
+      "is_speech_only": true,
       "usage_count": 0,
       "last_used": 0,
-      "bpm": 89.9,
-      "energy": 0.6605925925925926,
-      "created_at": 1780497636.594601,
-      "beat_data_path": "beats/Sakshi_malik.npz",
-      "drop_times": [
-        1.85,
-        3.7,
-        5.5,
-        7.3
-      ],
+      "bpm": 0.0,
+      "energy": 0.873,
+      "created_at": 1782365634.3225172,
+      "beat_data_path": null,
+      "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "444646_1780497636",
+      "audio_hash": "",
       "version": 2
     },
     "Sunny_Leone.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782003695.7094114,
       "bpm": 72.0,
       "energy": 0.8143,
       "created_at": 1780498806.4871612,
@@ -1085,31 +1120,14 @@
     "Jacqueline_Fernandez_1.mp3": {
       "usage_count": 1,
       "last_used": 1781541122.0770035,
-      "bpm": 77.4,
-      "energy": 0.7308461538461538,
+      "bpm": 70.8,
+      "energy": 0.8866500000000002,
       "created_at": 1780498837.5383687,
       "beat_data_path": "beats/Jacqueline_Fernandez_1.npz",
       "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "259072_1780498837",
-      "version": 2,
-      "gemini_genre": "hiphop",
-      "gemini_mood_tags": [
-        "chill",
-        "groovy"
-      ],
-      "gemini_energy_level": "medium",
-      "gemini_has_vocals": false,
-      "gemini_content_match": [
-        "fashion",
-        "aesthetic",
-        "dance"
-      ],
-      "gemini_avoid_match": [
-        "motivational",
-        "fitness"
-      ],
-      "gemini_analyzed": true
+      "audio_hash": "421449_1782016173",
+      "version": 2
     },
     "2235768379600": {
       "is_speech_only": true,
@@ -1177,8 +1195,8 @@
       "version": 2
     },
     "Janhvi_kapoor.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782057692.872666,
       "bpm": 88.6,
       "energy": 0.6223333333333334,
       "created_at": 1781541066.5967813,
@@ -1207,8 +1225,8 @@
       "gemini_analyzed": true
     },
     "Arya_menon.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782002825.8949473,
       "bpm": 94.4,
       "energy": 0.7684800000000003,
       "created_at": 1781701738.4973671,
@@ -1219,8 +1237,8 @@
       "version": 2
     },
     "Chandni.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782014347.5876834,
       "bpm": 68.3,
       "energy": 0.7618823529411765,
       "created_at": 1781796601.4633734,
@@ -1229,6 +1247,122 @@
       "sample_rate": 44100,
       "audio_hash": "360005_1781796601",
       "version": 2
+    },
+    "Kriti_Sanon.mp3": {
+      "usage_count": 1,
+      "last_used": 1782175165.19243,
+      "bpm": 38.0,
+      "energy": 0.9005000000000001,
+      "created_at": 1781828020.1732607,
+      "beat_data_path": "beats/Kriti_Sanon.npz",
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "606392_1781828019",
+      "version": 2
+    },
+    "Disha_patani_3.mp3": {
+      "usage_count": 1,
+      "last_used": 1782161767.5852716,
+      "bpm": 66.2,
+      "energy": 0.6218750000000001,
+      "created_at": 1782003268.9267507,
+      "beat_data_path": "beats/Disha_patani_3.npz",
+      "drop_times": [
+        23.2
+      ],
+      "sample_rate": 44100,
+      "audio_hash": "717992_1782003268",
+      "version": 2
+    },
+    "Disha_patani_4.mp3": {
+      "usage_count": 1,
+      "last_used": 1782183377.8123937,
+      "bpm": 76.7,
+      "energy": 0.813111111111111,
+      "created_at": 1782015209.8571346,
+      "beat_data_path": "beats/Disha_patani_4.npz",
+      "drop_times": [
+        11.95
+      ],
+      "sample_rate": 44100,
+      "audio_hash": "349978_1782015209",
+      "version": 2
+    },
+    "Guess_who.mp3": {
+      "usage_count": 1,
+      "last_used": 1782174967.7958918,
+      "bpm": 89.8,
+      "energy": 0.9395217391304349,
+      "created_at": 1782161520.011129,
+      "beat_data_path": "beats/Guess_who.npz",
+      "drop_times": [
+        0.35
+      ],
+      "sample_rate": 44100,
+      "audio_hash": "368783_1782161519",
+      "version": 2
+    },
+    "Vedika.mp3": {
+      "usage_count": 1,
+      "last_used": 1782183094.2198017,
+      "bpm": 83.7,
+      "energy": 0.8397567567567568,
+      "created_at": 1782174951.9005227,
+      "beat_data_path": "beats/Vedika.npz",
+      "drop_times": [
+        2.2,
+        14.75
+      ],
+      "sample_rate": 44100,
+      "audio_hash": "625205_1782174951",
+      "version": 2,
+      "gemini_genre": "pop",
+      "gemini_mood_tags": [
+        "melancholy",
+        "sad",
+        "emotional"
+      ],
+      "gemini_energy_level": "medium",
+      "gemini_has_vocals": true,
+      "gemini_content_match": [
+        "aesthetic",
+        "travel"
+      ],
+      "gemini_avoid_match": [
+        "fitness",
+        "gaming"
+      ],
+      "gemini_analyzed": true
+    },
+    "Edin_rose.mp3": {
+      "usage_count": 1,
+      "last_used": 1782186457.8761036,
+      "bpm": 95.7,
+      "energy": 0.8742826086956521,
+      "created_at": 1782178181.2077494,
+      "beat_data_path": "beats/Edin_rose.npz",
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "689148_1782178180",
+      "version": 2,
+      "gemini_genre": "hiphop",
+      "gemini_mood_tags": [
+        "playful",
+        "chill",
+        "upbeat"
+      ],
+      "gemini_energy_level": "medium",
+      "gemini_has_vocals": true,
+      "gemini_content_match": [
+        "fashion",
+        "dance",
+        "comedy"
+      ],
+      "gemini_avoid_match": [
+        "motivational",
+        "nature"
+      ],
+      "gemini_analyzed": true
     }
   }
 }
