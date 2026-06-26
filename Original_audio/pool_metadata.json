@@ -79,32 +79,14 @@
     "Akanksha_puri.mp3": {
       "usage_count": 1,
       "last_used": 1780498846.951133,
-      "bpm": 79.5,
-      "energy": 0.5958285714285714,
+      "bpm": 105.1,
+      "energy": 0.8653409090909094,
       "created_at": 1780391156.9433477,
       "beat_data_path": "beats/Akanksha_puri.npz",
       "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "646520_1782183051",
-      "version": 2,
-      "gemini_genre": "pop",
-      "gemini_mood_tags": [
-        "chill",
-        "dreamy",
-        "romantic"
-      ],
-      "gemini_energy_level": "medium",
-      "gemini_has_vocals": true,
-      "gemini_content_match": [
-        "aesthetic",
-        "travel",
-        "fashion"
-      ],
-      "gemini_avoid_match": [
-        "fitness",
-        "gaming"
-      ],
-      "gemini_analyzed": true
+      "audio_hash": "613916_1782441813",
+      "version": 2
     },
     "Akanksha_puri_1.mp3": {
       "usage_count": 1,
@@ -145,8 +127,8 @@
       "version": 2
     },
     "Anshivi.mp3": {
-      "usage_count": 1,
-      "last_used": 1782273295.8439715,
+      "usage_count": 2,
+      "last_used": 1782441881.3285925,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9438772,
@@ -507,8 +489,8 @@
       "version": 2
     },
     "Nora_fatehi.mp3": {
-      "usage_count": 1,
-      "last_used": 1780471398.583396,
+      "usage_count": 2,
+      "last_used": 1782442181.9943867,
       "bpm": 96.5,
       "energy": 0.8543684210526322,
       "created_at": 1780391156.9475565,
