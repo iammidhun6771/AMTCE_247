@@ -657,8 +657,8 @@
       "version": 2
     },
     "Sakshi.mp3": {
-      "usage_count": 1,
-      "last_used": 1780402270.0030994,
+      "usage_count": 2,
+      "last_used": 1782568132.129202,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9496174,
@@ -1042,20 +1042,21 @@
     "Jacqueline_Fernandez.mp3": {
       "usage_count": 1,
       "last_used": 1782001927.2383592,
-      "bpm": 94.0,
-      "energy": 0.8542692307692309,
+      "bpm": 75.0,
+      "energy": 0.7073571428571429,
       "created_at": 1780497404.403071,
       "beat_data_path": "beats/Jacqueline_Fernandez.npz",
       "drop_times": [
-        0.55
+        0.1,
+        1.5
       ],
       "sample_rate": 44100,
-      "audio_hash": "206409_1780497404",
+      "audio_hash": "269726_1782567927",
       "version": 2
     },
     "Sakshi_malik.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782567961.060937,
       "bpm": 88.0,
       "energy": 0.809076923076923,
       "created_at": 1782365634.3225172,
