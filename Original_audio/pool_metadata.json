@@ -549,8 +549,8 @@
       "version": 2
     },
     "Rakul_preet_singh_1.mp3": {
-      "usage_count": 1,
-      "last_used": 1780579073.805025,
+      "usage_count": 2,
+      "last_used": 1782561602.6783009,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9480724,
@@ -621,8 +621,8 @@
       "version": 2
     },
     "Romancham.mp3": {
-      "usage_count": 1,
-      "last_used": 1782016434.8167126,
+      "usage_count": 2,
+      "last_used": 1782560901.0144558,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.949104,
@@ -669,8 +669,8 @@
       "version": 2
     },
     "Sakshi_malik_1.mp3": {
-      "usage_count": 1,
-      "last_used": 1782003028.636892,
+      "usage_count": 2,
+      "last_used": 1782557387.0458972,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9496174,
@@ -1030,35 +1030,14 @@
     "Disha_patani.mp3": {
       "usage_count": 1,
       "last_used": 1782365717.2895577,
-      "bpm": 69.8,
-      "energy": 0.6982857142857144,
+      "bpm": 100.0,
+      "energy": 0.8052499999999999,
       "created_at": 1782284463.2269568,
       "beat_data_path": "beats/Disha_patani.npz",
-      "drop_times": [
-        0.25,
-        5.0
-      ],
+      "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "425834_1782326784",
-      "version": 2,
-      "gemini_genre": "hiphop",
-      "gemini_mood_tags": [
-        "playful",
-        "sarcastic",
-        "upbeat"
-      ],
-      "gemini_energy_level": "medium",
-      "gemini_has_vocals": true,
-      "gemini_content_match": [
-        "comedy",
-        "fashion",
-        "dance"
-      ],
-      "gemini_avoid_match": [
-        "motivational",
-        "nature"
-      ],
-      "gemini_analyzed": true
+      "audio_hash": "336809_1782557377",
+      "version": 2
     },
     "Jacqueline_Fernandez.mp3": {
       "usage_count": 1,
@@ -1075,16 +1054,17 @@
       "version": 2
     },
     "Sakshi_malik.mp3": {
-      "is_speech_only": true,
       "usage_count": 0,
       "last_used": 0,
-      "bpm": 0.0,
-      "energy": 0.873,
+      "bpm": 88.0,
+      "energy": 0.809076923076923,
       "created_at": 1782365634.3225172,
-      "beat_data_path": null,
-      "drop_times": [],
+      "beat_data_path": "beats/Sakshi_malik.npz",
+      "drop_times": [
+        0.8
+      ],
       "sample_rate": 44100,
-      "audio_hash": "",
+      "audio_hash": "445900_1782561251",
       "version": 2
     },
     "Sunny_Leone.mp3": {
@@ -1219,8 +1199,8 @@
       "version": 2
     },
     "Chandni.mp3": {
-      "usage_count": 1,
-      "last_used": 1782014347.5876834,
+      "usage_count": 2,
+      "last_used": 1782561324.8972354,
       "bpm": 68.3,
       "energy": 0.7618823529411765,
       "created_at": 1781796601.4633734,
