@@ -37,37 +37,20 @@ on:
         type: choice
         options: [auto, on, off]
   schedule:
-    # HARVESTER — scrape 1hr before publish peaks (IST)
-    - cron: '0 2 * * *'    # 07:30 IST — before morning publish window
-    - cron: '0 6 * * *'    # 11:30 IST — before lunch publish
-    - cron: '0 11 * * *'   # 16:30 IST — before evening surge
-    - cron: '0 13 * * *'   # 18:30 IST — before prime time (also pre-auction harvest)
-    - cron: '0 15 * * *'   # 20:30 IST — late harvest
-
-    # PUBLISHER — fire at real Indian peak hours (IST)
-    - cron: '30 2 * * *'   # 08:00 IST ✅ Morning commute
-    - cron: '30 6 * * *'   # 12:00 IST ✅ Lunch peak
-    - cron: '30 11 * * *'  # 17:00 IST ✅ Evening commute
-    - cron: '30 13 * * *'  # 19:00 IST ✅ Pre-prime surge
-    - cron: '30 14 * * *'  # 20:00 IST ✅ Prime time
-
-    # Auction pre-post (Mon–Sat only): publish the featured reel + schedule auction
-    - cron: '0 12 * * 1-6'  # 17:30 IST → publish 30min before auction teaser at 18:00
-
-    # Auction close (Mon–Sat only): trigger close and settlement
-    - cron: '30 15 * * 1-6' # 21:00 IST → close the auction
+    # Timing-Based Triggering: 4 clean 6-hour windows aligned with Indian peak human attention
+    - cron: '30 1 * * *'   # 07:00 AM IST — 1hr before 8 AM morning peak window
+    - cron: '30 7 * * *'   # 01:00 PM IST — 1hr before 2 PM lunch peak window
+    - cron: '30 13 * * *'  # 07:00 PM IST — 1hr before 8 PM prime evening surge
+    - cron: '30 19 * * *'  # 01:00 AM IST — 1hr before 2 AM late night attention window
 
 
 # ── Concurrency Control ────────────────────────────────────────────────────
 # Unify all runs under a single concurrency group.
-# cancel-in-progress: true — NEW scheduled cron triggers cancel any QUEUED
-# (not yet started) run in the same group.  A RUNNING persistent bot run is
-# NOT affected because GitHub only cancels runs that are *waiting*, not the
-# one already executing.  This prevents cron triggers from piling up behind
-# the 5.25h persistent session.
+# cancel-in-progress: false — Active long-running bot runs will NEVER be canceled
+# when a new scheduled run triggers. GitHub Actions queues/runs them safely.
 concurrency:
   group: amtce-bot
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   run-amtce:
@@ -81,12 +64,7 @@ jobs:
     permissions:
       contents: write
       actions: write
-    outputs:
-      should_restart: ${{ steps.check-duration.outputs.should_restart }}
-
     steps:
-    - name: Record Start Time
-      run: echo "START_TIME=$(date +%s)" >> $GITHUB_ENV
 
     - name: Checkout Repository
       uses: actions/checkout@v4
@@ -439,38 +417,3 @@ jobs:
           echo "State committed."
         fi
         exit 0
-
-    - name: Check Run Duration
-      id: check-duration
-      if: always()
-      run: |
-        END_TIME=$(date +%s)
-        DURATION=$((END_TIME - START_TIME))
-        echo "Run duration: ${DURATION} seconds"
-        # If the bot runs for at least 15 minutes (900 seconds), it is a persistent run, so restart.
-        # Otherwise (manual one-shot, crash, lock conflict), do not restart.
-        if [ ${DURATION} -gt 900 ]; then
-          echo "should_restart=true" >> $GITHUB_OUTPUT
-          echo "Persistent run detected. Enabling chain-restart."
-        else
-          echo "should_restart=false" >> $GITHUB_OUTPUT
-          echo "Short run/one-shot detected. Disabling chain-restart."
-        fi
-
-
-  chain-restart:
-    runs-on: ubuntu-latest
-    needs: run-amtce
-    if: always() && needs.run-amtce.result != 'cancelled' && needs.run-amtce.outputs.should_restart == 'true'
-    permissions:
-      actions: write
-    steps:
-      - name: Trigger Next Run
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "Chain-restarting AMTCE for continuous 24/7 operation..."
-          gh workflow run amtce-runner.yml \
-            --repo "$GITHUB_REPOSITORY" \
-            --ref "$GITHUB_REF_NAME"
-          echo "Next run queued successfully."
