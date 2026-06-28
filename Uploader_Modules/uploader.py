@@ -182,6 +182,11 @@ def get_valid_credentials(niche: str = None):
                         with open(token_file, "w", encoding="utf-8") as f:
                             f.write(creds.to_json())
                         logger.info("✅ Token refreshed and saved.")
+                        try:
+                            from Utilities.github_secret_updater import sync_token_to_github_secret
+                            sync_token_to_github_secret(token_file, creds.to_json())
+                        except Exception as _se:
+                            logger.debug(f"[SECRET_SYNC] Non-fatal sync error: {_se}")
                         break
                     except (ssl.SSLError, socket.error, ConnectionError, Timeout) as re:
                         refresh_retry += 1

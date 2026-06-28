@@ -326,6 +326,7 @@ jobs:
     - name: Run AMTCE Engine
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_PAT: ${{ secrets.GH_PAT }}
         DISPATCH_TARGET_URL: ${{ github.event.inputs.target_url || '' }}
         DISPATCH_ACTRESS_NAME: ${{ github.event.inputs.actress_name || '' }}
         DISPATCH_NICHE: ${{ github.event.inputs.niche || 'General' }}

@@ -9,6 +9,11 @@ import argparse
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+try:
+    from Utilities.github_secret_updater import sync_token_to_github_secret
+except ImportError:
+    sync_token_to_github_secret = lambda path, content=None: False
+
 # ==============================================================================
 # AMTCE YouTube Authentication Script
 # 
@@ -181,6 +186,7 @@ def _try_device_flow(client_id, client_secret, tg_token, tg_admin, token_path):
                 with open(token_path, "w", encoding="utf-8") as f:
                     json.dump(token_json, f, indent=2)
                 print(f"✅ Authorized! Token saved to {token_path}")
+                sync_token_to_github_secret(token_path, json.dumps(token_json, indent=2))
                 if tg_token and tg_admin:
                     _send_telegram(
                         "✅ <b>YouTube Authorized!</b>\n\nToken saved. Uploads will resume automatically.",
@@ -233,6 +239,7 @@ def _fallback_url_flow(secret_path, token_path, tg_token, tg_admin):
             with open(token_path, "w", encoding="utf-8") as f:
                 f.write(creds.to_json())
             print(f"✅ Token saved to {token_path}")
+            sync_token_to_github_secret(token_path, creds.to_json())
             return
         except Exception as e:
             print(f"ℹ️ Browser flow failed: {e}")
@@ -277,6 +284,7 @@ def _fallback_url_flow(secret_path, token_path, tg_token, tg_admin):
                 with open(token_path, "w", encoding="utf-8") as f:
                     f.write(creds.to_json())
                 print(f"✅ Token saved to {token_path}")
+                sync_token_to_github_secret(token_path, creds.to_json())
                 if tg_token and tg_admin:
                     _send_telegram("✅ <b>YouTube Authorized!</b>\nToken saved. Uploads resume automatically.", tg_token, tg_admin)
                 return

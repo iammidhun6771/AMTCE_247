@@ -198,3 +198,6 @@ pytweening==1.2.0; sys_platform == 'win32'
 pyreadline3==3.5.4; sys_platform == 'win32'
 pywin32==311; sys_platform == 'win32'
 pyperclip==1.11.0; sys_platform == 'win32'
+
+# --- GITHUB ACTIONS SECRET SYNC ---
+pynacl==1.5.0
