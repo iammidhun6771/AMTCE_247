@@ -44,7 +44,7 @@ def _load_state() -> Dict:
             data = json.load(f)
         # Ensure all keys exist (forward-compat for new fields)
         default = _default_state()
-        for section in ("harvest", "publisher", "apify", "scraped_posts", "account_scrape_throttle"):
+        for section in ("harvest", "publisher", "apify", "scraped_posts", "account_scrape_throttle", "drip_queue"):
             if section not in data:
                 data[section] = default[section]
             else:
@@ -96,6 +96,14 @@ def _default_state() -> Dict:
         "account_scrape_throttle": {
             # Maps username -> ISO timestamp of last scrape (e.g. "nora_fatehi": "2026-05-26T09:00:00")
             "last_scraped_at":          {},
+        },
+        "drip_queue": {
+            # Rotating pipeline: stores raw Telegram file_ids for the 6 saved reels.
+            # Populated by Slot 1 (harvest). Consumed by Slots 2/3/4 (drip).
+            "date":     "",    # "YYYY-MM-DD" — matches the harvest date
+            "account": "",    # Instagram username scraped that day
+            "slots": [],      # list of {file_id, shortcode, video_url}
+            "slot_idx": 0,    # how many drip reels have been processed (0→6)
         },
     }
 
@@ -794,3 +802,50 @@ def log_full_status() -> None:
     logger.info("  %s", get_scraped_posts_registry().get_summary())
     logger.info("  %s", get_account_scrape_throttle().get_summary())
     logger.info("=" * 60)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Rotating Pipeline — Drip Queue Helpers
+# ─────────────────────────────────────────────────────────────────────────────
+
+def get_drip_queue_raw() -> Dict:
+    """Return the raw drip_queue dict from salesman_state."""
+    with _LOCK:
+        state = _load_state()
+        return dict(state.get("drip_queue", {}))
+
+
+def save_drip_queue(date: str, account: str, slots: list, slot_idx: int = 0) -> None:
+    """
+    Persist the drip queue after Slot 1 harvest.
+    slots: list of dicts [{"file_id": str, "shortcode": str, "video_url": str}, ...]
+    """
+    with _LOCK:
+        state = _load_state()
+        state["drip_queue"] = {
+            "date":     date,
+            "account": account,
+            "slots":   slots,
+            "slot_idx": slot_idx,
+        }
+        _save_state(state)
+    logger.info(
+        "💾 [DRIP_QUEUE] Saved %d slots for account='%s' date=%s (slot_idx=%d)",
+        len(slots), account, date, slot_idx,
+    )
+
+
+def advance_drip_slot(count: int = 2) -> int:
+    """
+    Advance slot_idx by `count` after processing drip reels.
+    Returns the NEW slot_idx.
+    """
+    with _LOCK:
+        state = _load_state()
+        dq = state.get("drip_queue", {})
+        new_idx = dq.get("slot_idx", 0) + count
+        dq["slot_idx"] = new_idx
+        state["drip_queue"] = dq
+        _save_state(state)
+    logger.info("📬 [DRIP_QUEUE] slot_idx advanced to %d", new_idx)
+    return new_idx

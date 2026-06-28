@@ -1750,3 +1750,256 @@ def start_scheduler() -> None:
 
     t = threading.Thread(target=_loop, daemon=True, name="ActressScheduler")
     t.start()
+
+
+# =============================================================================
+# Rotating Pipeline  (ROTATING_PIPELINE=yes in .env)
+# 4 x 6-hour slots per day.  1 account scraped per day.
+#   Slot 1 (harvest): scrape 1 account x 11 reels -> skip top 3 -> keep 8
+#             -> process 2 immediately -> send 6 raw to private Telegram storage
+#   Slots 2/3/4 (drip): pull 2 stored reels each from Telegram -> process -> upload
+# =============================================================================
+
+_HARVEST_HOUR_IST_MAX = 10
+_DRIP_PER_SLOT        = 2
+_IMMEDIATE_COUNT      = 2
+_STORE_COUNT          = 6
+
+
+def _detect_pipeline_slot():
+    from datetime import timezone, timedelta
+    ist = timezone(timedelta(hours=5, minutes=30))
+    ist_hour = datetime.now(ist).hour
+    return "harvest" if ist_hour < _HARVEST_HOUR_IST_MAX else "drip"
+
+
+def _send_raw_reel_to_storage(bot_token, storage_chat_id, video_path):
+    import requests as _req
+    url = f"https://api.telegram.org/bot{bot_token}/sendVideo"
+    try:
+        with open(video_path, "rb") as vf:
+            resp = _req.post(url, data={"chat_id": storage_chat_id}, files={"video": vf}, timeout=120)
+        data = resp.json()
+        if data.get("ok"):
+            msg = data["result"]
+            file_id = (msg.get("video", {}).get("file_id") or msg.get("document", {}).get("file_id") or "")
+            logger.info("[DRIP_STORE] Sent to storage group. file_id=%s...", file_id[:20])
+            return file_id
+        else:
+            logger.error("[DRIP_STORE] Telegram sendVideo error: %s", data.get("description"))
+            return ""
+    except Exception as exc:
+        logger.error("[DRIP_STORE] Exception: %s", exc)
+        return ""
+
+
+def _download_reel_from_telegram(bot_token, file_id, dest_dir):
+    import requests as _req
+    try:
+        info = _req.get(f"https://api.telegram.org/bot{bot_token}/getFile?file_id={file_id}", timeout=30).json()
+        if not info.get("ok"):
+            logger.error("[DRIP_FETCH] getFile failed: %s", info.get("description"))
+            return ""
+        tg_path = info["result"]["file_path"]
+        dl_url  = f"https://api.telegram.org/file/bot{bot_token}/{tg_path}"
+        os.makedirs(dest_dir, exist_ok=True)
+        fname      = os.path.basename(tg_path) or f"drip_{file_id[:8]}.mp4"
+        local_path = os.path.join(dest_dir, fname)
+        with _req.get(dl_url, stream=True, timeout=120) as r:
+            r.raise_for_status()
+            with open(local_path, "wb") as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    f.write(chunk)
+        logger.info("[DRIP_FETCH] Downloaded -> %s", local_path)
+        return local_path
+    except Exception as exc:
+        logger.error("[DRIP_FETCH] Exception: %s", exc)
+        return ""
+
+
+def run_rotating_pipeline():
+    """Entry point when ROTATING_PIPELINE=yes. Detects harvest vs drip by IST hour."""
+    if not os.getenv("ROTATING_PIPELINE", "no").lower() in ("yes", "true", "1"):
+        logger.info("[ROTATING] ROTATING_PIPELINE=no -- skipping")
+        return
+
+    from Actress_Modules.actress_config import is_account_mode_enabled
+    if not is_account_mode_enabled():
+        logger.info("[ROTATING] account_mode_enabled=false -- skipping")
+        return
+
+    slot             = _detect_pipeline_slot()
+    bot_token        = os.getenv("TELEGRAM_BOT_TOKEN", "")
+    storage_chat_id  = os.getenv("TELEGRAM_STORAGE_GROUP_ID", "")
+    admin_id_storage = os.getenv("ADMIN_ID_STORAGE", "")
+    downloads_dir    = os.getenv("DOWNLOADS_DIR", "downloads")
+
+    logger.info("=" * 60)
+    logger.info("ROTATING PIPELINE -- Slot: %s | admin_storage=%s", slot.upper(), admin_id_storage or "unset")
+    logger.info("%s", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    logger.info("=" * 60)
+
+    if not bot_token or not storage_chat_id:
+        logger.error("[ROTATING] TELEGRAM_BOT_TOKEN or TELEGRAM_STORAGE_GROUP_ID not set.")
+        return
+
+    if slot == "harvest":
+        _run_harvest_slot(bot_token, storage_chat_id, downloads_dir)
+    else:
+        _run_drip_slot(bot_token, downloads_dir)
+
+
+def _run_harvest_slot(bot_token, storage_chat_id, downloads_dir):
+    from Actress_Modules.channel_router import get_source_accounts
+    from Download_Modules.apify_downloader import apify_scrape_actress_accounts
+    from Download_Modules.downloader import download_video
+    from Actress_Modules.actress_ledger import get_ledger, extract_shortcode
+    from Core_Modules.salesman_state import save_drip_queue, get_drip_queue_raw
+
+    today = datetime.now().strftime("%Y-%m-%d")
+
+    existing_dq = get_drip_queue_raw()
+    if existing_dq.get("date") == today and existing_dq.get("slots"):
+        logger.info("[HARVEST] Already harvested today (%s, %d slots). Skipping.", today, len(existing_dq["slots"]))
+        return
+
+    source_accounts = get_source_accounts()
+    if not source_accounts:
+        logger.error("[HARVEST] No source accounts in actress_accounts.json.")
+        return
+
+    cursor_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "apify_cursor.json")
+    cursor = {"pending": source_accounts.copy(), "done_this_round": []}
+    if os.path.exists(cursor_path):
+        try:
+            with open(cursor_path, "r", encoding="utf-8") as f:
+                saved = json.load(f)
+            valid_pending = [a for a in saved.get("pending", []) if a in source_accounts]
+            if valid_pending:
+                cursor["pending"] = valid_pending
+                cursor["done_this_round"] = saved.get("done_this_round", [])
+        except Exception as e:
+            logger.warning("[HARVEST] Could not load apify_cursor.json: %s", e)
+
+    if not cursor["pending"]:
+        logger.info("[HARVEST] All accounts done -- resetting cursor")
+        cursor["pending"] = source_accounts.copy()
+        cursor["done_this_round"] = []
+
+    today_account = cursor["pending"][0]
+    cursor["pending"] = cursor["pending"][1:]
+    cursor["done_this_round"].append(today_account)
+    try:
+        with open(cursor_path, "w", encoding="utf-8") as f:
+            json.dump(cursor, f, indent=2)
+    except Exception as e:
+        logger.warning("[HARVEST] Could not save apify_cursor.json: %s", e)
+
+    logger.info("[HARVEST] Today's account: @%s", today_account)
+
+    reels = apify_scrape_actress_accounts(
+        actress_name=today_account, source_accounts=[today_account], limit_per_account=11
+    )
+    if not reels:
+        logger.warning("[HARVEST] Apify returned no reels for @%s.", today_account)
+        return
+
+    logger.info("[HARVEST] %d usable reels after pinned-skip + filter", len(reels))
+    ledger          = get_ledger()
+    immediate_reels = reels[:_IMMEDIATE_COUNT]
+    store_reels     = reels[_IMMEDIATE_COUNT : _IMMEDIATE_COUNT + _STORE_COUNT]
+
+    # Immediate 2
+    for reel in immediate_reels:
+        video_url = reel.get("videoUrl", "")
+        if not video_url:
+            continue
+        shortcode = reel.get("shortcode") or extract_shortcode(reel.get("url", ""))
+        if shortcode and ledger.shortcode_seen(shortcode):
+            logger.info("[HARVEST] sc=%s already seen -- skip", shortcode)
+            continue
+        video_path, _ = download_video(video_url)
+        if not video_path:
+            logger.warning("[HARVEST] Download failed: %s", video_url[:60])
+            continue
+        _inject_niche(video_path, "General_Fallback", today_account)
+        if shortcode:
+            ledger.commit_with_channel(shortcode, video_path, "General_Fallback", post_timestamp=reel.get("timestamp"))
+        PublishQueue.add(video_path, today_account, "General_Fallback", shortcode=shortcode)
+        logger.info("[HARVEST] Immediate reel queued: %s", shortcode or video_url[:40])
+
+    # Store 6 raw to private group
+    drip_slots = []
+    for reel in store_reels:
+        video_url = reel.get("videoUrl", "")
+        shortcode = reel.get("shortcode") or extract_shortcode(reel.get("url", ""))
+        if not video_url:
+            continue
+        video_path, _ = download_video(video_url)
+        if not video_path:
+            continue
+        file_id = _send_raw_reel_to_storage(bot_token, storage_chat_id, video_path)
+        try:
+            os.remove(video_path)
+        except Exception:
+            pass
+        if file_id:
+            drip_slots.append({"file_id": file_id, "shortcode": shortcode or "", "video_url": video_url})
+            logger.info("[HARVEST] Stored reel %d/%d (sc=%s)", len(drip_slots), len(store_reels), shortcode or "?")
+        else:
+            logger.warning("[HARVEST] No file_id for sc=%s -- skipping drip slot", shortcode)
+
+    save_drip_queue(date=today, account=today_account, slots=drip_slots, slot_idx=0)
+    logger.info("[HARVEST] Done. %d immediate | %d stored for drip.", len(immediate_reels), len(drip_slots))
+
+
+def _run_drip_slot(bot_token, downloads_dir):
+    from Download_Modules.downloader import download_video
+    from Actress_Modules.actress_ledger import get_ledger
+    from Core_Modules.salesman_state import get_drip_queue_raw, advance_drip_slot
+
+    today  = datetime.now().strftime("%Y-%m-%d")
+    dq     = get_drip_queue_raw()
+    ledger = get_ledger()
+
+    if not dq or dq.get("date") != today:
+        logger.info("[DRIP] No active drip queue for today (%s). Harvest may not have run.", today)
+        return
+
+    slots    = dq.get("slots", [])
+    slot_idx = dq.get("slot_idx", 0)
+    account  = dq.get("account", "unknown")
+
+    if slot_idx >= len(slots):
+        logger.info("[DRIP] All %d reels already processed (slot_idx=%d). Nothing to do.", len(slots), slot_idx)
+        return
+
+    batch = slots[slot_idx : slot_idx + _DRIP_PER_SLOT]
+    logger.info("[DRIP] Processing reels %d-%d of %d (account=@%s)...",
+                slot_idx + 1, slot_idx + len(batch), len(slots), account)
+
+    processed = 0
+    for entry in batch:
+        file_id   = entry.get("file_id", "")
+        shortcode = entry.get("shortcode", "")
+        if not file_id:
+            processed += 1
+            continue
+        if shortcode and ledger.shortcode_seen(shortcode):
+            logger.info("[DRIP] sc=%s already in ledger -- skip", shortcode)
+            processed += 1
+            continue
+        video_path = _download_reel_from_telegram(bot_token, file_id, downloads_dir)
+        if not video_path:
+            logger.warning("[DRIP] Failed to fetch (file_id=%s...)", file_id[:20])
+            processed += 1
+            continue
+        _inject_niche(video_path, "General_Fallback", account)
+        if shortcode:
+            ledger.commit_with_channel(shortcode, video_path, "General_Fallback")
+        PublishQueue.add(video_path, account, "General_Fallback", shortcode=shortcode)
+        logger.info("[DRIP] Queued for publish (sc=%s) -- no Telegram resend.", shortcode or file_id[:20])
+        processed += 1
+
+    new_idx = advance_drip_slot(len(batch))
+    logger.info("[DRIP] Done. %d processed. slot_idx now %d/%d.", processed, new_idx, len(slots))

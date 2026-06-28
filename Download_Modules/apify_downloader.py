@@ -531,7 +531,7 @@ def apify_get_video_url(instagram_url: str) -> Optional[str]:
 def apify_scrape_actress_accounts(
     actress_name:    str,
     source_accounts: List[str],
-    limit_per_account: int = 3,
+    limit_per_account: int = 11,
 ) -> List[Dict]:
     """
     Scrapes the latest N reels from a list of professional source accounts.
@@ -791,6 +791,26 @@ def apify_scrape_actress_accounts(
             "📊 [STAGE3] %d/%d reels survived deduplication",
             len(deduped), len(normalised),
         )
+
+        # ── Positional Pinned-Post Skip ───────────────────────────────────────
+        # Instagram always pins posts at the top N profile slots.
+        # isPinned metadata is unreliable (not always set by Apify).
+        # Dropping the top N by position is a safe, free guard.
+        _skip_n = int(os.getenv("APIFY_SKIP_TOP_N", "3"))
+        if _skip_n > 0 and len(deduped) > _skip_n:
+            logger.info(
+                "📌 [PINNED_SKIP] Dropping top %d posts by position (pinned avoidance). "
+                "%d → %d reels remain.",
+                _skip_n, len(deduped), len(deduped) - _skip_n,
+            )
+            deduped = deduped[_skip_n:]
+        elif _skip_n > 0:
+            logger.warning(
+                "📌 [PINNED_SKIP] Only %d reels after dedup — skipping positional drop "
+                "(not enough posts to safely remove %d).",
+                len(deduped), _skip_n,
+            )
+
         return deduped
 
     except Exception as exc:
