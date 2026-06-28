@@ -248,6 +248,7 @@ def _fallback_url_flow(secret_path, token_path, tg_token, tg_admin):
     )
 
     flow = InstalledAppFlow.from_client_secrets_file(secret_path, SCOPES)
+    flow.redirect_uri = "http://localhost"
 
     if not is_headless:
         try:
