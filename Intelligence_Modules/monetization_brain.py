@@ -155,17 +155,35 @@ class MonetizationStrategist:
                 
             hook_strategy = hook_strategies.get(_normalized_niche, hook_strategies.get("generic", {}))
 
-            # Suggestive, tempting instructions for adult/nsfw content
+            # Visually grounded, tempting double-meaning hooks based on frames
+            # ANTI-HALLUCINATION RULE: Every word must be grounded in what is visible (outfit, posture, movement)
             if _normalized_niche == "adult_content":
                 _vh_instruction = (
-                    "Generate a highly engaging, suggestive, tempting Hinglish on-screen text hook (max 4-5 words) "
-                    "acting as engagement-bait. The tone must be naughty, desire-inducing, or play with double-meaning "
-                    "without using explicitly vulgar words. "
+                    "VISUAL HOOK GENERATION (ANTI-HALLUCINATION: Ground every word in visible frames ONLY). "
+                    "Analyze the actress posture, body language, outfit fit, and camera angle you can see. "
+                    "Generate ONE short Hinglish hook (max 6 words) that: "
+                    "(1) Is pure fashion/beauty on the surface — NO explicit words. "
+                    "(2) Has a tempting inner meaning that makes the viewer think 'something more' even though it is about the outfit. "
+                    "(3) Uses Hinglish mixing (Hindi + English naturally). "
+                    "(4) Triggers desire and curiosity — viewer must stop scrolling. "
+                    "Style: Casual bhai/yaar tone, emojis allowed. NO vulgarity. "
+                    "FORBIDDEN WORDS: sexy, hot (in English), nude, body, skin — pure fashion vocabulary only. "
                 )
             else:
                 _vh_instruction = (
-                    "Generate a highly engaging, persuasive, Hinglish/Hinglish-vibe on-screen text hook (max 4-5 words) "
-                    "that acts as engagement-bait. "
+                    "VISUAL HOOK GENERATION — MILITARY-GRADE PROMPT (ZERO HALLUCINATION POLICY). "
+                    "You MUST analyze the video frames provided. Ground every single word of the hook in what is VISUALLY VISIBLE: "
+                    "the actress movement, posture, outfit silhouette, camera framing, or styling detail. "
+                    "DO NOT invent facts that are not visible. "
+                    "OBJECTIVE: Write ONE short Hinglish hook (max 7 words) that: "
+                    "(1) Appears to be pure fashion / beauty commentary on the surface. "
+                    "(2) Carries a subtle, tempting double-meaning that makes the audience pause and think naughty thoughts — WITHOUT any explicit or vulgar language. "
+                    "(3) Uses natural Hinglish (Hindi + English mixed) — casual, like a friend texting. "
+                    "(4) Creates FOMO or curiosity — viewer must replay the video. "
+                    "(5) Has emojis at end for engagement. "
+                    "FORBIDDEN: Mentioning 'sexy', 'body', 'skin', 'hot' directly. "
+                    "ALLOWED VOCABULARY: look, frame, entry, vibe, nazar, feel, aankh, mushkil, posture, style, outfit. "
+                    "The hook must feel like it was written by a sharp, witty Indian bhai who appreciates beauty deeply. "
                 )
 
             # Telegram group handle for embedding in community hook

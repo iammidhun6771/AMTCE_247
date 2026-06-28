@@ -28,67 +28,65 @@ logger = logging.getLogger("overlay_engine")
 #   {name}  → actress / user title resolved from context (falls back to "Bhai")
 # ─────────────────────────────────────────────────────────────────────────────
 VIRAL_HOOKS: List[str] = [
-    # ── no-name / generic — high energy ──────────────────────────────────────
-    "Just feel that heat 🥵🔥",                          # 0
-    "Look at that walk, too clean 🤤",                                # 1
-    "Bhai back profile is next level 😳",                          # 2
-    "Vibe check: Out of this world 🚀✨",                          # 3
-    "Aisi beauty is rare 🤫🥵",                               # 4
-    "Can we appreciate this posture? 🥵",                                   # 5
-    "Bhai content is too hot to handle 🌡️🔥",                  # 6
-    "She knows exactly what she's doing 😏",                   # 7
-    "That drop was completely illegal 😵🔥",                # 8
-    "Just look at the way it fits her 🥵😍",           # 9
-    "Absolute goddess energy ✨👑",                                    # 10
-    "Le bhai, weekend mood set ho gaya 🙈🥵",                               # 11
-    "The view gets better every second 😏🔥",                            # 12
-    "Save krle, dynamic entry hai 🥵👉",                    # 13
-    "Can't take my eyes off this walk 😱🔥",                         # 14
-    "Aisi girlfriend to dream hoti hai 😍",              # 15
-    "Iska attitude is purely addictive 🤫👀",                             # 16
-    "That confidence is unmatched 🖤",                            # 17
-    "Bhai pure beauty in one frame 😱🔥",              # 18
-    "Vibe is purely therapeutic 🤤✨",                      # 19
-    "Look at that drop, absolute banger 💥",                      # 20
-    "Ek min ruk, look check kr ✋😏",                                   # 21
-    "Scroll mat kar, look at the detail 👀",                       # 22
-    "Ye dressing style is top tier 😵🔥",                  # 23
-    "Outfit of the year, hands down 🤫",         # 24
-    "Bhai kya look hai, absolute fire 🤯🔥",                          # 25
-    # ── name-resolved hooks ───────────────────────────────────────────────────
-    "Just feel that, {name}'s look 🥵",                                 # 26
-    "Boom! {name}'s another banger 🔥",       # 27
-    "{name} in this outfit is illegal 😳🥵",                                   # 28
-    "Bhai {name} completely owned this walk 👑",       # 29
-    "Save this to appreciate {name}'s vibe later 🥵",               # 30
-    "{name} is setting the screen on fire 🤯🔥",  # 31
-    # ── curiosity / tease ─────────────────────────────────────────────────────
-    "The secret of this styling is below 🤫👇",           # 32
-    "Wait for the slow-mo, it's worth it ⏱️🤯",             # 33
-    "Behind the scenes is even crazier 😱👀",                     # 34
-    "Only few noticed the detail at the end 😏",                 # 35
-    "This transition is too smooth to be real 😵",                 # 36
-    # ── romantic / soft ───────────────────────────────────────────────────────
-    "Aisi beauty makes you believe in love 😍✨",              # 37
-    "Kash aisi ek smile mujhe bhi mil jata 😢😍",             # 38
-    "Pure elegance with a touch of magic 💘😢",                    # 39
+    # -- Pure surface-fashion but mentally triggering --
+    "Bhai yaar, aankh hat nahi rahi 🥵🔥",                          # 0
+    "Ye look wala feeling bata nahi sakte 🤤",                       # 1
+    "Iss entry ne toh full screen burn kar di 😵🔥",                # 2
+    "Kuch toh hai iss frame mein... samjhe? 😏",                     # 3
+    "Aisi beauty dekh ke aankhein sharmaa jaati hain 🥵😍",          # 4
+    "Bhai scroll mat karo, yahan mat ruko 👀🔥",                    # 5
+    "Itna close kyu tha camera bhai? 😳🙈",                         # 6
+    "Yaar ek baar mein sab samajh aagaya 🤫😏",                      # 7
+    "Pure fashion, but kyun dil bolta hai aur bhi dekho? 🥵✨",     # 8
+    "Outfit bhi tight, vibe bhi tight 😵🔥",                       # 9
+    "Ye toh sirf kapda hai... baaki sab imagination 😏👑",           # 10
+    "Le bhai, weekend ka plan change ho gaya 🙈🥵",                  # 11
+    "Ek frame mein itna kuch kyu hai bhai? 😱🔥",                   # 12
+    "Nazar rok ke rakhna, mushkil hai 🤤👀",                        # 13
+    "Ye look sirf dekhne ke liye nahi bana 😏🔥",                   # 14
+    "Aisi looks dekh ke pyaar ho jaata hai 😍",                     # 15
+    "Iska asar 2 minute mein dikhega 🔥🤫",                         # 16
+    "Perfect posture, perfect frame, perfect problem 😵",           # 17
+    "Bhai puri duniya ek taraf, ye entry ek taraf 😱🔥",            # 18
+    "Itna slow kyun chala bhai? Hmko bhi pata hai 🤫😏",            # 19
+    "Screen se aankhein hatnee chahiye thi -- nahi hui 🥵",          # 20
+    "Ek min ruk, yeh kya tha... bhai dekha? 😳👀",                  # 21
+    "Sochne pe majboor kar diya iss look ne 🤤✨",                   # 22
+    "Styling game: 10/10. Baaki game: tum samjho 😏🔥",             # 23
+    "Jo samjhe wo lucky, baaki scroll karo 🤫😵",                  # 24
+    "Sab fashion hai yaar, bas dil ek baar roke 🥵",               # 25
+    # -- name-resolved hooks --
+    "{name} ki entry ne toh scene hi badal diya 👑🔥",              # 26
+    "Bhai {name} ne fir kuch zyada kar diya 😵🥵",                  # 27
+    "{name} ka ye look aankh nahi hatnee deta 🤤😍",                # 28
+    "{name} ka style dekh ke samjhe kuch bhai? 😏",                 # 29
+    "Ek frame mein {name} ne sab bol diya 🥵🔥",                    # 30
+    "{name} pure fashion mein itna kuch kyun? 😳✨",                 # 31
+    # -- curiosity / psychological tease --
+    "Wait... rewind karo, kuch aur tha wahan 😏👀",                 # 32
+    "Aakhri 2 second mein jo hua... uff 😵🔥",                      # 33
+    "Behind this look, ek aur story hai 😱🤫",                      # 34
+    "Dekha tha kuch -- ya sirf main tha? 😳👀",                      # 35
+    "Ye transition itni smooth kyu thi bhai? 😵✨",                  # 36
+    # -- soft romantic double meaning --
+    "Iss beauty se aankhein milna mushkil hai 😢😍",                 # 37
+    "Kash ek baar aisi nazar mil jaaye 😍✨",                       # 38
+    "Ek nazar mein sab bata diya usne 💘😏",                        # 39
 ]
 
-# ─────────────────────────────────────────────────────────────────────────────
-# HOOK SELECTION RULES
-# Maps content signals → preferred hook indices (soft hints, not hard locks)
-# ─────────────────────────────────────────────────────────────────────────────
+# -- HOOK SELECTION RULES --
+# Maps content signals -> preferred hook indices (soft hints, not hard locks)
 _HOOK_RULES: Dict[str, List[int]] = {
-    # When actress/title name is known — prefer hooks with {name} placeholder
+    # When actress/title name is known -- prefer hooks with {name} placeholder
     "has_name":  [26, 27, 28, 29, 30, 31],
     # Generic / no name
     "no_name":   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
     # Energetic / party vibe
-    "energetic": [2, 3, 6, 7, 11, 14, 15, 18, 26, 28, 31, 35, 36],
+    "energetic": [2, 6, 8, 9, 11, 12, 14, 18, 26, 28, 30, 31, 33, 36],
     # Romantic / soft vibe
-    "romantic":  [8, 9, 20, 26, 27, 28, 30, 37, 38, 39],
+    "romantic":  [4, 15, 22, 25, 26, 37, 38, 39],
     # Curiosity / tease
-    "curiosity": [0, 1, 5, 12, 16, 17, 21, 22, 23, 24, 27, 29, 31, 32, 33, 34],
+    "curiosity": [3, 5, 7, 10, 13, 16, 17, 19, 21, 23, 24, 27, 29, 32, 33, 34, 35],
 }
 
 _VIRAL_HOOK_MEMORY_PATH = "The_json/viral_hook_memory.json"
