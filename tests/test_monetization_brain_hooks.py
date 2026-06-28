@@ -43,7 +43,7 @@ class TestMonetizationBrainHooks:
             "instagram_hook": "Instagram Hook",
             "youtube_hook": "Youtube Hook",
             "community_comment_hook": "Community Comment",
-            "viral_hook": "Custom Gemini Hook 🥵🔥"
+            "viral_hook": "Camera ne 0.3 second extra ruka 👁️"
         }
         brain.router.generate.return_value = json.dumps(mock_response)
         
@@ -54,13 +54,12 @@ class TestMonetizationBrainHooks:
         )
         
         assert res["approved"] is True
-        assert res["overlay_data"][0]["viral_hook"] == "Custom Gemini Hook 🥵🔥"
+        assert res["overlay_data"][0]["viral_hook"] == "Camera ne 0.3 second extra ruka 👁️"
         
-        # Verify that generate was called and prompt contains examples
+        # Verify that generate was called and prompt contains viral_hook
         called_args = brain.router.generate.call_args[1]["prompt"]
         prompt_text = called_args[0] if isinstance(called_args, list) else called_args
         assert "viral_hook" in prompt_text
-        assert "rotated examples" in prompt_text
 
     @patch("Text_Modules.overlay_engine._save_viral_hook_memory")
     @patch("Text_Modules.overlay_engine._load_viral_hook_memory")

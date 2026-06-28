@@ -155,25 +155,6 @@ class MonetizationStrategist:
                 
             hook_strategy = hook_strategies.get(_normalized_niche, hook_strategies.get("generic", {}))
 
-            # Visually grounded, psychologically specific gap hooks (Zero Generic Hooks Policy)
-            _vh_instruction = (
-                "VISUAL HOOK GENERATION — MILITARY-GRADE PSYCHOLOGICAL SPECIFICITY (ZERO GENERIC HOOKS POLICY).\n"
-                "1. FRAME ANALYSIS MANDATE: Inspect the video frames carefully. Identify ONE specific, concrete visible detail "
-                "(e.g., a drape angle, fabric texture, camera movement, cut, slit, strap, boundary, or styling choice) that is UNIQUE to these frames.\n"
-                "2. PSYCHOLOGICAL GAP TECHNIQUE: Write an innocent, precise fashion/visual observation about that specific detail. "
-                "The hook MUST leave a gap where the viewer's mind completes the thought on its own. The viewer does all the mental work.\n"
-                "3. TONE & RHYTHM RULES:\n"
-                "   - ABSOLUTELY NO 'bhai' or 'yaar' under any circumstances.\n"
-                "   - ABSOLUTELY NO generic desire bait (NO 'vibe', 'entry', 'feel', 'look' as main subject).\n"
-                "   - ABSOLUTELY NO explicit or vulgar words (NO 'sexy', 'hot', 'body', 'skin').\n"
-                "   - Length: 6 to 8 words maximum in natural Hinglish with 1-2 emojis.\n"
-                "4. RHYTHM EXAMPLES (for rhythm and psychological gap structure reference ONLY, DO NOT copy content): "
-                "'Wo drape ka angle... samjhe? 😏', 'Camera ne jo pakda, stylist ne nahi pakda 👀', "
-                "'Itna careful styling... phir bhi kuch dikh gaya 🤫', 'Ye fabric ka kaam thoda zyada honestly kiya 😶', "
-                "'Designer ne boundary set ki thi... fabric ne nahi maani 👁️', 'Ek second ke liye camera shaky hua... kyu? 😏'.\n"
-                "Write ONE original, visually grounded hook for these specific frames:"
-            )
-
             # Telegram group handle for embedding in community hook
             _tg_raw = os.getenv("TELEGRAM_GROUP_ID", "").strip().lstrip("@")
             _tg_display = f"https://t.me/{_tg_raw}" if _tg_raw else "our Telegram group"
@@ -225,6 +206,49 @@ class MonetizationStrategist:
                 _name_candidate = " ".join(words[:3]).strip(" '\",.")
 
             # Load and rotate hook examples from the hardcoded pool, excluding recently used ones
+            # Visually grounded, psychological observer frame prompt (Zero Generic Hooks Policy)
+            _vh_instruction = (
+                "TASK: Write one Hinglish hook for this video. Nothing else.\n\n"
+                "BEFORE WRITING — do this internally, do not output it:\n"
+                "Look at the frames. Find the single most charged detail.\n"
+                "Not the outfit overall. One detail. Examples of what to look for:\n"
+                "  - Where exactly the fabric ends and skin begins\n"
+                "  - A movement that the camera caught at a specific angle\n"
+                "  - A styling choice that is doing more work than intended\n"
+                "  - Something the editor chose to keep that could have been cut\n"
+                "  - A moment where the subject seems aware of the camera\n"
+                "  - A garment behaving differently than designed\n\n"
+                "Now write a hook about THAT detail.\n\n"
+                "THE PSYCHOLOGICAL MECHANISM:\n"
+                "Your hook must create an unfinished thought.\n"
+                "The viewer reads it, looks at the video, and their own mind completes the sentence in a direction you never stated.\n"
+                "You are not suggesting anything. You are observing something precise.\n"
+                "The viewer's imagination does the rest.\n\n"
+                "HOW THE GAP WORKS:\n"
+                "  WRONG: 'Itna hot look 🥵' — you told them what to think\n"
+                "  WRONG: 'Vibe check karle 😏' — no visual anchor, pure filler\n"
+                "  WRONG: 'Entry ne dil chura liya 💘' — generic, works for any video\n\n"
+                "  RIGHT: 'Ye hem line kahan khatam hoti hai exactly? 👁️'\n"
+                "         → viewer rewinds to check. their mind goes there. you said nothing.\n"
+                "  RIGHT: 'Camera ne 0.3 second extra ruka wahan 😶'\n"
+                "         → viewer looks for what the camera saw. imagination activates.\n"
+                "  RIGHT: 'Stylist ne ek pin kam lagaya shayad 🤫'\n"
+                "         → specific, innocent, gap opens automatically.\n\n"
+                "RULES:\n"
+                "  - Reference something ONLY visible in these specific frames\n"
+                "  - 6 to 9 words maximum\n"
+                "  - Natural Hinglish — not forced mixing\n"
+                "  - 1 emoji maximum, placed at end\n"
+                "  - No bhai, no yaar, no explicit words\n"
+                "  - No words: sexy, hot, body, skin, gorgeous, stunning\n"
+                "  - No generic subjects: vibe, entry, feel, look, scene\n"
+                "  - The hook must FAIL if read without watching the video\n"
+                "    (if it works for any fashion video, reject and rewrite)\n\n"
+                f"Subject in video: {_name_candidate if _name_candidate else 'unknown'}\n\n"
+                "Output the hook only in JSON string for viral_hook key."
+            )
+
+
             _hook_examples_str = ""
             _recent_memory = []
             try:
@@ -314,9 +338,7 @@ class MonetizationStrategist:
                 f'  "community_comment_hook": "<YOUTUBE COMMUNITY COMMENT. '
                 f'Strategy: {hook_strategy.get("community_purpose", "Drive viewers to join Telegram.")}. '
                 f'RULES: 3-4 lines max. End with exactly: Join Telegram for raw unfiltered output & outfit requests 👇\\n{_tg_display}>",\n'
-                f'  "viral_hook": "<{_vh_instruction}'
-                f'The style must EXACTLY match the following rotated examples (using them for syntax, length, punctuation, emojis, and vibe): {_hook_examples_str}. '
-                f'If the context has a specific name resolved (e.g., {_name_candidate or "Bhai"}), feel free to use it naturally or generate a generic one similar to the examples.>"'
+                f'  "viral_hook": "<{_vh_instruction}>"'
                 f'\n}}'
             ) if hashtag_gen else (
                 f'{{\n'

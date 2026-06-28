@@ -5,8 +5,8 @@ Generates short, punchy on-screen text (max 4 words) with memory-based
 similarity guards so overlays stay fresh and independent from captions
 or narration outputs.
 
-Also provides select_viral_hook() and validate_viral_hook() to handle visually
-specific, psychologically grounded Hinglish hooks.
+Also provides select_viral_hook() as a mechanic-observation fallback,
+and validate_viral_hook() for strict psychological validation.
 """
 
 import json
@@ -20,25 +20,32 @@ from typing import Dict, List, Optional
 logger = logging.getLogger("overlay_engine")
 
 # ─────────────────────────────────────────────────────────────────────────────
-# STYLE RHYTHM REFERENCE EXAMPLES
-# Labeled for rhythm reference only, do not copy content directly.
+# MECHANIC-OBSERVATION FALLBACK POOL (20 Structurally Varied Fallbacks)
 # ─────────────────────────────────────────────────────────────────────────────
-VIRAL_HOOKS: List[str] = [
-    "Wo drape ka angle... samjhe? 😏",
-    "Camera ne jo pakda, stylist ne nahi pakda 👀",
-    "Itna careful styling... phir bhi kuch dikh gaya 🤫",
-    "Ye fabric ka kaam thoda zyada honestly kiya 😶",
-    "Designer ne boundary set ki thi... fabric ne nahi maani 👁️",
-    "Ek second ke liye camera shaky hua... kyu? 😏",
+_FALLBACK_STRUCTURES = [
+    "Camera wahan ruka... kyu ruka? 👁️",
+    "Ye cut kisi ne plan kiya tha 🤫",
+    "Fabric ne apna kaam thoda zyada kiya 😶",
+    "Ek detail hai jo pehli baar nahi dikhti 👀",
+    "Stylist ne ek decision liya... dekha? 😏",
+    "Jo frame mein hai wo enough hai 🤫",
+    "Ye angle director ne rakhwaya tha zaroor 👁️",
+    "Ek second ka frame jo bahut kuch bolta hai 😶",
+    "Kapde ne wahan rok liya jahan nahi rokna tha 🤫",
+    "Camera ne pura frame nahi dikhaya... kyu? 👀",
+    "Ye jo fold hai na... wahan dhyan gaya? 😏",
+    "Lighting ne kuch zyada highlight kar diya 👁️",
+    "Editing mein ye shot raha... deliberately 🤫",
+    "Fabric ka tension wahan dekha tune? 😶",
+    "Stylist ki ek galti ya ek plan? 👀",
+    "Jo nahi dikhaya wo zyada bolta hai 😏",
+    "Frame ke bahar kya tha... socha? 👁️",
+    "Ye movement camera ne pakda ya choda? 🤫",
+    "Ek detail hai jis pe sab nazar atki 😶",
+    "Director ne ye shot kyun rakha final mein? 👀",
 ]
 
-_HOOK_RULES: Dict[str, List[int]] = {
-    "has_name":  [0, 1, 2, 3, 4, 5],
-    "no_name":   [0, 1, 2, 3, 4, 5],
-    "energetic": [0, 1, 5],
-    "romantic":  [2, 3],
-    "curiosity": [1, 4, 5],
-}
+VIRAL_HOOKS: List[str] = _FALLBACK_STRUCTURES
 
 _VIRAL_HOOK_MEMORY_PATH = "The_json/viral_hook_memory.json"
 _VIRAL_HOOK_MAX_MEMORY = 50
@@ -48,17 +55,8 @@ MAX_MEMORY = 100
 SIMILARITY_THRESHOLD = 0.8
 
 NEGATIVE_WORDS_FALLBACK = [
-    "effortless",
-    "stunning",
-    "beautiful",
-    "chic",
-    "elegant",
-    "sexy",
-    "hot",
-    "camera",
-    "video",
-    "clip",
-    "shows",
+    "effortless", "stunning", "beautiful", "chic", "elegant",
+    "sexy", "hot", "camera", "video", "clip", "shows"
 ]
 
 OVERLAY_POOLS: Dict[str, List[str]] = {
@@ -140,96 +138,80 @@ def generate_overlay_text(
 ) -> str:
     pool_name = mood if mood in OVERLAY_POOLS else "statement"
     pool = OVERLAY_POOLS[pool_name]
-
-    negative = _load_negative_words()
     memory = _load_memory()
-
-    combined_context = f"{caption_text or ''} {narration_text or ''}".lower()
-    context_words = set(re.findall(r"\w+", combined_context))
-
-    candidates: List[str] = []
-    for text in pool:
-        words = set(re.findall(r"\w+", text.lower()))
-        if any(w in negative for w in words):
+    negative = _load_negative_words()
+    
+    for text in random.sample(pool, len(pool)):
+        if any(w in text.lower() for w in negative):
             continue
-        if words.intersection(context_words):
-            continue
-
-        too_similar = False
-        for prev in memory:
-            if _similarity(text, prev) > SIMILARITY_THRESHOLD:
-                too_similar = True
-                break
-        if too_similar:
-            continue
-
-        candidates.append(text)
-
-    if candidates:
-        selected = random.choice(candidates)
-    else:
-        filtered_fallback = [
-            t for t in pool if not any(w in t.lower() for w in negative)
-        ]
-        selected = (
-            random.choice(filtered_fallback) if filtered_fallback else pool[0]
-        )
-
-    memory.append(selected)
+        if not any(_similarity(text, prev) > SIMILARITY_THRESHOLD for prev in memory):
+            memory.append(text)
+            _save_memory(memory)
+            return text
+    
+    fallback = pool[0]
+    memory.append(fallback)
     _save_memory(memory)
-    return selected
+    return fallback
 
 
 __all__ = ["generate_overlay_text", "select_viral_hook", "validate_viral_hook", "VIRAL_HOOKS"]
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# HOOK VALIDATION & SELECTION ENGINE
-# ─────────────────────────────────────────────────────────────────────────────
-
 def validate_viral_hook(hook: str) -> bool:
     """
-    Validation function that rejects any hook that:
-    1. Could have been written without seeing the frames (generic)
-    2. Contains generic filler as main subject: vibe, entry, feel, look
-    3. Contains forbidden words: bhai, yaar, sexy, hot, body, skin, nude
-    4. Is longer than 9 words or shorter than 3 words
+    Strict psychological validator enforcing:
+    1. 4 to 9 words max (emojis stripped before counting)
+    2. No bhai, no yaar, no explicit terms
+    3. No generic filler subjects: vibe, entry, feel, scene
     """
     if not hook or not isinstance(hook, str):
         return False
-    words = hook.strip().split()
-    if len(words) > 9 or len(words) < 3:
-        logger.warning(f"[HOOK_VALIDATION] Rejected (word count {len(words)} not in 3-9): '{hook}'")
+    
+    # Strip emojis before counting words
+    emoji_pattern = re.compile(
+        "[𐀀-􏿿"
+        "😀-🙏"
+        "🌀-🗿"
+        "🚀-🛿"
+        "🇠-🇿"
+        "]+", flags=re.UNICODE
+    )
+    hook_no_emoji = emoji_pattern.sub("", hook).strip()
+    words = hook_no_emoji.split()
+    
+    if len(words) > 9 or len(words) < 4:
+        logger.warning(
+            f"[HOOK_VALIDATION] Rejected (word count {len(words)} not in 4-9): '{hook}'"
+        )
         return False
-
+    
     hook_lower = hook.lower()
-
-    # Forbidden words (bhai, yaar, explicit terms)
-    forbidden = ["bhai", "yaar", "sexy", "hot", "body", "skin", "nude", "boobs", "cleavage"]
+    forbidden = [
+        "bhai", "yaar", "sexy", "hot", "body", 
+        "skin", "nude", "gorgeous", "stunning"
+    ]
     for f_word in forbidden:
         if re.search(rf"\b{re.escape(f_word)}\b", hook_lower):
-            logger.warning(f"[HOOK_VALIDATION] Rejected (contains forbidden word '{f_word}'): '{hook}'")
+            logger.warning(
+                f"[HOOK_VALIDATION] Rejected (forbidden: '{f_word}'): '{hook}'"
+            )
             return False
-
-    # Generic filler as main subject
+    
     generic_patterns = [
-        r"\bvibe\b",
-        r"\bentry\b",
-        r"\bfeeling?\b",
-        r"\blooks?\b\s+wala",
-        r"\bkya\s+look\b",
-        r"\blook\b\s+check\b"
+        r"\bvibe\b", r"\bentry\b", r"\bfeeling?\b", r"\bscene\b"
     ]
     for pattern in generic_patterns:
         if re.search(pattern, hook_lower):
-            logger.warning(f"[HOOK_VALIDATION] Rejected (contains generic filler pattern '{pattern}'): '{hook}'")
+            logger.warning(
+                f"[HOOK_VALIDATION] Rejected (generic filler): '{hook}'"
+            )
             return False
-
+    
     return True
 
 
 def _load_viral_hook_memory() -> List[str]:
-    """Load recently used viral hook texts to avoid repetition."""
     if not os.path.exists(_VIRAL_HOOK_MEMORY_PATH):
         return []
     try:
@@ -253,67 +235,29 @@ def _save_viral_hook_memory(memory: List[str]) -> None:
 
 def select_viral_hook(context: Optional[Dict] = None) -> str:
     """
-    Dynamically select or construct a visually specific, gap-based Hinglish hook.
-    Uses memory threshold 0.60 for heightened uniqueness.
+    Fallback only — Gemini should be primary.
+    These are structurally sound gap-hooks, not content templates.
+    They reference camera/fabric/styling mechanics, not specific visuals.
+    Acceptable as fallback because they are observation-framed, not desire-bait.
     """
     ctx = context or {}
     memory = _load_viral_hook_memory()
 
-    name = (
-        ctx.get("actress_name")
-        or ctx.get("user_title")
-        or ctx.get("title", "")
-    )
-    if name:
-        while True:
-            prev_name = name
-            name = re.sub(
-                r"(?i)^(?:niche[_\s]?virals?|niche|viral|fashion|entertainment|nsfw|adult|paparazzi|general|process|cli|title)[\s:|]+",
-                "", name
-            ).strip()
-            if name == prev_name:
-                break
-        name = re.sub(r"[_\-]+", " ", name).strip()
-        if name.lower() in ("niche viral", "niche virals", "viral niche", "viral niches", "niche_viral", "niche_virals", "niche", "viral", "video", "cli mission", "generic"):
-            name = ""
-        if name:
-            words = name.split()
-            name = " ".join(words[:3]).strip(" '\",.")
-
-    has_name = bool(name and len(name) > 2)
-
-    # Dynamic gap templates focused on specific elements (strictly 6-8 words)
-    gap_templates = [
-        "Wo drape ka angle... samjhe? 😏",
-        "Camera ne pakda, stylist ne nahi 👀",
-        "Careful styling... phir bhi dikh gaya 🤫",
-        "Ye fabric ka kaam honest hua 😶",
-        "Designer boundary... fabric ne nahi maani 👁️",
-        "Camera second ke liye shaky hua 😏",
-    ]
-    if has_name:
-        gap_templates.insert(0, f"Wo {name} ka drape angle... samjhe? 😏")
-        gap_templates.insert(2, f"Careful styling... phir bhi {name} dikha 🤫")
-
     recent_memory = memory[-25:]
-    selected_raw = ""
 
-    for cand in gap_templates:
-        if not validate_viral_hook(cand):
-            continue
-        too_similar = False
-        for prev in recent_memory:
-            if _similarity(cand, prev) > 0.60:  # Tuned threshold 0.60
-                too_similar = True
-                break
+    for hook in _FALLBACK_STRUCTURES:
+        too_similar = any(
+            _similarity(hook, prev) > 0.60
+            for prev in recent_memory
+        )
         if not too_similar:
-            selected_raw = cand
-            break
+            memory.append(hook)
+            _save_viral_hook_memory(memory)
+            logger.info(f"[VIRAL_HOOK] fallback_selected='{hook}'")
+            return hook
 
-    if not selected_raw:
-        selected_raw = gap_templates[0]
-
-    memory.append(selected_raw)
+    # Absolute last resort
+    selected = _FALLBACK_STRUCTURES[0]
+    memory.append(selected)
     _save_viral_hook_memory(memory)
-    logger.info(f"[VIRAL_HOOK] selected=\"{selected_raw}\" visually_grounded=True")
-    return selected_raw
+    return selected
