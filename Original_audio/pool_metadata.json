@@ -1,21 +1,6 @@
 {
   "version": 2,
   "files": {
-    "Oi.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
-      "bpm": 75.7,
-      "energy": 0.6061724137931035,
-      "created_at": 1780299381.6607492,
-      "beat_data_path": "beats\\Oi.npz",
-      "drop_times": [
-        4.25,
-        8.05
-      ],
-      "sample_rate": 44100,
-      "audio_hash": "571910_1780299381",
-      "version": 2
-    },
     "Adam_john.mp3": {
       "usage_count": 1,
       "last_used": 1782004112.9057734,
@@ -40,18 +25,6 @@
       "audio_hash": "441507_1777590547",
       "version": 2
     },
-    "Aditi_bhatia_01.mp3": {
-      "usage_count": 1,
-      "last_used": 1782276986.4647923,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9428434,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "342513_1777634365",
-      "version": 2
-    },
     "Aisha.mp3": {
       "usage_count": 2,
       "last_used": 1782366179.7518623,
@@ -74,60 +47,6 @@
       "drop_times": [],
       "sample_rate": 44100,
       "audio_hash": "665324_1777754245",
-      "version": 2
-    },
-    "Akanksha_puri.mp3": {
-      "usage_count": 1,
-      "last_used": 1780498846.951133,
-      "bpm": 79.5,
-      "energy": 0.5958285714285714,
-      "created_at": 1780391156.9433477,
-      "beat_data_path": "beats/Akanksha_puri.npz",
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "646520_1781906227",
-      "version": 2,
-      "gemini_genre": "pop",
-      "gemini_mood_tags": [
-        "chill",
-        "dreamy",
-        "romantic"
-      ],
-      "gemini_energy_level": "medium",
-      "gemini_has_vocals": true,
-      "gemini_content_match": [
-        "aesthetic",
-        "travel",
-        "fashion"
-      ],
-      "gemini_avoid_match": [
-        "fitness",
-        "gaming"
-      ],
-      "gemini_analyzed": true
-    },
-    "Akanksha_puri_1.mp3": {
-      "usage_count": 1,
-      "last_used": 1781756617.8009813,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9433477,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "437118_1778010108",
-      "version": 2
-    },
-    "Akanksha_puri_2.mp3": {
-      "usage_count": 1,
-      "last_used": 1780578841.4520783,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9433477,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "530532_1778278834",
       "version": 2
     },
     "Ankita_singh.mp3": {
@@ -156,42 +75,6 @@
       "audio_hash": "302953_1777484763",
       "version": 2
     },
-    "Anupama.mp3": {
-      "usage_count": 1,
-      "last_used": 1780398500.9068859,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9438772,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "907322_1777479740",
-      "version": 2
-    },
-    "Arabella.mp3": {
-      "usage_count": 1,
-      "last_used": 1782275607.3353934,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9438772,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "162519_1778894528",
-      "version": 2
-    },
-    "Avneet_kaur_2.mp3": {
-      "usage_count": 1,
-      "last_used": 1780476885.8925128,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9444246,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "292295_1777572400",
-      "version": 2
-    },
     "Dhansree_verma.mp3": {
       "usage_count": 1,
       "last_used": 1782273949.633453,
@@ -202,21 +85,6 @@
       "drop_times": [],
       "sample_rate": 44100,
       "audio_hash": "1154963_1777406681",
-      "version": 2
-    },
-    "Disha_patani_1.mp3": {
-      "usage_count": 1,
-      "last_used": 1782366780.2901483,
-      "bpm": 77.2,
-      "energy": 0.7540399999999999,
-      "created_at": 1780391156.9444246,
-      "beat_data_path": "beats/Disha_patani_1.npz",
-      "drop_times": [
-        0.1,
-        1.65
-      ],
-      "sample_rate": 44100,
-      "audio_hash": "473485_1782004453",
       "version": 2
     },
     "Disha_patani_2.mp3": {
@@ -258,30 +126,6 @@
       "audio_hash": "252798_1777743637",
       "version": 2
     },
-    "Gayu.mp3": {
-      "usage_count": 1,
-      "last_used": 1780676600.520191,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9449425,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "378813_1778025435",
-      "version": 2
-    },
-    "Gima_ashi.mp3": {
-      "usage_count": 1,
-      "last_used": 1780495963.9911945,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9449425,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "848390_1778272039",
-      "version": 2
-    },
     "Giorgia_1.mp3": {
       "usage_count": 1,
       "last_used": 1780579097.298077,
@@ -304,18 +148,6 @@
       "drop_times": [],
       "sample_rate": 44100,
       "audio_hash": "374424_1777673574",
-      "version": 2
-    },
-    "Giorgia_3.mp3": {
-      "usage_count": 2,
-      "last_used": 1782327134.6881444,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.945487,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "472853_1777805638",
       "version": 2
     },
     "Gizele_thakral.mp3": {
@@ -366,45 +198,6 @@
       "audio_hash": "501693_1777494096",
       "version": 2
     },
-    "Kaydu_lohar.mp3": {
-      "usage_count": 1,
-      "last_used": 1781796888.6294022,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9460042,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "358128_1778536091",
-      "version": 2
-    },
-    "Mahi_kapoor.mp3": {
-      "usage_count": 1,
-      "last_used": 1780400046.0255215,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.946521,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "297938_1777478690",
-      "version": 2
-    },
-    "Malavika.mp3": {
-      "usage_count": 1,
-      "last_used": 1781828086.5847313,
-      "bpm": 102.2,
-      "energy": 0.65625,
-      "created_at": 1780391156.946521,
-      "beat_data_path": "beats/Malavika.npz",
-      "drop_times": [
-        0.1,
-        7.1
-      ],
-      "sample_rate": 44100,
-      "audio_hash": "275373_1780498628",
-      "version": 2
-    },
     "Malavika_10.mp3": {
       "usage_count": 1,
       "last_used": 1780495551.261916,
@@ -415,18 +208,6 @@
       "drop_times": [],
       "sample_rate": 44100,
       "audio_hash": "618930_1777853187",
-      "version": 2
-    },
-    "Malavika_11.mp3": {
-      "usage_count": 1,
-      "last_used": 1780424673.9064348,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9470403,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "384455_1777858070",
       "version": 2
     },
     "Malavika_2.mp3": {
@@ -477,18 +258,6 @@
       "audio_hash": "177565_1777687880",
       "version": 2
     },
-    "Neha_Sharma_1.mp3": {
-      "usage_count": 1,
-      "last_used": 1782161573.3841546,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9475565,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "398248_1777668867",
-      "version": 2
-    },
     "Nora_fatehi.mp3": {
       "usage_count": 2,
       "last_used": 1782442181.9943867,
@@ -513,18 +282,6 @@
       "audio_hash": "250917_1777556559",
       "version": 2
     },
-    "Palak_tiwari.mp3": {
-      "usage_count": 1,
-      "last_used": 1780497419.006296,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9480724,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "674101_1778005613",
-      "version": 2
-    },
     "Pooja_hedge.mp3": {
       "usage_count": 1,
       "last_used": 1782002843.164189,
@@ -535,18 +292,6 @@
       "drop_times": [],
       "sample_rate": 44100,
       "audio_hash": "543699_1781756233",
-      "version": 2
-    },
-    "Poonam_pandey.mp3": {
-      "usage_count": 1,
-      "last_used": 1780417415.5489118,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9480724,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "1980641_1778859884",
       "version": 2
     },
     "Rakul_preet_singh_1.mp3": {
@@ -574,18 +319,6 @@
       "audio_hash": "",
       "version": 2
     },
-    "Rasha_Thadani_01.mp3": {
-      "usage_count": 1,
-      "last_used": 1782004388.9135256,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9485884,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "346902_1777634366",
-      "version": 2
-    },
     "Reem.mp3": {
       "usage_count": 1,
       "last_used": 1782001662.2913542,
@@ -596,18 +329,6 @@
       "drop_times": [],
       "sample_rate": 44100,
       "audio_hash": "408279_1777514522",
-      "version": 2
-    },
-    "Riddhi_dogra.mp3": {
-      "usage_count": 1,
-      "last_used": 1781661944.5416436,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9485884,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "390098_1779028103",
       "version": 2
     },
     "Ritika.mp3": {
@@ -622,18 +343,6 @@
       "audio_hash": "268471_1776690403",
       "version": 2
     },
-    "Romancham.mp3": {
-      "usage_count": 1,
-      "last_used": 1782003488.833335,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.949104,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "13368988_1777861480",
-      "version": 2
-    },
     "Roshniwalia_1.mp3": {
       "usage_count": 2,
       "last_used": 1782284581.8313143,
@@ -644,30 +353,6 @@
       "drop_times": [],
       "sample_rate": 44100,
       "audio_hash": "428341_1778368388",
-      "version": 2
-    },
-    "Rubysimpy.mp3": {
-      "usage_count": 1,
-      "last_used": 1782004674.5445023,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9496174,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "348093_1778909126",
-      "version": 2
-    },
-    "Sakshi.mp3": {
-      "usage_count": 2,
-      "last_used": 1782568132.129202,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9496174,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "431475_1775686984",
       "version": 2
     },
     "Sakshi_malik_1.mp3": {
@@ -682,18 +367,6 @@
       "audio_hash": "422698_1779024216",
       "version": 2
     },
-    "Sakshi_malik_2.mp3": {
-      "usage_count": 1,
-      "last_used": 1780675401.3920622,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9496174,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "1343044_1777489553",
-      "version": 2
-    },
     "Sakshi_malik_3.mp3": {
       "usage_count": 1,
       "last_used": 1780483756.008112,
@@ -704,30 +377,6 @@
       "drop_times": [],
       "sample_rate": 44100,
       "audio_hash": "768142_1776645829",
-      "version": 2
-    },
-    "Sara_Tendulkar.mp3": {
-      "usage_count": 2,
-      "last_used": 1782326853.9815273,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9501328,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "365647_1779026558",
-      "version": 2
-    },
-    "Sassy_poonam_1.mp3": {
-      "usage_count": 1,
-      "last_used": 1780476941.1046767,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9501328,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "492915_1777403835",
       "version": 2
     },
     "Shalini.mp3": {
@@ -754,18 +403,6 @@
       "audio_hash": "407025_1777485765",
       "version": 2
     },
-    "Shefali_1.mp3": {
-      "usage_count": 2,
-      "last_used": 1782280094.4873576,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9506483,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "1250884_1778273149",
-      "version": 2
-    },
     "Tammanah_bhatia.mp3": {
       "usage_count": 1,
       "last_used": 1782018620.36322,
@@ -788,18 +425,6 @@
       "drop_times": [],
       "sample_rate": 44100,
       "audio_hash": "334300_1777852225",
-      "version": 2
-    },
-    "Tripti_dimri.mp3": {
-      "usage_count": 1,
-      "last_used": 1782326862.3293571,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9511678,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "633350_1775556327",
       "version": 2
     },
     "Urvashi_rautela.mp3": {
@@ -826,18 +451,6 @@
       "audio_hash": "381320_1778012048",
       "version": 2
     },
-    "Urvashi_Rautela_2.mp3": {
-      "usage_count": 1,
-      "last_used": 1782416588.6124413,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9511678,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "3650183_1778895663",
-      "version": 2
-    },
     "Vrinda.mp3": {
       "usage_count": 1,
       "last_used": 1781756307.1254003,
@@ -848,18 +461,6 @@
       "drop_times": [],
       "sample_rate": 44100,
       "audio_hash": "182581_1776513901",
-      "version": 2
-    },
-    "Wamiqa_gabbi.mp3": {
-      "usage_count": 1,
-      "last_used": 1781702172.9489095,
-      "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1780391156.9516847,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "348720_1776904549",
       "version": 2
     },
     "Wamiqa_gabbi_1.mp3": {
@@ -886,19 +487,6 @@
       "audio_hash": "222082_1778607462",
       "version": 2
     },
-    "Kangna_sharma.mp3": {
-      "is_speech_only": true,
-      "usage_count": 0,
-      "last_used": 0,
-      "bpm": 0.0,
-      "energy": 0.809,
-      "created_at": 1780399991.6271508,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "",
-      "version": 2
-    },
     "Shruthi_hassan.mp3": {
       "usage_count": 1,
       "last_used": 1782015718.5200045,
@@ -911,32 +499,6 @@
       ],
       "sample_rate": 44100,
       "audio_hash": "810152_1780402172",
-      "version": 2
-    },
-    "Kirthi_sanon.mp3": {
-      "is_speech_only": true,
-      "usage_count": 0,
-      "last_used": 0,
-      "bpm": 0.0,
-      "energy": 0.783,
-      "created_at": 1780476848.2364657,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "",
-      "version": 2
-    },
-    "Avneet_kaur.mp3": {
-      "is_speech_only": true,
-      "usage_count": 0,
-      "last_used": 0,
-      "bpm": 0.0,
-      "energy": 0.668,
-      "created_at": 1782186264.6536725,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "",
       "version": 2
     },
     "Zareena_khan.mp3": {
@@ -966,54 +528,6 @@
       "gemini_avoid_match": [
         "fitness",
         "gaming"
-      ],
-      "gemini_analyzed": true
-    },
-    "Nyra_banerjee.mp3": {
-      "usage_count": 1,
-      "last_used": 1782004688.9132044,
-      "bpm": 60.3,
-      "energy": 0.7527358490566038,
-      "created_at": 1780494525.2878742,
-      "beat_data_path": "beats/Nyra_banerjee.npz",
-      "drop_times": [
-        5.55,
-        6.85,
-        8.2,
-        9.5,
-        12.15,
-        14.8,
-        16.1,
-        17.4,
-        18.75,
-        20.05,
-        26.65,
-        31.95,
-        37.2,
-        43.8,
-        46.45,
-        47.75,
-        51.7
-      ],
-      "sample_rate": 44100,
-      "audio_hash": "1268444_1780494524",
-      "version": 2,
-      "gemini_genre": "hiphop",
-      "gemini_mood_tags": [
-        "chill",
-        "groovy",
-        "relaxed"
-      ],
-      "gemini_energy_level": "medium",
-      "gemini_has_vocals": true,
-      "gemini_content_match": [
-        "dance",
-        "fashion",
-        "travel"
-      ],
-      "gemini_avoid_match": [
-        "fitness",
-        "motivational"
       ],
       "gemini_analyzed": true
     },
@@ -1097,83 +611,6 @@
       "drop_times": [],
       "sample_rate": 44100,
       "audio_hash": "191990_1780498806",
-      "version": 2
-    },
-    "Jacqueline_Fernandez_1.mp3": {
-      "usage_count": 1,
-      "last_used": 1781541122.0770035,
-      "bpm": 70.8,
-      "energy": 0.8866500000000002,
-      "created_at": 1780498837.5383687,
-      "beat_data_path": "beats/Jacqueline_Fernandez_1.npz",
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "421449_1782016173",
-      "version": 2
-    },
-    "2235768379600": {
-      "is_speech_only": true,
-      "usage_count": 0,
-      "last_used": 0,
-      "bpm": 0.0,
-      "energy": 0.0,
-      "created_at": 1780578656.0159965,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "",
-      "version": 2
-    },
-    "2236050017920": {
-      "is_speech_only": true,
-      "usage_count": 0,
-      "last_used": 0,
-      "bpm": 0.0,
-      "energy": 0.0,
-      "created_at": 1780579021.8463645,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "",
-      "version": 2
-    },
-    "2235772293504": {
-      "is_speech_only": true,
-      "usage_count": 0,
-      "last_used": 0,
-      "bpm": 0.0,
-      "energy": 0.0,
-      "created_at": 1780579073.802201,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "",
-      "version": 2
-    },
-    "2235795622976": {
-      "is_speech_only": true,
-      "usage_count": 0,
-      "last_used": 0,
-      "bpm": 0.0,
-      "energy": 0.0,
-      "created_at": 1780579097.2854998,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "",
-      "version": 2
-    },
-    "Naelapaul.mp3": {
-      "is_speech_only": true,
-      "usage_count": 0,
-      "last_used": 0,
-      "bpm": 0.0,
-      "energy": 0.849,
-      "created_at": 1781260816.7906146,
-      "beat_data_path": null,
-      "drop_times": [],
-      "sample_rate": 44100,
-      "audio_hash": "",
       "version": 2
     },
     "Janhvi_kapoor.mp3": {
@@ -1263,35 +700,53 @@
       ],
       "gemini_analyzed": true
     },
-    "Wamiqa_Gabbi.mp3": {
+    "Disha_patani_4.mp3": {
       "usage_count": 0,
       "last_used": 0,
-      "bpm": 35.7,
-      "energy": 0.9225,
-      "created_at": 1782373962.6622634,
-      "beat_data_path": "beats/Wamiqa_Gabbi.npz",
+      "bpm": 0.0,
+      "energy": 0.5,
+      "created_at": 1782638838.8912814,
+      "beat_data_path": null,
       "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "252172_1782373962",
-      "version": 2,
-      "gemini_genre": "pop",
-      "gemini_mood_tags": [
-        "upbeat",
-        "playful",
-        "carefree"
-      ],
-      "gemini_energy_level": "medium",
-      "gemini_has_vocals": true,
-      "gemini_content_match": [
-        "dance",
-        "fashion",
-        "travel"
-      ],
-      "gemini_avoid_match": [
-        "motivational",
-        "gaming"
-      ],
-      "gemini_analyzed": true
+      "audio_hash": "349978_1782375730",
+      "version": 2
+    },
+    "Edin_rose.mp3": {
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 0.0,
+      "energy": 0.5,
+      "created_at": 1782638838.8912814,
+      "beat_data_path": null,
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "689148_1782375730",
+      "version": 2
+    },
+    "Guess_who.mp3": {
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 0.0,
+      "energy": 0.5,
+      "created_at": 1782638838.8922815,
+      "beat_data_path": null,
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "368783_1782375730",
+      "version": 2
+    },
+    "Kriti_Sanon.mp3": {
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 0.0,
+      "energy": 0.5,
+      "created_at": 1782638838.8922815,
+      "beat_data_path": null,
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "606392_1782375730",
+      "version": 2
     }
   }
 }
