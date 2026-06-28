@@ -1848,13 +1848,13 @@ def render_scene_reconstruction(
                     check=True,
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.PIPE,
-                    timeout=120,  # 2 minute timeout per attempt
+                    timeout=int(os.getenv("FFMPEG_TIMEOUT_SEC", "600")),
                 )
                 success = True
                 break  # Success, exit retry loop
             except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as e:
                 if isinstance(e, subprocess.TimeoutExpired):
-                    last_error = "TimeoutExpired (120s limit reached)"
+                    last_error = f"TimeoutExpired ({os.getenv('FFMPEG_TIMEOUT_SEC', '600')}s limit reached)"
                     logger.warning(f"⚠️ FFmpeg timed out on attempt {attempt + 1}")
                 else:
                     last_error = e.stderr.decode(errors="ignore")[-800:]

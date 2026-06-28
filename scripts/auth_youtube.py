@@ -80,21 +80,35 @@ def _get_telegram_creds(override_admin_id=None):
     token = os.getenv("TELEGRAM_BOT_TOKEN")
 
     # Strictly private-chat admin ID — group IDs are negative, we want a positive user ID
-    admin_id = (
-        str(override_admin_id).strip() if override_admin_id else None
-    ) or (
-        os.getenv("TELEGRAM_ADMIN_ID")            # preferred: explicit admin chat ID
-        or os.getenv("TELEGRAM_OWNER_CHAT_ID")    # fallback 1
-        or (
-            os.getenv("ADMIN_IDS", "").split(",")[0].strip()  # fallback 2: first admin
-            if os.getenv("ADMIN_IDS") else None
-        )
-    )
+    # Check all sources and pick the first valid personal chat ID
+    admin_sources = []
+    if override_admin_id:
+        admin_sources.append(override_admin_id)
+    if os.getenv("TELEGRAM_OWNER_CHAT_ID"):
+        admin_sources.append(os.getenv("TELEGRAM_OWNER_CHAT_ID"))
+    if os.getenv("TELEGRAM_ADMIN_ID"):
+        admin_sources.append(os.getenv("TELEGRAM_ADMIN_ID"))
+    
+    admin_ids_str = os.getenv("ADMIN_IDS", "")
+    for aid in admin_ids_str.split(","):
+        if aid.strip():
+            admin_sources.append(aid.strip())
 
-    if admin_id and (str(admin_id).startswith("@") or str(admin_id).startswith("-")):
-        print(f"⚠️ WARNING: admin_id='{admin_id}' looks like a public GROUP/CHANNEL. "
-              "Auth messages will NOT be sent to groups. Set TELEGRAM_ADMIN_ID to your personal chat ID.")
-        admin_id = None  # refuse to send to group
+    admin_id = None
+    for src in admin_sources:
+        if not src:
+            continue
+        src_str = str(src).strip()
+        if not src_str:
+            continue
+        if src_str.startswith("@") or src_str.startswith("-"):
+            print(f"⚠️ Candidate ID '{src_str}' looks like a public GROUP/CHANNEL. Checking next fallback...")
+            continue
+        admin_id = src_str
+        break
+
+    if not admin_id:
+        print("⚠️ No valid private TELEGRAM_ADMIN_ID or ADMIN_IDS found. Auth messages will NOT be sent.")
 
     print(f"📡 Auth will notify: chat_id={admin_id}")
     return token, admin_id

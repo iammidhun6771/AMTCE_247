@@ -631,9 +631,15 @@ def apify_scrape_actress_accounts(
 
         run = client.actor(APIFY_ACTOR).call(run_input=run_input)
 
-        items = list(client.dataset(run["defaultDatasetId"]).iterate_items())
+        raw_items = list(client.dataset(run["defaultDatasetId"]).iterate_items())
+        # Filter out status/error placeholder items
+        items = [item for item in raw_items if item.get("shortcode") or item.get("id")]
         actual_count = len(items)
-        _consume_quota(actual_count)
+        
+        if actual_count > 0:
+            _consume_quota(actual_count)
+        else:
+            logger.warning("⚠️ Apify returned 0 valid reels (likely blocked by Instagram or private account).")
 
         # Mark accounts as scraped NOW — cooldown starts from this moment.
         # Done immediately after Apify returns so even a crash later won't

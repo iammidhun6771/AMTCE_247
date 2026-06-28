@@ -512,6 +512,41 @@ class MonetizationStrategist:
                                                 main_data["item_name"] = _better_name
                                                 if main_data.get("overlay_data"):
                                                     main_data["overlay_data"][0]["item_name"] = _better_name
+                                                
+                                                # Format specific educational fashion hook using fashion_scout results
+                                                try:
+                                                    _celeb = clean_title.split(":")[0].strip() if ":" in clean_title else clean_title.split("|")[0].strip()
+                                                    _celeb = re.sub(r'https?://\S+', '', _celeb).strip()
+                                                    _celeb = re.sub(r'#\S+', '', _celeb).strip()
+                                                    
+                                                    _attrs = _f_scout.get("attributes", {})
+                                                    _material = _attrs.get("fabric", {}).get("primary_material", "").strip()
+                                                    _brand = _f_scout.get("brand_detection", {}).get("detected_brand", "").strip()
+                                                    if not _brand:
+                                                        _brand = _attrs.get("brand_dna", {}).get("brand_style_match", "").strip()
+                                                    
+                                                    # Keep names short and punchy
+                                                    _short_better_name = _better_name
+                                                    if len(_short_better_name.split()) > 4:
+                                                        # truncate to 4 words to avoid overflowing screen space
+                                                        _short_better_name = " ".join(_short_better_name.split()[:4])
+                                                    
+                                                    if _material and _brand:
+                                                        _refined_hook = f"Ye {_short_better_name} {_material} fabric se bana hai by {_brand} 🤫"
+                                                    elif _material:
+                                                        _refined_hook = f"Ye {_short_better_name} custom {_material} fabric se bana hai 😶"
+                                                    elif _brand:
+                                                        _refined_hook = f"Ye {_short_better_name} {_brand} brand ka rare piece hai 👁️"
+                                                    else:
+                                                        _refined_hook = f"Ye custom {_short_better_name} ka drape manually set hai 🤫"
+                                                    
+                                                    main_data["viral_hook"] = _refined_hook
+                                                    if main_data.get("overlay_data"):
+                                                        main_data["overlay_data"][0]["viral_hook"] = _refined_hook
+                                                    logger.info(f"✨ [HIERARCHICAL_SYNC] Formatted educational hook: '{_refined_hook}'")
+                                                except Exception as _hook_err:
+                                                    logger.warning(f"⚠️ [HIERARCHICAL_SYNC] Failed to format educational hook: {_hook_err}")
+
                                                 logger.info(f"🔄 [HIERARCHICAL_SYNC] Superior wear_name found: '{_better_name}'")
                                             else:
                                                 logger.warning(
