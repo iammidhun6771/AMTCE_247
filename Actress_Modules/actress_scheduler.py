@@ -1767,6 +1767,21 @@ _STORE_COUNT          = 6
 
 
 def _detect_pipeline_slot():
+    """
+    Smart & self-healing slot detection:
+    1. If today's harvest has NOT completed yet (drip_queue for today is missing/empty),
+       automatically select 'harvest' mode so we scrape and seed the 6 stored reels,
+       even if GitHub Actions delayed the run or if triggered via manual dispatch!
+    2. If today's harvest has ALREADY completed, select 'drip' mode.
+    """
+    from Core_Modules.salesman_state import get_drip_queue_raw
+    today = datetime.now().strftime("%Y-%m-%d")
+    existing_dq = get_drip_queue_raw()
+
+    if existing_dq.get("date") != today or not existing_dq.get("slots"):
+        logger.info("🧠 [SLOT_DETECT] Today's harvest (%s) not found in state -> auto-selected HARVEST mode.", today)
+        return "harvest"
+
     from datetime import timezone, timedelta
     ist = timezone(timedelta(hours=5, minutes=30))
     ist_hour = datetime.now(ist).hour
