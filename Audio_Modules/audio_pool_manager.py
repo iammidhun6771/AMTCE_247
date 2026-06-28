@@ -365,7 +365,7 @@ class AudioPoolManager:
                 return self._beat_cache[filename]
 
         meta = self._get_file_metadata(filename)
-        if not meta or "beat_data_path" not in meta:
+        if not meta or not meta.get("beat_data_path"):
             return None
 
         npz_path = os.path.join(self.base_dir, meta["beat_data_path"])

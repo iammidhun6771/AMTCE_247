@@ -1052,11 +1052,16 @@ class UnifiedIntelligence:
         if isinstance(master_data, list):
             if len(master_data) > 0 and isinstance(master_data[0], dict):
                 first = master_data[0]
-                # Heuristic: if the first element looks like a segment (has clip_id/start/end
+                # Heuristic: if the elements look like segments/beats (have timestamp/narration/style/etc
                 # but NOT top-level master-schema keys), treat the whole list as segments.
-                _segment_keys = {"clip_id", "start", "end", "role"}
+                _segment_keys = {
+                    "clip_id", "start", "end", "role", "timestamp_beat", "timestamp",
+                    "time", "narration", "visual_action", "style", "segment_id", "caption"
+                }
                 _master_keys  = {"editing_plan", "core_analysis", "feature_proposals", "content_director"}
-                _is_segment_list = bool(_segment_keys & set(first.keys())) and not bool(_master_keys & set(first.keys()))
+                has_seg_key = bool(_segment_keys & set(first.keys()))
+                has_master_key = bool(_master_keys & set(first.keys()))
+                _is_segment_list = has_seg_key or (len(master_data) > 1 and not has_master_key)
                 if _is_segment_list:
                     logger.info(
                         f"🩹 [SCHEMA_RECOVERY] Wrapped flat segment list ({len(master_data)} items) into master skeleton."

@@ -4,8 +4,13 @@ import uuid
 import logging
 import random
 from PIL import Image, ImageDraw, ImageFont
-import numpy as np
-from anchor_helper import compute_anchor
+try:
+    from anchor_helper import compute_anchor
+except ModuleNotFoundError:
+    try:
+        from Dev_Scripts.anchor_helper import compute_anchor
+    except ModuleNotFoundError:
+        compute_anchor = None
 
 logger = logging.getLogger("smart_price_tag")
 
