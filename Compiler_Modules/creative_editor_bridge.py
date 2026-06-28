@@ -473,32 +473,33 @@ class CreativeEditorBridge:
             duration_hint = _safe_float(
                 profile_data.get("video_duration")
                 or (scenes[-1]["end"] if scenes else 0.0),
-                0.0,
+                20.0,
             )
 
+            spacing = _safe_float(
+                profile_data.get("fallback_beat_spacing"),
+                DEFAULT_FALLBACK_BEAT_SPACING,
+            )
+            spacing = max(MIN_CUT_SPACING, min(1.2, spacing))
+
+            # Synthetic metronome beats
+            beats = []
+            t = 0.0
+            while t <= duration_hint:
+                beats.append({"time": round(t, 3), "energy": 0.65})
+                t += spacing
+
+            classified_beats = self._classify_beats(beats)
+            profile_data["bgm_beats"] = [b["time"] for b in beats]
+            profile_data["bgm_classified_beats"] = classified_beats
+            profile_data["bgm_drops"] = []
+            profile_data["beat_data_bgm"] = {
+                "beats": beats,
+                "drops": [],
+                "tempo": round(60.0 / spacing, 1),
+            }
+
             if scenes and duration_hint > 0:
-                spacing = _safe_float(
-                    profile_data.get("fallback_beat_spacing"),
-                    DEFAULT_FALLBACK_BEAT_SPACING,
-                )
-                spacing = max(MIN_CUT_SPACING, min(1.2, spacing))
-
-                # Synthetic metronome beats
-                beats = []
-                t = 0.0
-                while t <= duration_hint:
-                    beats.append({"time": round(t, 3), "energy": 0.65})
-                    t += spacing
-
-                classified_beats = self._classify_beats(beats)
-                profile_data["bgm_beats"] = [b["time"] for b in beats]
-                profile_data["bgm_classified_beats"] = classified_beats
-                profile_data["bgm_drops"] = []
-                profile_data["beat_data_bgm"] = {
-                    "beats": beats,
-                    "drops": [],
-                    "tempo": round(60.0 / spacing, 1),
-                }
 
                 # Enrich candidate moments with beat proximity
                 candidate_moments = profile_data.get("candidate_moments", [])
