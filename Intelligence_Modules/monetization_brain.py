@@ -155,36 +155,24 @@ class MonetizationStrategist:
                 
             hook_strategy = hook_strategies.get(_normalized_niche, hook_strategies.get("generic", {}))
 
-            # Visually grounded, tempting double-meaning hooks based on frames
-            # ANTI-HALLUCINATION RULE: Every word must be grounded in what is visible (outfit, posture, movement)
-            if _normalized_niche == "adult_content":
-                _vh_instruction = (
-                    "VISUAL HOOK GENERATION (ANTI-HALLUCINATION: Ground every word in visible frames ONLY). "
-                    "Analyze the actress posture, body language, outfit fit, and camera angle you can see. "
-                    "Generate ONE short Hinglish hook (max 6 words) that: "
-                    "(1) Is pure fashion/beauty on the surface — NO explicit words. "
-                    "(2) Has a tempting inner meaning that makes the viewer think 'something more' even though it is about the outfit. "
-                    "(3) Uses Hinglish mixing (Hindi + English naturally). "
-                    "(4) Triggers desire and curiosity — viewer must stop scrolling. "
-                    "Style: Casual bhai/yaar tone, emojis allowed. NO vulgarity. "
-                    "FORBIDDEN WORDS: sexy, hot (in English), nude, body, skin — pure fashion vocabulary only. "
-                )
-            else:
-                _vh_instruction = (
-                    "VISUAL HOOK GENERATION — MILITARY-GRADE PROMPT (ZERO HALLUCINATION POLICY). "
-                    "You MUST analyze the video frames provided. Ground every single word of the hook in what is VISUALLY VISIBLE: "
-                    "the actress movement, posture, outfit silhouette, camera framing, or styling detail. "
-                    "DO NOT invent facts that are not visible. "
-                    "OBJECTIVE: Write ONE short Hinglish hook (max 7 words) that: "
-                    "(1) Appears to be pure fashion / beauty commentary on the surface. "
-                    "(2) Carries a subtle, tempting double-meaning that makes the audience pause and think naughty thoughts — WITHOUT any explicit or vulgar language. "
-                    "(3) Uses natural Hinglish (Hindi + English mixed) — casual, like a friend texting. "
-                    "(4) Creates FOMO or curiosity — viewer must replay the video. "
-                    "(5) Has emojis at end for engagement. "
-                    "FORBIDDEN: Mentioning 'sexy', 'body', 'skin', 'hot' directly. "
-                    "ALLOWED VOCABULARY: look, frame, entry, vibe, nazar, feel, aankh, mushkil, posture, style, outfit. "
-                    "The hook must feel like it was written by a sharp, witty Indian bhai who appreciates beauty deeply. "
-                )
+            # Visually grounded, psychologically specific gap hooks (Zero Generic Hooks Policy)
+            _vh_instruction = (
+                "VISUAL HOOK GENERATION — MILITARY-GRADE PSYCHOLOGICAL SPECIFICITY (ZERO GENERIC HOOKS POLICY).\n"
+                "1. FRAME ANALYSIS MANDATE: Inspect the video frames carefully. Identify ONE specific, concrete visible detail "
+                "(e.g., a drape angle, fabric texture, camera movement, cut, slit, strap, boundary, or styling choice) that is UNIQUE to these frames.\n"
+                "2. PSYCHOLOGICAL GAP TECHNIQUE: Write an innocent, precise fashion/visual observation about that specific detail. "
+                "The hook MUST leave a gap where the viewer's mind completes the thought on its own. The viewer does all the mental work.\n"
+                "3. TONE & RHYTHM RULES:\n"
+                "   - ABSOLUTELY NO 'bhai' or 'yaar' under any circumstances.\n"
+                "   - ABSOLUTELY NO generic desire bait (NO 'vibe', 'entry', 'feel', 'look' as main subject).\n"
+                "   - ABSOLUTELY NO explicit or vulgar words (NO 'sexy', 'hot', 'body', 'skin').\n"
+                "   - Length: 6 to 8 words maximum in natural Hinglish with 1-2 emojis.\n"
+                "4. RHYTHM EXAMPLES (for rhythm and psychological gap structure reference ONLY, DO NOT copy content): "
+                "'Wo drape ka angle... samjhe? 😏', 'Camera ne jo pakda, stylist ne nahi pakda 👀', "
+                "'Itna careful styling... phir bhi kuch dikh gaya 🤫', 'Ye fabric ka kaam thoda zyada honestly kiya 😶', "
+                "'Designer ne boundary set ki thi... fabric ne nahi maani 👁️', 'Ek second ke liye camera shaky hua... kyu? 😏'.\n"
+                "Write ONE original, visually grounded hook for these specific frames:"
+            )
 
             # Telegram group handle for embedding in community hook
             _tg_raw = os.getenv("TELEGRAM_GROUP_ID", "").strip().lstrip("@")
@@ -758,30 +746,21 @@ class MonetizationStrategist:
             except Exception as _mem_e:
                 logger.warning(f"Failed to load recent viral hook memory: {_mem_e}")
 
-            if _viral_hook_text and _recent_memory:
+            if _viral_hook_text:
                 try:
-                    _is_duplicate = False
-                    for _prev in _recent_memory:
-                        if _similarity(_viral_hook_text, _prev) > 0.75:
-                            _is_duplicate = True
-                            break
-                        # Check prefix/suffix template match
-                        for _sh in VIRAL_HOOKS:
-                            if "{name}" in _sh:
-                                parts = _sh.split("{name}")
-                                prefix = parts[0]
-                                suffix = parts[1] if len(parts) > 1 else ""
-                                if prefix and _viral_hook_text.lower().startswith(prefix.lower()) and (not suffix or _viral_hook_text.lower().endswith(suffix.lower())):
-                                    if _prev.lower().startswith(prefix.lower()) and (not suffix or _prev.lower().endswith(suffix.lower())):
-                                        _is_duplicate = True
-                                        break
-                        if _is_duplicate:
-                            break
-                    if _is_duplicate:
-                        logger.info(f"[VIRAL_HOOK] Gemini generated hook \"{_viral_hook_text}\" is a duplicate/similar to recent memory. Forcing fallback rotation.")
+                    from Text_Modules.overlay_engine import validate_viral_hook, _similarity, _load_viral_hook_memory
+                    if not validate_viral_hook(_viral_hook_text):
+                        logger.warning(f"🚩 [VIRAL_HOOK] Gemini hook failed strict psychological validation rules: '{_viral_hook_text}'. Clearing for fallback.")
                         _viral_hook_text = ""
+                    else:
+                        _recent_memory = _load_viral_hook_memory()[-25:]
+                        for _prev in _recent_memory:
+                            if _similarity(_viral_hook_text, _prev) > 0.60:  # Lowered threshold to 0.60
+                                logger.info(f"🚩 [VIRAL_HOOK] Gemini hook '{_viral_hook_text}' too similar to recent memory ({_similarity(_viral_hook_text, _prev):.2f} > 0.60). Clearing for fallback.")
+                                _viral_hook_text = ""
+                                break
                 except Exception as _val_e:
-                    logger.debug(f"[VIRAL_HOOK] validation failed: {_val_e}")
+                    logger.debug(f"[VIRAL_HOOK] validation error: {_val_e}")
 
             if not _viral_hook_text:
                 try:

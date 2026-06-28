@@ -5,10 +5,8 @@ Generates short, punchy on-screen text (max 4 words) with memory-based
 similarity guards so overlays stay fresh and independent from captions
 or narration outputs.
 
-Also provides select_viral_hook() which intelligently picks a persuasive
-Hindi/Hinglish hook from the VIRAL_HOOKS pool based on visual context
-(actress name, niche category, content mood).  These hooks are placed as
-text overlays in the same position as the fashion-scout caption lane.
+Also provides select_viral_hook() and validate_viral_hook() to handle visually
+specific, psychologically grounded Hinglish hooks.
 """
 
 import json
@@ -22,71 +20,24 @@ from typing import Dict, List, Optional
 logger = logging.getLogger("overlay_engine")
 
 # ─────────────────────────────────────────────────────────────────────────────
-# VIRAL HOOK POOL
-# Persuasive Hinglish hooks for engagement-bait overlays.
-# Placeholders:
-#   {name}  → actress / user title resolved from context (falls back to "Bhai")
+# STYLE RHYTHM REFERENCE EXAMPLES
+# Labeled for rhythm reference only, do not copy content directly.
 # ─────────────────────────────────────────────────────────────────────────────
 VIRAL_HOOKS: List[str] = [
-    # -- Pure surface-fashion but mentally triggering --
-    "Bhai yaar, aankh hat nahi rahi 🥵🔥",                          # 0
-    "Ye look wala feeling bata nahi sakte 🤤",                       # 1
-    "Iss entry ne toh full screen burn kar di 😵🔥",                # 2
-    "Kuch toh hai iss frame mein... samjhe? 😏",                     # 3
-    "Aisi beauty dekh ke aankhein sharmaa jaati hain 🥵😍",          # 4
-    "Bhai scroll mat karo, yahan mat ruko 👀🔥",                    # 5
-    "Itna close kyu tha camera bhai? 😳🙈",                         # 6
-    "Yaar ek baar mein sab samajh aagaya 🤫😏",                      # 7
-    "Pure fashion, but kyun dil bolta hai aur bhi dekho? 🥵✨",     # 8
-    "Outfit bhi tight, vibe bhi tight 😵🔥",                       # 9
-    "Ye toh sirf kapda hai... baaki sab imagination 😏👑",           # 10
-    "Le bhai, weekend ka plan change ho gaya 🙈🥵",                  # 11
-    "Ek frame mein itna kuch kyu hai bhai? 😱🔥",                   # 12
-    "Nazar rok ke rakhna, mushkil hai 🤤👀",                        # 13
-    "Ye look sirf dekhne ke liye nahi bana 😏🔥",                   # 14
-    "Aisi looks dekh ke pyaar ho jaata hai 😍",                     # 15
-    "Iska asar 2 minute mein dikhega 🔥🤫",                         # 16
-    "Perfect posture, perfect frame, perfect problem 😵",           # 17
-    "Bhai puri duniya ek taraf, ye entry ek taraf 😱🔥",            # 18
-    "Itna slow kyun chala bhai? Hmko bhi pata hai 🤫😏",            # 19
-    "Screen se aankhein hatnee chahiye thi -- nahi hui 🥵",          # 20
-    "Ek min ruk, yeh kya tha... bhai dekha? 😳👀",                  # 21
-    "Sochne pe majboor kar diya iss look ne 🤤✨",                   # 22
-    "Styling game: 10/10. Baaki game: tum samjho 😏🔥",             # 23
-    "Jo samjhe wo lucky, baaki scroll karo 🤫😵",                  # 24
-    "Sab fashion hai yaar, bas dil ek baar roke 🥵",               # 25
-    # -- name-resolved hooks --
-    "{name} ki entry ne toh scene hi badal diya 👑🔥",              # 26
-    "Bhai {name} ne fir kuch zyada kar diya 😵🥵",                  # 27
-    "{name} ka ye look aankh nahi hatnee deta 🤤😍",                # 28
-    "{name} ka style dekh ke samjhe kuch bhai? 😏",                 # 29
-    "Ek frame mein {name} ne sab bol diya 🥵🔥",                    # 30
-    "{name} pure fashion mein itna kuch kyun? 😳✨",                 # 31
-    # -- curiosity / psychological tease --
-    "Wait... rewind karo, kuch aur tha wahan 😏👀",                 # 32
-    "Aakhri 2 second mein jo hua... uff 😵🔥",                      # 33
-    "Behind this look, ek aur story hai 😱🤫",                      # 34
-    "Dekha tha kuch -- ya sirf main tha? 😳👀",                      # 35
-    "Ye transition itni smooth kyu thi bhai? 😵✨",                  # 36
-    # -- soft romantic double meaning --
-    "Iss beauty se aankhein milna mushkil hai 😢😍",                 # 37
-    "Kash ek baar aisi nazar mil jaaye 😍✨",                       # 38
-    "Ek nazar mein sab bata diya usne 💘😏",                        # 39
+    "Wo drape ka angle... samjhe? 😏",
+    "Camera ne jo pakda, stylist ne nahi pakda 👀",
+    "Itna careful styling... phir bhi kuch dikh gaya 🤫",
+    "Ye fabric ka kaam thoda zyada honestly kiya 😶",
+    "Designer ne boundary set ki thi... fabric ne nahi maani 👁️",
+    "Ek second ke liye camera shaky hua... kyu? 😏",
 ]
 
-# -- HOOK SELECTION RULES --
-# Maps content signals -> preferred hook indices (soft hints, not hard locks)
 _HOOK_RULES: Dict[str, List[int]] = {
-    # When actress/title name is known -- prefer hooks with {name} placeholder
-    "has_name":  [26, 27, 28, 29, 30, 31],
-    # Generic / no name
-    "no_name":   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
-    # Energetic / party vibe
-    "energetic": [2, 6, 8, 9, 11, 12, 14, 18, 26, 28, 30, 31, 33, 36],
-    # Romantic / soft vibe
-    "romantic":  [4, 15, 22, 25, 26, 37, 38, 39],
-    # Curiosity / tease
-    "curiosity": [3, 5, 7, 10, 13, 16, 17, 19, 21, 23, 24, 27, 29, 32, 33, 34, 35],
+    "has_name":  [0, 1, 2, 3, 4, 5],
+    "no_name":   [0, 1, 2, 3, 4, 5],
+    "energetic": [0, 1, 5],
+    "romantic":  [2, 3],
+    "curiosity": [1, 4, 5],
 }
 
 _VIRAL_HOOK_MEMORY_PATH = "The_json/viral_hook_memory.json"
@@ -148,13 +99,12 @@ def _load_negative_words() -> List[str]:
         if os.path.exists(cfg_path):
             with open(cfg_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
-                return data.get("NEGATIVE_WORDS", []) or NEGATIVE_WORDS_FALLBACK
+                words = data.get("negative_words", [])
+                if isinstance(words, list) and words:
+                    return [w.lower() for w in words if isinstance(w, str)]
     except Exception:
         pass
     return NEGATIVE_WORDS_FALLBACK
-
-
-NEGATIVE_PATTERNS = [re.compile(rf"\b{re.escape(w)}\b", re.IGNORECASE) for w in _load_negative_words()]
 
 
 def _load_memory() -> List[str]:
@@ -163,10 +113,10 @@ def _load_memory() -> List[str]:
     try:
         with open(MEMORY_PATH, "r", encoding="utf-8") as f:
             data = json.load(f)
-        if isinstance(data, list):
-            return [str(x) for x in data][-MAX_MEMORY:]
-    except Exception as e:
-        logger.warning(f"[OVERLAY_ENGINE] memory_load_failed: {e}")
+            if isinstance(data, list):
+                return [str(x) for x in data][-MAX_MEMORY:]
+    except Exception:
+        pass
     return []
 
 
@@ -176,94 +126,107 @@ def _save_memory(memory: List[str]) -> None:
         with open(MEMORY_PATH, "w", encoding="utf-8") as f:
             json.dump(memory[-MAX_MEMORY:], f, ensure_ascii=False, indent=2)
     except Exception as e:
-        logger.warning(f"[OVERLAY_ENGINE] memory_save_failed: {e}")
+        logger.warning(f"[OVERLAY] memory_save_failed: {e}")
 
 
 def _similarity(a: str, b: str) -> float:
     return SequenceMatcher(None, a.lower(), b.lower()).ratio()
 
 
-def _too_similar(text: str, memory: List[str]) -> bool:
-    return any(_similarity(text, prev) > SIMILARITY_THRESHOLD for prev in memory)
+def generate_overlay_text(
+    caption_text: Optional[str] = None,
+    narration_text: Optional[str] = None,
+    mood: Optional[str] = None,
+) -> str:
+    pool_name = mood if mood in OVERLAY_POOLS else "statement"
+    pool = OVERLAY_POOLS[pool_name]
 
-
-def _contains_negative(text: str) -> bool:
-    lowered = text.lower()
-    return any(p.search(lowered) for p in NEGATIVE_PATTERNS)
-
-
-def _pick_theme(context: Optional[Dict]) -> str:
-    ctx = context or {}
-    for key in ("style_category", "persona", "vibe", "tone"):
-        val = ctx.get(key)
-        if isinstance(val, str) and val:
-            return val.lower()
-    return "attitude"
-
-
-def _get_pool(theme: str) -> List[str]:
-    if theme in OVERLAY_POOLS:
-        return OVERLAY_POOLS[theme][:]
-    # Map fuzzy themes to known buckets
-    if "lux" in theme:
-        return OVERLAY_POOLS["luxury"][:]
-    if "minimal" in theme or "clean" in theme:
-        return OVERLAY_POOLS["minimal"][:]
-    if "statement" in theme:
-        return OVERLAY_POOLS["statement"][:]
-    return OVERLAY_POOLS["attitude"][:]
-
-
-def _trim_to_four_words(text: str) -> str:
-    words = text.split()
-    return " ".join(words[:4]).strip()
-
-
-def generate_overlay_text(context: Optional[Dict] = None) -> str:
-    """
-    Generate short overlay text independent of captions/narration.
-    - Max 4 words
-    - Avoid NEGATIVE_WORDS
-    - Reject similarity > 0.8 against last 100 overlays
-    """
+    negative = _load_negative_words()
     memory = _load_memory()
-    theme = _pick_theme(context)
-    pool = _get_pool(theme)
-    
-    candidate = None
 
-    # 1. Use Stored Overlay Pools (No API Call)
+    combined_context = f"{caption_text or ''} {narration_text or ''}".lower()
+    context_words = set(re.findall(r"\w+", combined_context))
 
-    # 2. Fallback to Stored Pools
-    if not candidate:
-        logger.info("⚠️ Falling back to stored overlay pool.")
-        random.shuffle(pool)
-        for phrase in pool + OVERLAY_POOLS.get("attitude", []):
-            text = _trim_to_four_words(phrase)
-            if not text or _contains_negative(text) or _too_similar(text, memory):
-                continue
-            candidate = text
-            break
+    candidates: List[str] = []
+    for text in pool:
+        words = set(re.findall(r"\w+", text.lower()))
+        if any(w in negative for w in words):
+            continue
+        if words.intersection(context_words):
+            continue
 
-    # 3. Last Resort
-    if not candidate:
-        candidate = "Own the moment"
+        too_similar = False
+        for prev in memory:
+            if _similarity(text, prev) > SIMILARITY_THRESHOLD:
+                too_similar = True
+                break
+        if too_similar:
+            continue
 
-    memory.append(candidate)
-    memory = memory[-MAX_MEMORY:]
+        candidates.append(text)
+
+    if candidates:
+        selected = random.choice(candidates)
+    else:
+        filtered_fallback = [
+            t for t in pool if not any(w in t.lower() for w in negative)
+        ]
+        selected = (
+            random.choice(filtered_fallback) if filtered_fallback else pool[0]
+        )
+
+    memory.append(selected)
     _save_memory(memory)
-    logger.info(f"[OVERLAY_ENGINE] overlay_generated=\"{candidate}\"")
-    return candidate
+    return selected
 
 
-
-
-__all__ = ["generate_overlay_text", "select_viral_hook", "VIRAL_HOOKS"]
+__all__ = ["generate_overlay_text", "select_viral_hook", "validate_viral_hook", "VIRAL_HOOKS"]
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# VIRAL HOOK SELECTOR
+# HOOK VALIDATION & SELECTION ENGINE
 # ─────────────────────────────────────────────────────────────────────────────
+
+def validate_viral_hook(hook: str) -> bool:
+    """
+    Validation function that rejects any hook that:
+    1. Could have been written without seeing the frames (generic)
+    2. Contains generic filler as main subject: vibe, entry, feel, look
+    3. Contains forbidden words: bhai, yaar, sexy, hot, body, skin, nude
+    4. Is longer than 9 words or shorter than 3 words
+    """
+    if not hook or not isinstance(hook, str):
+        return False
+    words = hook.strip().split()
+    if len(words) > 9 or len(words) < 3:
+        logger.warning(f"[HOOK_VALIDATION] Rejected (word count {len(words)} not in 3-9): '{hook}'")
+        return False
+
+    hook_lower = hook.lower()
+
+    # Forbidden words (bhai, yaar, explicit terms)
+    forbidden = ["bhai", "yaar", "sexy", "hot", "body", "skin", "nude", "boobs", "cleavage"]
+    for f_word in forbidden:
+        if re.search(rf"\b{re.escape(f_word)}\b", hook_lower):
+            logger.warning(f"[HOOK_VALIDATION] Rejected (contains forbidden word '{f_word}'): '{hook}'")
+            return False
+
+    # Generic filler as main subject
+    generic_patterns = [
+        r"\bvibe\b",
+        r"\bentry\b",
+        r"\bfeeling?\b",
+        r"\blooks?\b\s+wala",
+        r"\bkya\s+look\b",
+        r"\blook\b\s+check\b"
+    ]
+    for pattern in generic_patterns:
+        if re.search(pattern, hook_lower):
+            logger.warning(f"[HOOK_VALIDATION] Rejected (contains generic filler pattern '{pattern}'): '{hook}'")
+            return False
+
+    return True
+
 
 def _load_viral_hook_memory() -> List[str]:
     """Load recently used viral hook texts to avoid repetition."""
@@ -290,28 +253,17 @@ def _save_viral_hook_memory(memory: List[str]) -> None:
 
 def select_viral_hook(context: Optional[Dict] = None) -> str:
     """
-    Intelligently select a viral Hinglish hook based on visual context.
-
-    Context keys used:
-        title          (str) : Video title — used to extract actress/subject name
-        actress_name   (str) : Detected actress name (highest priority for name slot)
-        niche_category (str) : Content niche, e.g. "fashion", "entertainment", "adult"
-        energy_score   (float): Visual energy 0.0–1.0 from editing plan
-        mood           (str) : "romantic" | "energetic" | "funny" | "curiosity"
-
-    Returns:
-        The selected hook string with {name} placeholder resolved.
+    Dynamically select or construct a visually specific, gap-based Hinglish hook.
+    Uses memory threshold 0.60 for heightened uniqueness.
     """
     ctx = context or {}
     memory = _load_viral_hook_memory()
 
-    # ── 1. Resolve subject name ────────────────────────────────────────────
     name = (
         ctx.get("actress_name")
         or ctx.get("user_title")
         or ctx.get("title", "")
     )
-    # Strip system prefixes iteratively and take first meaningful word group (≤3 words)
     if name:
         while True:
             prev_name = name
@@ -321,111 +273,47 @@ def select_viral_hook(context: Optional[Dict] = None) -> str:
             ).strip()
             if name == prev_name:
                 break
-        
-        # Remove file-name style underscores/dashes
         name = re.sub(r"[_\-]+", " ", name).strip()
-        
-        # Filter out generic/default values
         if name.lower() in ("niche viral", "niche virals", "viral niche", "viral niches", "niche_viral", "niche_virals", "niche", "viral", "video", "cli mission", "generic"):
             name = ""
-            
         if name:
-            # Keep max 3 words
             words = name.split()
             name = " ".join(words[:3]).strip(" '\",.")
 
     has_name = bool(name and len(name) > 2)
 
-    # ── 2. Resolve mood / vibe ─────────────────────────────────────────────
-    mood = ctx.get("mood", "")
-    energy_raw = ctx.get("energy_score", 0.5)
-    try:
-        energy = float(energy_raw) if energy_raw is not None else 0.5
-    except (TypeError, ValueError):
-        energy = 0.5
-    niche = str(ctx.get("niche_category", "")).lower()
-
-    if not mood:
-        if energy >= 0.70 or "party" in niche or "dance" in niche:
-            mood = "energetic"
-        elif "romantic" in niche or energy < 0.35:
-            mood = "romantic"
-        else:
-            mood = "curiosity"
-
-    # ── 3. Build candidate pool using rules ───────────────────────────────
-    # We rank candidates by priority:
-    # 1. Name-bearing hooks matching the mood
-    # 2. Other name-bearing hooks
-    # 3. Generic hooks matching the mood
-    # 4. Remaining hooks
-    name_indices = _HOOK_RULES["has_name"]
-    other_indices = [i for i in range(len(VIRAL_HOOKS)) if i not in name_indices]
-
-    mood_rule = _HOOK_RULES.get(mood, [])
-
-    p1 = [i for i in name_indices if i in mood_rule]
-    p2 = [i for i in name_indices if i not in mood_rule]
-    p3 = [i for i in other_indices if i in mood_rule]
-    p4 = [i for i in other_indices if i not in mood_rule]
-
+    # Dynamic gap templates focused on specific elements (strictly 6-8 words)
+    gap_templates = [
+        "Wo drape ka angle... samjhe? 😏",
+        "Camera ne pakda, stylist ne nahi 👀",
+        "Careful styling... phir bhi dikh gaya 🤫",
+        "Ye fabric ka kaam honest hua 😶",
+        "Designer boundary... fabric ne nahi maani 👁️",
+        "Camera second ke liye shaky hua 😏",
+    ]
     if has_name:
-        candidate_indices = p1 + p2 + p3 + p4
-    else:
-        # If no name, name-bearing hooks fall back to "Bhai", so prioritize generic first
-        candidate_indices = p3 + p4 + p1 + p2
+        gap_templates.insert(0, f"Wo {name} ka drape angle... samjhe? 😏")
+        gap_templates.insert(2, f"Careful styling... phir bhi {name} dikha 🤫")
 
-    # Deduplicate while preserving order
-    seen: set = set()
-    ordered: List[int] = []
-    for idx in candidate_indices:
-        if idx not in seen:
-            seen.add(idx)
-            ordered.append(idx)
-
-    # ── 4. Pick first hook not in recent memory ───────────────────────────
-    selected_raw: str = ""
-    # Limit memory check to the last 25 entries to ensure we don't block all 40 templates
     recent_memory = memory[-25:]
-    for idx in ordered:
-        hook = VIRAL_HOOKS[idx]
-        resolved = hook.replace("{name}", name) if has_name else hook.replace("{name}", "Bhai")
-        
-        # Smart similarity comparison to avoid cross-actress blocking
+    selected_raw = ""
+
+    for cand in gap_templates:
+        if not validate_viral_hook(cand):
+            continue
         too_similar = False
         for prev in recent_memory:
-            if "{name}" in hook:
-                parts = hook.split("{name}")
-                prefix = parts[0]
-                suffix = parts[1] if len(parts) > 1 else ""
-                
-                prev_lower = prev.lower()
-                prefix_lower = prefix.lower()
-                suffix_lower = suffix.lower()
-                
-                # If the previous resolved hook matches this template's prefix and suffix, block it
-                if prev_lower.startswith(prefix_lower) and (not suffix_lower or prev_lower.endswith(suffix_lower)):
-                    too_similar = True
-                    break
-            
-            # Direct similarity check for resolved strings (handles both generic and name-resolved hooks)
-            if _similarity(resolved, prev) > 0.75:
+            if _similarity(cand, prev) > 0.60:  # Tuned threshold 0.60
                 too_similar = True
                 break
-                    
         if not too_similar:
-            selected_raw = resolved
+            selected_raw = cand
             break
 
-    # Last resort: any random hook
     if not selected_raw:
-        hook = random.choice(VIRAL_HOOKS)
-        selected_raw = hook.replace("{name}", name) if has_name else hook.replace("{name}", "Bhai")
+        selected_raw = gap_templates[0]
 
-    # ── 5. Save to memory ─────────────────────────────────────────────────
     memory.append(selected_raw)
     _save_viral_hook_memory(memory)
-    logger.info(f"[VIRAL_HOOK] selected=\"{selected_raw}\" mood={mood} has_name={has_name}")
+    logger.info(f"[VIRAL_HOOK] selected=\"{selected_raw}\" visually_grounded=True")
     return selected_raw
-
-
