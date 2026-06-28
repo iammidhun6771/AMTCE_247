@@ -1793,15 +1793,10 @@ def render_scene_reconstruction(
         aud_labels = trim_data.get("aud_labels", [])
         aud_out_map = "[a_out]" if aud_labels else None  # None → -an added below
 
-        # [MULTI_CLIP FIX] Only apply -hwaccel auto to the first (primary) input.
-        # Applying it to every clip causes VP9/AV1 decode failures on clips 1+ when
-        # they use codecs the hardware decoder doesn't support, producing corrupt frames.
+        # Software decode for all inputs in complex filter graphs to prevent GPU driver deadlocks
         clip_inputs_final = []
         for _ci, _cp in enumerate(input_paths):
-            if _ci == 0:
-                clip_inputs_final.extend(["-hwaccel", "auto", "-i", _cp])
-            else:
-                clip_inputs_final.extend(["-i", _cp])  # software decode for extra clips
+            clip_inputs_final.extend(["-i", _cp])
 
         # Build audio mapping args
         if aud_out_map is not None:
@@ -1841,7 +1836,7 @@ def render_scene_reconstruction(
         logger.info(f"🏎️ Scene Reconstruction Render: {n} segment(s) → {output_path}")
 
         # --- FFmpeg Retry Logic ---
-        max_retries = 1
+        max_retries = 2
         success = False
         last_error = ""
 
@@ -1853,15 +1848,20 @@ def render_scene_reconstruction(
                     check=True,
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.PIPE,
-                    timeout=300,
+                    timeout=120,  # 2 minute timeout per attempt
                 )
                 success = True
                 break  # Success, exit retry loop
-            except subprocess.CalledProcessError as e:
-                last_error = e.stderr.decode(errors="ignore")[-800:]
-                logger.warning(f"⚠️ FFmpeg Error on attempt {attempt + 1}: {last_error}")
+            except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as e:
+                if isinstance(e, subprocess.TimeoutExpired):
+                    last_error = "TimeoutExpired (120s limit reached)"
+                    logger.warning(f"⚠️ FFmpeg timed out on attempt {attempt + 1}")
+                else:
+                    last_error = e.stderr.decode(errors="ignore")[-800:]
+                    logger.warning(f"⚠️ FFmpeg Error on attempt {attempt + 1}: {last_error}")
+
                 if attempt < max_retries:
-                    logger.info("🔄 Zoom/Crop math likely failed. Stripping effects and retrying...")
+                    logger.info("🔄 Zoom/Crop math or hardware decoding likely failed. Stripping effects and retrying...")
                     # Strip effect_nodes (zooms/speed ramps) but we MUST bridge the labels
                     # from [v_segX] to [v_fxX] so concat_nodes don't fail.
                     dummy_fx = []
@@ -1871,19 +1871,16 @@ def render_scene_reconstruction(
                         
                     fallback_nodes = trim_data["graph_parts"] + dummy_fx + concat_nodes
                     fallback_graph = ";".join(fallback_nodes)
-                    # [RETRY-FIX] fc_script_path is None (we use inline -filter_complex).
-                    # Patch the command list in-place to use the stripped fallback graph.
                     try:
                         _fc_idx = cmd.index("-filter_complex")
                         cmd[_fc_idx + 1] = fallback_graph
-                        logger.info("🔄 Fallback graph injected inline into cmd.")
+                        # Also strip any lingering hwaccel flags if present
+                        cmd = [arg for arg in cmd if arg not in ("-hwaccel", "auto", "cuda", "dxva2")]
+                        logger.info("🔄 Fallback software graph injected into cmd.")
                     except (ValueError, IndexError) as _e:
                         logger.error(f"❌ Could not patch fallback graph into cmd: {_e}")
                         break
                     _time.sleep(2)  # Brief pause before retry
-            except subprocess.TimeoutExpired:
-                logger.error("❌ Scene Reconstruction timed out")
-                break  # Don't retry timeouts
 
         # Cleanup script
         try:
