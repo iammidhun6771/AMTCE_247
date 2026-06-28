@@ -62,11 +62,11 @@ def _send_telegram(message: str, token: str, admin_id: str, button_url: str = No
         return False
 
 
-def _get_telegram_creds():
+def _get_telegram_creds(override_admin_id=None):
     """
     Returns (bot_token, admin_private_chat_id).
     ALWAYS sends to the ADMIN's private chat — NEVER to a group.
-    Priority: TELEGRAM_ADMIN_ID > TELEGRAM_OWNER_CHAT_ID > first entry of ADMIN_IDS
+    Priority: override_admin_id > TELEGRAM_ADMIN_ID > TELEGRAM_OWNER_CHAT_ID > first entry of ADMIN_IDS
     """
     try:
         from dotenv import load_dotenv
@@ -81,6 +81,8 @@ def _get_telegram_creds():
 
     # Strictly private-chat admin ID — group IDs are negative, we want a positive user ID
     admin_id = (
+        str(override_admin_id).strip() if override_admin_id else None
+    ) or (
         os.getenv("TELEGRAM_ADMIN_ID")            # preferred: explicit admin chat ID
         or os.getenv("TELEGRAM_OWNER_CHAT_ID")    # fallback 1
         or (
@@ -302,40 +304,56 @@ def _fallback_url_flow(secret_path, token_path, tg_token, tg_admin):
 
 # ── Main entry point ──────────────────────────────────────────────────────────
 
-def authenticate(client_secret_file=None, token_file=None):
-    secret_path = client_secret_file or DEFAULT_CLIENT_SECRET_FILE
-    token_path  = token_file or DEFAULT_TOKEN_FILE
-    tg_token, tg_admin = _get_telegram_creds()
+def authenticate(client_secret_file=None, token_file=None, admin_id=None):
+    tg_token, tg_admin = _get_telegram_creds(override_admin_id=admin_id)
 
-    print("🚀 Starting YouTube Authentication...")
-
-    if not os.path.exists(secret_path):
+    # Smart discovery if explicit secret is not provided
+    targets = []
+    if client_secret_file:
+        targets.append((client_secret_file, token_file or DEFAULT_TOKEN_FILE))
+    else:
+        # Scan all known credential directories
+        possible_pairs = [
+            ("Credentials/social_media/Fashion/client_secret.json", "Credentials/social_media/Fashion/token.json"),
+            ("Credentials/social_media/NSFW/client_secret.json", "Credentials/social_media/NSFW/token.json"),
+            ("Credentials/social_media/General_Fallback/client_secret.json", "Credentials/social_media/General_Fallback/token.json"),
+            (DEFAULT_CLIENT_SECRET_FILE, DEFAULT_TOKEN_FILE),
+        ]
+        for s_path, t_path in possible_pairs:
+            if os.path.exists(s_path):
+                targets.append((s_path, t_path))
+                
+    if not targets:
         msg = (
             f"❌ <b>YouTube Auth FAILED</b>\n\n"
-            f"<b>client_secret.json</b> missing at <code>{secret_path}</code>\n\n"
+            f"No valid <b>client_secret.json</b> found in any credential folder.\n\n"
             f"Download from Google Cloud Console → APIs &amp; Services → Credentials."
         )
-        print(f"❌ {secret_path} not found!")
+        print("❌ No client_secret.json found!")
         if tg_token and tg_admin:
             _send_telegram(msg, tg_token, tg_admin)
         return
 
-    try:
-        secret = _load_client_secret(secret_path)
-    except Exception as e:
-        print(f"❌ Failed to read client_secret.json: {e}")
-        return
+    print(f"🚀 Starting YouTube Authentication across {len(targets)} target(s)...")
 
-    client_id     = secret["client_id"]
-    client_secret = secret["client_secret"]
+    for secret_path, token_path in targets:
+        print(f"\n🔑 Authenticating target: {secret_path}")
+        try:
+            secret = _load_client_secret(secret_path)
+        except Exception as e:
+            print(f"❌ Failed to read {secret_path}: {e}")
+            continue
 
-    # Try Device Flow first (fully automatic — no code pasting)
-    handled = _try_device_flow(client_id, client_secret, tg_token, tg_admin, token_path)
+        client_id     = secret["client_id"]
+        client_secret = secret["client_secret"]
 
-    if not handled:
-        # Device flow unsupported → fallback to URL + /ytcode paste
-        print("⬇️ Falling back to URL auth flow...")
-        _fallback_url_flow(secret_path, token_path, tg_token, tg_admin)
+        # Try Device Flow first (fully automatic — no code pasting)
+        handled = _try_device_flow(client_id, client_secret, tg_token, tg_admin, token_path)
+
+        if not handled:
+            # Device flow unsupported → fallback to URL + /ytcode paste
+            print("⬇️ Falling back to URL auth flow...")
+            _fallback_url_flow(secret_path, token_path, tg_token, tg_admin)
 
 
 if __name__ == "__main__":
@@ -343,8 +361,9 @@ if __name__ == "__main__":
     os.chdir(root_dir)
 
     parser = argparse.ArgumentParser(description="AMTCE YouTube Authentication")
-    parser.add_argument("--secret", help="Path to client_secret.json")
-    parser.add_argument("--token",  help="Path to save token.json")
+    parser.add_argument("--secret",   help="Path to client_secret.json")
+    parser.add_argument("--token",    help="Path to save token.json")
+    parser.add_argument("--admin-id", help="Telegram Admin Chat ID to send auth links to")
     args = parser.parse_args()
 
-    authenticate(client_secret_file=args.secret, token_file=args.token)
+    authenticate(client_secret_file=args.secret, token_file=args.token, admin_id=args.admin_id)

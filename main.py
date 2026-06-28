@@ -3434,7 +3434,7 @@ async def cmd_ytcode(update: Update, context: ContextTypes.DEFAULT_TYPE):
         def _run_auth():
             try:
                 subprocess.run(
-                    [sys.executable, "scripts/auth_youtube.py"],
+                    [sys.executable, "scripts/auth_youtube.py", "--admin-id", str(user_id)],
                     cwd=os.path.abspath("."),
                     timeout=660
                 )
