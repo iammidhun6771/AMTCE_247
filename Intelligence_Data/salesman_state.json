@@ -1,13 +1,19 @@
 {
   "harvest": {
     "last_run_date": "2026-06-28",
-    "slots_completed_today": [],
+    "slots_completed_today": [
+      "21:00"
+    ],
     "catchup_fired_today": false,
-    "total_runs_all_time": 63
+    "total_runs_all_time": 64
   },
   "publisher": {
     "last_check_date": "2026-06-28",
-    "slots_published_today": [],
+    "slots_published_today": [
+      "19:10[catchup]",
+      "19:50[catchup]",
+      "20:00"
+    ],
     "slots_missed_today": [
       "09:00",
       "10:00",
@@ -18,7 +24,7 @@
       "19:10",
       "19:50"
     ],
-    "deficit_videos": 5
+    "deficit_videos": 2
   },
   "apify": {
     "quota_date": "2026-06-28",
@@ -117,7 +123,7 @@
       "euphoriaedit": "2026-06-24T10:00:51.117909",
       "euphoriashorts": "2026-06-24T10:00:51.117909",
       "euphoriafeed": "2026-06-24T10:00:51.117909",
-      "sofiacamarafans": "2026-06-24T11:02:16.512523"
+      "sofiacamarafans": "2026-06-28T21:00:46.845056"
     }
   },
   "drip_queue": {
