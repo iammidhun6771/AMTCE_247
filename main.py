@@ -1110,11 +1110,14 @@ async def with_retry(func, *args, **kwargs):
             return await func(*args, **kwargs)
         except Exception as e:
             last_exception = e
-            # Fail fast on 4xx (Client Error)
             msg = str(e)
+            # Fail fast on 4xx (Client Error)
             if "40" in msg or "400" in msg or "404" in msg or "403" in msg:
-                # Very rough heuristic, standard http libs usually provide status codes
                 logger.error(f"❌ Non-Retriable Error: {e}")
+                raise e
+            # Fail fast on YouTube auth failures — retrying wastes 5 min per attempt
+            if "YouTube Authentication Failed" in msg or "Token expired" in msg or "invalid_grant" in msg:
+                logger.error(f"❌ Auth failure — skipping retries to unblock Instagram: {e}")
                 raise e
 
             wait = NET_BACKOFF_BASE**attempt

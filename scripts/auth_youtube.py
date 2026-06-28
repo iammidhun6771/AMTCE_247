@@ -265,8 +265,8 @@ def _fallback_url_flow(secret_path, token_path, tg_token, tg_admin):
         _send_telegram(f"🔗 Auth URL:\n{auth_url}", tg_token, tg_admin)
 
     # Poll for code dropped by /ytcode bot command
-    print("⏳ Waiting for /ytcode code (10 min)...")
-    deadline = time.time() + 600
+    print("⏳ Waiting for /ytcode code (5 min)...")
+    deadline = time.time() + 300
     while time.time() < deadline:
         if os.path.exists(AUTH_CODE_FILE):
             try:
