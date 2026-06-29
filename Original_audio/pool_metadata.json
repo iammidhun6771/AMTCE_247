@@ -590,15 +590,16 @@
     "Sakshi_malik.mp3": {
       "usage_count": 1,
       "last_used": 1781906550.3571064,
-      "bpm": 89.9,
-      "energy": 0.6605925925925926,
+      "bpm": 95.7,
+      "energy": 0.7485652173913044,
       "created_at": 1780497636.594601,
       "beat_data_path": "beats/Sakshi_malik.npz",
       "drop_times": [
-        0.8
+        4.15,
+        7.85
       ],
       "sample_rate": 44100,
-      "audio_hash": "445900_1782561251",
+      "audio_hash": "364398_1782735588",
       "version": 2
     },
     "Sunny_Leone.mp3": {
@@ -701,8 +702,8 @@
       "gemini_analyzed": true
     },
     "Disha_patani_4.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782735884.717171,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1782638838.8912814,
@@ -737,8 +738,8 @@
       "version": 2
     },
     "Kriti_Sanon.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782735632.6645231,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1782638838.8922815,
