@@ -9076,7 +9076,7 @@ def run_ci_mode():
                         f"Processing: {os.path.basename(video_path)} (gender={last_gender})"
                     )
 
-                    final_video_path = video_path
+                    final_video_path = None
                     try:
                         result_path = process_clip(video_path, actress_title)
                         if result_path:
@@ -9084,6 +9084,17 @@ def run_ci_mode():
                             logger.info(f"✅ AMTCE PROCESS SUCCESS: output → {final_video_path}")
                     except Exception as e:
                         logger.error(f"⚠️ Failed to run AMTCE PROCESS: {e}")
+
+                    if not final_video_path or not os.path.exists(final_video_path):
+                        logger.error(f"❌ [CI] Processed video not found or pipeline failed. Skipping publish to prevent raw reel upload!")
+                        # Clean up the raw video file
+                        try:
+                            if os.path.exists(video_path):
+                                os.remove(video_path)
+                                logger.info(f"🗑️ [CI] Cleaned up raw input: {os.path.basename(video_path)}")
+                        except Exception as _ce:
+                            logger.warning(f"⚠️ [CI] Could not delete raw video {video_path}: {_ce}")
+                        continue
 
                     if os.path.exists(final_video_path) and final_video_path != video_path:
                         base_dir    = os.path.dirname(final_video_path)

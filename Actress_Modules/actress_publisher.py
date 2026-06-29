@@ -381,7 +381,7 @@ def _process_queue_item():
     logger.info(f"🎬 Popped video for processing: {os.path.basename(video_path)}")
     logger.info(f"⚙️ Running full AMTCE pipeline via CLI for: {actress_title}")
 
-    final_video_path = video_path
+    final_video_path = None
     try:
         from main import process_clip
         result_path = process_clip(video_path, actress_title)
@@ -392,6 +392,17 @@ def _process_queue_item():
             logger.error(f"⚠️ AMTCE PROCESS Failed to process clip")
     except Exception as e:
         logger.error(f"⚠️ Failed to run AMTCE PROCESS: {e}")
+
+    if not final_video_path or not os.path.exists(final_video_path):
+        logger.error("❌ Processed video not found or pipeline failed. Aborting publish to prevent raw reel upload!")
+        # Clean up the raw video file
+        try:
+            if os.path.exists(video_path):
+                os.remove(video_path)
+                logger.info(f"🗑️ [PUBLISHER] Cleanup: deleted raw input after pipeline failure: {os.path.basename(video_path)}")
+        except Exception as _ce:
+            logger.warning(f"⚠️ [PUBLISHER] Could not delete raw video {video_path}: {_ce}")
+        return
 
     # Rename: Lisa_001_001.mp4 → Lisa_01.mp4
     if os.path.exists(final_video_path) and final_video_path != video_path:
@@ -409,9 +420,6 @@ def _process_queue_item():
             logger.info(f"✅ Final video renamed: {clean_name}")
         except Exception as e:
             logger.warning(f"⚠️ Could not rename output: {e}")
-    else:
-        logger.warning("⚠️ Processed video not found. Using raw video as fallback.")
-        final_video_path = video_path
 
     from Actress_Modules.actress_scheduler import _auto_publish_clip
 
