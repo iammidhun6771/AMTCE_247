@@ -19,7 +19,7 @@ def merge_feature_flags(
     final_flags = pipeline_context_flags.copy() if pipeline_context_flags else {}
 
     # Handle ENABLE_PRICE_TAG override
-    enable_price_tag = os.getenv("ENABLE_PRICE_TAG", "auto").lower()
+    enable_price_tag = os.getenv("ENABLE_PRICE_TAG", "no").lower()
     
     # Define safe defaults if Gemini output is chaotic/missing
     safe_defaults = {

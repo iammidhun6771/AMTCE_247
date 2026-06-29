@@ -4038,7 +4038,7 @@ def compile_video(
         if not _enable_fs:
             is_price_tag_enabled = False
         has_price_data = bool(profile_data.get("price_tag"))
-        forced_price_tag = os.getenv("ENABLE_PRICE_TAG", "auto").lower() == "yes"
+        forced_price_tag = os.getenv("ENABLE_PRICE_TAG", "no").lower() == "yes"
 
         # ── CENTRALIZED PRICE ESTIMATION ─────────────────────────────────────────
         # Compute price_data ONCE here and store in profile_data so that the
@@ -4468,7 +4468,7 @@ def compile_video(
         #  3. Extract a frame from that window, generate a SmartPriceTag PNG.
         #  4. The PNG composites at output second 0.75 — while the stable shot
         #     is still on screen — tag points directly at the visible garment.
-        _forced_price_tag = os.getenv("ENABLE_PRICE_TAG", "auto").lower() == "yes"
+        _forced_price_tag = os.getenv("ENABLE_PRICE_TAG", "no").lower() == "yes"
         _enable_fs = os.getenv("ENABLE_FASHION_SCOUT", "yes").lower() in ("yes", "true", "on")
         _pt_enabled = (context.feature_flags.get("price_tag_engine") or _forced_price_tag) and _enable_fs
 

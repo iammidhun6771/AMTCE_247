@@ -89,10 +89,10 @@ def _get_overlay_position(pip_w: int, pip_h: int) -> str:
     corner = os.getenv("TEXT_REACTION_POSITION", "top_right").lower()
 
     # Conflict guard: if the price tag is enabled it can drift to the right edge.
-    # Automatically push the emoji bubble to top_left to avoid overlap.
-    price_tag_enabled = os.getenv("ENABLE_PRICE_TAG", "yes").lower() in ("yes", "true", "1")
+    # We auto-shift the emoji reaction to top_left to prevent overlap.
+    price_tag_enabled = os.getenv("ENABLE_PRICE_TAG", "no").lower() in ("yes", "true", "1")
     if price_tag_enabled and corner == "top_right":
-        logger.debug(
+        logger.info(
             "[TEXT_REACTION] ENABLE_PRICE_TAG=yes detected — auto-shifting emoji "
             "to top_left to prevent overlap with price tag overlay."
         )
