@@ -574,8 +574,8 @@
       "gemini_analyzed": true
     },
     "Jacqueline_Fernandez.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782731265.4331536,
       "bpm": 86.7,
       "energy": 0.6984736842105262,
       "created_at": 1780497404.403071,
@@ -701,8 +701,8 @@
       "gemini_analyzed": true
     },
     "Disha_patani_4.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782723235.9522321,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1782638838.8912814,
@@ -737,8 +737,8 @@
       "version": 2
     },
     "Kriti_Sanon.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782723022.9588354,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1782638838.8922815,
@@ -746,6 +746,33 @@
       "drop_times": [],
       "sample_rate": 44100,
       "audio_hash": "606392_1782375730",
+      "version": 2
+    },
+    "Anjali.mp3": {
+      "usage_count": 1,
+      "last_used": 1782731403.0995622,
+      "bpm": 87.8,
+      "energy": 0.7785,
+      "created_at": 1782722986.9121766,
+      "beat_data_path": "beats/Anjali.npz",
+      "drop_times": [
+        0.35,
+        8.5
+      ],
+      "sample_rate": 44100,
+      "audio_hash": "274119_1782722986",
+      "version": 2
+    },
+    "Diya.mp3": {
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 70.6,
+      "energy": 0.9175882352941177,
+      "created_at": 1782731250.1587057,
+      "beat_data_path": "beats/Diya.npz",
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "348725_1782731249",
       "version": 2
     }
   }
