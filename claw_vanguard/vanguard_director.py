@@ -252,6 +252,9 @@ class VanguardDirector:
             self.state.retries += 1
             start_t = time.monotonic()
             
+            # Reset or start a new video session for retry/repair budget so the repair run doesn't get blocked
+            self.governor.begin_video_session(f"{self.state.mission_id}_retry_{self.state.retries}", video_duration)
+
             # If visual verification failed, forward adjustments as the repair_cmd
             if verification.get("ok") is False and "adjustments" in verification:
                 logger.info("🎨 Using visual verification adjustments as repair command.")

@@ -93,3 +93,67 @@ def test_vanguard_md_structure():
         assert "Winning Styles" in content
         assert "Failed Patterns" in content
         assert "Rules" in content
+
+@patch("Intelligence_Modules.gemini_governor.GeminiGovernor.begin_video_session")
+@patch("Intelligence_Modules.gemini_governor.GeminiGovernor.generate")
+@patch("claw_vanguard.vanguard_director.vanguard_tools.execute")
+@patch("google.genai.Client")
+@patch("os.path.exists")
+@patch("os.path.getsize")
+def test_director_repair_budget_reset(mock_getsize, mock_exists, mock_client_class, mock_execute, mock_generate, mock_begin_session):
+    director = VanguardDirector()
+    
+    # Mock exists check
+    def side_effect_exists(path):
+        if "clip.mp4" in str(path) or "output.mp4" in str(path):
+            return True
+        return real_exists(path)
+    mock_exists.side_effect = side_effect_exists
+    mock_getsize.return_value = 10 * 1024 * 1024
+    
+    # Mock genai client
+    mock_client = MagicMock()
+    mock_client_class.return_value = mock_client
+    
+    mock_file = MagicMock()
+    mock_file.name = "mock_file"
+    mock_file.uri = "https://gemini/file/mock_file"
+    mock_state = MagicMock()
+    mock_state.name = "ACTIVE"
+    mock_file.state = mock_state
+    mock_client.files.upload.return_value = mock_file
+    mock_client.files.get.return_value = mock_file
+    
+    # Mock first compile output (success=True but fails visual audit ok=False)
+    mock_result_1 = MagicMock()
+    mock_result_1.success = True
+    mock_result_1.output = "output.mp4"
+    mock_result_1.error_type = None
+    
+    # Mock second compile output (repaired, success=True)
+    mock_result_2 = MagicMock()
+    mock_result_2.success = True
+    mock_result_2.output = "output.mp4"
+    mock_result_2.error_type = None
+    
+    mock_execute.side_effect = [mock_result_1, mock_result_2]
+    
+    # Mock generate to return a failed visual audit in Turn 3
+    mock_generate.side_effect = [
+        '{"ok": false, "reason": "Watermark detected", "adjustments": "Remove watermark", "confidence": 0.9}' # Turn 3 visual verify
+    ]
+    
+    result = director.execute_mission("Fashion", "Test Request", input_paths=["clip.mp4"])
+    
+    # Ensure compile_video was executed twice (Turn 2, Turn 4)
+    assert mock_execute.call_count == 2
+    
+    # Ensure begin_video_session was called twice (start of mission, and start of Turn 4 Repair)
+    assert mock_begin_session.call_count == 2
+    
+    # First call uses original mission_id
+    call_args_1 = mock_begin_session.call_args_list[0][0]
+    # Second call uses retry mission_id
+    call_args_2 = mock_begin_session.call_args_list[1][0]
+    
+    assert "retry_1" in call_args_2[0]
