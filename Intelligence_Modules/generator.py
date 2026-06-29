@@ -3,7 +3,6 @@ import json
 import logging
 import random
 from typing import Optional
-from gemini_governor import gemini_router
 from Intelligence_Modules.gemini_governor import gemini_router
 from PIL import Image
 import io
