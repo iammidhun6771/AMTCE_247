@@ -9,19 +9,24 @@
     "last_check_date": "2026-06-30",
     "slots_published_today": [
       "09:00",
-      "09:00[catchup]"
+      "09:00[catchup]",
+      "20:00"
     ],
-    "slots_missed_today": [],
+    "slots_missed_today": [
+      "10:00",
+      "13:00",
+      "14:00"
+    ],
     "catchup_slots_today": [
       "09:00"
     ],
-    "deficit_videos": 0
+    "deficit_videos": 2
   },
   "apify": {
     "quota_date": "2026-06-30",
-    "quota_used": 1,
+    "quota_used": 2,
     "quota_limit": 80,
-    "total_calls_all_time": 311
+    "total_calls_all_time": 312
   },
   "scraped_posts": {
     "shortcodes": [
@@ -115,7 +120,7 @@
       "euphoriashorts": "2026-06-24T10:00:51.117909",
       "euphoriafeed": "2026-06-24T10:00:51.117909",
       "sofiacamarafans": "2026-06-24T11:02:16.512523",
-      "fashion": "2026-06-29T22:00:32.254282"
+      "fashion": "2026-06-30T16:32:40.549273"
     }
   },
   "drip_queue": {
