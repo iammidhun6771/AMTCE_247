@@ -546,13 +546,13 @@
     "Disha_patani.mp3": {
       "usage_count": 0,
       "last_used": 0,
-      "bpm": 85.4,
-      "energy": 0.7762857142857142,
+      "bpm": 84.1,
+      "energy": 0.7787999999999999,
       "created_at": 1780496185.4853427,
       "beat_data_path": "beats/Disha_patani.npz",
       "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "356871_1782416533",
+      "audio_hash": "344336_1782777740",
       "version": 2,
       "gemini_genre": "pop",
       "gemini_mood_tags": [
@@ -565,17 +565,17 @@
       "gemini_content_match": [
         "dance",
         "fashion",
-        "travel"
+        "aesthetic"
       ],
       "gemini_avoid_match": [
-        "meditation",
-        "study"
+        "motivational",
+        "gaming"
       ],
       "gemini_analyzed": true
     },
     "Jacqueline_Fernandez.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782777817.662701,
       "bpm": 86.7,
       "energy": 0.6984736842105262,
       "created_at": 1780497404.403071,
@@ -714,8 +714,8 @@
       "version": 2
     },
     "Edin_rose.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782778174.6636567,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1782638838.8912814,
