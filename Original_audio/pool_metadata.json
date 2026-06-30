@@ -50,8 +50,8 @@
       "version": 2
     },
     "Ankita_singh.mp3": {
-      "usage_count": 1,
-      "last_used": 1782018460.1902351,
+      "usage_count": 2,
+      "last_used": 1782812724.9742582,
       "bpm": 63.0,
       "energy": 0.8484117647058823,
       "created_at": 1780391156.9438772,
@@ -187,8 +187,8 @@
       "version": 2
     },
     "Kate_Sharma_1.mp3": {
-      "usage_count": 1,
-      "last_used": 1781541367.9143019,
+      "usage_count": 2,
+      "last_used": 1782812507.5298486,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9460042,
@@ -546,32 +546,14 @@
     "Disha_patani.mp3": {
       "usage_count": 1,
       "last_used": 1782735844.1304185,
-      "bpm": 85.4,
-      "energy": 0.7762857142857142,
+      "bpm": 87.9,
+      "energy": 0.7201714285714287,
       "created_at": 1780496185.4853427,
       "beat_data_path": "beats/Disha_patani.npz",
       "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "356871_1782416533",
-      "version": 2,
-      "gemini_genre": "pop",
-      "gemini_mood_tags": [
-        "upbeat",
-        "energetic",
-        "playful"
-      ],
-      "gemini_energy_level": "high",
-      "gemini_has_vocals": true,
-      "gemini_content_match": [
-        "dance",
-        "fashion",
-        "travel"
-      ],
-      "gemini_avoid_match": [
-        "meditation",
-        "study"
-      ],
-      "gemini_analyzed": true
+      "audio_hash": "570661_1782810100",
+      "version": 2
     },
     "Jacqueline_Fernandez.mp3": {
       "usage_count": 1,
@@ -714,8 +696,8 @@
       "version": 2
     },
     "Edin_rose.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782810124.651394,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1782638838.8912814,
@@ -726,8 +708,8 @@
       "version": 2
     },
     "Guess_who.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782810724.5806792,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1782638838.8922815,
@@ -774,6 +756,20 @@
       "drop_times": [],
       "sample_rate": 44100,
       "audio_hash": "348725_1782731249",
+      "version": 2
+    },
+    "Saiee.mp3": {
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 101.7,
+      "energy": 0.8389615384615384,
+      "created_at": 1782812471.6092782,
+      "beat_data_path": "beats/Saiee.npz",
+      "drop_times": [
+        12.55
+      ],
+      "sample_rate": 44100,
+      "audio_hash": "380072_1782812471",
       "version": 2
     }
   }
