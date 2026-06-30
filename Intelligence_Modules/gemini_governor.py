@@ -1971,7 +1971,7 @@ class GeminiGovernor:
 
 
 
-    def embed(self, text, model_name="text-embedding-004", module_name="unknown"):
+    def embed(self, text, model_name="models/gemini-embedding-001", module_name="unknown"):
         # Re-enabled: Routing embedding calls through the governor for API key abstraction
         try:
             api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
@@ -1979,7 +1979,7 @@ class GeminiGovernor:
                 return []
                 
             client = genai.Client(api_key=api_key)
-            # Try the standard text-embedding-004 first
+            # Try the standard gemini-embedding-001 first
             try:
                 result = client.models.embed_content(
                     model=model_name,
@@ -1991,9 +1991,9 @@ class GeminiGovernor:
                     return emb.values if hasattr(emb, 'values') else emb
                 return result.get('embedding', [])
             except Exception as inner_e:
-                # Fallback to older embedding-001 if text-embedding-004 fails (v1beta SDK differences)
+                # Fallback to gemini-embedding-001 if requested model fails (v1beta SDK differences)
                 result = client.models.embed_content(
-                    model="models/embedding-001",
+                    model="models/gemini-embedding-001",
                     contents=text
                 )
                 if hasattr(result, 'embeddings') and result.embeddings:

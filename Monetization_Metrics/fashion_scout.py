@@ -1665,19 +1665,19 @@ class FashionScout:
             results: List[Dict] = []
 
             # ── RETRY LOOP ────────────────────────────────────────────────────
+            last_attempt_result = {}
             for attempt in range(MAX_RETRIES):
                 if attempt == 0:
                     # First pass: primary prompt + visual_hint for guided analysis
                     result = self._run_analysis(image_paths, visual_hint=visual_hint)
                 else:
                     # Refinement pass: instruct Gemini to beat the previous weak output
-                    prev = results[-1] if results else {}
-                    refine_prompt = REFINEMENT_PROMPT.replace(
+                    refine_prompt = TREND_CONTEXT_PROMPT + "\n\n" + REFINEMENT_PROMPT.replace(
                         "{previous_output}",
-                        json.dumps(prev, indent=2, ensure_ascii=False),
+                        json.dumps(last_attempt_result, indent=2, ensure_ascii=False),
                     ).replace(
                         "{previous_confidence:.2f}",
-                        f"{prev.get('_internal_score', 0.0):.2f}"
+                        f"{last_attempt_result.get('_internal_score', 0.0):.2f}"
                     )
                     result = self._run_analysis(
                         image_paths,
@@ -1687,14 +1687,6 @@ class FashionScout:
 
                 if not result:
                     logger.warning("[FASHION_SCOUT] Attempt %d returned no result.", attempt + 1)
-                    continue
-
-                # ── Schema validation ─────────────────────────────────────────
-                if not validate_output(result):
-                    logger.warning(
-                        "[FASHION_SCOUT] Attempt %d failed schema validation → forcing retry.",
-                        attempt + 1,
-                    )
                     continue
 
                 # ── Combined scoring (AI self-report + local quality scorer) ──
@@ -1716,6 +1708,16 @@ class FashionScout:
                     final_score = max(0.0, final_score - 0.15)
 
                 result["_internal_score"] = final_score
+                last_attempt_result = result
+
+                # ── Schema validation ─────────────────────────────────────────
+                if not validate_output(result):
+                    logger.warning(
+                        "[FASHION_SCOUT] Attempt %d failed schema validation → forcing retry.",
+                        attempt + 1,
+                    )
+                    continue
+
                 logger.info(
                     "[FASHION_SCOUT] Attempt %d → ai=%.2f | query=%.2f | wear=%.2f | final=%.3f | "
                     "anchor='%s' | hint=%s",

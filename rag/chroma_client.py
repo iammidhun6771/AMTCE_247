@@ -34,7 +34,10 @@ class SimpleHashingEmbeddingFunction(embedding_functions.EmbeddingFunction):
 class GeminiFallbackEmbeddingFunction(embedding_functions.EmbeddingFunction):
     """Secondary fallback: uses Google's Gemini API for embeddings."""
     def __init__(self, api_key: str):
-        self._ef = embedding_functions.GoogleGenerativeAiEmbeddingFunction(api_key=api_key)
+        self._ef = embedding_functions.GoogleGenerativeAiEmbeddingFunction(
+            api_key=api_key,
+            model_name="models/gemini-embedding-001"
+        )
         
     def __call__(self, input: chromadb.Documents) -> chromadb.Embeddings:
         try:
