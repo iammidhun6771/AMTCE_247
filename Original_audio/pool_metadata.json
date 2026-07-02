@@ -380,8 +380,8 @@
       "version": 2
     },
     "Shalini.mp3": {
-      "usage_count": 1,
-      "last_used": 1780498639.8207698,
+      "usage_count": 2,
+      "last_used": 1782981443.913094,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9501328,
@@ -394,14 +394,35 @@
     "Shefali.mp3": {
       "usage_count": 1,
       "last_used": 1780494543.0863607,
-      "bpm": 0.0,
-      "energy": 0.5,
+      "bpm": 90.4,
+      "energy": 0.8070434782608696,
       "created_at": 1780391156.9506483,
-      "beat_data_path": null,
-      "drop_times": [],
+      "beat_data_path": "beats/Shefali.npz",
+      "drop_times": [
+        2.75,
+        6.55
+      ],
       "sample_rate": 44100,
-      "audio_hash": "407025_1777485765",
-      "version": 2
+      "audio_hash": "360009_1782979565",
+      "version": 2,
+      "gemini_genre": "phonk",
+      "gemini_mood_tags": [
+        "intense",
+        "dark",
+        "driving"
+      ],
+      "gemini_energy_level": "high",
+      "gemini_has_vocals": true,
+      "gemini_content_match": [
+        "fitness",
+        "sports",
+        "gaming"
+      ],
+      "gemini_avoid_match": [
+        "nature",
+        "educational"
+      ],
+      "gemini_analyzed": true
     },
     "Tammanah_bhatia.mp3": {
       "usage_count": 1,
@@ -452,8 +473,8 @@
       "version": 2
     },
     "Vrinda.mp3": {
-      "usage_count": 1,
-      "last_used": 1781756307.1254003,
+      "usage_count": 2,
+      "last_used": 1782981732.6532044,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9516847,
@@ -544,8 +565,8 @@
       "version": 2
     },
     "Disha_patani.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782977322.49823,
       "bpm": 84.1,
       "energy": 0.7787999999999999,
       "created_at": 1780496185.4853427,
@@ -603,8 +624,8 @@
       "version": 2
     },
     "Sunny_Leone.mp3": {
-      "usage_count": 1,
-      "last_used": 1782279233.6433036,
+      "usage_count": 2,
+      "last_used": 1782980066.3016195,
       "bpm": 72.0,
       "energy": 0.8143,
       "created_at": 1780498806.4871612,
@@ -714,8 +735,8 @@
       "version": 2
     },
     "Edin_rose.mp3": {
-      "usage_count": 1,
-      "last_used": 1782778174.6636567,
+      "usage_count": 2,
+      "last_used": 1782979656.035763,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1782638838.8912814,
@@ -726,8 +747,8 @@
       "version": 2
     },
     "Guess_who.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782977714.776108,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1782638838.8922815,
@@ -747,6 +768,18 @@
       "drop_times": [],
       "sample_rate": 44100,
       "audio_hash": "606392_1782375730",
+      "version": 2
+    },
+    "Megha.mp3": {
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 93.3,
+      "energy": 0.8707500000000001,
+      "created_at": 1782981426.0390403,
+      "beat_data_path": "beats/Megha.npz",
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "237756_1782981425",
       "version": 2
     }
   }
