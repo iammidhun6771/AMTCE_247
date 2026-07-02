@@ -394,14 +394,35 @@
     "Shefali.mp3": {
       "usage_count": 1,
       "last_used": 1780494543.0863607,
-      "bpm": 0.0,
-      "energy": 0.5,
+      "bpm": 90.4,
+      "energy": 0.8070434782608696,
       "created_at": 1780391156.9506483,
-      "beat_data_path": null,
-      "drop_times": [],
+      "beat_data_path": "beats/Shefali.npz",
+      "drop_times": [
+        2.75,
+        6.55
+      ],
       "sample_rate": 44100,
-      "audio_hash": "407025_1777485765",
-      "version": 2
+      "audio_hash": "360009_1782977278",
+      "version": 2,
+      "gemini_genre": "phonk",
+      "gemini_mood_tags": [
+        "energetic",
+        "dark",
+        "intense"
+      ],
+      "gemini_energy_level": "high",
+      "gemini_has_vocals": true,
+      "gemini_content_match": [
+        "fitness",
+        "sports",
+        "gaming"
+      ],
+      "gemini_avoid_match": [
+        "nature",
+        "educational"
+      ],
+      "gemini_analyzed": true
     },
     "Tammanah_bhatia.mp3": {
       "usage_count": 1,
@@ -759,8 +780,8 @@
       "version": 2
     },
     "Saiee.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1782977350.4486306,
       "bpm": 101.7,
       "energy": 0.8389615384615384,
       "created_at": 1782812471.6092782,
@@ -770,6 +791,18 @@
       ],
       "sample_rate": 44100,
       "audio_hash": "380072_1782812471",
+      "version": 2
+    },
+    "Megha.mp3": {
+      "usage_count": 1,
+      "last_used": 1782983145.0758846,
+      "bpm": 93.3,
+      "energy": 0.8707500000000001,
+      "created_at": 1782983101.92999,
+      "beat_data_path": "beats/Megha.npz",
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "237756_1782983101",
       "version": 2
     }
   }
