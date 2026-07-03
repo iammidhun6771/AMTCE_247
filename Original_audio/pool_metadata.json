@@ -223,8 +223,8 @@
       "version": 2
     },
     "Malavika_3.mp3": {
-      "usage_count": 1,
-      "last_used": 1782161577.4531255,
+      "usage_count": 2,
+      "last_used": 1783067538.4667645,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9470403,
@@ -394,35 +394,16 @@
     "Shefali.mp3": {
       "usage_count": 1,
       "last_used": 1780494543.0863607,
-      "bpm": 90.4,
-      "energy": 0.8070434782608696,
+      "bpm": 78.3,
+      "energy": 0.5946,
       "created_at": 1780391156.9506483,
       "beat_data_path": "beats/Shefali.npz",
       "drop_times": [
-        2.75,
-        6.55
+        0.65
       ],
       "sample_rate": 44100,
-      "audio_hash": "360009_1782979565",
-      "version": 2,
-      "gemini_genre": "phonk",
-      "gemini_mood_tags": [
-        "intense",
-        "dark",
-        "driving"
-      ],
-      "gemini_energy_level": "high",
-      "gemini_has_vocals": true,
-      "gemini_content_match": [
-        "fitness",
-        "sports",
-        "gaming"
-      ],
-      "gemini_avoid_match": [
-        "nature",
-        "educational"
-      ],
-      "gemini_analyzed": true
+      "audio_hash": "189482_1783067215",
+      "version": 2
     },
     "Tammanah_bhatia.mp3": {
       "usage_count": 1,
@@ -771,8 +752,8 @@
       "version": 2
     },
     "Megha.mp3": {
-      "usage_count": 0,
-      "last_used": 0,
+      "usage_count": 1,
+      "last_used": 1783067243.413766,
       "bpm": 93.3,
       "energy": 0.8707500000000001,
       "created_at": 1782981426.0390403,
