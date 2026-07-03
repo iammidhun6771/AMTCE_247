@@ -394,35 +394,16 @@
     "Shefali.mp3": {
       "usage_count": 1,
       "last_used": 1780494543.0863607,
-      "bpm": 90.4,
-      "energy": 0.8070434782608696,
+      "bpm": 78.3,
+      "energy": 0.5946,
       "created_at": 1780391156.9506483,
       "beat_data_path": "beats/Shefali.npz",
       "drop_times": [
-        2.75,
-        6.55
+        0.65
       ],
       "sample_rate": 44100,
-      "audio_hash": "360009_1782977278",
-      "version": 2,
-      "gemini_genre": "phonk",
-      "gemini_mood_tags": [
-        "energetic",
-        "dark",
-        "intense"
-      ],
-      "gemini_energy_level": "high",
-      "gemini_has_vocals": true,
-      "gemini_content_match": [
-        "fitness",
-        "sports",
-        "gaming"
-      ],
-      "gemini_avoid_match": [
-        "nature",
-        "educational"
-      ],
-      "gemini_analyzed": true
+      "audio_hash": "189482_1783067214",
+      "version": 2
     },
     "Tammanah_bhatia.mp3": {
       "usage_count": 1,
@@ -473,8 +454,8 @@
       "version": 2
     },
     "Vrinda.mp3": {
-      "usage_count": 1,
-      "last_used": 1781756307.1254003,
+      "usage_count": 2,
+      "last_used": 1783067244.6741421,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9516847,
@@ -509,8 +490,8 @@
       "version": 2
     },
     "Shruthi_hassan.mp3": {
-      "usage_count": 1,
-      "last_used": 1782015718.5200045,
+      "usage_count": 2,
+      "last_used": 1783067489.0574768,
       "bpm": 100.3,
       "energy": 0.8626727272727271,
       "created_at": 1780402172.5887027,
