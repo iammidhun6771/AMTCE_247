@@ -4,10 +4,11 @@
     "slots_completed_today": [
       "11:00",
       "14:00",
-      "15:00"
+      "15:00",
+      "21:00"
     ],
     "catchup_fired_today": false,
-    "total_runs_all_time": 88
+    "total_runs_all_time": 89
   },
   "publisher": {
     "last_check_date": "2026-07-04",
@@ -19,13 +20,14 @@
     ],
     "slots_missed_today": [
       "09:00",
-      "10:00"
+      "10:00",
+      "20:00"
     ],
     "catchup_slots_today": [
       "11:50",
       "12:40"
     ],
-    "deficit_videos": 0
+    "deficit_videos": 1
   },
   "apify": {
     "quota_date": "2026-07-04",
