@@ -189,7 +189,7 @@ class PublishQueue:
             json.dump(queue, f, indent=2)
 
     @classmethod
-    def add(cls, video_path: str, actress_title: str, actress_folder: str, shortcode: str = None):
+    def add(cls, video_path: str, actress_title: str, actress_folder: str, shortcode: str = None, file_id: str = None):
         with cls._lock:
             queue = cls.load()
             
@@ -243,13 +243,28 @@ class PublishQueue:
                 logger.info(f"⏭️ [DEDUP] Skipping already-published clip: {os.path.basename(rel_video_path)}")
                 return
                 
+            # ── Upload to Telegram Storage if not already uploaded ──
+            if not file_id:
+                bot_token = os.getenv("TELEGRAM_BOT_TOKEN")
+                storage_chat_id = os.getenv("TELEGRAM_STORAGE_GROUP_ID")
+                if bot_token and storage_chat_id:
+                    abs_path = os.path.join(_REPO_ROOT, rel_video_path)
+                    if os.path.exists(abs_path):
+                        logger.info("📤 [QUEUE] Uploading raw clip to Telegram storage as backup...")
+                        try:
+                            from Actress_Modules.actress_scheduler import _send_raw_reel_to_storage
+                            file_id = _send_raw_reel_to_storage(bot_token, storage_chat_id, abs_path)
+                        except Exception as e:
+                            logger.warning("⚠️ [QUEUE] Failed to upload backup to Telegram: %s", e)
+
             if not any(os.path.relpath(q["video_path"], _REPO_ROOT).replace("\\", "/") == rel_video_path for q in queue):
                 queue.append({
                     "video_path": rel_video_path,
                     "actress_title": actress_title,
                     "actress_folder": actress_folder,
                     "added_at": time.time(),
-                    "shortcode": shortcode
+                    "shortcode": shortcode,
+                    "file_id": file_id
                 })
                 cls.save(queue)
                 logger.info(f"📥 Added to Publish Queue: {os.path.basename(video_path)} (Total: {len(queue)})")
@@ -377,6 +392,26 @@ def _process_queue_item():
     video_path     = item['video_path']
     actress_title  = item['actress_title']
     actress_folder = item['actress_folder']
+    file_id        = item.get('file_id')
+
+    # ── Telegram Recovery Fallback ──
+    if not os.path.exists(video_path) and file_id:
+        logger.info("[VAULT] Local video file %s is missing. Recovering from Telegram file_id: %s", os.path.basename(video_path), file_id)
+        bot_token = os.getenv("TELEGRAM_BOT_TOKEN")
+        if bot_token:
+            try:
+                from Actress_Modules.actress_scheduler import _download_reel_from_telegram, _inject_niche
+                downloads_dir = os.getenv("DOWNLOADS_DIR", "downloads")
+                os.makedirs(downloads_dir, exist_ok=True)
+                recovered_path = _download_reel_from_telegram(bot_token, file_id, downloads_dir)
+                if recovered_path and os.path.exists(recovered_path):
+                    target_dir = os.path.dirname(video_path)
+                    os.makedirs(target_dir, exist_ok=True)
+                    os.replace(recovered_path, video_path)
+                    _inject_niche(video_path, actress_folder, actress_title)
+                    logger.info("[VAULT] Successfully recovered and placed video at: %s", video_path)
+            except Exception as re_err:
+                logger.error("[VAULT] Failed to recover file from Telegram: %s", re_err)
 
     logger.info(f"🎬 Popped video for processing: {os.path.basename(video_path)}")
     logger.info(f"⚙️ Running full AMTCE pipeline via CLI for: {actress_title}")

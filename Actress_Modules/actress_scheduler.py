@@ -2027,7 +2027,7 @@ def _run_drip_slot(bot_token, downloads_dir):
         _inject_niche(video_path, "General_Fallback", account)
         if shortcode:
             ledger.commit_with_channel(shortcode, video_path, "General_Fallback")
-        PublishQueue.add(video_path, account, "General_Fallback", shortcode=shortcode)
+        PublishQueue.add(video_path, account, "General_Fallback", shortcode=shortcode, file_id=file_id)
         logger.info("[DRIP] Queued for publish (sc=%s) -- no Telegram resend.", shortcode or file_id[:20])
         processed += 1
 
