@@ -1454,26 +1454,41 @@ def run_evening_pipeline():
     poll_slots = []
     for video_path, actress_title, actress_folder, shortcode in women_queue:
         logger.info("[EVENING] AMTCE processing: %s", os.path.basename(video_path))
+        processed_path = None
         try:
+            from main import process_clip
             with concurrent.futures.ThreadPoolExecutor(max_workers=1) as ex:
                 fut = ex.submit(
-                    _auto_publish_clip,
-                    video_path, actress_title, actress_folder, shortcode,
+                    process_clip,
+                    video_path,
+                    actress_title,
                 )
-                fut.result(timeout=360)
+                processed_path = fut.result(timeout=360)
         except concurrent.futures.TimeoutError:
             logger.warning("[EVENING] Processing timed out (6 min cap): %s",
                            os.path.basename(video_path))
         except Exception as pe:
             logger.error("[EVENING] Processing error: %s", pe)
 
-        processed = os.path.join(
-            "Processed Shorts",
-            os.path.splitext(os.path.basename(video_path))[0] + ".mp4"
-        )
-        if not os.path.exists(processed):
-            processed = video_path
-        poll_slots.append({"actress": actress_title, "video_path": processed})
+        if processed_path and os.path.exists(processed_path):
+            logger.info("[EVENING] AMTCE SUCCESS: output -> %s", os.path.basename(processed_path))
+            try:
+                _auto_publish_clip(processed_path, actress_title, actress_folder, shortcode)
+                poll_slots.append({"actress": actress_title, "video_path": processed_path})
+            except Exception as ae:
+                logger.error("[EVENING] Auto publish error: %s", ae)
+            # Cleanup the raw clip
+            try:
+                os.remove(video_path)
+            except Exception:
+                pass
+        else:
+            logger.error("[EVENING] AMTCE process failed or returned no file. Skipping publish to prevent raw reel upload!")
+            # Clean up the raw clip
+            try:
+                os.remove(video_path)
+            except Exception:
+                pass
 
     # Queue men clips normally
     for video_path, actress_title, actress_folder, shortcode in men_queue:
