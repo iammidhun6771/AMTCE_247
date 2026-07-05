@@ -241,6 +241,41 @@ OFFER_MAP = {
         "cta_format": "→ Get it now",
         "urgency": "Limited stock today.",
     },
+
+    # ── Male Fan Audience — Soft Endorsement Hooks ───────────────────────────
+    # Designed for paparazzi / actress fan channels.
+    # Psychology: viewer buys the FEELING of closeness, not the product.
+    # Rule: hooks NEVER mention the product directly. They mention HER first.
+    # The product link is injected downstream by the affiliate system.
+    "MALE_CRAVING": {
+        "lead_magnet": "Exclusive Fan Collection",
+        "offer_types": ["adult_affiliate", "custom_merch", "smartlink"],
+        "price_anchor": "Fan-exclusive price tonight",
+        "our_frame": "Members only",
+        "hooks": [
+            # Soft endorsement — "she has it / uses it"
+            "She left this behind after the shoot. Nobody was supposed to find it 👀\nLink below if you're a real fan 👇",
+            "Something she keeps private. Real fans only.\nYou know what to do 👇",
+            "She picked this one. Now you have the same one. That's all I'll say 😏👇",
+            # Identity mirror — "real fans know"
+            "Only her real fans will recognize what this is.\nIf you know, you know 👇",
+            "Not everyone sees this side of her.\nMembers who clicked got it first 👀👇",
+            # Curiosity gap — what happened after
+            "This is what she had on when nobody was watching.\nLink if you want the full story 👇",
+            "Everyone watched the video. A few people noticed this.\nThey already clicked 😏👇",
+            # Fan challenge / belonging
+            "24 hours. Real fans already claimed theirs.\nAre you one of them? 👇",
+            "Her most loyal fans got a private link tonight.\nCheck it before it's gone 👇",
+        ],
+        "hindi_hooks": [
+            "Woh yeh apne saath rakhti hai. Real fans ko pata chal gaya 👀\nNeeche link hai 👇",
+            "Sirf asli fans ko pata hota hai yeh kya hai 😏\nClick karo 👇",
+            "Usne yeh choose kiya. Ab tumhare paas same wala hai.\nBas itna hi bolenge 😏👇",
+            "24 ghante. Asli fans ne pehle claim kar liya.\nKya tum unme se ho? 👇",
+        ],
+        "cta_format": "→ Claim yours now",
+        "urgency": "Private link — expires tonight.",
+    },
 }
 
 # Fallback if category completely unknown
@@ -381,7 +416,7 @@ class MoneyFlowEngine:
         self.tracker = _tracker
 
     # Safe, generic high-intent niches — avoid highly specific ones (like BRIDAL) for unknown items
-    _HIGH_INTENT_NICHES = ["LUXURY", "GLOBAL", "STREETWEAR", "MINIMALIST"]
+    _HIGH_INTENT_NICHES = ["LUXURY", "GLOBAL", "STREETWEAR", "MINIMALIST", "MALE_CRAVING"]
 
     # ── INDIAN COMMERCIAL CALENDAR ──────────────────────────────────────────────
     # These dates represent the highest purchase-intent periods in the Indian market.
@@ -471,6 +506,14 @@ class MoneyFlowEngine:
             "WEDDING": "BRIDAL",
             "JACKET": "STREETWEAR",
             "COAT": "STREETWEAR",
+            # Male fan / actress / paparazzi channel aliases
+            "PAPARAZZI": "MALE_CRAVING",
+            "FAN": "MALE_CRAVING",
+            "ACTRESS": "MALE_CRAVING",
+            "CELEBRITY": "MALE_CRAVING",
+            "FANPAGE": "MALE_CRAVING",
+            "COMPILATION": "MALE_CRAVING",
+            "CRAVING": "MALE_CRAVING",
         }
         category = _ALIASES.get(category, category)
 
