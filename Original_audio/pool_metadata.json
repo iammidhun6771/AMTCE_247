@@ -64,8 +64,8 @@
       "version": 2
     },
     "Anshivi.mp3": {
-      "usage_count": 1,
-      "last_used": 1782015554.2882338,
+      "usage_count": 2,
+      "last_used": 1783321354.4624038,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9438772,
@@ -127,8 +127,8 @@
       "version": 2
     },
     "Giorgia_1.mp3": {
-      "usage_count": 1,
-      "last_used": 1780579097.298077,
+      "usage_count": 2,
+      "last_used": 1783327537.5311723,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.945487,
@@ -187,8 +187,8 @@
       "version": 2
     },
     "Kate_Sharma_1.mp3": {
-      "usage_count": 1,
-      "last_used": 1781541367.9143019,
+      "usage_count": 2,
+      "last_used": 1783321543.052633,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9460042,
@@ -199,8 +199,8 @@
       "version": 2
     },
     "Malavika_10.mp3": {
-      "usage_count": 1,
-      "last_used": 1780495551.261916,
+      "usage_count": 2,
+      "last_used": 1783321894.9721,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.946521,
@@ -392,8 +392,8 @@
       "version": 2
     },
     "Shefali.mp3": {
-      "usage_count": 1,
-      "last_used": 1780494543.0863607,
+      "usage_count": 2,
+      "last_used": 1783321732.488679,
       "bpm": 78.3,
       "energy": 0.5946,
       "created_at": 1780391156.9506483,
@@ -406,8 +406,8 @@
       "version": 2
     },
     "Tammanah_bhatia.mp3": {
-      "usage_count": 1,
-      "last_used": 1782018620.36322,
+      "usage_count": 2,
+      "last_used": 1783327635.8093772,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9506483,
@@ -430,8 +430,8 @@
       "version": 2
     },
     "Urvashi_rautela.mp3": {
-      "usage_count": 1,
-      "last_used": 1780400052.8222315,
+      "usage_count": 2,
+      "last_used": 1783263717.0187473,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9511678,
@@ -673,35 +673,18 @@
     "Ayesha_Khan.mp3": {
       "usage_count": 1,
       "last_used": 1782374244.404556,
-      "bpm": 107.9,
-      "energy": 0.8777200000000001,
+      "bpm": 106.4,
+      "energy": 0.5380559440559441,
       "created_at": 1782366668.114046,
       "beat_data_path": "beats/Ayesha_Khan.npz",
       "drop_times": [
         0.1,
-        1.25
+        34.4,
+        36.0
       ],
       "sample_rate": 44100,
-      "audio_hash": "667832_1782366667",
-      "version": 2,
-      "gemini_genre": "pop",
-      "gemini_mood_tags": [
-        "dreamy",
-        "chill",
-        "romantic"
-      ],
-      "gemini_energy_level": "medium",
-      "gemini_has_vocals": true,
-      "gemini_content_match": [
-        "aesthetic",
-        "travel",
-        "fashion"
-      ],
-      "gemini_avoid_match": [
-        "fitness",
-        "gaming"
-      ],
-      "gemini_analyzed": true
+      "audio_hash": "1939268_1783263678",
+      "version": 2
     },
     "Disha_patani_4.mp3": {
       "usage_count": 1,
@@ -761,6 +744,18 @@
       "drop_times": [],
       "sample_rate": 44100,
       "audio_hash": "237756_1782981425",
+      "version": 2
+    },
+    "Avneet_kaur.mp3": {
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 136.0,
+      "energy": 0.8942777777777778,
+      "created_at": 1783327516.5992231,
+      "beat_data_path": "beats/Avneet_kaur.npz",
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "195125_1783327516",
       "version": 2
     }
   }
