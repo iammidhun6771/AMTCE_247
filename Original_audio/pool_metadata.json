@@ -139,8 +139,8 @@
       "version": 2
     },
     "Giorgia_2.mp3": {
-      "usage_count": 1,
-      "last_used": 1780579021.8496056,
+      "usage_count": 2,
+      "last_used": 1783328066.3526506,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.945487,
@@ -430,8 +430,8 @@
       "version": 2
     },
     "Urvashi_rautela.mp3": {
-      "usage_count": 1,
-      "last_used": 1780400052.8222315,
+      "usage_count": 2,
+      "last_used": 1783327586.230018,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9511678,
@@ -546,8 +546,8 @@
       "version": 2
     },
     "Disha_patani.mp3": {
-      "usage_count": 1,
-      "last_used": 1782735844.1304185,
+      "usage_count": 2,
+      "last_used": 1783327790.2709038,
       "bpm": 87.9,
       "energy": 0.7201714285714287,
       "created_at": 1780496185.4853427,
@@ -784,6 +784,30 @@
       "drop_times": [],
       "sample_rate": 44100,
       "audio_hash": "237756_1782983101",
+      "version": 2
+    },
+    "Avneet_kaur.mp3": {
+      "usage_count": 1,
+      "last_used": 1783327971.4806883,
+      "bpm": 136.0,
+      "energy": 0.8942777777777778,
+      "created_at": 1783327534.6756592,
+      "beat_data_path": "beats/Avneet_kaur.npz",
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "195125_1783327534",
+      "version": 2
+    },
+    "Akanksha_puri.mp3": {
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 73.5,
+      "energy": 0.8821428571428571,
+      "created_at": 1783327954.4779348,
+      "beat_data_path": "beats/Akanksha_puri.npz",
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "202021_1783327954",
       "version": 2
     }
   }
