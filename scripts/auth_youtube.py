@@ -269,10 +269,12 @@ def _fallback_url_flow(secret_path, token_path, tg_token, tg_admin):
         msg = (
             f"🔐 <b>YouTube Re-Auth Required</b>\n\n"
             f"⚠️ <i>Your Google app type is 'Desktop' — one extra step needed:</i>\n\n"
-            f"1️⃣ Tap <b>Tap to Authorize</b> below\n"
-            f"2️⃣ Sign in with Google\n"
-            f"3️⃣ Copy the code shown (or the full URL from your browser)\n"
-            f"4️⃣ Send it here: <code>/ytcode YOUR_CODE</code>\n\n"
+            f"1️⃣ Tap <b>Tap to Authorize</b> below.\n"
+            f"2️⃣ Sign in with Google and grant permissions.\n"
+            f"3️⃣ Google will redirect your browser to a page starting with <code>http://localhost</code>. "
+            f"<b>This page will fail to load (e.g. 'localhost refused to connect'). THIS IS NORMAL and expected!</b>\n"
+            f"4️⃣ Do NOT click reload. Instead, <b>copy the entire URL</b> from your browser's address bar (it starts with http://localhost and contains <code>code=</code>).\n"
+            f"5️⃣ Send the copied URL back to this bot (either paste it directly or send it as: <code>/ytcode PASTE_URL</code>).\n\n"
             f"<b>To make this fully automatic (no code needed):</b>\n"
             f"Change your Google Cloud app type to <b>TV and Limited Input Devices</b>."
         )

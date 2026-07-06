@@ -3429,8 +3429,8 @@ async def cmd_ytcode(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(
             "🔄 <b>Triggering YouTube auth refresh...</b>\n\n"
             "The Google sign-in link will appear here in a moment.\n"
-            "Tap it → sign in → copy the code shown → send:\n"
-            "<code>/ytcode YOUR_CODE</code>",
+            "Tap it → sign in → <b>copy the entire http://localhost URL</b> from the browser address bar (even if the page looks broken/fails to load!) → paste it here to authorize.\n\n"
+            "You can also use: <code>/ytcode PASTE_URL_HERE</code>",
             parse_mode="HTML"
         )
         import threading
@@ -3716,6 +3716,12 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     logger.info(f"📩 [DEBUG_MSG] Received text from {user_id}: '{text[:50]}...' | State: {state}")
+
+    # Auto-detect YouTube OAuth redirect URLs (which look like http://localhost/?code=...)
+    if user_id in ADMIN_IDS and "localhost" in text.lower() and "code=" in text.lower():
+        context.args = [text]
+        await cmd_ytcode(update, context)
+        return
 
     # Case 1: New URL — ALWAYS accepted, even while processing.
     # PROCESSING_LOCK handles serialization. Session is overwritten so
