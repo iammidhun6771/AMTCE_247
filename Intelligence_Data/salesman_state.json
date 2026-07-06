@@ -20,8 +20,9 @@
     "slots_missed_today": [
       "10:00"
     ],
-    "catchup_slots_today": [
-      "09:00"
+    "slots_missed_today": [
+      "09:00",
+      "10:00"
     ],
     "deficit_videos": 0
   },
