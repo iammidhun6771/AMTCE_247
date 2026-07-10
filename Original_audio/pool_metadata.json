@@ -247,8 +247,8 @@
       "version": 2
     },
     "Monika_chaudhary.mp3": {
-      "usage_count": 1,
-      "last_used": 1782004497.9864676,
+      "usage_count": 2,
+      "last_used": 1783714593.7738678,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9475565,
@@ -368,8 +368,8 @@
       "version": 2
     },
     "Sakshi_malik_3.mp3": {
-      "usage_count": 1,
-      "last_used": 1780483756.008112,
+      "usage_count": 2,
+      "last_used": 1783714915.5817661,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9501328,
@@ -845,6 +845,41 @@
         "dance",
         "fitness",
         "fashion"
+      ],
+      "gemini_avoid_match": [
+        "nature",
+        "educational"
+      ],
+      "gemini_analyzed": true
+    },
+    "Roshniwalia.mp3": {
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 82.5,
+      "energy": 0.7403653846153845,
+      "created_at": 1783714566.9257092,
+      "beat_data_path": "beats/Roshniwalia.npz",
+      "drop_times": [
+        0.15,
+        6.7,
+        26.45,
+        36.65
+      ],
+      "sample_rate": 44100,
+      "audio_hash": "909835_1783714566",
+      "version": 2,
+      "gemini_genre": "hiphop",
+      "gemini_mood_tags": [
+        "energetic",
+        "confident",
+        "playful"
+      ],
+      "gemini_energy_level": "high",
+      "gemini_has_vocals": true,
+      "gemini_content_match": [
+        "dance",
+        "fashion",
+        "luxury"
       ],
       "gemini_avoid_match": [
         "nature",
