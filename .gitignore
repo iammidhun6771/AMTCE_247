@@ -119,3 +119,6 @@ Original_audio/**
 !Original_audio/beats/
 !Original_audio/beats/*.npz
 !Original_audio/pool_metadata.json
+
+# Graphify Output
+graphify-out/
