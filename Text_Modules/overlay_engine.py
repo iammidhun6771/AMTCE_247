@@ -243,7 +243,7 @@ def select_viral_hook(context: Optional[Dict] = None) -> str:
     ctx = context or {}
     memory = _load_viral_hook_memory()
 
-    recent_memory = memory[-25:]
+    recent_memory = memory[-10:]
 
     for hook in _FALLBACK_STRUCTURES:
         too_similar = any(

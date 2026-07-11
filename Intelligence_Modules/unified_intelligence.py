@@ -310,7 +310,11 @@ MASTER_SCHEMA = {
                 "context_text": {"type": ["string", "null"]},
                 "item_name": {"type": ["string", "null"]},
                 "price_tag": {"type": ["string", "null"]},
-                "price_tag_time": {"type": ["number", "null"]}
+                "price_tag_time": {"type": ["number", "null"]},
+                "viral_hook": {
+                    "type": ["string", "null"],
+                    "description": "A short, engaging Hinglish hook (6-9 words, 1 emoji max at the end) that creates a curiosity gap about a visual detail."
+                }
             }
         },
 
