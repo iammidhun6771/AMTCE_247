@@ -1,8 +1,8 @@
 import os
-from mistralai.client import Mistral
 from typing import Dict, Any
 
 def call_mistral(prompt: str, system_prompt: str = "You are a helpful assistant.", model: str = "mistral-large-latest") -> Dict[str, Any]:
+    from mistralai.client import Mistral
     api_key = os.getenv("MISTRAL_API_KEY")
     if not api_key:
         raise ValueError("MISTRAL_API_KEY not found in environment variables.")

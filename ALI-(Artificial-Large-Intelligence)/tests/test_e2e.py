@@ -1,3 +1,5 @@
+import pytest
+pytest.importorskip("langgraph")
 from fastapi.testclient import TestClient
 from api.main import app
 

@@ -17,7 +17,7 @@ def test_protected_files():
 @patch("son_of_anton.code_optimizer.get_visual_critique")
 @patch("son_of_anton.code_optimizer.judge_improvement")
 @patch("connectors.gemini.call_gemini")
-@patch("claw_vanguard.vanguard_forge.vanguard_forge.promote_to_primary")
+@patch("son_of_anton.code_optimizer.vanguard_forge.promote_to_primary")
 @patch("os.path.exists")
 def test_successful_optimization_loop(mock_exists, mock_promote, mock_call_gemini, mock_judge, mock_critique, mock_execute):
     optimizer = SonOfAntonCodeOptimizer()
@@ -72,7 +72,7 @@ def test_successful_optimization_loop(mock_exists, mock_promote, mock_call_gemin
 @patch("son_of_anton.code_optimizer.get_visual_critique")
 @patch("son_of_anton.code_optimizer.judge_improvement")
 @patch("connectors.gemini.call_gemini")
-@patch("claw_vanguard.vanguard_forge.vanguard_forge.promote_to_primary")
+@patch("son_of_anton.code_optimizer.vanguard_forge.promote_to_primary")
 @patch("os.path.exists")
 def test_loop_exhaustion(mock_exists, mock_promote, mock_call_gemini, mock_judge, mock_critique, mock_execute):
     optimizer = SonOfAntonCodeOptimizer()

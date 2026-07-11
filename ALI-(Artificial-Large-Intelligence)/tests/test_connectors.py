@@ -1,23 +1,33 @@
-from unittest.mock import patch
-from connectors.deepseek import call_deepseek
+import sys
+from unittest.mock import MagicMock, patch
+# Mock mistralai if not installed to prevent mock patch/import failure
+try:
+    import mistralai
+except ImportError:
+    sys.modules['mistralai'] = MagicMock()
+    sys.modules['mistralai.client'] = MagicMock()
+
+from connectors.groq_connector import call_groq
 from connectors.mistral import call_mistral
 from connectors.gemini import call_gemini
 from connectors.qwen_hf import call_qwen
 import os
 
-@patch.dict(os.environ, {"DEEPSEEK_API_KEY": "test_key"})
-@patch('requests.post')
-def test_deepseek_connector(mock_post):
-    mock_post.return_value.json.return_value = {
-        "choices": [{"message": {"content": "Test deepseek response", "reasoning_content": "reasoning"}}],
-        "usage": {"total_tokens": 10}
-    }
-    result = call_deepseek("Hello")
-    assert result["answer"] == "Test deepseek response"
-    assert result["tokens_used"] == 10
+@patch.dict(os.environ, {"GROQ_API_KEY": "test_key"})
+@patch('connectors.groq_connector.OpenAI')
+def test_groq_connector(mock_openai):
+    mock_client = mock_openai.return_value
+    mock_client.chat.completions.create.return_value.choices = [
+        type('obj', (object,), {'message': type('obj', (object,), {'content': 'Test groq response'})})
+    ]
+    mock_client.chat.completions.create.return_value.usage = type('obj', (object,), {'total_tokens': 12})
+    
+    result = call_groq("Hello")
+    assert result["answer"] == "Test groq response"
+    assert result["tokens_used"] == 12
 
 @patch.dict(os.environ, {"MISTRAL_API_KEY": "test_key"})
-@patch('connectors.mistral.Mistral')
+@patch('mistralai.client.Mistral')
 def test_mistral_connector(mock_mistral):
     # Mocking the client structure
     mock_client = mock_mistral.return_value

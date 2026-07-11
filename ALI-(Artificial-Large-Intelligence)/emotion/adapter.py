@@ -7,7 +7,7 @@ def get_emotion_adjustments(emotion_data: Dict[str, Any]) -> Dict[str, str]:
     adjustments = {
         "tone": "neutral",
         "opening": "",
-        "model_lead": "deepseek"
+        "model_lead": "groq"  # was deepseek
     }
     
     if emotion == "frustrated":
@@ -22,7 +22,7 @@ def get_emotion_adjustments(emotion_data: Dict[str, Any]) -> Dict[str, str]:
         adjustments["model_lead"] = "mistral"
     elif emotion == "curious":
         adjustments["tone"] = "detailed and encouraging"
-        adjustments["model_lead"] = "deepseek"
+        adjustments["model_lead"] = "groq"  # was deepseek
     elif context == "professional":
         adjustments["tone"] = "formal"
     

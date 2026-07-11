@@ -18,7 +18,7 @@ def run_anton_loop():
     last_solution = None
 
     for i in range(max_iterations):
-        print(f"\nIteration {i+1}/{max_iterations} - DeepSeek Reasoning...")
+        print(f"\nIteration {i+1}/{max_iterations} - Groq (Llama 3.3 70B) Reasoning...")
         last_solution = anton_deep_reason(problem)
 
         print("Validating with Gemini...")

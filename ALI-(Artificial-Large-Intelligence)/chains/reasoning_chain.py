@@ -1,5 +1,5 @@
 from typing import Dict, Any
-from connectors.deepseek import call_deepseek
+from connectors.groq_connector import call_groq
 from connectors.gemini import call_gemini
 from connectors.mistral import call_mistral
 from connectors.qwen_hf import call_qwen
@@ -9,9 +9,10 @@ def execute_complex_chain(prompt: str, emotion_data: Dict[str, Any]) -> Dict[str
     # Adjust prompt based on emotion
     adjusted_prompt = adapt_prompt_with_emotion(prompt, emotion_data)
     
-    # 1. Model A answers first (DeepSeek - Reasoning/Logic)
-    print("Executing Model A (DeepSeek)...")
-    res_a = call_deepseek(adjusted_prompt, system_prompt="You are Model A. Provide a deep, logical analysis of the problem.")
+    # 1. Model A answers first (Groq:Llama 3.3 70B - Reasoning/Logic)
+    # Replaced DeepSeek — Groq is free, fast (400 tok/s), and equally strong at reasoning
+    print("Executing Model A (Groq: Llama 3.3 70B)...")
+    res_a = call_groq(adjusted_prompt, system_prompt="You are Model A. Provide a deep, logical analysis of the problem.", model="llama-3.3-70b-versatile")
     answer_a = res_a.get("answer", "")
     
     # 2. Model B reads A + adds/corrects (Gemini - Context/Vision)
@@ -35,7 +36,7 @@ def execute_complex_chain(prompt: str, emotion_data: Dict[str, Any]) -> Dict[str
     return {
         "final_answer": answer_d,
         "chain_trace": {
-            "deepseek": answer_a,
+            "groq": answer_a,       # was deepseek
             "gemini": answer_b,
             "mistral": answer_c,
             "qwen": answer_d

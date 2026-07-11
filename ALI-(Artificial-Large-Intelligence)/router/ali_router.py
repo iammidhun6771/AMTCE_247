@@ -32,11 +32,15 @@ def classify_task(prompt: str) -> Dict[str, Any]:
 
 def get_routing_plan(category: str, emotion_data: Dict[str, Any]) -> Dict[str, str]:
     emotion = emotion_data.get("emotion", "neutral")
-    context = emotion_data.get("context_type", "professional")
-    
-    # Base mapping
+
+    # Model waterfall (DeepSeek removed — free tier discontinued):
+    #   code       → groq:Qwen2.5-Coder-32B  (beats GPT-4o on HumanEval)
+    #   vision     → gemini                   (multimodal, only option)
+    #   multilingual → qwen                   (HF Qwen 72B, best multilingual)
+    #   factual    → qwen                     (HF Command-R+, RAG specialist)
+    #   creative   → mistral                  (fast, expressive)
     if category == "code":
-        lead = "deepseek"
+        lead = "groq"        # Qwen2.5-Coder-32B via Groq
     elif category == "vision":
         lead = "gemini"
     elif category == "multilingual":
@@ -50,10 +54,11 @@ def get_routing_plan(category: str, emotion_data: Dict[str, Any]) -> Dict[str, s
     if emotion in ["sad", "crisis"]:
         lead = "mistral"
     elif emotion == "frustrated" and category == "code":
-        # Handled in chain, but DeepSeek solves, Mistral wraps
-        lead = "deepseek"
+        # On frustration, still use best coder (Qwen via Groq)
+        lead = "groq"
     elif emotion == "curious":
-        lead = "deepseek"
+        # Exploratory reasoning: Llama 3.3 70B on Groq (was DeepSeek-Reasoner)
+        lead = "groq"
         
     return {
         "lead_model": lead,
