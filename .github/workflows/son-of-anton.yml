@@ -1,0 +1,117 @@
+﻿name: Son of Anton — Self-Healing Optimizer
+
+# ── Why a separate workflow? ──────────────────────────────────────────────────
+# The main AMTCE Runner handles content harvesting, video rendering, and
+# publishing. Son of Anton handles code analysis, test running, and bug fixing.
+# Running them in the same workflow would cause:
+#   1. Concurrency blocks — one waits for the other.
+#   2. Resource conflicts — both writing to files and pushing to git at once.
+#   3. Dirty commit history — media pipeline commits mixed with code fixes.
+# This workflow uses its own concurrency group: son-of-anton
+# ─────────────────────────────────────────────────────────────────────────────
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_iterations:
+        description: 'Max reasoning iterations per problem (default: 3)'
+        required: false
+        default: '3'
+        type: string
+
+  schedule:
+    # Runs once per day at 02:00 AM IST (20:30 UTC previous day)
+    - cron: '30 20 * * *'
+
+concurrency:
+  group: son-of-anton
+  cancel-in-progress: false
+
+jobs:
+  self-heal:
+    name: Son of Anton — Reasoning and Code Fix Loop
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    env:
+      TZ: "Asia/Kolkata"
+      PYTHONPATH: ${{ github.workspace }}
+
+    permissions:
+      contents: write
+
+    steps:
+
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+
+    - name: Install ALI Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f "ALI-(Artificial-Large-Intelligence)/requirements.txt" ]; then
+          pip install -r "ALI-(Artificial-Large-Intelligence)/requirements.txt"
+        fi
+        if [ -f "requirements.txt" ]; then
+          pip install -r requirements.txt --quiet
+        fi
+
+    - name: Inject API Credentials
+      env:
+        ENV_FILE_CONTENT: ${{ secrets.ENV_FILE_CONTENT }}
+      run: |
+        mkdir -p Credentials
+        if [ -n "$ENV_FILE_CONTENT" ]; then
+          echo "$ENV_FILE_CONTENT" > Credentials/.env
+          echo "Credentials/.env injected"
+        else
+          echo "WARNING: ENV_FILE_CONTENT secret is empty"
+        fi
+
+    - name: Configure Git Identity
+      run: |
+        git config user.name  "Son of Anton [bot]"
+        git config user.email "son-of-anton@users.noreply.github.com"
+
+    - name: Run Son of Anton Loop
+      env:
+        ANTON_MAX_ITERATIONS: ${{ github.event.inputs.max_iterations || '3' }}
+        GROQ_API_KEY:    ${{ secrets.GROQ_API_KEY }}
+        GEMINI_API_KEY:  ${{ secrets.GEMINI_API_KEY }}
+        MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+        HF_TOKEN:        ${{ secrets.HF_TOKEN }}
+      run: |
+        echo "====================================================="
+        echo "  Son of Anton — Self-Healing Optimizer"
+        echo "  Max iterations: $ANTON_MAX_ITERATIONS"
+        echo "  Timestamp: $(date '+%Y-%m-%d %H:%M:%S IST')"
+        echo "====================================================="
+        cd "ALI-(Artificial-Large-Intelligence)"
+        python son_of_anton/loop.py
+
+    - name: Commit Solved Problems and Code Fixes
+      run: |
+        git add -A
+        if git diff --cached --quiet; then
+          echo "No code changes from this loop run — nothing to commit."
+        else
+          TIMESTAMP=$(date '+%Y-%m-%d %H:%M IST')
+          git commit -m "son-of-anton: auto-fix — ${TIMESTAMP} [skip ci]"
+          git pull --rebase origin main
+          git push origin main
+          echo "Code fixes committed and pushed to main."
+        fi
+
+    - name: Print Summary
+      if: always()
+      run: |
+        echo "Son of Anton run complete."
+        echo "Check ALI-(Artificial-Large-Intelligence)/memory/anton_solved.json"
