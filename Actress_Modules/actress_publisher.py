@@ -590,6 +590,27 @@ def _process_queue_item():
             logger.warning(f"⚠️ [PUBLISHER] Could not delete {_cleanup_path}: {_ce}")
 
 
+def _process_batch(n: int = None):
+    """
+    Processes N clips from the publish queue back-to-back.
+    N defaults to CLIPS_PER_BATCH env var (fallback: 1).
+    Safe to call even if the queue has fewer than N items.
+    """
+    if n is None:
+        try:
+            n = int(os.getenv("CLIPS_PER_BATCH", "1"))
+        except (ValueError, TypeError):
+            n = 1
+    n = max(1, n)
+    for i in range(n):
+        logger.info("▶ [BATCH] Processing clip %d/%d ...", i + 1, n)
+        _process_queue_item()
+        # If queue is now empty, no point trying more
+        if not PublishQueue.load():
+            logger.info("📭 [BATCH] Queue empty after clip %d/%d — stopping batch early.", i + 1, n)
+            break
+
+
 def _publish_loop():
     static_times = _get_static_peak_times()
     slots = _get_active_publish_slots()
@@ -692,7 +713,7 @@ def _publish_loop():
                 if not PublishQueue.load():
                     logger.info("📭 Queue empty — auto-scanning downloads/ to fill it...")
                     _auto_fill_queue_from_downloads()
-                _process_queue_item()
+                _process_batch()
 
             # ── 1. Fire at static slots (6 min early) ────────────────────────
             for slot in slots:
@@ -704,8 +725,8 @@ def _publish_loop():
                         last_processed_slot = slot_id
                         slot_hhmm = slot.strftime("%H:%M")
                         batch = _batch_label(slot.hour, slot.minute)
-                        logger.info(f"⏰ {batch} — Processing {PROCESS_LEAD_TIME_MINUTES} min before slot {slot.strftime('%H:%M')} | Queue: {queue_size}")
-                        _process_queue_item()
+                        logger.info(f"⏰ {batch} — Processing {PROCESS_LEAD_TIME_MINUTES} min before slot {slot.strftime('%H:%M')} | Queue: {queue_size} | Batch: {os.getenv('CLIPS_PER_BATCH', '1')} clip(s)")
+                        _process_batch()
                         # Mark this slot as published in salesman state
                         if _SALESMAN_AVAILABLE:
                             get_publisher_state().mark_slot_published(slot_hhmm)
@@ -724,10 +745,10 @@ def _publish_loop():
                 if 0 <= cu_diff_sec < 60 and last_processed_slot != cu_slot_id:
                     last_processed_slot = cu_slot_id
                     logger.info(
-                        "🔄 [PUBLISHER SALESMAN] Catch-up slot firing at %s | Queue: %d",
-                        cu_slot_str, queue_size
+                        "🔄 [PUBLISHER SALESMAN] Catch-up slot firing at %s | Queue: %d | Batch: %s clip(s)",
+                        cu_slot_str, queue_size, os.getenv('CLIPS_PER_BATCH', '1')
                     )
-                    _process_queue_item()
+                    _process_batch()
                     if _SALESMAN_AVAILABLE:
                         get_publisher_state().mark_slot_published(f"{cu_slot_str}[catchup]")
 
