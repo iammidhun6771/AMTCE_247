@@ -245,7 +245,12 @@ class PublishQueue:
                 
             # ── Upload to Telegram Storage if not already uploaded ──
             if not file_id:
-                bot_token = os.getenv("TELEGRAM_BOT_TOKEN")
+                # Use the Storage Bot (Customer Bot) — it's a group member.
+                # Falls back to the main bot token if the storage token isn't set.
+                bot_token = (
+                    os.getenv("TELEGRAM_STORAGE_BOT_TOKEN")
+                    or os.getenv("TELEGRAM_BOT_TOKEN")
+                )
                 storage_chat_id = os.getenv("TELEGRAM_STORAGE_GROUP_ID")
                 if bot_token and storage_chat_id:
                     abs_path = os.path.join(_REPO_ROOT, rel_video_path)

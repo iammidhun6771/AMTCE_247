@@ -1859,7 +1859,12 @@ def run_rotating_pipeline():
         return
 
     slot             = _detect_pipeline_slot()
-    bot_token        = os.getenv("TELEGRAM_BOT_TOKEN", "")
+    # Use the Storage Bot (Customer Bot) — it's a member of the private group.
+    # Falls back to the main bot token if TELEGRAM_STORAGE_BOT_TOKEN isn't set.
+    bot_token        = (
+        os.getenv("TELEGRAM_STORAGE_BOT_TOKEN")
+        or os.getenv("TELEGRAM_BOT_TOKEN", "")
+    )
     storage_chat_id  = os.getenv("TELEGRAM_STORAGE_GROUP_ID", "")
     admin_id_storage = os.getenv("ADMIN_ID_STORAGE", "")
     downloads_dir    = os.getenv("DOWNLOADS_DIR", "downloads")
