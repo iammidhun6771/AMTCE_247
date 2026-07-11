@@ -1,6 +1,6 @@
 import logging
 from connectors.groq_connector import call_groq
-from connectors.hf_governor import hf_governor
+from connectors.qwen_hf import call_hf
 
 logger = logging.getLogger("SonOfAnton.ReasoningChain")
 
@@ -24,7 +24,7 @@ def anton_deep_reason(problem: str) -> str:
 
     # Tier 2: HuggingFace Qwen 72B — SOTA open-source reasoner
     try:
-        res = hf_governor.call(prompt, system_prompt, task_type="ali_reasoning")
+        res = call_hf(prompt, system_prompt, task_type="ali_reasoning")
         if "error" not in res and res.get("answer"):
             logger.info("[SonOfAnton] Reasoned via HF Governor (Qwen 72B)")
             return res["answer"]

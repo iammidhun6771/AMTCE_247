@@ -458,3 +458,6 @@ class HFGovernor:
             })
         result.sort(key=lambda x: x["boost"], reverse=True)
         return result
+
+# Singleton instance
+hf_governor = HFGovernor()

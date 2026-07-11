@@ -1,4 +1,6 @@
+import os
 import time
+from dotenv import load_dotenv
 from son_of_anton.problem_selector import select_problem
 from son_of_anton.reasoning_chain import anton_deep_reason
 from son_of_anton.validator import validate_solution
@@ -7,6 +9,26 @@ from son_of_anton.visualize_results import generate_anton_visual
 
 def run_anton_loop():
     print("--- Initiating Son of Anton Reasoning Loop ---")
+    
+    # Load Credentials/.env from project root
+    _master_env = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+        "Credentials",
+        ".env"
+    )
+    if os.path.exists(_master_env):
+        load_dotenv(_master_env, override=True)
+        print(f"Loaded credentials from: {_master_env}")
+    else:
+        print(f"Warning: env file not found at {_master_env}")
+    # Force UTF-8 stdout on Windows to support emojis/special characters in terminal
+    import sys
+    if sys.platform.startswith("win"):
+        try:
+            sys.stdout.reconfigure(encoding='utf-8')
+        except AttributeError:
+            pass
+
     problem = select_problem()
     if not problem:
         print("No unsolved problems found.")
@@ -25,7 +47,7 @@ def run_anton_loop():
         is_valid = validate_solution(problem, last_solution)
 
         if is_valid:
-            print("✅ Solution verified as correct!")
+            print("[SUCCESS] Solution verified as correct!")
             write_solution_to_brain(
                 problem=problem,
                 solution=last_solution,
@@ -35,11 +57,11 @@ def run_anton_loop():
             generate_anton_visual(problem)
             return
         else:
-            print(f"❌ Solution rejected. Retrying... ({i+1}/{max_iterations})")
+            print(f"[REJECTED] Solution rejected. Retrying... ({i+1}/{max_iterations})")
             time.sleep(2)
 
     # All iterations exhausted — mark as failed so problem_selector skips it next run
-    print(f"⚠️  Max iterations ({max_iterations}) exhausted. Marking problem as FAILED.")
+    print(f"[WARNING] Max iterations ({max_iterations}) exhausted. Marking problem as FAILED.")
     write_solution_to_brain(
         problem=problem,
         solution=None,              # No valid solution found

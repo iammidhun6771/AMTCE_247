@@ -108,7 +108,7 @@ def get_visual_critique(video_path: str, niche: str, request: str) -> Dict[str, 
             logger.warning(f"Failed to delete uploaded file: {de}")
 
 def judge_improvement(baseline_critique: Dict[str, Any], optimized_critique: Dict[str, Any]) -> Tuple[bool, str]:
-    """Uses Mistral/Groq with Gemini fallback to judge if optimized critique is an improvement."""
+    """Uses Kintio-Claude/Mistral/Groq with Gemini fallback to judge if optimized critique is an improvement."""
     prompt = f"""
     Compare the following two visual critiques of a compiled video:
     
@@ -130,6 +130,18 @@ def judge_improvement(baseline_critique: Dict[str, Any], optimized_critique: Dic
     
     system_prompt = "You are an elite video editing director. Analyze visual improvements and output ONLY JSON."
     
+    # Try Kintio Claude first if configured
+    if os.getenv("KINTIO_API_KEYS"):
+        try:
+            from connectors.kintio_claude import call_kintio_claude
+            logger.info("Calling Kintio Claude to judge optimization improvement...")
+            res = call_kintio_claude(prompt, system_prompt)
+            if "error" not in res and res.get("answer"):
+                return _parse_judge_json(res["answer"])
+            logger.warning(f"Kintio Claude judge failed: {res.get('error')} — falling back")
+        except Exception as e:
+            logger.warning(f"Kintio Claude judge exception: {e} — falling back")
+
     # Try Mistral
     try:
         from connectors.mistral import call_mistral
