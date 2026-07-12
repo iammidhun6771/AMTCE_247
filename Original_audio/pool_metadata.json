@@ -418,8 +418,8 @@
       "version": 2
     },
     "Tammanah_bhatia_1.mp3": {
-      "usage_count": 1,
-      "last_used": 1781796633.4843116,
+      "usage_count": 2,
+      "last_used": 1783882860.4944427,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9506483,
@@ -673,32 +673,16 @@
     "Ayesha_Khan.mp3": {
       "usage_count": 1,
       "last_used": 1782374244.404556,
-      "bpm": 131.0,
-      "energy": 0.832625,
+      "bpm": 124.1,
+      "energy": 0.8000625,
       "created_at": 1782366668.114046,
       "beat_data_path": "beats/Ayesha_Khan.npz",
       "drop_times": [
-        0.25
+        0.7
       ],
       "sample_rate": 44100,
-      "audio_hash": "381325_1783615597",
-      "version": 2,
-      "gemini_genre": "unknown",
-      "gemini_mood_tags": [
-        "energetic",
-        "upbeat"
-      ],
-      "gemini_energy_level": "high",
-      "gemini_has_vocals": true,
-      "gemini_content_match": [
-        "dance",
-        "fitness"
-      ],
-      "gemini_avoid_match": [
-        "ambient",
-        "meditation"
-      ],
-      "gemini_analyzed": true
+      "audio_hash": "197632_1783882831",
+      "version": 2
     },
     "Disha_patani_4.mp3": {
       "usage_count": 1,
@@ -749,8 +733,8 @@
       "version": 2
     },
     "Megha.mp3": {
-      "usage_count": 1,
-      "last_used": 1783067243.413766,
+      "usage_count": 2,
+      "last_used": 1783883093.5787954,
       "bpm": 93.3,
       "energy": 0.8707500000000001,
       "created_at": 1782981426.0390403,
