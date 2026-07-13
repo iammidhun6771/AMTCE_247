@@ -2,8 +2,8 @@
   "version": 2,
   "files": {
     "Adam_john.mp3": {
-      "usage_count": 1,
-      "last_used": 1782004112.9057734,
+      "usage_count": 2,
+      "last_used": 1783925850.7625146,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.941843,
@@ -76,8 +76,8 @@
       "version": 2
     },
     "Dhansree_verma.mp3": {
-      "usage_count": 1,
-      "last_used": 1782273949.633453,
+      "usage_count": 2,
+      "last_used": 1783926260.1340995,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9444246,
@@ -261,13 +261,13 @@
     "Nora_fatehi.mp3": {
       "usage_count": 2,
       "last_used": 1782442181.9943867,
-      "bpm": 96.5,
-      "energy": 0.8543684210526322,
+      "bpm": 105.3,
+      "energy": 0.8567692307692306,
       "created_at": 1780391156.9475565,
       "beat_data_path": "beats/Nora_fatehi.npz",
       "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "1153714_1780495529",
+      "audio_hash": "366906_1783924578",
       "version": 2
     },
     "Palak_agrawal.mp3": {
@@ -466,8 +466,8 @@
       "version": 2
     },
     "Wamiqa_gabbi_1.mp3": {
-      "usage_count": 1,
-      "last_used": 1780481668.6608477,
+      "usage_count": 2,
+      "last_used": 1783925032.3707142,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9516847,
@@ -671,8 +671,8 @@
       "version": 2
     },
     "Ayesha_Khan.mp3": {
-      "usage_count": 1,
-      "last_used": 1782374244.404556,
+      "usage_count": 2,
+      "last_used": 1783924718.7427073,
       "bpm": 124.1,
       "energy": 0.8000625,
       "created_at": 1782366668.114046,
@@ -685,8 +685,8 @@
       "version": 2
     },
     "Disha_patani_4.mp3": {
-      "usage_count": 1,
-      "last_used": 1782735884.717171,
+      "usage_count": 2,
+      "last_used": 1783923929.5297668,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1782638838.8912814,
@@ -709,8 +709,8 @@
       "version": 2
     },
     "Guess_who.mp3": {
-      "usage_count": 1,
-      "last_used": 1782977714.776108,
+      "usage_count": 2,
+      "last_used": 1783925708.1943817,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1782638838.8922815,
@@ -745,8 +745,8 @@
       "version": 2
     },
     "Avneet_kaur.mp3": {
-      "usage_count": 1,
-      "last_used": 1783407726.488564,
+      "usage_count": 2,
+      "last_used": 1783926972.498717,
       "bpm": 136.0,
       "energy": 0.8942777777777778,
       "created_at": 1783327516.5992231,
@@ -757,8 +757,8 @@
       "version": 2
     },
     "Akanksha_puri.mp3": {
-      "usage_count": 1,
-      "last_used": 1783491820.3413637,
+      "usage_count": 2,
+      "last_used": 1783926856.3257413,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1783379292.8501399,
@@ -769,8 +769,8 @@
       "version": 2
     },
     "Anjali.mp3": {
-      "usage_count": 1,
-      "last_used": 1783492005.8772159,
+      "usage_count": 2,
+      "last_used": 1783925148.9383352,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1783379292.8502529,
@@ -837,8 +837,8 @@
       "gemini_analyzed": true
     },
     "Roshniwalia.mp3": {
-      "usage_count": 1,
-      "last_used": 1783753338.9981115,
+      "usage_count": 2,
+      "last_used": 1783924114.1007895,
       "bpm": 82.5,
       "energy": 0.7403653846153845,
       "created_at": 1783714566.9257092,
@@ -870,6 +870,32 @@
         "educational"
       ],
       "gemini_analyzed": true
+    },
+    "Kangna_sharma.mp3": {
+      "usage_count": 1,
+      "last_used": 1783924593.2981982,
+      "bpm": 112.8,
+      "energy": 0.6814230769230767,
+      "created_at": 1783923903.4478781,
+      "beat_data_path": "beats/Kangna_sharma.npz",
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "329916_1783923903",
+      "version": 2
+    },
+    "Wamiqa_gabbi.mp3": {
+      "usage_count": 1,
+      "last_used": 1783926099.093639,
+      "bpm": 49.6,
+      "energy": 0.644,
+      "created_at": 1783925678.1063213,
+      "beat_data_path": "beats/Wamiqa_gabbi.npz",
+      "drop_times": [
+        1.95
+      ],
+      "sample_rate": 44100,
+      "audio_hash": "364398_1783925677",
+      "version": 2
     }
   }
 }
