@@ -14,8 +14,8 @@
       "version": 2
     },
     "Aditi_bhatia.mp3": {
-      "usage_count": 1,
-      "last_used": 1781260829.1278865,
+      "usage_count": 2,
+      "last_used": 1784012872.830592,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9428434,
@@ -38,8 +38,8 @@
       "version": 2
     },
     "Aishwarya_Laxmi.mp3": {
-      "usage_count": 2,
-      "last_used": 1783840234.9488869,
+      "usage_count": 3,
+      "last_used": 1784012517.543318,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9428434,
@@ -64,8 +64,8 @@
       "version": 2
     },
     "Anshivi.mp3": {
-      "usage_count": 2,
-      "last_used": 1783321354.4624038,
+      "usage_count": 3,
+      "last_used": 1784022152.8559241,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9438772,
@@ -406,8 +406,8 @@
       "version": 2
     },
     "Tammanah_bhatia.mp3": {
-      "usage_count": 2,
-      "last_used": 1783327635.8093772,
+      "usage_count": 3,
+      "last_used": 1784021926.563399,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9506483,
@@ -534,8 +534,8 @@
       "gemini_analyzed": true
     },
     "11.mp3": {
-      "usage_count": 1,
-      "last_used": 1780497137.6815186,
+      "usage_count": 2,
+      "last_used": 1784012649.8641915,
       "bpm": 92.9,
       "energy": 0.6614285714285714,
       "created_at": 1780495938.6317856,
@@ -576,8 +576,8 @@
       "gemini_analyzed": true
     },
     "Jacqueline_Fernandez.mp3": {
-      "usage_count": 2,
-      "last_used": 1783973131.4167879,
+      "usage_count": 3,
+      "last_used": 1784013149.6873305,
       "bpm": 86.7,
       "energy": 0.6984736842105262,
       "created_at": 1780497404.403071,
@@ -895,6 +895,18 @@
       ],
       "sample_rate": 44100,
       "audio_hash": "364398_1783925677",
+      "version": 2
+    },
+    "Ruhi_singh.mp3": {
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 81.0,
+      "energy": 0.8774444444444444,
+      "created_at": 1784021886.0421174,
+      "beat_data_path": "beats/Ruhi_singh.npz",
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "324274_1784021885",
       "version": 2
     }
   }
