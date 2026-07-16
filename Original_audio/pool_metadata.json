@@ -50,8 +50,8 @@
       "version": 2
     },
     "Ankita_singh.mp3": {
-      "usage_count": 2,
-      "last_used": 1782812724.9742582,
+      "usage_count": 3,
+      "last_used": 1784232878.6897836,
       "bpm": 63.0,
       "energy": 0.8484117647058823,
       "created_at": 1780391156.9438772,
@@ -295,8 +295,8 @@
       "version": 2
     },
     "Rakul_preet_singh_1.mp3": {
-      "usage_count": 2,
-      "last_used": 1782561602.6783009,
+      "usage_count": 3,
+      "last_used": 1784232562.9200659,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9480724,
@@ -617,8 +617,8 @@
       "version": 2
     },
     "Janhvi_kapoor.mp3": {
-      "usage_count": 2,
-      "last_used": 1783973401.824173,
+      "usage_count": 3,
+      "last_used": 1784233118.661498,
       "bpm": 88.6,
       "energy": 0.6223333333333334,
       "created_at": 1781541066.5967813,
@@ -783,34 +783,17 @@
     "Saiee.mp3": {
       "usage_count": 2,
       "last_used": 1783839722.1665635,
-      "bpm": 99.2,
-      "energy": 0.9064999999999999,
+      "bpm": 74.2,
+      "energy": 0.545388888888889,
       "created_at": 1783379292.8503783,
       "beat_data_path": "beats/Saiee.npz",
       "drop_times": [
-        0.45
+        7.55,
+        11.4
       ],
       "sample_rate": 44100,
-      "audio_hash": "335559_1784090583",
-      "version": 2,
-      "gemini_genre": "hiphop",
-      "gemini_mood_tags": [
-        "chill",
-        "urban",
-        "relaxed"
-      ],
-      "gemini_energy_level": "medium",
-      "gemini_has_vocals": true,
-      "gemini_content_match": [
-        "fashion",
-        "aesthetic",
-        "travel"
-      ],
-      "gemini_avoid_match": [
-        "fitness",
-        "motivational"
-      ],
-      "gemini_analyzed": true
+      "audio_hash": "343082_1784232542",
+      "version": 2
     },
     "Diya.mp3": {
       "usage_count": 2,
