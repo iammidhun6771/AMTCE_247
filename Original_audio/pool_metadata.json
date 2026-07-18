@@ -368,8 +368,8 @@
       "version": 2
     },
     "Sakshi_malik_3.mp3": {
-      "usage_count": 2,
-      "last_used": 1783714915.5817661,
+      "usage_count": 3,
+      "last_used": 1784348790.7793293,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9501328,
@@ -430,8 +430,8 @@
       "version": 2
     },
     "Urvashi_rautela.mp3": {
-      "usage_count": 2,
-      "last_used": 1783263717.0187473,
+      "usage_count": 3,
+      "last_used": 1784358254.9141743,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9511678,
@@ -534,8 +534,8 @@
       "gemini_analyzed": true
     },
     "11.mp3": {
-      "usage_count": 2,
-      "last_used": 1784012649.8641915,
+      "usage_count": 3,
+      "last_used": 1784358461.6421819,
       "bpm": 92.9,
       "energy": 0.6614285714285714,
       "created_at": 1780495938.6317856,
@@ -671,8 +671,8 @@
       "version": 2
     },
     "Ayesha_Khan.mp3": {
-      "usage_count": 2,
-      "last_used": 1783924718.7427073,
+      "usage_count": 3,
+      "last_used": 1784348973.7841172,
       "bpm": 124.1,
       "energy": 0.8000625,
       "created_at": 1782366668.114046,
@@ -910,6 +910,20 @@
       "drop_times": [],
       "sample_rate": 44100,
       "audio_hash": "324274_1784021885",
+      "version": 2
+    },
+    "Suhu.mp3": {
+      "usage_count": 1,
+      "last_used": 1784358083.0362785,
+      "bpm": 118.3,
+      "energy": 0.8341034482758622,
+      "created_at": 1784348776.9177175,
+      "beat_data_path": "beats/Suhu.npz",
+      "drop_times": [
+        0.6
+      ],
+      "sample_rate": 44100,
+      "audio_hash": "353113_1784348776",
       "version": 2
     }
   }
