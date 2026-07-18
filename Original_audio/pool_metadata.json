@@ -187,8 +187,8 @@
       "version": 2
     },
     "Kate_Sharma_1.mp3": {
-      "usage_count": 2,
-      "last_used": 1783321543.052633,
+      "usage_count": 3,
+      "last_used": 1784388964.8188155,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9460042,
@@ -619,30 +619,30 @@
     "Janhvi_kapoor.mp3": {
       "usage_count": 3,
       "last_used": 1784233118.661498,
-      "bpm": 88.6,
-      "energy": 0.6223333333333334,
+      "bpm": 100.0,
+      "energy": 0.8876400000000001,
       "created_at": 1781541066.5967813,
       "beat_data_path": "beats/Janhvi_kapoor.npz",
       "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "366902_1781541066",
+      "audio_hash": "366906_1784394600",
       "version": 2,
-      "gemini_genre": "edm",
+      "gemini_genre": "pop",
       "gemini_mood_tags": [
-        "energetic",
-        "party",
-        "upbeat"
+        "playful",
+        "upbeat",
+        "energetic"
       ],
       "gemini_energy_level": "high",
       "gemini_has_vocals": true,
       "gemini_content_match": [
         "dance",
-        "travel",
-        "fitness"
+        "comedy",
+        "fashion"
       ],
       "gemini_avoid_match": [
-        "meditation",
-        "study"
+        "motivational",
+        "educational"
       ],
       "gemini_analyzed": true
     },
@@ -733,8 +733,8 @@
       "version": 2
     },
     "Megha.mp3": {
-      "usage_count": 2,
-      "last_used": 1783883093.5787954,
+      "usage_count": 3,
+      "last_used": 1784388636.3564365,
       "bpm": 93.3,
       "energy": 0.8707500000000001,
       "created_at": 1782981426.0390403,
@@ -887,8 +887,8 @@
       "version": 2
     },
     "Wamiqa_gabbi.mp3": {
-      "usage_count": 2,
-      "last_used": 1784099671.086795,
+      "usage_count": 3,
+      "last_used": 1784394836.0946376,
       "bpm": 49.6,
       "energy": 0.644,
       "created_at": 1783925678.1063213,
@@ -924,6 +924,21 @@
       ],
       "sample_rate": 44100,
       "audio_hash": "353113_1784348776",
+      "version": 2
+    },
+    "Ann.mp3": {
+      "usage_count": 1,
+      "last_used": 1784394620.7551055,
+      "bpm": 54.9,
+      "energy": 0.6712499999999999,
+      "created_at": 1784388623.612182,
+      "beat_data_path": "beats/Ann.npz",
+      "drop_times": [
+        0.75,
+        1.55
+      ],
+      "sample_rate": 44100,
+      "audio_hash": "504832_1784388623",
       "version": 2
     }
   }

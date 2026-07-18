@@ -2,10 +2,11 @@
   "harvest": {
     "last_run_date": "2026-07-18",
     "slots_completed_today": [
-      "10:00"
+      "10:00",
+      "22:00"
     ],
     "catchup_fired_today": false,
-    "total_runs_all_time": 94
+    "total_runs_all_time": 95
   },
   "publisher": {
     "last_check_date": "2026-07-18",
@@ -17,9 +18,10 @@
     ],
     "slots_missed_today": [
       "09:00",
-      "10:00"
+      "10:00",
+      "20:00"
     ],
-    "deficit_videos": 0,
+    "deficit_videos": 1,
     "catchup_slots_today": [
       "10:05",
       "10:15"
@@ -27,9 +29,9 @@
   },
   "apify": {
     "quota_date": "2026-07-18",
-    "quota_used": 11,
+    "quota_used": 13,
     "quota_limit": 80,
-    "total_calls_all_time": 553
+    "total_calls_all_time": 555
   },
   "scraped_posts": {
     "shortcodes": [
