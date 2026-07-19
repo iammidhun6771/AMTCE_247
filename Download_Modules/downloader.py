@@ -221,15 +221,25 @@ def _update_yt_dlp() -> bool:
             logger.info("⏳ yt-dlp update cooldown active — skipping")
             return False
 
+        # Set update time immediately to avoid rapid retry loops if reloading fails
+        _LAST_UPDATE_TIME = now
         logger.info("🚀 Triggering automatic yt-dlp update …")
         try:
             subprocess.run(
                 [sys.executable, "-m", "pip", "install", "-U", "yt-dlp"],
                 check=True, capture_output=True,
             )
-            importlib.reload(yt_dlp)
+            
+            # Remove all yt_dlp submodules from sys.modules to force a clean re-import
+            for mod_name in list(sys.modules.keys()):
+                if mod_name == "yt_dlp" or mod_name.startswith("yt_dlp."):
+                    sys.modules.pop(mod_name, None)
+            
+            global yt_dlp, DownloadError, ExtractorError
+            import yt_dlp
+            from yt_dlp.utils import DownloadError, ExtractorError
+
             logger.info("✅ yt-dlp updated → v%s", yt_dlp.version.__version__)
-            _LAST_UPDATE_TIME = now
             return True
         except Exception as exc:
             logger.error("💥 yt-dlp update failed: %s", exc)
@@ -664,7 +674,9 @@ def download_video(
         except Exception as exc:
             err = str(exc).lower()
             logger.warning("💢  Unexpected error [%s]: %.100s", strategy, err)
-            if any(kw in err for kw in ("rate-limit", "cookies", "login", "unavailable")):
+            # Avoid triggering a yt-dlp update if browser-based cookie retrieval fails
+            is_browser_cookie_fail = strategy.startswith("browser_") and "cookies" in err
+            if not is_browser_cookie_fail and any(kw in err for kw in ("rate-limit", "cookies", "login", "unavailable")):
                 _update_yt_dlp()
             time.sleep(DOWNLOAD_RETRY_DELAY)
 
