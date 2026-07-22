@@ -174,6 +174,8 @@ _UPDATE_TRIGGER_KEYWORDS = frozenset([
     "no suitable extractor", "extractor", "unsupported url",
     "sign in", "login", "401", "unavailable", "dpapi",
     "rate-limit", "cookies", "not available", "this version", "upgrade",
+    "empty media", "empty media response", "logged-in", "pass cookies",
+    "confirm you are on the latest version",
 ])
 
 _AUTH_STRATEGIES = [
@@ -623,7 +625,7 @@ def download_video(
         "noplaylist":        True,
         "quiet":             True,
         "no_warnings":       True,
-        "ignoreerrors":      True,
+        "ignoreerrors":      False,
         "restrictfilenames": True,
     }
 
@@ -658,6 +660,10 @@ def download_video(
                         downloaded_path = candidates[0]
                         success = True
                         logger.info("📦  Downloaded: %s", os.path.basename(downloaded_path))
+
+            if not success and strategy == "no_auth":
+                logger.warning("🔄  Strategy 'no_auth' produced no file — checking for yt-dlp update")
+                _update_yt_dlp()
 
         except (DownloadError, ExtractorError) as exc:
             err = str(exc).lower()
