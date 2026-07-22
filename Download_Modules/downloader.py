@@ -174,8 +174,6 @@ _UPDATE_TRIGGER_KEYWORDS = frozenset([
     "no suitable extractor", "extractor", "unsupported url",
     "sign in", "login", "401", "unavailable", "dpapi",
     "rate-limit", "cookies", "not available", "this version", "upgrade",
-    "empty media", "empty media response", "logged-in", "pass cookies",
-    "confirm you are on the latest version",
 ])
 
 _AUTH_STRATEGIES = [
@@ -223,25 +221,15 @@ def _update_yt_dlp() -> bool:
             logger.info("⏳ yt-dlp update cooldown active — skipping")
             return False
 
-        # Set update time immediately to avoid rapid retry loops if reloading fails
-        _LAST_UPDATE_TIME = now
         logger.info("🚀 Triggering automatic yt-dlp update …")
         try:
             subprocess.run(
                 [sys.executable, "-m", "pip", "install", "-U", "yt-dlp"],
                 check=True, capture_output=True,
             )
-            
-            # Remove all yt_dlp submodules from sys.modules to force a clean re-import
-            for mod_name in list(sys.modules.keys()):
-                if mod_name == "yt_dlp" or mod_name.startswith("yt_dlp."):
-                    sys.modules.pop(mod_name, None)
-            
-            global yt_dlp, DownloadError, ExtractorError
-            import yt_dlp
-            from yt_dlp.utils import DownloadError, ExtractorError
-
+            importlib.reload(yt_dlp)
             logger.info("✅ yt-dlp updated → v%s", yt_dlp.version.__version__)
+            _LAST_UPDATE_TIME = now
             return True
         except Exception as exc:
             logger.error("💥 yt-dlp update failed: %s", exc)
@@ -625,7 +613,7 @@ def download_video(
         "noplaylist":        True,
         "quiet":             True,
         "no_warnings":       True,
-        "ignoreerrors":      False,
+        "ignoreerrors":      True,
         "restrictfilenames": True,
     }
 
@@ -661,10 +649,6 @@ def download_video(
                         success = True
                         logger.info("📦  Downloaded: %s", os.path.basename(downloaded_path))
 
-            if not success and strategy == "no_auth":
-                logger.warning("🔄  Strategy 'no_auth' produced no file — checking for yt-dlp update")
-                _update_yt_dlp()
-
         except (DownloadError, ExtractorError) as exc:
             err = str(exc).lower()
             logger.warning("🚨  yt-dlp error [%s]: %.120s …", strategy, err)
@@ -680,9 +664,7 @@ def download_video(
         except Exception as exc:
             err = str(exc).lower()
             logger.warning("💢  Unexpected error [%s]: %.100s", strategy, err)
-            # Avoid triggering a yt-dlp update if browser-based cookie retrieval fails
-            is_browser_cookie_fail = strategy.startswith("browser_") and "cookies" in err
-            if not is_browser_cookie_fail and any(kw in err for kw in ("rate-limit", "cookies", "login", "unavailable")):
+            if any(kw in err for kw in ("rate-limit", "cookies", "login", "unavailable")):
                 _update_yt_dlp()
             time.sleep(DOWNLOAD_RETRY_DELAY)
 
