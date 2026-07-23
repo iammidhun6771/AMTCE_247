@@ -344,8 +344,8 @@
       "version": 2
     },
     "Roshniwalia_1.mp3": {
-      "usage_count": 2,
-      "last_used": 1782284581.8313143,
+      "usage_count": 3,
+      "last_used": 1784790372.2855728,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.949104,
@@ -590,8 +590,8 @@
       "version": 2
     },
     "Sakshi_malik.mp3": {
-      "usage_count": 2,
-      "last_used": 1783615625.13143,
+      "usage_count": 3,
+      "last_used": 1784781694.0681458,
       "bpm": 95.7,
       "energy": 0.7485652173913044,
       "created_at": 1780497636.594601,
@@ -709,8 +709,8 @@
       "version": 2
     },
     "Guess_who.mp3": {
-      "usage_count": 2,
-      "last_used": 1783925708.1943817,
+      "usage_count": 3,
+      "last_used": 1784790659.8174813,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1782638838.8922815,
@@ -913,8 +913,8 @@
       "version": 2
     },
     "Suhu.mp3": {
-      "usage_count": 1,
-      "last_used": 1784358083.0362785,
+      "usage_count": 2,
+      "last_used": 1784790128.412264,
       "bpm": 118.3,
       "energy": 0.8341034482758622,
       "created_at": 1784348776.9177175,
@@ -927,8 +927,8 @@
       "version": 2
     },
     "Ann.mp3": {
-      "usage_count": 1,
-      "last_used": 1784394620.7551055,
+      "usage_count": 2,
+      "last_used": 1784775867.9235513,
       "bpm": 54.9,
       "energy": 0.6712499999999999,
       "created_at": 1784388623.612182,
@@ -939,6 +939,51 @@
       ],
       "sample_rate": 44100,
       "audio_hash": "504832_1784388623",
+      "version": 2
+    },
+    "Ananya.mp3": {
+      "usage_count": 1,
+      "last_used": 1784781470.1649675,
+      "bpm": 96.7,
+      "energy": 0.8756666666666668,
+      "created_at": 1784775858.1916864,
+      "beat_data_path": "beats/Ananya.npz",
+      "drop_times": [
+        0.45
+      ],
+      "sample_rate": 44100,
+      "audio_hash": "278507_1784775858",
+      "version": 2,
+      "gemini_genre": "phonk",
+      "gemini_mood_tags": [
+        "aggressive",
+        "dark",
+        "intense"
+      ],
+      "gemini_energy_level": "high",
+      "gemini_has_vocals": false,
+      "gemini_content_match": [
+        "gaming",
+        "sports",
+        "fitness"
+      ],
+      "gemini_avoid_match": [
+        "aesthetic",
+        "food"
+      ],
+      "gemini_analyzed": true
+    },
+    "Subha.mp3": {
+      "is_speech_only": true,
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 0.0,
+      "energy": 0.764,
+      "created_at": 1784781457.0477653,
+      "beat_data_path": null,
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "",
       "version": 2
     }
   }
