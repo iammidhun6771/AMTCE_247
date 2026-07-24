@@ -546,8 +546,8 @@
       "version": 2
     },
     "Disha_patani.mp3": {
-      "usage_count": 2,
-      "last_used": 1783753553.7254672,
+      "usage_count": 3,
+      "last_used": 1784854878.0987666,
       "bpm": 84.1,
       "energy": 0.7787999999999999,
       "created_at": 1780496185.4853427,
@@ -984,6 +984,35 @@
       "drop_times": [],
       "sample_rate": 44100,
       "audio_hash": "",
+      "version": 2
+    },
+    "Ayesha_khan.mp3": {
+      "usage_count": 1,
+      "last_used": 1784865460.7051911,
+      "bpm": 54.0,
+      "energy": 0.4680714285714286,
+      "created_at": 1784854865.2644145,
+      "beat_data_path": "beats/Ayesha_khan.npz",
+      "drop_times": [
+        3.5,
+        10.75
+      ],
+      "sample_rate": 44100,
+      "audio_hash": "360009_1784854865",
+      "version": 2
+    },
+    "Tammannah.mp3": {
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 87.5,
+      "energy": 0.792875,
+      "created_at": 1784865448.3346007,
+      "beat_data_path": "beats/Tammannah.npz",
+      "drop_times": [
+        1.9
+      ],
+      "sample_rate": 44100,
+      "audio_hash": "139327_1784865448",
       "version": 2
     }
   }
