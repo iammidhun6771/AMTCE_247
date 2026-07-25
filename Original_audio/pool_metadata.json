@@ -466,8 +466,8 @@
       "version": 2
     },
     "Wamiqa_gabbi_1.mp3": {
-      "usage_count": 2,
-      "last_used": 1783925032.3707142,
+      "usage_count": 3,
+      "last_used": 1784999115.067112,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9516847,
@@ -605,8 +605,8 @@
       "version": 2
     },
     "Sunny_Leone.mp3": {
-      "usage_count": 2,
-      "last_used": 1782980066.3016195,
+      "usage_count": 3,
+      "last_used": 1784998816.8691938,
       "bpm": 72.0,
       "energy": 0.8143,
       "created_at": 1780498806.4871612,
@@ -747,14 +747,32 @@
     "Avneet_kaur.mp3": {
       "usage_count": 3,
       "last_used": 1784185908.680968,
-      "bpm": 136.0,
-      "energy": 0.8942777777777778,
+      "bpm": 52.6,
+      "energy": 0.9013076923076924,
       "created_at": 1783327516.5992231,
       "beat_data_path": "beats/Avneet_kaur.npz",
       "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "195125_1783327516",
-      "version": 2
+      "audio_hash": "362517_1784998781",
+      "version": 2,
+      "gemini_genre": "lofi",
+      "gemini_mood_tags": [
+        "chill",
+        "relaxed",
+        "dreamy"
+      ],
+      "gemini_energy_level": "low",
+      "gemini_has_vocals": false,
+      "gemini_content_match": [
+        "aesthetic",
+        "travel",
+        "photography"
+      ],
+      "gemini_avoid_match": [
+        "fitness",
+        "dance"
+      ],
+      "gemini_analyzed": true
     },
     "Akanksha_puri.mp3": {
       "usage_count": 2,
