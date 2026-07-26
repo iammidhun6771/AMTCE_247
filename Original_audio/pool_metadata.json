@@ -380,8 +380,8 @@
       "version": 2
     },
     "Shalini.mp3": {
-      "usage_count": 2,
-      "last_used": 1782981443.913094,
+      "usage_count": 3,
+      "last_used": 1785049511.9866602,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9501328,
@@ -647,8 +647,8 @@
       "gemini_analyzed": true
     },
     "Arya_menon.mp3": {
-      "usage_count": 2,
-      "last_used": 1783667550.5001242,
+      "usage_count": 3,
+      "last_used": 1785050625.873888,
       "bpm": 94.4,
       "energy": 0.7684800000000003,
       "created_at": 1781701738.4973671,
@@ -799,8 +799,8 @@
       "version": 2
     },
     "Saiee.mp3": {
-      "usage_count": 2,
-      "last_used": 1783839722.1665635,
+      "usage_count": 3,
+      "last_used": 1785050401.1110044,
       "bpm": 74.2,
       "energy": 0.545388888888889,
       "created_at": 1783379292.8503783,
@@ -858,8 +858,8 @@
       "gemini_analyzed": true
     },
     "Roshniwalia.mp3": {
-      "usage_count": 2,
-      "last_used": 1783924114.1007895,
+      "usage_count": 3,
+      "last_used": 1785043193.909512,
       "bpm": 82.5,
       "energy": 0.7403653846153845,
       "created_at": 1783714566.9257092,
@@ -1005,8 +1005,8 @@
       "version": 2
     },
     "Ayesha_khan.mp3": {
-      "usage_count": 1,
-      "last_used": 1784865460.7051911,
+      "usage_count": 2,
+      "last_used": 1785042876.2464743,
       "bpm": 54.0,
       "energy": 0.4680714285714286,
       "created_at": 1784854865.2644145,
@@ -1032,6 +1032,34 @@
       "sample_rate": 44100,
       "audio_hash": "139327_1784865448",
       "version": 2
+    },
+    "Giorgia.mp3": {
+      "usage_count": 1,
+      "last_used": 1785049380.2138677,
+      "bpm": 56.0,
+      "energy": 0.49686666666666685,
+      "created_at": 1785042835.4008281,
+      "beat_data_path": "beats/Giorgia.npz",
+      "drop_times": [
+        13.7
+      ],
+      "sample_rate": 44100,
+      "audio_hash": "400134_1785042835",
+      "version": 2,
+      "gemini_genre": "unknown",
+      "gemini_mood_tags": [
+        "calm"
+      ],
+      "gemini_energy_level": "low",
+      "gemini_has_vocals": true,
+      "gemini_content_match": [
+        "travel"
+      ],
+      "gemini_avoid_match": [
+        "dance",
+        "fitness"
+      ],
+      "gemini_analyzed": true
     }
   }
 }
