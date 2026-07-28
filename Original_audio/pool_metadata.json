@@ -259,8 +259,8 @@
       "version": 2
     },
     "Nora_fatehi.mp3": {
-      "usage_count": 2,
-      "last_used": 1782442181.9943867,
+      "usage_count": 3,
+      "last_used": 1785189369.4481478,
       "bpm": 105.3,
       "energy": 0.8567692307692306,
       "created_at": 1780391156.9475565,
@@ -285,13 +285,15 @@
     "Pooja_hedge.mp3": {
       "usage_count": 2,
       "last_used": 1783753860.2021985,
-      "bpm": 113.6,
-      "energy": 0.8952619047619047,
+      "bpm": 60.7,
+      "energy": 0.7461666666666668,
       "created_at": 1780391156.9480724,
       "beat_data_path": "beats/Pooja_hedge.npz",
-      "drop_times": [],
+      "drop_times": [
+        3.55
+      ],
       "sample_rate": 44100,
-      "audio_hash": "543699_1781756233",
+      "audio_hash": "567526_1785193944",
       "version": 2
     },
     "Rakul_preet_singh_1.mp3": {
@@ -801,21 +803,38 @@
     "Saiee.mp3": {
       "usage_count": 3,
       "last_used": 1785050401.1110044,
-      "bpm": 74.2,
-      "energy": 0.545388888888889,
+      "bpm": 49.6,
+      "energy": 0.8821111111111111,
       "created_at": 1783379292.8503783,
       "beat_data_path": "beats/Saiee.npz",
       "drop_times": [
-        7.55,
-        11.4
+        1.75
       ],
       "sample_rate": 44100,
-      "audio_hash": "343082_1784232542",
-      "version": 2
+      "audio_hash": "498563_1785189340",
+      "version": 2,
+      "gemini_genre": "phonk",
+      "gemini_mood_tags": [
+        "aggressive",
+        "intense",
+        "dark"
+      ],
+      "gemini_energy_level": "high",
+      "gemini_has_vocals": false,
+      "gemini_content_match": [
+        "fitness",
+        "gaming",
+        "sports"
+      ],
+      "gemini_avoid_match": [
+        "fashion",
+        "food"
+      ],
+      "gemini_analyzed": true
     },
     "Diya.mp3": {
-      "usage_count": 2,
-      "last_used": 1783839978.1767945,
+      "usage_count": 3,
+      "last_used": 1785193965.1068313,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1783379292.8504894,
@@ -826,8 +845,8 @@
       "version": 2
     },
     "Valena.mp3": {
-      "usage_count": 2,
-      "last_used": 1783667341.3127518,
+      "usage_count": 3,
+      "last_used": 1785189632.5034287,
       "bpm": 82.4,
       "energy": 0.5597647058823529,
       "created_at": 1783491808.7854288,
