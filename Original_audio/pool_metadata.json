@@ -26,8 +26,8 @@
       "version": 2
     },
     "Aisha.mp3": {
-      "usage_count": 2,
-      "last_used": 1782366179.7518623,
+      "usage_count": 3,
+      "last_used": 1785420914.8039005,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9428434,
@@ -283,8 +283,8 @@
       "version": 2
     },
     "Pooja_hedge.mp3": {
-      "usage_count": 2,
-      "last_used": 1783753860.2021985,
+      "usage_count": 3,
+      "last_used": 1785420628.2000954,
       "bpm": 60.7,
       "energy": 0.7461666666666668,
       "created_at": 1780391156.9480724,
@@ -749,30 +749,28 @@
     "Avneet_kaur.mp3": {
       "usage_count": 3,
       "last_used": 1784185908.680968,
-      "bpm": 52.6,
-      "energy": 0.9013076923076924,
+      "bpm": 41.5,
+      "energy": 0.6816666666666666,
       "created_at": 1783327516.5992231,
       "beat_data_path": "beats/Avneet_kaur.npz",
       "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "362517_1784998781",
+      "audio_hash": "405776_1785420600",
       "version": 2,
-      "gemini_genre": "lofi",
+      "gemini_genre": "unknown",
       "gemini_mood_tags": [
-        "chill",
-        "relaxed",
-        "dreamy"
+        "calm",
+        "peaceful"
       ],
       "gemini_energy_level": "low",
-      "gemini_has_vocals": false,
+      "gemini_has_vocals": true,
       "gemini_content_match": [
-        "aesthetic",
-        "travel",
-        "photography"
+        "nature",
+        "travel"
       ],
       "gemini_avoid_match": [
-        "fitness",
-        "dance"
+        "dance",
+        "fitness"
       ],
       "gemini_analyzed": true
     },
