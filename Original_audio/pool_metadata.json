@@ -52,15 +52,15 @@
     "Ankita_singh.mp3": {
       "usage_count": 3,
       "last_used": 1784232878.6897836,
-      "bpm": 63.0,
-      "energy": 0.8484117647058823,
+      "bpm": 113.0,
+      "energy": 0.9186285714285715,
       "created_at": 1780391156.9438772,
       "beat_data_path": "beats/Ankita_singh.npz",
       "drop_times": [
-        0.15
+        5.55
       ],
       "sample_rate": 44100,
-      "audio_hash": "378191_1780497123",
+      "audio_hash": "454677_1785436544",
       "version": 2
     },
     "Anshivi.mp3": {
@@ -163,8 +163,8 @@
       "version": 2
     },
     "Jennie.mp3": {
-      "usage_count": 2,
-      "last_used": 1783580976.0563993,
+      "usage_count": 3,
+      "last_used": 1785439576.6775112,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9460042,
@@ -211,8 +211,8 @@
       "version": 2
     },
     "Malavika_2.mp3": {
-      "usage_count": 2,
-      "last_used": 1782284881.9519787,
+      "usage_count": 3,
+      "last_used": 1785432770.226159,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9470403,
@@ -271,8 +271,8 @@
       "version": 2
     },
     "Palak_agrawal.mp3": {
-      "usage_count": 2,
-      "last_used": 1783591240.593554,
+      "usage_count": 3,
+      "last_used": 1785436873.3861606,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9475565,
@@ -673,8 +673,8 @@
       "version": 2
     },
     "Ayesha_Khan.mp3": {
-      "usage_count": 3,
-      "last_used": 1784348973.7841172,
+      "usage_count": 4,
+      "last_used": 1785439449.8479502,
       "bpm": 124.1,
       "energy": 0.8000625,
       "created_at": 1782366668.114046,
@@ -749,30 +749,14 @@
     "Avneet_kaur.mp3": {
       "usage_count": 3,
       "last_used": 1784185908.680968,
-      "bpm": 41.5,
-      "energy": 0.6816666666666666,
+      "bpm": 66.7,
+      "energy": 0.8857999999999999,
       "created_at": 1783327516.5992231,
       "beat_data_path": "beats/Avneet_kaur.npz",
       "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "405776_1785420600",
-      "version": 2,
-      "gemini_genre": "unknown",
-      "gemini_mood_tags": [
-        "calm",
-        "peaceful"
-      ],
-      "gemini_energy_level": "low",
-      "gemini_has_vocals": true,
-      "gemini_content_match": [
-        "nature",
-        "travel"
-      ],
-      "gemini_avoid_match": [
-        "dance",
-        "fitness"
-      ],
-      "gemini_analyzed": true
+      "audio_hash": "287912_1785439429",
+      "version": 2
     },
     "Akanksha_puri.mp3": {
       "is_speech_only": true,
@@ -1038,8 +1022,8 @@
       "version": 2
     },
     "Tammannah.mp3": {
-      "usage_count": 2,
-      "last_used": 1785135742.6924825,
+      "usage_count": 3,
+      "last_used": 1785433064.4286284,
       "bpm": 87.5,
       "energy": 0.792875,
       "created_at": 1784865448.3346007,
@@ -1094,6 +1078,18 @@
       ],
       "sample_rate": 44100,
       "audio_hash": "212679_1785397159",
+      "version": 2
+    },
+    "roshniwalia.mp3": {
+      "usage_count": 1,
+      "last_used": 1785436608.2930186,
+      "bpm": 107.9,
+      "energy": 0.8463673469387756,
+      "created_at": 1785432743.5694025,
+      "beat_data_path": "beats/roshniwalia.npz",
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "663448_1785432743",
       "version": 2
     }
   }
