@@ -76,8 +76,8 @@
       "version": 2
     },
     "Dhansree_verma.mp3": {
-      "usage_count": 2,
-      "last_used": 1783926260.1340995,
+      "usage_count": 3,
+      "last_used": 1785394914.146816,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9444246,
@@ -358,8 +358,8 @@
       "version": 2
     },
     "Sakshi_malik_1.mp3": {
-      "usage_count": 2,
-      "last_used": 1783840394.2480102,
+      "usage_count": 3,
+      "last_used": 1785395104.7141407,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9496174,
@@ -420,8 +420,8 @@
       "version": 2
     },
     "Tammanah_bhatia_1.mp3": {
-      "usage_count": 2,
-      "last_used": 1783882860.4944427,
+      "usage_count": 3,
+      "last_used": 1785397190.0050983,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9506483,
@@ -777,15 +777,16 @@
       "gemini_analyzed": true
     },
     "Akanksha_puri.mp3": {
-      "usage_count": 2,
-      "last_used": 1783926856.3257413,
+      "is_speech_only": true,
+      "usage_count": 0,
+      "last_used": 0,
       "bpm": 0.0,
-      "energy": 0.5,
-      "created_at": 1783379292.8501399,
+      "energy": 0.575,
+      "created_at": 1785402080.6898577,
       "beat_data_path": null,
       "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "202021_1783378264",
+      "audio_hash": "",
       "version": 2
     },
     "Anjali.mp3": {
@@ -1079,6 +1080,23 @@
         "fitness"
       ],
       "gemini_analyzed": true
+    },
+    "Fitgirl.mp3": {
+      "usage_count": 1,
+      "last_used": 1785402104.6985471,
+      "bpm": 115.4,
+      "energy": 0.719625,
+      "created_at": 1785397159.5377264,
+      "beat_data_path": "beats/Fitgirl.npz",
+      "drop_times": [
+        2.0,
+        4.1,
+        6.25,
+        7.5
+      ],
+      "sample_rate": 44100,
+      "audio_hash": "212679_1785397159",
+      "version": 2
     }
   }
 }
