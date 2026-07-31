@@ -103,8 +103,8 @@
       "version": 2
     },
     "Fathima_sana.mp3": {
-      "usage_count": 2,
-      "last_used": 1783591032.781242,
+      "usage_count": 3,
+      "last_used": 1785514018.6128936,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9449425,
@@ -434,13 +434,13 @@
     "Urvashi_rautela.mp3": {
       "usage_count": 3,
       "last_used": 1784358254.9141743,
-      "bpm": 0.0,
-      "energy": 0.5,
+      "bpm": 98.7,
+      "energy": 0.820576923076923,
       "created_at": 1780391156.9511678,
-      "beat_data_path": null,
+      "beat_data_path": "beats/Urvashi_rautela.npz",
       "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "438372_1778984542",
+      "audio_hash": "373175_1785513685",
       "version": 2
     },
     "Urvashi_rautela_1.mp3": {
@@ -947,8 +947,8 @@
       "version": 2
     },
     "Ann.mp3": {
-      "usage_count": 2,
-      "last_used": 1784775867.9235513,
+      "usage_count": 3,
+      "last_used": 1785513722.3727036,
       "bpm": 54.9,
       "energy": 0.6712499999999999,
       "created_at": 1784388623.612182,
