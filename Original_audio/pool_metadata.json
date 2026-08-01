@@ -88,8 +88,8 @@
       "version": 2
     },
     "Disha_patani_2.mp3": {
-      "usage_count": 3,
-      "last_used": 1784272183.7214913,
+      "usage_count": 4,
+      "last_used": 1785567500.4565294,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9444246,
@@ -127,8 +127,8 @@
       "version": 2
     },
     "Giorgia_1.mp3": {
-      "usage_count": 3,
-      "last_used": 1783973296.5684435,
+      "usage_count": 4,
+      "last_used": 1785566201.264416,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.945487,
@@ -151,8 +151,8 @@
       "version": 2
     },
     "Gizele_thakral.mp3": {
-      "usage_count": 3,
-      "last_used": 1785135886.9092636,
+      "usage_count": 4,
+      "last_used": 1785566659.0622983,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.945487,
@@ -480,8 +480,8 @@
       "version": 2
     },
     "Warina_hussain.mp3": {
-      "usage_count": 3,
-      "last_used": 1784963072.7918751,
+      "usage_count": 4,
+      "last_used": 1785566756.2367747,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9522057,
@@ -492,8 +492,8 @@
       "version": 2
     },
     "Shruthi_hassan.mp3": {
-      "usage_count": 2,
-      "last_used": 1783067489.0574768,
+      "usage_count": 3,
+      "last_used": 1785564007.931845,
       "bpm": 100.3,
       "energy": 0.8626727272727271,
       "created_at": 1780402172.5887027,
@@ -506,8 +506,8 @@
       "version": 2
     },
     "Zareena_khan.mp3": {
-      "usage_count": 3,
-      "last_used": 1785136200.852113,
+      "usage_count": 4,
+      "last_used": 1785567606.0001853,
       "bpm": 37.9,
       "energy": 0.7444,
       "created_at": 1780483720.8511014,
@@ -548,8 +548,8 @@
       "version": 2
     },
     "Disha_patani.mp3": {
-      "usage_count": 3,
-      "last_used": 1784854878.0987666,
+      "usage_count": 4,
+      "last_used": 1785567835.053216,
       "bpm": 84.1,
       "energy": 0.7787999999999999,
       "created_at": 1780496185.4853427,
@@ -592,8 +592,8 @@
       "version": 2
     },
     "Sakshi_malik.mp3": {
-      "usage_count": 3,
-      "last_used": 1784781694.0681458,
+      "usage_count": 4,
+      "last_used": 1785566095.4285283,
       "bpm": 95.7,
       "energy": 0.7485652173913044,
       "created_at": 1780497636.594601,
@@ -621,32 +621,16 @@
     "Janhvi_kapoor.mp3": {
       "usage_count": 3,
       "last_used": 1784233118.661498,
-      "bpm": 100.0,
-      "energy": 0.8876400000000001,
+      "bpm": 102.6,
+      "energy": 0.8859677419354839,
       "created_at": 1781541066.5967813,
       "beat_data_path": "beats/Janhvi_kapoor.npz",
-      "drop_times": [],
+      "drop_times": [
+        0.1
+      ],
       "sample_rate": 44100,
-      "audio_hash": "366906_1784394600",
-      "version": 2,
-      "gemini_genre": "pop",
-      "gemini_mood_tags": [
-        "playful",
-        "upbeat",
-        "energetic"
-      ],
-      "gemini_energy_level": "high",
-      "gemini_has_vocals": true,
-      "gemini_content_match": [
-        "dance",
-        "comedy",
-        "fashion"
-      ],
-      "gemini_avoid_match": [
-        "motivational",
-        "educational"
-      ],
-      "gemini_analyzed": true
+      "audio_hash": "435869_1785563965",
+      "version": 2
     },
     "Arya_menon.mp3": {
       "usage_count": 3,
@@ -747,8 +731,8 @@
       "version": 2
     },
     "Avneet_kaur.mp3": {
-      "usage_count": 3,
-      "last_used": 1784185908.680968,
+      "usage_count": 4,
+      "last_used": 1785561494.134336,
       "bpm": 66.7,
       "energy": 0.8857999999999999,
       "created_at": 1783327516.5992231,
@@ -907,8 +891,8 @@
       "version": 2
     },
     "Wamiqa_gabbi.mp3": {
-      "usage_count": 3,
-      "last_used": 1784394836.0946376,
+      "usage_count": 4,
+      "last_used": 1785561770.8694308,
       "bpm": 49.6,
       "energy": 0.644,
       "created_at": 1783925678.1063213,
@@ -947,8 +931,8 @@
       "version": 2
     },
     "Ann.mp3": {
-      "usage_count": 3,
-      "last_used": 1785513722.3727036,
+      "usage_count": 4,
+      "last_used": 1785567726.940293,
       "bpm": 54.9,
       "energy": 0.6712499999999999,
       "created_at": 1784388623.612182,
@@ -1009,16 +993,13 @@
     "Ayesha_khan.mp3": {
       "usage_count": 3,
       "last_used": 1785222678.90887,
-      "bpm": 54.0,
-      "energy": 0.4680714285714286,
+      "bpm": 88.5,
+      "energy": 0.9235263157894738,
       "created_at": 1784854865.2644145,
       "beat_data_path": "beats/Ayesha_khan.npz",
-      "drop_times": [
-        3.5,
-        10.75
-      ],
+      "drop_times": [],
       "sample_rate": 44100,
-      "audio_hash": "360009_1784854865",
+      "audio_hash": "315497_1785566074",
       "version": 2
     },
     "Tammannah.mp3": {
@@ -1036,8 +1017,8 @@
       "version": 2
     },
     "Giorgia.mp3": {
-      "usage_count": 2,
-      "last_used": 1785222497.7856748,
+      "usage_count": 3,
+      "last_used": 1785567971.7529407,
       "bpm": 56.0,
       "energy": 0.49686666666666685,
       "created_at": 1785042835.4008281,
