@@ -1062,8 +1062,8 @@
       "version": 2
     },
     "roshniwalia.mp3": {
-      "usage_count": 2,
-      "last_used": 1785654242.9055598,
+      "usage_count": 3,
+      "last_used": 1785740605.1986556,
       "bpm": 107.9,
       "energy": 0.8463673469387756,
       "created_at": 1785432743.5694025,
@@ -1071,6 +1071,31 @@
       "drop_times": [],
       "sample_rate": 44100,
       "audio_hash": "663448_1785432743",
+      "version": 2
+    },
+    "The Official Instagram_01.mp3": {
+      "usage_count": 1,
+      "last_used": 1785741458.795042,
+      "bpm": 90.6,
+      "energy": 0.937,
+      "created_at": 1785740605.1955254,
+      "beat_data_path": "beats/The Official Instagram_01.npz",
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "368160_1785740604",
+      "version": 2
+    },
+    "The Official Instagram_02.mp3": {
+      "is_speech_only": true,
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 0.0,
+      "energy": 0.704,
+      "created_at": 1785741458.7928567,
+      "beat_data_path": null,
+      "drop_times": [],
+      "sample_rate": 44100,
+      "audio_hash": "",
       "version": 2
     }
   }
