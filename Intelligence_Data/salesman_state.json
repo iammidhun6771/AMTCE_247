@@ -1,33 +1,20 @@
 {
   "harvest": {
-    "last_run_date": "2026-08-16",
-    "slots_completed_today": [
-      "10:00",
-      "22:00"
-    ],
+    "last_run_date": "2026-08-17",
+    "slots_completed_today": [],
     "catchup_fired_today": false,
     "total_runs_all_time": 177
   },
   "publisher": {
-    "last_check_date": "2026-08-16",
-    "slots_published_today": [
-      "09:00",
-      "09:00[catchup]",
-      "10:00",
-      "13:00",
-      "20:00"
-    ],
-    "slots_missed_today": [
-      "14:00"
-    ],
-    "deficit_videos": 0,
-    "catchup_slots_today": [
-      "09:00"
-    ]
+    "last_check_date": "2026-08-17",
+    "slots_published_today": [],
+    "slots_missed_today": [],
+    "deficit_videos": 1,
+    "catchup_slots_today": null
   },
   "apify": {
-    "quota_date": "2026-08-16",
-    "quota_used": 15,
+    "quota_date": "2026-08-17",
+    "quota_used": 0,
     "quota_limit": 80,
     "total_calls_all_time": 871
   },
