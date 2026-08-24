@@ -1,22 +1,31 @@
 {
   "harvest": {
     "last_run_date": "2026-08-24",
-    "slots_completed_today": [],
+    "slots_completed_today": [
+      "10:00"
+    ],
     "catchup_fired_today": false,
-    "total_runs_all_time": 190
+    "total_runs_all_time": 191
   },
   "publisher": {
     "last_check_date": "2026-08-24",
-    "slots_published_today": [],
+    "slots_published_today": [
+      "09:00",
+      "09:00[catchup]",
+      "10:00",
+      "13:00"
+    ],
     "slots_missed_today": [],
-    "deficit_videos": 1,
-    "catchup_slots_today": null
+    "deficit_videos": 0,
+    "catchup_slots_today": [
+      "09:00"
+    ]
   },
   "apify": {
     "quota_date": "2026-08-24",
-    "quota_used": 0,
+    "quota_used": 12,
     "quota_limit": 80,
-    "total_calls_all_time": 959
+    "total_calls_all_time": 971
   },
   "scraped_posts": {
     "shortcodes": [
@@ -225,9 +234,10 @@
       "DcXcA4Xpuui",
       "DcW2o6Mzqk0",
       "DcWBjgWRZ0D",
-      "DcWAgUAxiRR"
+      "DcWAgUAxiRR",
+      "DcaHp9XowMC"
     ],
-    "total_seen": 206
+    "total_seen": 207
   },
   "account_scrape_throttle": {
     "last_scraped_at": {
@@ -275,7 +285,7 @@
       "paparazzzee": "2026-06-02T23:21:01.195828",
       "voompla": "2026-06-02T23:21:01.195828",
       "bollywood.portal": "2026-06-03T00:13:01.568542",
-      "avneetphile": "2026-08-23T12:30:53.900103",
+      "avneetphile": "2026-08-24T12:30:56.920573",
       "bollywoodstandard": "2026-06-03T00:13:01.568542",
       "bollywxxd": "2026-06-14T14:33:14.608722",
       "glitz.in": "2026-06-14T14:33:14.608722",
@@ -298,12 +308,12 @@
       "euphoriashorts": "2026-06-24T10:00:51.117909",
       "euphoriafeed": "2026-06-24T10:00:51.117909",
       "sofiacamarafans": "2026-06-24T11:02:16.512523",
-      "fashion": "2026-08-23T10:00:33.646463",
-      "celebdesiress": "2026-08-23T12:30:53.900103",
-      "_mad_for_divas_": "2026-08-23T12:30:53.900103",
-      "b.town.ind": "2026-08-23T12:30:53.900103",
-      "indiancelebspot": "2026-08-23T12:30:53.900103",
-      "mommyywood": "2026-08-23T12:30:53.900103"
+      "fashion": "2026-08-24T10:00:24.672330",
+      "celebdesiress": "2026-08-24T12:30:56.920573",
+      "_mad_for_divas_": "2026-08-24T12:30:56.920573",
+      "b.town.ind": "2026-08-24T12:30:56.920573",
+      "indiancelebspot": "2026-08-24T12:30:56.920573",
+      "mommyywood": "2026-08-24T12:30:56.920573"
     }
   },
   "drip_queue": {
