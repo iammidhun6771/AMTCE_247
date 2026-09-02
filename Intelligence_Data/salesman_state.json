@@ -1,33 +1,28 @@
 {
   "harvest": {
-    "last_run_date": "2026-09-01",
+    "last_run_date": "2026-09-02",
     "slots_completed_today": [
-      "10:00",
-      "22:00"
+      "10:00"
     ],
     "catchup_fired_today": false,
-    "total_runs_all_time": 207
+    "total_runs_all_time": 208
   },
   "publisher": {
-    "last_check_date": "2026-09-01",
+    "last_check_date": "2026-09-02",
     "slots_published_today": [
       "09:00",
       "09:00[catchup]",
-      "10:00",
-      "13:00",
-      "20:00"
+      "10:00"
     ],
-    "slots_missed_today": [
-      "14:00"
-    ],
+    "slots_missed_today": [],
     "deficit_videos": 0,
     "catchup_slots_today": [
       "09:00"
     ]
   },
   "apify": {
-    "quota_date": "2026-09-01",
-    "quota_used": 9,
+    "quota_date": "2026-09-02",
+    "quota_used": 0,
     "quota_limit": 80,
     "total_calls_all_time": 1025
   },
@@ -327,7 +322,7 @@
       "euphoriashorts": "2026-06-24T10:00:51.117909",
       "euphoriafeed": "2026-06-24T10:00:51.117909",
       "sofiacamarafans": "2026-06-24T11:02:16.512523",
-      "fashion": "2026-09-01T10:00:42.710878",
+      "fashion": "2026-09-02T10:00:25.124749",
       "celebdesiress": "2026-09-01T12:30:42.201312",
       "_mad_for_divas_": "2026-09-01T12:30:42.201312",
       "b.town.ind": "2026-09-01T12:30:42.201312",
