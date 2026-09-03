@@ -3,10 +3,11 @@
     "last_run_date": "2026-09-03",
     "slots_completed_today": [
       "10:00",
-      "16:00"
+      "16:00",
+      "22:00"
     ],
     "catchup_fired_today": false,
-    "total_runs_all_time": 212
+    "total_runs_all_time": 213
   },
   "publisher": {
     "last_check_date": "2026-09-03",
@@ -15,7 +16,8 @@
       "09:00[catchup]",
       "10:00",
       "13:00",
-      "14:00"
+      "14:00",
+      "20:00"
     ],
     "slots_missed_today": [],
     "deficit_videos": 0,
