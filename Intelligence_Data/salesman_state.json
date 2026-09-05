@@ -2,17 +2,20 @@
   "harvest": {
     "last_run_date": "2026-09-05",
     "slots_completed_today": [
-      "10:00"
+      "10:00",
+      "16:00"
     ],
     "catchup_fired_today": false,
-    "total_runs_all_time": 217
+    "total_runs_all_time": 218
   },
   "publisher": {
     "last_check_date": "2026-09-05",
     "slots_published_today": [
       "09:00",
       "09:00[catchup]",
-      "10:00"
+      "10:00",
+      "13:00",
+      "14:00"
     ],
     "slots_missed_today": [],
     "deficit_videos": 0,
@@ -22,9 +25,9 @@
   },
   "apify": {
     "quota_date": "2026-09-05",
-    "quota_used": 0,
+    "quota_used": 9,
     "quota_limit": 80,
-    "total_calls_all_time": 1058
+    "total_calls_all_time": 1067
   },
   "scraped_posts": {
     "shortcodes": [
@@ -259,9 +262,10 @@
       "Dcvs1Bbp3v9",
       "Dc1Rv3VIuUk",
       "Dc0Nr42Isoc",
-      "Dck4_u7M0sk"
+      "Dck4_u7M0sk",
+      "Dcz1Y8wpBPm"
     ],
-    "total_seen": 232
+    "total_seen": 233
   },
   "account_scrape_throttle": {
     "last_scraped_at": {
@@ -309,7 +313,7 @@
       "paparazzzee": "2026-06-02T23:21:01.195828",
       "voompla": "2026-06-02T23:21:01.195828",
       "bollywood.portal": "2026-06-03T00:13:01.568542",
-      "avneetphile": "2026-09-04T12:30:41.907067",
+      "avneetphile": "2026-09-05T12:30:47.470767",
       "bollywoodstandard": "2026-06-03T00:13:01.568542",
       "bollywxxd": "2026-06-14T14:33:14.608722",
       "glitz.in": "2026-06-14T14:33:14.608722",
@@ -333,11 +337,11 @@
       "euphoriafeed": "2026-06-24T10:00:51.117909",
       "sofiacamarafans": "2026-06-24T11:02:16.512523",
       "fashion": "2026-09-05T10:00:51.489413",
-      "celebdesiress": "2026-09-04T12:30:41.907067",
-      "_mad_for_divas_": "2026-09-04T12:30:41.907067",
-      "b.town.ind": "2026-09-04T12:30:41.907067",
-      "indiancelebspot": "2026-09-04T12:30:41.907067",
-      "mommyywood": "2026-09-04T12:30:41.907067"
+      "celebdesiress": "2026-09-05T12:30:47.470767",
+      "_mad_for_divas_": "2026-09-05T12:30:47.470767",
+      "b.town.ind": "2026-09-05T12:30:47.470767",
+      "indiancelebspot": "2026-09-05T12:30:47.470767",
+      "mommyywood": "2026-09-05T12:30:47.470767"
     }
   },
   "drip_queue": {

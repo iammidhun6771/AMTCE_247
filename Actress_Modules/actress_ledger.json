@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "updated": "2026-09-04T12:52:24.357287",
+  "updated": "2026-09-05T12:47:06.620069",
   "shortcodes": [
     "DXByITTAezz",
     "DY2Lv6iMVny",
@@ -209,6 +209,7 @@
     "DcwVgP4zH23",
     "DcxdFoABlGc",
     "Dcxf-f_o3vO",
+    "Dcz1Y8wpBPm",
     "Dcz9TebBiOp"
   ],
   "hashes": {
@@ -419,7 +420,8 @@
     "90a3e056018b29e533e2d83bb2df9415": "viral_vanguard_1788419151.mp4",
     "adb8499758d15c4f151c5fcccc456e6f": "The Official Instagram_01.mp4",
     "2f5d4d311ef40efe47b476c001708ab3": "The Official Instagram_02.mp4",
-    "ece9fe30edac580c63fb08717bca0c21": "viral_vanguard_1788505749.mp4"
+    "ece9fe30edac580c63fb08717bca0c21": "viral_vanguard_1788505749.mp4",
+    "3bb62718e935b864535aa22b41acb6ae": "viral_vanguard_1788591697.mp4"
   },
   "channel_map": {
     "DZA17NSj8EL": "General_Fallback",
@@ -601,7 +603,8 @@
     "Dcvs1Bbp3v9": "General_Fallback",
     "Dc1Rv3VIuUk": "General_Fallback",
     "Dc0Nr42Isoc": "General_Fallback",
-    "Dck4_u7M0sk": "General_Fallback"
+    "Dck4_u7M0sk": "General_Fallback",
+    "Dcz1Y8wpBPm": "General_Fallback"
   },
   "timestamp_map": {
     "DZA17NSj8EL": 1780252267.0,
