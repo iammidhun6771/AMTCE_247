@@ -26,8 +26,8 @@
       "version": 2
     },
     "Aisha.mp3": {
-      "usage_count": 4,
-      "last_used": 1786518515.8723023,
+      "usage_count": 5,
+      "last_used": 1789110757.616387,
       "bpm": 0.0,
       "energy": 0.5,
       "created_at": 1780391156.9428434,
@@ -1096,6 +1096,37 @@
       "drop_times": [],
       "sample_rate": 44100,
       "audio_hash": "",
+      "version": 2
+    },
+    "Avneet Kaur_01.mp3": {
+      "usage_count": 1,
+      "last_used": 1789112145.8084912,
+      "bpm": 58.7,
+      "energy": 0.603,
+      "created_at": 1789110757.6139405,
+      "beat_data_path": "beats/Avneet Kaur_01.npz",
+      "drop_times": [
+        0.1,
+        17.6
+      ],
+      "sample_rate": 44100,
+      "audio_hash": "533672_1789110757",
+      "version": 2
+    },
+    "Avneet Kaur_02.mp3": {
+      "usage_count": 0,
+      "last_used": 0,
+      "bpm": 90.2,
+      "energy": 0.592,
+      "created_at": 1789112145.8059032,
+      "beat_data_path": "beats/Avneet Kaur_02.npz",
+      "drop_times": [
+        1.8,
+        10.1,
+        11.5
+      ],
+      "sample_rate": 44100,
+      "audio_hash": "322393_1789112145",
       "version": 2
     }
   }
